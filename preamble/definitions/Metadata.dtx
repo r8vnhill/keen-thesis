@@ -1,0 +1,98 @@
+%% "LaTeX de Plutón" (c) by Ignacio Slater M.
+%% "LaTeX de Plutón" is licensed under a
+%% Creative Commons Attribution 4.0 International License.
+%% You should have received a copy of the license along with this
+%% work. If not, see <https://creativecommons.org/licenses/by/4.0/>.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DOCUMENT'S METADATA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% | Generic getter for the document variables.
+\NewExpandableDocumentCommand { \getvmeta } { m } { \prop_item:Nn \g_rvnlatex_doc_prop {#1} }
+\NewDocumentCommand { \setvmeta } { m m } { \prop_gput:NnV \g_rvnlatex_doc_prop {#1} #2 }
+
+\DTMnewdatestyle {yymmddns} {
+  \RenewDocumentCommand { 
+    \DTMdisplaydate 
+  } { m m m m } { \DTMtwodigits{##1}\DTMtwodigits{##2}\DTMtwodigits{##3} }
+
+  \RenewDocumentCommand { \DTMDisplaydate } { } { \DTMdisplaydate }
+}
+\DTMnewtimestyle {hhmmns} {
+  \RenewDocumentCommand {\DTMdisplaytime}{mmm}{\DTMtwodigits{##1}\DTMtwodigits{##2}}
+}
+
+% region : TEMPLATE SETUP --------------------------------------------------------------------------
+% | Dictionary containing the metadata of the document.
+\keys_define:nn { ravenhill/latex/meta } {
+  title .tl_set:N = \l_rvnlatex_title_str ,
+  logo .tl_set:N = \l_rvnlatex_logo_str ,
+  date .tl_set:N = \l_rvnlatex_date_tl ,
+  city .tl_set:N = \l_rvnlatex_city_str ,
+  country .tl_set:N = \l_rvnlatex_country_str ,
+  subtitle .tl_set:N = \l_rvnlatex_subtitle_tl ,
+  author .clist_set:N = \l_rvnlatex_author_clist ,
+  advisors .clist_set:N = \l_rvnlatex_advisors_clist ,
+  location .tl_set:N = \l_rvnlatex_location_tl ,
+  date .tl_set:N = \l_rvnlatex_date_tl ,
+  version .int_set:N = \l_rvnlatex_version_int ,
+  build .int_set:N = \l_rvnlatex_build_int ,
+  commit .tl_set:N = \l_rvnlatex_commit_int ,
+}
+
+
+\keys_set:nn { ravenhill/latex/meta } {
+  commit = 
+    \DTMsetdatestyle { yymmddns } \DTMsettimestyle { hhmmns }
+      \today\DTMcurrenttime
+    \DTMsetstyle { default } \DTMsettimestyle { default }
+}
+
+% | Creates variables for the document's metadata.
+\NewDocumentCommand { \setup } { m } { 
+  \group_begin:
+  \prop_new:c { g_rvnlatex_doc_prop }
+  \keys_set:nn { ravenhill/latex/meta } { #1 }
+  \setvmeta { title } { \l_rvnlatex_title_str }
+  \setvmeta { logo } { \l_rvnlatex_logo_str }
+  \setvmeta { date } { \l_rvnlatex_date_tl }
+  \setvmeta { city } { \l_rvnlatex_city_str }
+  \setvmeta { country } { \l_rvnlatex_country_str }
+  \setvmeta { subtitle } { \l_rvnlatex_subtitle_tl }
+  \setvmeta { author } { \l_rvnlatex_author_clist }
+  \setvmeta { advisors } { \l_rvnlatex_advisors_clist }
+  \setvmeta { location } { \l_rvnlatex_location_tl }
+  \setvmeta { date } { \l_rvnlatex_date_tl }
+  \setvmeta { version } { \l_rvnlatex_version_int }
+  \setvmeta { build } { \l_rvnlatex_build_int }
+  \setvmeta { commit } { \l_rvnlatex_commit_int }
+  \group_end:
+}
+
+% endregion
+
+% | Set a custom name for the abstract.
+\NewDocumentCommand { \setabstractname } { m } {
+  \renewcommand { \abstractname } { #1 }
+}
+
+% region : ATTRIBUTION ----------------------------------------------------------------------------
+% | Prints the attribution notice
+\NewDocumentCommand { \attributionnotice } { } {
+  This~work,~``\getvmeta{title}'',~is~a~derivative~of~``Simple,~Lightweight,~and~Adaptive~\TeX''~
+  ~by~R8V.,~used~under~\href{https://creativecommons.org/licenses/by/4.0/}{CC~BY~4.0}.
+}
+
+% | Creates a page to give attribution to the original author(s).
+\NewDocumentCommand { \attributionpage } { } { 
+  \pagebreak
+  \hspace{0pt}
+  \vfill
+  \begin{center}
+    \attributionnotice
+  \end{center}
+  \vfill
+  \hspace{0pt}
+  \pagebreak
+}
+% endregion ---------------------------------------------------------------------------------------

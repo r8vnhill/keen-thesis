@@ -1,0 +1,64 @@
+%% "LaTeX de Plutón" (c) by Ignacio Slater M.
+%% "LaTeX de Plutón" is licensed under a
+%% Creative Commons Attribution 4.0 International License.
+%% You should have received a copy of the license along with this
+%% work. If not, see <https://creativecommons.org/licenses/by/4.0/>.
+\documentclass{article}
+  \usepackage{import} % This will make our life easier
+  \import{preamble}{Packages}
+  \import{preamble}{Definitions}
+  \import{preamble}{config}
+
+  \setup { 
+    title = {Simple, Lightweight, and Adaptive \TeX},
+    subtitle = {A template for \LaTeX},
+    author = {
+      \textbf{DankMasterBlader} \\
+      \textit{Institute of Printer Sciences} \\
+      Letter Paper University of Applied Sciences
+    },
+    advisors = {
+      \textbf{Alf} \\
+      \textit{?¿??} \\
+      University of \texttt{[BLANK]}. Ph.D  \\
+      {\small\textit{Thesis Advisor}},
+      \textbf{Juan Carlos Bodoque} \\
+      \textit{Thirty-One Minutes} \\
+      {\small\textit{Reviewer}}
+    },
+    logo = {logos/Logo_de_Plut_n.png},
+    location = {Brooklyn, Japan},
+    date = \today,
+    % Please, I ask you for all that's precious in the world, always include a version for your 
+    % document.
+    version = 0,
+    build = 2,
+  }
+
+\begin{document}
+  \begin{titlepage}
+    \centering
+    % Some vertical space before the title (note the *, it's needed to add space at the beginning 
+    % of the page).
+    \vspace*{2cm}
+    \titleblock [2cm]
+    \inputlogo [3.5cm]
+    \vspace{1cm}  % Some vertical space after the logo.
+    \authorblock
+    \vfill  % Fills the page so the location and date are at the bottom.
+    \location \\
+    \dateblock \\
+    \footnotesize { \texttt{\fullversion} }
+  \end{titlepage}
+
+  \attributionpage
+
+  \import{contents}{Abstract.tex}
+  \newpage
+  \tableofcontents
+  \newpage
+  
+  \Blinddocument
+
+  \printbibliography
+\end{document}
