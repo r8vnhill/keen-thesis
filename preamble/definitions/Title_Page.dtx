@@ -1,8 +1,6 @@
-%% "LaTeX de Plutón" (c) by Ignacio Slater M.
-%% "LaTeX de Plutón" is licensed under a
-%% Creative Commons Attribution 4.0 International License.
-%% You should have received a copy of the license along with this
-%% work. If not, see <https://creativecommons.org/licenses/by/4.0/>.
+%% Copyright (c) 2023, R8V.
+%% BSD Zero Clause License.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TITLE PAGE UTILITIES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -92,8 +90,8 @@
 % |   #2: the size of the list.
 \cs_new_protected:Npn \latexito_createblock:nn #1 #2 {
   \begin{center}
-    \int_compare:nNnTF { 0 } = {#2} { } {                             % if (n == 0) { } 
-      \int_compare:nNnTF { 1 } = {#2} {                               % else if (n == 1):
+    \int_compare:nNnTF { 0 } = {#2} { } {                             % if (size == 0) { } 
+      \int_compare:nNnTF { 1 } = {#2} {                               % else if (size == 1):
         #1                                                            %   Renders the author centered.
       } {                                                             % else: 
         \clist_pop:NN #1 \l__createblock_first_str                    %   first = cl.pop()
