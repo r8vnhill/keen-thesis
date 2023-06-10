@@ -1,0 +1,43 @@
+\section{Genetic Algorithms}
+\label{sec:genetic_algorithms}
+  Genetic Algorithms (GA)\footnote{
+    Also known as Simple Genetic Algorithms (SGA) 
+    \autocite{yuIntroductionEvolutionaryAlgorithms2010}, or Traditional Genetic Algorithms (TGA)
+    \autocite{shiffmanNatureCode2012}.
+  } \autocite{hollandAdaptationNaturalArtificial1992a,kozaGeneticProgrammingProgramming1992a,yuIntroductionEvolutionaryAlgorithms2010,shiffmanNatureCode2012}
+  are a kind of EA where a \emph{population} of \emph{individuals}\footnote{
+    See definition \ref{def:individual}.
+  } representing candidate solutions to an optimization problem evolves towards better solutions.
+  Each individual is defined by its location in the search space, which is called its
+  \emph{genotype}\footnote{See definition \ref{def:genotype}}, and its fitness value, which is
+  calculated with a \emph{fitness function}.
+
+  \begin{definition}[Fitness function]
+  \label{def:fitness_function}
+    A \emph{fitness function} is a function \(f: S \rightarrow \mathbb{R}^n\), where \(S\) is the
+    search space and \(n\) is the number of objectives of the optimization problem, that takes an
+    individual as input and returns a vector of real numbers representing how close the individual 
+    is to the global optimum of each objective.
+
+    The fitness function is usually defined by the user of the algorithm, and it is problem
+    dependent.
+  \end{definition}
+
+  A classical GA works as follows:
+
+  \begin{algorithm}
+    \caption{Genetic Algorithm}\label{alg:genetic_algorithm}
+    \begin{algorithmic}
+      \State \(\mathit{population} \gets \mathrm{initializePopulation()}\)
+      \State \(\mathrm{evaluate}(\mathit{population})\)
+      \Repeat
+        \State \(\mathit{parents} \gets \mathrm{selectParents}(\mathit{population})\)
+        \State \(\mathit{offspring} \gets \mathrm{crossover}(\mathit{parents})\)
+        \State \(\mathrm{mutate}(\mathit{offspring})\)
+        \State \(\mathrm{evaluate}(\mathit{offspring})\)
+        \State \(\mathit{population} \gets \mathrm{selectSurvivors}(\mathit{population},
+          \mathit{offspring})\)
+      \Until{termination condition is met}
+      \State \textbf{return} \(\mathrm{fittest}(\mathit{population})\)
+    \end{algorithmic}
+  \end{algorithm}
