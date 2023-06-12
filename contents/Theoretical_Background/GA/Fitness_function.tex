@@ -1,0 +1,20 @@
+\subsection{Fitness function}
+\label{ssec:genetic_algorithm:fitness_function}
+  \begin{definition}[Fitness function]
+  \label{def:fitness_function}
+    A \emph{fitness function} is a function \(f: S \rightarrow \mathbb{R}^n\), where \(S\) is the
+    search space and \(n\) is the number of objectives of the optimization problem, that takes a
+    genotype as input and returns a vector of real numbers representing how close the individual 
+    is to the global optimum of each objective.
+
+    The fitness function is usually defined by the user of the algorithm, and it is problem
+    dependent.
+  \end{definition}
+
+  The one max problem is a maximization problem with a single objective, so the fitness function
+  would be defined as follows:
+
+  \begin{equation}
+    \label{eq:fitness_function:one_max}
+    f(\mathbf{G}) = \sum_{i=1}^n g_i
+  \end{equation}

@@ -1,0 +1,56 @@
+\subsection{Representation}
+\label{ssec:genetic_algorithms:representation}
+  One of the most important aspects of a GA is the representation of the individuals.
+  The representation is the encoding of potential solutions to the problem into a form that can be
+  manipulated by the algorithm.
+  This defines the search space of the algorithm, and it is one of the main factors that
+  determines the performance of the algorithm.
+
+  The most general representation of an individual is a matrix of genes\footnote{
+    See definition \ref{def:gene}.
+  } called the \emph{genotype} of the individual, where each column of the matrix is called a
+  \emph{chromosome}\footnote{
+    See definition \ref{def:chromosome}.
+  }.
+  
+  \begin{definition}[Cardinality of the search space]
+  \label{def:cardinality_of_the_search_space}
+    The \emph{cardinality of the search space} is the number of different individuals that 
+    can be represented by the encoding.
+
+    Formally, given a vector of alphabets \((\mathcal{A}_1, \mathcal{A}_2, \dots, \mathcal{A}_n)\), 
+    and a representation \(\mathbf{G}\) with \(n\) chromosomes of length \((m_1, m_2, \dots, 
+    m_n)\) where each chromosome is encoded using the alphabet \(\mathcal{A}_i\), the cardinality 
+    of the search space \(S\) is defined as:
+    
+    \begin{equation}
+      \label{eq:cardinality_of_the_search_space}
+      |S| = \prod_{i=1}^n |\mathcal{A}_i|^{m_i}
+    \end{equation}
+
+    Note that this definition assumes that the chromosomes are independent, which may not be the 
+    same for all evolutionary algorithms.
+  \end{definition}
+
+  To illustrate this concept, consider the following problem: given a binary string of length
+  \(n\), find the string that has the most ones.\footnote{
+    This is known as the \emph{One Max} problem \autocite{OneMaxProblema} or \emph{Ones Counting}
+    problem \autocite{wilhelmstotterJeneticsJavaGenetica}.
+  }
+  In this case, we can use a single column matrix \(\mathbf{G}\) to represent the individual, 
+  where each gene \(g_i \in \mathcal{A}\) represents the \(i\)-th bit of the string, where 
+  \(\mathcal{A} = \{0, 1\}\) is the alphabet containing the two possible values of a bit.
+  
+  Then,
+  \[
+    |S| = \prod_{i=1}^1 |\mathcal{A}|^n = 2^n
+  \]
+
+  Knowing this, we can conclude that an exhaustive search of the search space would require 
+  evaluating \(2^n\) individuals, and thus the algorithm would have a time complexity of 
+  \(\mathcal{O}(2^n)\).
+  
+  This is a very simple example, but we can see how a naive search algorithm would have a very
+  high time complexity.
+  This would be of the utmost importance in a real world problem, where the search space would be
+  much larger.

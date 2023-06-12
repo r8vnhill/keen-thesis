@@ -12,17 +12,6 @@
   \emph{genotype}\footnote{See definition \ref{def:genotype}}, and its fitness value, which is
   calculated with a \emph{fitness function}.
 
-  \begin{definition}[Fitness function]
-  \label{def:fitness_function}
-    A \emph{fitness function} is a function \(f: S \rightarrow \mathbb{R}^n\), where \(S\) is the
-    search space and \(n\) is the number of objectives of the optimization problem, that takes an
-    individual as input and returns a vector of real numbers representing how close the individual 
-    is to the global optimum of each objective.
-
-    The fitness function is usually defined by the user of the algorithm, and it is problem
-    dependent.
-  \end{definition}
-
   A classical GA works as follows:
 
   \begin{algorithm}
@@ -41,3 +30,30 @@
       \State \textbf{return} \(\mathrm{fittest}(\mathit{population})\)
     \end{algorithmic}
   \end{algorithm}
+
+  Where \(\mathrm{initializePopulation()}\) creates a random population of individuals, and
+  \(\mathrm{evaluate}(\mathit{population})\) calculates the fitness of each individual in the
+  population.
+
+  The algorithm then repeats the following steps until a termination condition is met:
+
+  \begin{enumerate}
+    \item \(\mathrm{selectParents}(\mathit{population})\) selects a subset of individuals from the
+      population to be the parents of the next generation.
+    \item \(\mathrm{crossover}(\mathit{parents})\) creates a new population of individuals by
+      combining the parents.
+    \item \(\mathrm{mutate}(\mathit{offspring})\) mutates the offspring to introduce new genetic
+      material into the population.
+    \item \(\mathrm{evaluate}(\mathit{offspring})\) calculates the fitness of each individual in the
+      offspring.
+    \item \(\mathrm{selectSurvivors}(\mathit{population}, \mathit{offspring})\) selects the
+      individuals that will survive to the next generation.
+  \end{enumerate}
+
+  Finally, the algorithm returns the fittest individual in the population.
+
+  The actual implementation of each of these steps depends on the problem being solved, and there
+  are many different ways to implement each of them.
+
+  \subimport{./}{Representation.tex}
+  \subimport{./}{Fitness_function.tex}
