@@ -1,8 +1,7 @@
 \chapter{Glossary}
 \label{appendix:glossary}
-  In this appendix we present a glossary of terms used throughout this document that may not be
-  familiar to the reader, but are not explained in the main text due to their common use in the
-  field.
+  In this appendix we present a glossary of terms used throughout this document as a reference for
+  the reader.
 
   \section*{C}
     \begin{definition}[Chromosome]
@@ -11,7 +10,7 @@
       optimization problem.
 
       Formally, a chromosome is a vector \(\textbf{c} = (g_1, g_2, \dots, g_n)\), where \(g_i\) is a
-      gene (see definition \ref{def:gene}).
+      gene (see \vref{def:gene}).
     \end{definition}
 
   \section*{E}
@@ -27,6 +26,12 @@
       like crossover and mutation) in order to find better solutions.
     \end{definition}
 
+  \section*{F}
+    \begin{definition}[Fitness function]
+      % No label
+      See \vref{def:fitness_function}.
+    \end{definition}
+    
   \section*{G}
     \begin{definition}[Gene]
     \label{def:gene}
@@ -47,7 +52,7 @@
       problem.
 
       Formally, a genotype is a matrix \(\mathbf{G} = (\textbf{c}_1, \textbf{c}_2, \dots, 
-      \textbf{c}_n)\), where \(\textbf{c}_i\) is a chromosome (see definition \ref{def:chromosome}).
+      \textbf{c}_n)\), where \(\textbf{c}_i\) is a chromosome (see \vref{def:chromosome}).
     \end{definition}
 
   \section*{I}
@@ -56,7 +61,7 @@
       A candidate solution to a given optimization problem.
 
       Formally, an individual is a pair \((\mathbf{G}, \mathbf{f})\), where \(\mathbf{G}\) is the
-      genotype (see definition \ref{def:genotype}) and \(\mathbf{f}\) is the fitness value of the
+      genotype (see \vref{def:genotype}) and \(\mathbf{f}\) is the fitness value of the
       individual.
     \end{definition}
 
@@ -71,7 +76,7 @@
   \section*{P}
     \begin{definition}[Phenotype]
     \label{def:phenotype}
-      Same as definition \ref{def:individual}.
+      Same as \vref{def:individual}.
     \end{definition}
 
     \begin{definition}[Population]
@@ -83,4 +88,18 @@
     \begin{definition}[Search space]
     \label{def:search_space}
       Set of all candidate solutions to a given optimization problem.
+    \end{definition}
+    
+    \begin{definition}[Selection]
+    \label{def:selection}
+      Process of selecting individuals from a population using a selection operator.
+    \end{definition}
+
+    \begin{definition}[Selection operator]
+    \label{def:selection_operator}
+      Operator used to select individuals from a population.
+
+      Formally, a selection operator is a function \(\Sigma : \mathbb{P} \times \mathbb{N} \to
+      \mathbb{P}\), where \(\mathbb{P}\) is the set of populations and \(\mathbb{N}\) is the set of
+      \(\mathbb{N}\) is the set of natural numbers.
     \end{definition}

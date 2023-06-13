@@ -7,10 +7,10 @@
   determines the performance of the algorithm.
 
   The most general representation of an individual is a matrix of genes\footnote{
-    See definition \ref{def:gene}.
-  } called the \emph{genotype} of the individual, where each column of the matrix is called a
-  \emph{chromosome}\footnote{
-    See definition \ref{def:chromosome}.
+    See \vref{def:gene}.
+  } called the \emph{genotype}\footnote{See~\autocite{wilhelmstotterJeneticsJavaGenetica}.} of the 
+  individual, where each column of the matrix is called a \emph{chromosome}\footnote{
+    See \vref{def:chromosome}.
   }.
   
   \begin{definition}[Cardinality of the search space]
@@ -31,6 +31,12 @@
     Note that this definition assumes that the chromosomes are independent, which may not be the 
     same for all evolutionary algorithms.
   \end{definition}
+
+  \begin{remark}
+    In the original publication of the GA~\autocite{hollandAdaptationNaturalArtificial1992a}, the
+    genotype was known as the \emph{environment} (\(E\)) and the search space was defined as a class
+    \(\mathcal{E}\) of all possible environments.
+  \end{remark}
 
   To illustrate this concept, consider the following problem: given a binary string of length
   \(n\), find the string that has the most ones.\footnote{
@@ -60,7 +66,7 @@
 
   \begin{definition}[Fitness function]
   \label{def:fitness_function}
-    A \emph{fitness function} is a function \(f: S \rightarrow \mathbb{R}^n\), where \(S\) is the
+    A \emph{fitness function} is a function \(\phi: S \rightarrow \mathbb{R}^n\), where \(S\) is the
     search space and \(n\) is the number of objectives of the optimization problem, that takes a
     genotype as input and returns a vector of real numbers representing how close the individual 
     is to the global optimum of each objective.
@@ -74,7 +80,7 @@
 
   \begin{equation}
     \label{eq:fitness_function:one_max}
-    f(\mathbf{G}) = \sum_{i=1}^n g_i
+    \phi_\mathbf{G} = \sum_{i=1}^n g_i
   \end{equation}
 
   In the \emph{Representation and Evaluation} section, we examined the key aspect of a genetic 

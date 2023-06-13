@@ -1,0 +1,62 @@
+\subsection{Selection}
+\label{sec:genetic_algorithms:selection}
+  After the initialization, the GA enters the main loop.
+  The algorithm imitates by granting the fitter individuals higher opportunities to breed and to
+  survive to the next generation.
+
+  Suppose that we have a population \(P\) of \(N\) individuals, each with a fitness value \(f_i\),
+  where \(i \in \{1, \ldots, N\}\).
+  Let \(\sigma\) be the survival rate,\footnote{Also known as elitism.} that is, the proportion of 
+  individuals that will survive to the next generation.
+  Then, the GA will select \(\lfloor\sigma N\rfloor\) individuals to survive (unmodified) to the 
+  next generation, and \(\lceil(1 - \sigma)N\rceil\) individuals to be replaced by the 
+  offspring.\footnote{Floor and ceiling functions are interchangeable in this context, since their
+  only purpose is to ensure that the number of individuals selected is \(N\).}
+
+  The selection is then performed with a \emph{selection operator} (\(\Sigma\)) that takes the 
+  population and the number of individuals to select as parameters, and returns a subset of the
+  population with the selected individuals.
+  The selection operator is usually implemented as a \emph{stochastic} operator, that is, it
+  introduces some randomness in the selection process.
+
+  To illustrate this, we will use a \textit{roulette wheel} selection operator\footnote{
+    See \vref{sec:keen:operators:selection:roulette_wheel}.
+  } with a population of the 4 individuals shown in the previous section and a survival rate of 
+  0.25.
+  In a roulette wheel selection, each individual is assigned a selection probability proportional
+  to its fitness value.
+  Typically, the selection probability of an individual \(i\) is calculated as follows:
+
+  \begin{equation}
+    \label{eq:selection_probability}
+    p_i = \frac{f_i}{\sum_{j=1}^{N}f_j}
+  \end{equation}
+
+  In our example, the selection probabilities are shown in \vref{tab:selection_probabilities}.
+
+  \begin{table}[ht!]
+    \centering
+    \begin{tabular}{|l|r|r|}
+      \hline
+      Individual & Fitness & Selection Probability \\
+      \hline
+      \(I_1\) & 0.5 & 0.25 \\
+      \(I_2\) & 0.25 & 0.125 \\
+      \(I_3\) & 0.75 & 0.375 \\
+      \(I_4\) & 0.25 & 0.125 \\
+      \hline
+    \end{tabular}
+    \caption{Selection probabilities for the individuals in the example population.}
+    \label{tab:selection_probabilities}
+  \end{table}
+
+  The selection operator then selects individuals at random, with a probability equal to their
+  selection probability.
+  Let's say that the selection operator selects \(I_1\) as a survivor to the next generation, then
+  \(I_2\), \(I_3\), and \(I_4\) will be replaced by the offspring.
+
+  This section has introduced the concept of selection in GAs.
+  This topic will be further explored in \vref{sec:keen:operators:selection}.
+  Next, we will explore the variation operators, which are responsible for creating the offspring
+  that will replace the individuals that were not selected to survive to the next generation.
+% End: contents\Theoretical_Background\GA\Selection.tex

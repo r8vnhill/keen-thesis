@@ -4,12 +4,12 @@
     Also known as Simple Genetic Algorithms (SGA) 
     \autocite{yuIntroductionEvolutionaryAlgorithms2010}, or Traditional Genetic Algorithms (TGA)
     \autocite{shiffmanNatureCode2012}.
-  } \autocite{hollandAdaptationNaturalArtificial1992a,kozaGeneticProgrammingProgramming1992a,yuIntroductionEvolutionaryAlgorithms2010,shiffmanNatureCode2012}
+  }~\autocite{hollandAdaptationNaturalArtificial1992a,kozaGeneticProgrammingProgramming1992a,yuIntroductionEvolutionaryAlgorithms2010,shiffmanNatureCode2012}
   are a kind of EA where a \emph{population} of \emph{individuals}\footnote{
-    See definition \ref{def:individual}.
+    See \vref{def:individual}.
   } representing candidate solutions to an optimization problem evolves towards better solutions.
   Each individual is defined by its location in the search space, which is called its
-  \emph{genotype}\footnote{See definition \ref{def:genotype}}, and its fitness value, which is
+  \emph{genotype}\footnote{See \vref{def:genotype}}, and its fitness value, which is
   calculated with a \emph{fitness function}.
 
   A classical GA works as follows:
@@ -21,9 +21,7 @@
       \State \(\mathrm{evaluate}(\mathit{population})\)
       \Repeat
         \State \(\mathit{parents} \gets \mathrm{selectParents}(\mathit{population})\)
-        \State \(\mathit{offspring} \gets \mathrm{crossover}(\mathit{parents})\)
-        \State \(\mathrm{mutate}(\mathit{offspring})\)
-        \State \(\mathrm{evaluate}(\mathit{offspring})\)
+        \State \(\mathrm{alter}(\mathit{offspring})\)
         \State \(\mathit{population} \gets \mathrm{selectSurvivors}(\mathit{population},
           \mathit{offspring})\)
       \Until{termination condition is met}
@@ -40,9 +38,7 @@
   \begin{enumerate}
     \item \(\mathrm{selectParents}(\mathit{population})\) selects a subset of individuals from the
       population to be the parents of the next generation.
-    \item \(\mathrm{crossover}(\mathit{parents})\) creates a new population of individuals by
-      combining the parents.
-    \item \(\mathrm{mutate}(\mathit{offspring})\) mutates the offspring to introduce new genetic
+    \item \(\mathrm{alter}(\mathit{offspring})\) alters the offspring to introduce new genetic
       material into the population.
     \item \(\mathrm{evaluate}(\mathit{offspring})\) calculates the fitness of each individual in the
       offspring.
@@ -56,5 +52,5 @@
   are many different ways to implement each of them.
 
   \subimport{./}{Representation.tex}
-  % \subimport{./}{Fitness_function.tex}
   \subimport{./}{Initialization.tex}
+  \subimport{./}{Selection.tex}
