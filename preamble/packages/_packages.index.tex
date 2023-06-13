@@ -1,10 +1,9 @@
-\usepackage[backend=biber, sorting=ynt]{biblatex}
+\subimport{./}{Biblatex.tex}
 \usepackage[letterpaper, margin=2cm,includefoot,footskip=30pt]{geometry}
 \usepackage[spanish, english]{babel}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
-\usepackage{hyperref, cleveref}
 \usepackage{csquotes}
 \usepackage{expl3}
 \usepackage{fontspec}
@@ -20,7 +19,8 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{kbordermatrix}
-
+\subimport{./}{Multirow.tex}
+\subimport{./}{Referencing.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PACKAGES USED BY THIS TEMPLATE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -37,42 +37,6 @@
 % |   An important feature is the package’s ability to communicate the paper size it’s set up to the 
 % |   output (whether via DVI \specials or via direct interaction with pdf(LA)TEX).
 % --------------------------------------------------------------------------------------------------
-% | BIBLATEX – Sophisticated Bibliographies in LATEX
-% |   BibLATEX is a complete reimplementation of the bibliographic facilities provided by LATEX. 
-% |   Formatting of the bibliography is entirely controlled by LATEX macros, and a working knowledge 
-% |   of LATEX should be sufficient to design new bibliography and citation styles. 
-% |   BibLATEX uses its own data backend program called “biber” to read and process the bibliographic 
-% |   data. 
-% |   With biber, BibLATEX has many features rivalling or surpassing other bibliography systems. 
-% |   To mention a few:
-% |     * Full Unicode support
-% |     * Highly customisable sorting using the Unicode Collation Algorithm + CLDR tailoring
-% |     * Highly customisable bibliography labels
-% |     * Complex macro-based on-the-fly data modification without changing your data sources
-% |     * A tool mode for transforming bibliographic data sources
-% |     * Multiple bibliographies and lists of bibliographic information in the same document with 
-% |       different sorting
-% |     * Highly customisable data source inheritance rules
-% |     * Polyglossia and babel suppport for automatic language switching for bibliographic entries 
-% |       and citations
-% |     * Automatic bibliography data recoding (UTF-8 -> latin1, LATEX macros -> UTF-8 etc)
-% |     * Remote data sources
-% |     * Highly sophisticated automatic name and name list disambiguation system
-% |     * Highly customisable data model so users can define their own bibliographic data types
-% |     * Validation of bibliographic data against a data model
-% |     * Subdivided and/or filtered bibligraphies, bibliographies per chapter, section etc.
-% |   Apart from the features unique to BibLATEX, the package also incorporates core features of the 
-% |   following packages: babelbib, bibtopic, bibunits, chapterbib, cite, inlinebib, mcite and 
-% |   mciteplus, mlbib, multibib, splitbib.
-% |   The package strictly requires
-% |     * e-TEX
-% |     * BibTEX, bibtex8, or Biber
-% |     * etoolbox 2.1 or later
-% |     * logreq 1.0 or later
-% |     * keyval
-% |     * ifthen
-% |     * url
-% |     * Biber, babel / polyglossia, and csquotes 4.4 or later are strongly recommended.
 % --------------------------------------------------------------------------------------------------
 % | BABEL – Multilingual support for LATEX, LuaLATEX, XELATEX, and Plain TEX
 % |   This package manages culturally-determined typographical (and other) rules for a wide range of 

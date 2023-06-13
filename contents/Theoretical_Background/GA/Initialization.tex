@@ -1,0 +1,76 @@
+\subsection{Initialization}
+\label{sec:genetic_algorithms:initialization}
+  GA operates on a group of individuals called a \emph{population}.
+  The algorithm designer must define the size of the population, and how to initialize it.
+  The initialization process is usually random, but it can also be guided by some prior knowledge
+  about the problem being solved.
+  For example, if the problem is to find a solution to a maze, the population could be initialized
+  with individuals that represent paths from the start to the end of the maze.
+  This would speed up the search process, since the algorithm would not have to start from scratch.
+
+  Once the population is initialized, the algorithm performs an evaluation of each individual in
+  the population, and assigns a \emph{fitness value} to each individual.
+  This is done in an effort to learn something about the problem, and to guide the search process
+  towards better solutions.
+
+  In the case of the \emph{One Max} problem, there is no prior knowledge about the problem, so the
+  population via a blind search of the search space (in other words, the initialization is random).
+  This is done by generating a random binary string of length \(n\) for each individual in the
+  population.
+
+  Let's assume that we have a population of size 4, and that the length of the binary strings is
+  \(n = 4\). 
+
+  The initialization process could generate the following individuals:\footnote{
+    Since the nature of genetic algorithms is stochastic, the initialization process could generate
+    different individuals each time the algorithm is run.
+    For this example, we selected a specific set of individuals in a way that makes it easier to
+    get a grasp of the algorithm.
+  }
+
+  \begin{table}[H]
+    \label{tab:genetic_algorithms:initialization:population}
+    \centering
+    \begin{tabular}{c|c|c}
+      \multicolumn{3}{c}{\textbf{Generation 0}} \\
+      \hline
+      \hline
+      \textbf{Individual} & \textbf{Binary string} & \textbf{Fitness} \\
+      \hline
+      \(I_1\) & 0010 & 1 \\
+      \(I_2\) & 0110 & 2 \\
+      \(I_3\) & 0000 & 0 \\
+      \(I_4\) & 1000 & 1 \\
+    \end{tabular}
+    \caption{Population of individuals in generation 0}
+  \end{table}
+
+  \begin{table}[H]
+    \label{tab:genetic_algorithms:initialization:population_fitness}
+    \centering
+    \begin{tabular}{|c|c|c|}
+      \hline
+      & \textbf{Fitness} & \textbf{Individual}  \\
+      \hline
+      Best & 2 & \(I_2\) \\
+      Worst & 0 & \(I_3\) \\
+      \hline
+      \hline
+      Average & \multicolumn{2}{c|}{1} \\
+      \hline
+    \end{tabular}
+    \caption{Fitness of the individuals in generation 0}
+  \end{table}
+  
+  In the initialization phase of a genetic algorithm, we define and setup the population of 
+  individuals to be used in the search process. 
+  This population can be randomly generated or informed by some prior knowledge about the problem at 
+  hand. 
+  Each individual is evaluated to determine its fitness, guiding the algorithm's search for optimal 
+  solutions. 
+  In our \enquote{One Max} problem example, we initialized a population of four individuals with 
+  binary strings of length \(n = 4\) and evaluated their fitness. 
+  This setup marks the beginning of the evolutionary process, setting the stage for the subsequent 
+  stages of selection (\vref{sec:genetic_algorithms:selection}), 
+  crossover (\vref{sec:genetic_algorithms:crossover}), and 
+  mutation (\vref{sec:genetic_algorithms:mutation}).

@@ -1,4 +1,4 @@
-\subsection{Representation}
+\subsection{Representation and Evaluation}
 \label{ssec:genetic_algorithms:representation}
   One of the most important aspects of a GA is the representation of the individuals.
   The representation is the encoding of potential solutions to the problem into a form that can be
@@ -54,3 +54,37 @@
   high time complexity.
   This would be of the utmost importance in a real world problem, where the search space would be
   much larger.
+
+  With a representation defined, we can now define an evaluation method for the individuals, which
+  is done using a \emph{fitness function}.
+
+  \begin{definition}[Fitness function]
+  \label{def:fitness_function}
+    A \emph{fitness function} is a function \(f: S \rightarrow \mathbb{R}^n\), where \(S\) is the
+    search space and \(n\) is the number of objectives of the optimization problem, that takes a
+    genotype as input and returns a vector of real numbers representing how close the individual 
+    is to the global optimum of each objective.
+
+    The fitness function is usually defined by the user of the algorithm, and it is problem
+    dependent.
+  \end{definition}
+
+  The one max problem is a maximization problem with a single objective, so the fitness function
+  would be defined as follows:
+
+  \begin{equation}
+    \label{eq:fitness_function:one_max}
+    f(\mathbf{G}) = \sum_{i=1}^n g_i
+  \end{equation}
+
+  In the \emph{Representation and Evaluation} section, we examined the key aspect of a genetic 
+  algorithm (GA) — the representation of individuals, their encoding and search space.
+  The performance of a GA significantly depends on how solutions are encoded to form individuals.
+  We use the concepts of genotype, chromosome, and gene to describe the individual's representation.
+  The cardinality of the search space, defined as the total number of different individuals that can
+  be represented, is crucial as it impacts the algorithm's complexity.
+  We introduced the \enquote{One Max} problem as an example, using a binary string representation.
+  The fitness function, which evaluates individuals' fitness, plays a critical role in navigating 
+  the search for optimal solutions.
+  In the \enquote{One Max} problem, the fitness function sums the binary string elements, 
+  representing the number of ones in the string.
