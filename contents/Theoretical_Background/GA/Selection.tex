@@ -38,12 +38,12 @@
     \centering
     \begin{tabular}{|l|r|r|}
       \hline
-      Individual & Fitness & Selection Probability \\
+      Individual  & Fitness & Selection Probability \\
       \hline
-      \(I_1\) & 0.5 & 0.25 \\
-      \(I_2\) & 0.25 & 0.125 \\
-      \(I_3\) & 0.75 & 0.375 \\
-      \(I_4\) & 0.25 & 0.125 \\
+      \(I_1\)     & 2       & 0.5  \\
+      \(I_2\)     & 1       & 0.25   \\
+      \(I_3\)     & 0       & 0.0   \\
+      \(I_4\)     & 1       & 0.25  \\
       \hline
     \end{tabular}
     \caption{Selection probabilities for the individuals in the example population.}
@@ -52,8 +52,8 @@
 
   The selection operator then selects individuals at random, with a probability equal to their
   selection probability.
-  Let's say that the selection operator selects \(I_1\) as a survivor to the next generation, then
-  \(I_2\), \(I_3\), and \(I_4\) will be replaced by the offspring.
+  Let's say that the selection operator selects \(I_2\) as a survivor to the next generation, then
+  \(I_1\), \(I_3\), and \(I_4\) will be replaced by the offspring.
 
   This section has introduced the concept of selection in GAs.
   This topic will be further explored in \vref{sec:keen:operators:selection}.

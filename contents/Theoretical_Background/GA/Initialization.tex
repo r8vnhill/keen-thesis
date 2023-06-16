@@ -37,22 +37,21 @@
       \hline
       \textbf{Individual} & \textbf{Binary string} & \textbf{Fitness} \\
       \hline
-      \(I_1\) & 0010 & 1 \\
-      \(I_2\) & 0110 & 2 \\
+      \(I_1\) & 1100 & 2 \\
+      \(I_2\) & 0001 & 1 \\
       \(I_3\) & 0000 & 0 \\
-      \(I_4\) & 1000 & 1 \\
+      \(I_4\) & 0100 & 1 \\
     \end{tabular}
     \caption{Population of individuals in generation 0}
   \end{table}
 
   \begin{table}[H]
-    \label{tab:genetic_algorithms:initialization:population_fitness}
     \centering
     \begin{tabular}{|c|c|c|}
       \hline
       & \textbf{Fitness} & \textbf{Individual}  \\
       \hline
-      Best & 2 & \(I_2\) \\
+      Best & 2 & \(I_1\) \\
       Worst & 0 & \(I_3\) \\
       \hline
       \hline
@@ -60,6 +59,7 @@
       \hline
     \end{tabular}
     \caption{Fitness of the individuals in generation 0}
+    \label{tab:genetic_algorithms:initialization:population_fitness}
   \end{table}
   
   In the initialization phase of a genetic algorithm, we define and setup the population of 
@@ -72,5 +72,5 @@
   binary strings of length \(n = 4\) and evaluated their fitness. 
   This setup marks the beginning of the evolutionary process, setting the stage for the subsequent 
   stages of selection (\vref{sec:genetic_algorithms:selection}), 
-  crossover (\vref{sec:genetic_algorithms:crossover}), and 
-  mutation (\vref{sec:genetic_algorithms:mutation}).
+  crossover (\vref{sec:genetic_algorithms:variation:crossover}), and 
+  mutation (\vref{sec:genetic_algorithms:variation:mutation}).

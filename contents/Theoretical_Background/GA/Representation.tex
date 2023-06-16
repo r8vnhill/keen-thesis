@@ -75,6 +75,14 @@
     dependent.
   \end{definition}
 
+  \begin{definition}[Batch fitness function]
+  \label{def:batch_fitness_function}
+    A \emph{batch fitness function} \(\Phi: \mathbb{P} \rightarrow \mathbb{R}^{m \times n}\) is a 
+    function that maps a population to a matrix of real numbers, where \(m\) is the number of
+    individuals in the population and \(n\) is the number of objectives of the optimization
+    problem.
+  \end{definition}
+
   The one max problem is a maximization problem with a single objective, so the fitness function
   would be defined as follows:
 
