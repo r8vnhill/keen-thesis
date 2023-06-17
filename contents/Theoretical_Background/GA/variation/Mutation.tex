@@ -1,14 +1,158 @@
 \subsubsection{Mutation}
 \label{sec:genetic_algorithms:variation:mutation}
-  One problem with the crossover operator is that it can only produce individuals that are similar
-  to the ones in the current population.
-  This is because the crossover operator produces output by performing a recombination of the
-  genetic material of a population.
-  In practice, this usually means that the crossover operation is prone to premature convergence,
-  for example, when the population has converged to a local optimum.
-  This is the case with problems that have a large number of local optima, such as with the
-  \emph{Rastrigin function} optimization.\footnote{
-    Rastrigin, L. A. \enquote{Systems of extremal control.} Mir, Moscow (1974).
-  }
+  One limitation of the crossover operator is its reliance on existing genetic 
+  material in the population.
 
+  This constraint can lead to premature convergence, particularly for problems 
+  with numerous local optima such as the \emph{Rastrigin function} 
+  optimization.\footnote{See \vref{sec:test_functions:rastrigin}.}
+
+  To counteract this and introduce \textit{diversity} in the population, we use 
+  the \textit{mutation} operator.
+
+  This operator alters the genetic material of an individual within the 
+  population according to a specific probability.
+
+  \begin{definition}[Mutation operator]
+  \label{def:mutation_operator}
+    A mutation operator is a function that alters the genetic material of 
+    individuals within a population based on a certain probability, thereby 
+    producing a new population.
+
+    Formally, a mutation operator is a variadic function 
+    
+    \[
+      M :\: \mathbb{P} \times \mathbb{R} \times \cdots \to \mathbb{P};\; 
+        (P,\, \mu,\, \dots) \mapsto M(P,\, \mu,\, \dots)
+    \]
+    
+    where:
+
+    \begin{itemize}
+      \item \(\mathbb{P}\) represents the set of all possible populations;
+      \item \(\mathbb{R}\) represents the set of real numbers;
+      \item \(P\) is the current population;
+      \item \(\mu\) represents the \textit{mutation rate}—the probability that 
+        an individual in the population will undergo mutation.
+    \end{itemize}
+
+    The other arguments are specific to the mutation operator being used.
+  \end{definition}
+
+  For instance, in the \enquote{One Max} problem, we can use a \emph{bit-flip} 
+  mutation.\footnote{See \vref{sec:keen:operators:mutation:bit_flip}.} 
+  This operator scans each gene in an individual and substitutes it with its 
+  complement according to a predetermined probability.
+
+  Suppose we set the \emph{mutation rate} \(\mu = 1\), and apply the mutation 
+  operator to the population resulting from the crossover operation described in
+  \vref{sec:genetic_algorithms:variation:crossover}.
+  As shown in \vref{tab:genetic_algorithms:variation:mutation:1}, the resulting 
+  population would be 
+  \(\mathbf{O} = \{(1111,\, 4), (0010,\, 1), (1010,\, 3)\}\).
+
+  
+  \begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+      \multicolumn{4}{c}{\textbf{Generation 0} \(\to\) \textbf{Generation 1}} \\
+      \hline
+      \hline
+      \(\mathbf{I}\) & \(\Phi_\mathbf{I}\) & \(\mathbf{O}\) & \(\Phi_\mathbf{O}\) \\
+      \hline
+      \Gape[2pt][2pt]{\(\begin{bmatrix} 0000 \\ 1101 \\ 0101 \end{bmatrix}\)}
+        & \(\begin{bmatrix} 0 \\ 3 \\ 2 \end{bmatrix}\)
+        & \(\begin{bmatrix} 1111 \\ 0010 \\ 1010 \end{bmatrix}\) 
+        & \(\begin{bmatrix} 4 \\ 1 \\ 2 \end{bmatrix}\) \\[1em]
+      \hline
+    \end{tabular}
+    \caption{
+      Illustration of the \emph{bit-flip} mutation operator applied to the 
+      population resulting from the crossover operation in 
+      \vref{sec:genetic_algorithms:variation:crossover}.
+    }
+    \label{tab:genetic_algorithms:variation:crossover:mutation}
+  \end{table}
+
+  If the mutated offspring were used to generate the next population, as shown 
+  in \vref{tab:genetic_algorithms:variation:mutation:2}, you can observe the 
+  increased diversity.
+
+  \begin{table}[ht!]
+    \centering
+    \begin{tabular}{c | c | c }
+      \multicolumn{3}{c}{\textbf{Generation 1}} \\
+      \hline
+      \hline
+      \textbf{Individual} & \textbf{Binary String}  & \textbf{Fitness} \\
+      \hline
+      \(I_2\)             & \(0001\)                & 1 \\
+      \(O'_1\)            & \(1111\)                & 4 \\
+      \(O'_2\)            & \(0010\)                & 1 \\
+      \(O'_3\)            & \(1010\)                & 2
+    \end{tabular}
+    \caption{
+      Population after applying the \emph{bit-flip} mutation operator to the 
+      population resulting from the crossover operation in 
+      \vref{sec:genetic_algorithms:variation:crossover}.
+    }
+    \label{tab:genetic_algorithms:variation:mutation:2}
+  \end{table}
+
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+      \hline
+            & \textbf{Fitness} & \textbf{Individual}  \\
+      \hline
+      Best  & 4 & \(O'_1\) \\
+      Worst & 0 & \((I_2,\, O'_2)\) \\
+      \hline
+      \hline
+      Average & \multicolumn{2}{c|}{2} \\
+      \hline
+    \end{tabular}
+    \caption{
+      Fitness of the population after applying the \emph{bit-flip} mutation 
+      operator to the population resulting from the crossover operation in
+      \vref{sec:genetic_algorithms:variation:crossover}.
+    }
+    \label{tab:genetic_algorithms:variation:mutation:fitness}
+  \end{table}
+ 
+  Clearly, the mutation operator has introduced diversity into the population.
+  In the original population, no individual had a 1\footnote{
+    \(P = \{
+      11\textbf{{\color{red}0}}0,\, 
+      00\textbf{{\color{red}0}}1,\, 
+      00\textbf{{\color{red}0}}0,\, 
+      01\textbf{{\color{red}0}}0
+    \}\)
+  } in the third position.
+  Therefore, the crossover operator could never produce an individual with a 1 
+  in that position.
+  But the mutation operator has introduced three individuals with a 1 in the 
+  third position.\footnote{
+    \(P' = \{
+      0001,\, 
+      11\textbf{{\color{red}1}}1,\, 
+      00\textbf{{\color{red}1}}0,\, 
+      10\textbf{{\color{red}1}}0
+    \}\)
+  } 
+
+  
+  In conclusion, the mutation operator plays a crucial role in genetic 
+  algorithms by introducing diversity into the population and preventing 
+  premature convergence to local optima.
+  It facilitates a more thorough exploration of the search space, allowing new 
+  and potentially beneficial traits to emerge.
+  However, it's essential to note that a high mutation rate might disrupt 
+  advantageous traits, while a low rate might not sufficiently prevent premature
+  convergence.
+  The specific mutation operator and the mutation rate used are crucial factors 
+  in shaping the genetic algorithm's search process.
+
+  With this, the variation process is complete, and we can proceed to the next 
+  step of the genetic algorithm.
 %

@@ -25,3 +25,12 @@ Whenever asked for a documentation comment you should use the following syntax:
 % | #2 - <parameter description>
 % | ...
 ```
+For the command and package names you should:
+1. If the command is ``\usepackage{names}``, then use ``names``.
+2. If the command is ``\SomeCommand``, then use ``SomeCommand``.
+
+## Rule 3: Code snippet line length
+
+Ensure that no line in a code snippet surpasses 80 characters. 
+If necessary, break up the lines and use proper indentation for readability and 
+adherence to common coding standards.

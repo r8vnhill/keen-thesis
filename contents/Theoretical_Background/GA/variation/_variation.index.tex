@@ -1,11 +1,36 @@
 \subsection{Variation}
 \label{sec:genetic_algorithms:variation}
-  Variation is the process of creating new individuals from existing ones.
-  In a GA, variation is achieved by applying \emph{genetic operators} to the individuals in the
+  Variation is the process of creating new individuals from existing ones in the pursuit of 
+  exploring the solution space.
+  This is crucial in a Genetic Algorithm (GA) to avoid premature convergence to sub-optimal
+  solutions.
+  In a GA, variation is achieved by applying \emph{variation operators} to the individuals in the 
   population.
-  The most common genetic operators are \emph{crossover} and \emph{mutation}.
-  In this section, we will explore these operators and their role in the GA.
+  The most common variation operators are \emph{crossover} and \emph{mutation}, which will be 
+  explored in this section.
+
+  \begin{definition}[Variation operator]
+    \label{def:variation_operator}
+    A variation operator is used to create new individuals from existing ones.
+    Formally, it is a variadic function represented as 
+    
+    \[
+      \varphi : \mathbb{P} \times \mathbb{R} \times \cdots \to \mathbb{P};\; 
+      (P, \rho, \dots) \mapsto \varphi(P, \rho, \dots)
+    \]
+    
+    where:
+
+    \begin{itemize}
+      \item \(\mathbb{P}\) is the set of all possible populations,
+      \item \(\mathbb{R}\) is the set of real numbers,
+      \item \(P\) is the population to be varied,
+      \item \(\rho\) is the probability of applying the operator to an individual in the population.
+    \end{itemize}
+
+    The additional arguments depend on the specific implementation of the variation operator.
+    The role of these arguments will be clarified in \vref{sec:keen:operators}.
+  \end{definition}
 
   \subimport{./}{Crossover.tex}
   \subimport{./}{Mutation.tex}
-%
