@@ -2,58 +2,51 @@
 \label{sec:genetic_algorithms}
   Genetic Algorithms (GA)\footnote{
     Also known as Simple Genetic Algorithms (SGA) 
-    \autocite{yuIntroductionEvolutionaryAlgorithms2010}, or Traditional Genetic Algorithms (TGA)
-    \autocite{shiffmanNatureCode2012}.
+    \autocite{yuIntroductionEvolutionaryAlgorithms2010}, or Traditional 
+    Genetic Algorithms (TGA)~\autocite{shiffmanNatureCode2012}.
   }~\autocite{hollandAdaptationNaturalArtificial1992a,kozaGeneticProgrammingProgramming1992a,yuIntroductionEvolutionaryAlgorithms2010,shiffmanNatureCode2012}
-  are a kind of EA where a \emph{population} of \emph{individuals}\footnote{
+  are a type of EA where a \emph{population} of \emph{individuals}\footnote{
     See \vref{def:individual}.
   } representing candidate solutions to an optimization problem evolves towards better solutions.
-  Each individual is defined by its location in the search space, which is called its
-  \emph{genotype}\footnote{See \vref{def:genotype}}, and its fitness value, which is
-  calculated with a \emph{fitness function}.
-  At the most abstract level, GA is a method to solve problems \textit{automatically} starting from 
-  a \textit{high-level statement} of what needs to be done, without requiring the user to specify
-  the form or structure of the solution in advance.
+  Each individual is defined by its location in the search space, known as its
+  \emph{genotype}\footnote{See \vref{def:genotype}}, and its fitness value, computed by a \emph{fitness function}.
+  At a high level, GA is an automatic method for problem-solving, starting from a 
+  \textit{high-level statement} of the desired outcome, without needing the user to predefine
+  the solution's form or structure.
 
-  A classical GA works as follows:
+  The classical GA operates as follows:
 
   \begin{algorithm}
     \begin{algorithmic}[1]
-      \State \(\mathit{population} \gets \mathrm{initializePopulation()}\)
-      \State \(\mathrm{evaluate}(\mathit{population})\)
+      \State \(\mathit{population} \gets \mathrm{initializePopulation()}\) \Comment{Creates a random population of individuals}
+      \State \(\mathrm{evaluate}(\mathit{population})\) \Comment{Calculates the fitness of each individual}
       \Repeat
-        \State \(\mathit{parents} \gets \mathrm{selectParents}(\mathit{population})\)
-        \State \(\mathrm{alter}(\mathit{offspring})\)
+        \State \(\mathit{parents} \gets \mathrm{selectParents}(\mathit{population})\) \Comment{Selects a subset of individuals as parents}
+        \State \(\mathrm{alter}(\mathit{offspring})\) \Comment{Applies genetic operators to offspring, creating variations}
         \State \(\mathit{population} \gets \mathrm{selectSurvivors}(\mathit{population},
-          \mathit{offspring})\)
-      \Until{termination condition is met}
-      \State \textbf{return} \(\mathrm{fittest}(\mathit{population})\)
+          \mathit{offspring})\) \Comment{Selects individuals for the next generation}
+      \Until{termination condition is met} \Comment{Could be a pre-defined number of generations, a desired fitness level, etc.}
+      \State \textbf{return} \(\mathrm{fittest}(\mathit{population})\) \Comment{Returns the most fit individual}
     \end{algorithmic}
     \caption{Genetic Algorithm}
     \label{alg:genetic_algorithm}
   \end{algorithm}
 
-  Where \(\mathrm{initializePopulation()}\) creates a random population of individuals, and
-  \(\mathrm{evaluate}(\mathit{population})\) calculates the fitness of each individual in the
-  population.
+  Here, \(\mathrm{initializePopulation()}\) generates a random population of individuals, while
+  \(\mathrm{evaluate}(\mathit{population})\) assesses the fitness of each individual in the population.
 
-  The algorithm then repeats the following steps until a termination condition is met:
+  The algorithm then continually performs the following steps until a termination condition is met:
 
   \begin{enumerate}
-    \item \(\mathrm{selectParents}(\mathit{population})\) selects a subset of individuals from the
-      population to be the parents of the next generation.
-    \item \(\mathrm{alter}(\mathit{offspring})\) alters the offspring to introduce new genetic
-      material into the population.
-    \item \(\mathrm{evaluate}(\mathit{offspring})\) calculates the fitness of each individual in the
-      offspring.
-    \item \(\mathrm{selectSurvivors}(\mathit{population}, \mathit{offspring})\) selects the
-      individuals that will survive to the next generation.
+    \item \(\mathrm{selectParents}(\mathit{population})\) chooses a subset of individuals from the population to parent the next generation.
+    \item \(\mathrm{alter}(\mathit{offspring})\) modifies the offspring to introduce variability ("new genetic material") into the population.
+    \item \(\mathrm{evaluate}(\mathit{offspring})\) computes the fitness of each new individual.
+    \item \(\mathrm{selectSurvivors}(\mathit{population}, \mathit{offspring})\) selects the individuals that will survive to the next generation.
   \end{enumerate}
 
-  Finally, the algorithm returns the fittest individual in the population.
+  Finally, the algorithm returns the most fit individual in the population.
 
-  The actual implementation of each of these steps depends on the problem being solved, and there
-  are many different ways to implement each of them.
+  The exact implementation of each of these steps depends on the specific problem at hand. Factors such as the problem's complexity, the representation of individuals, or even the computational resources available, can greatly influence the choice of methods used for initialization, selection, alteration, and survivor selection.
 
   \subimport{./}{Representation.tex}
   \subimport{./}{Initialization.tex}
