@@ -1,4 +1,4 @@
-This is the first chat about the thesis "Keen: Kotlin Genetic algorithm's framework".
+This is the `n`th chat about the thesis "Keen: Kotlin Genetic algorithm's framework".
 
 # Chat rules
 

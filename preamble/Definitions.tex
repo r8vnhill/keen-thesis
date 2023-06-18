@@ -9,20 +9,5 @@
 \import{definitions}{Figures.dtx}
 \ExplSyntaxOff
 
-% region : \[==> THEOREM STYLES <==\]
-\newtheorem*{remark}{Remark}
-% Define a new theorem style 'definitionsty' with custom settings
-\newtheoremstyle{definitionsty}{3pt}{3pt}{\slshape}{}{\bfseries}{.}{.5em}{}
-% Use the newly defined theorem style
-\theoremstyle{definitionsty}
-% Define a new theorem named 'definition' with numbering within chapters
-\newtheorem{definition}{Definition}[chapter]
-\usepackage{framed}
-\colorlet{shadecolor}{lightgray!25}
-% Define a new environment 'Definition' that begins with a shaded box and a 'definition' theorem
-\NewDocumentEnvironment{Definition}{ o }{
-  \begin{definition}[#1]
-}{
-  \end{definition}
-}
-% endregion THEOREM STYLES
+\subimport{./}{Theorems.tex}
+% \RenewDocumentCommand { \chaptermark }{ m }{ \leftmark{\theHchapter.~#1} }

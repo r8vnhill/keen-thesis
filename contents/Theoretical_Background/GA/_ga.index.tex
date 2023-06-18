@@ -11,12 +11,14 @@
   Each individual is defined by its location in the search space, which is called its
   \emph{genotype}\footnote{See \vref{def:genotype}}, and its fitness value, which is
   calculated with a \emph{fitness function}.
+  At the most abstract level, GA is a method to solve problems \textit{automatically} starting from 
+  a \textit{high-level statement} of what needs to be done, without requiring the user to specify
+  the form or structure of the solution in advance.
 
   A classical GA works as follows:
 
   \begin{algorithm}
-    \caption{Genetic Algorithm}\label{alg:genetic_algorithm}
-    \begin{algorithmic}
+    \begin{algorithmic}[1]
       \State \(\mathit{population} \gets \mathrm{initializePopulation()}\)
       \State \(\mathrm{evaluate}(\mathit{population})\)
       \Repeat
@@ -27,6 +29,8 @@
       \Until{termination condition is met}
       \State \textbf{return} \(\mathrm{fittest}(\mathit{population})\)
     \end{algorithmic}
+    \caption{Genetic Algorithm}
+    \label{alg:genetic_algorithm}
   \end{algorithm}
 
   Where \(\mathrm{initializePopulation()}\) creates a random population of individuals, and

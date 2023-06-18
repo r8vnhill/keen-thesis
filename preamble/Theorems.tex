@@ -1,0 +1,26 @@
+% | newtheorem - Defines new theorem-like environments
+% | newtheorem* - Defines unnumbered theorem-like environments
+% |
+% | The 'newtheorem' and 'newtheorem*' commands in LaTeX are used to define new
+% | theorem-like environments such as remarks, definitions, propositions, lemmas, 
+% | theorems, and so on. 
+% |
+% | The 'newtheorem' command produces a numbered environment that is automatically
+% | numbered within the specified parent counter. In this case, 'definition' is 
+% | numbered within 'chapter'.
+% |
+% | The 'newtheorem*' command produces an unnumbered environment. In this case, 
+% | 'remark' is unnumbered.
+% |
+% | Parameters for newtheorem:
+% | {environment name} - The name of the new environment (in this case, 
+% |                      'definition').
+% | [parent counter] - Optional argument specifying the counter within which the 
+% |                    new environment should be numbered (in this case, 
+% |                    'chapter').
+% |
+% | Parameters for newtheorem*:
+% | {environment name} - The name of the new environment (in this case, 
+% |                      'remark').
+\newtheorem*{remark}{Remark}
+\newtheorem{definition}{Definition}[chapter]

@@ -4,28 +4,28 @@
   the reader.
 
   \section*{A}
-    \begin{Definition}[Alteration]
+    \begin{definition}[Alteration]
     \label{def:alteration}
       See \vref{sec:genetic_algorithms:variation}
-    \end{Definition}
+    \end{definition}
 
-    \begin{Definition}[Alterer]
+    \begin{definition}[Alterer]
     \label{def:alterer}
       See \vref{def:variation_operator}.
-    \end{Definition}
+    \end{definition}
 
   \section*{C}
-    \begin{Definition}[Chromosome]
+    \begin{definition}[Chromosome]
     \label{def:chromosome}
       Representation of a single column of genetic information of a candidate solution to a given
       optimization problem.
 
       Formally, a chromosome is a vector \(\textbf{c} = (g_1, g_2, \dots, g_n)\), where \(g_i\) is a
       gene (see \vref{def:gene}).
-    \end{Definition}
+    \end{definition}
 
   \section*{E}
-    \begin{Definition}[Evolutionary computation]
+    \begin{definition}[Evolutionary computation]
     \label{def:evolutionary_computation}
       Family of algorithms for global optimization inspired by the process of natural selection.
 
@@ -35,77 +35,91 @@
       \enquote{population}. 
       Over multiple generations, these individuals are selected and modified (via genetic operators 
       like crossover and mutation) in order to find better solutions.
-    \end{Definition}
+    \end{definition}
     
   \section*{G}
-    \begin{Definition}[Gene]
+    \begin{definition}[Gene]
     \label{def:gene}
       Representation of a single component of a candidate solution to a given optimization problem.
 
       Formally, for a multi-dimensional function \(f\), a gene is an element \(g\) in the domain of
       \(f\).
-    \end{Definition}
+    \end{definition}
 
-    \begin{Definition}[Generation]
+    \begin{definition}[Generation]
     \label{def:generation}
       Number of iterations performed by an evolutionary algorithm.
-    \end{Definition}
+    \end{definition}
 
-    \begin{Definition}[Genotype]
+    \begin{definition}[Genotype]
     \label{def:genotype}
       Representation of the full genetic information of a candidate solution to a given optimization
       problem.
 
       Formally, a genotype is a matrix \(\mathbf{G} = (\textbf{c}_1, \textbf{c}_2, \dots, 
       \textbf{c}_n)\), where \(\textbf{c}_i\) is a chromosome (see \vref{def:chromosome}).
-    \end{Definition}
+    \end{definition}
 
   \section*{I}
-    \begin{Definition}[Individual]
+    \begin{definition}[Individual]
     \label{def:individual}
       A candidate solution to a given optimization problem.
 
       Formally, an individual is a pair \((\mathbf{G}, \mathbf{f})\), where \(\mathbf{G}\) is the
       genotype (see \vref{def:genotype}) and \(\mathbf{f}\) is the fitness value of the
       individual.
-    \end{Definition}
+    \end{definition}
 
   \section*{M}
-    \begin{Definition}[Metaheuristics]
+    \begin{definition}[Metaheuristics]
     \label{def:metaheuristic}
       Problem-independent algorithmic method that yields a sufficiently good solution within 
       reasonable time for an optimization problem, especially for complex problems where an exact 
       solution is not crucial.
-    \end{Definition}
+    \end{definition}
 
-    \begin{Definition}[Mutator]
+    \begin{definition}[Mutator]
     \label{def:mutator}
       See \vref{def:mutation_operator}.
-    \end{Definition}
+    \end{definition}
 
   \section*{P}
-    \begin{Definition}[Phenotype]
+    \begin{definition}[Parameter optimization]
+    \label{def:parameter_optimization}
+      Optimization problem where the solution is a set of parameters that 
+      optimize a given function.
+    \end{definition}
+
+    \begin{definition}[Phenotype]
     \label{def:phenotype}
       Same as \vref{def:individual}.
-    \end{Definition}
+    \end{definition}
 
-    \begin{Definition}[Population]
+    \begin{definition}[Population]
     \label{def:population}
       Set of candidate solutions to a given optimization problem.
-    \end{Definition}
+    \end{definition}
+
+    \begin{definition}[Program induction]
+    \label{def:program_induction}
+      Inference of an algorithm or program featuring recursive calls or 
+      repetition control structures, starting from information that is known to 
+      be incomplete, called the evidence, such as positive and negative I/O 
+      examples or clausal constraints.
+    \end{definition}
 
   \section*{S}
-    \begin{Definition}[Search space]
+    \begin{definition}[Search space]
     \label{def:search_space}
       Set of all candidate solutions to a given optimization problem.
-    \end{Definition}
+    \end{definition}
 
-    \begin{Definition}[Selector]
+    \begin{definition}[Selector]
       See \vref{def:selection_operator}.
-    \end{Definition}
+    \end{definition}
 
   \section*{V}
-    \begin{Definition}[Variadic function]
+    \begin{definition}[Variadic function]
     \label{def:variadic_function}
       Function that accepts a variable number of arguments.  
-    \end{Definition}
+    \end{definition}
