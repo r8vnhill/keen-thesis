@@ -1,0 +1,85 @@
+\subsection{Termination}
+\label{sec:genetic_algorithms:termination}
+  After each generation -- when a new population is fully created -- the
+  genetic algorithm verifies if the termination criteria have been met.
+  If so, the algorithm terminates and returns the best individual identified.
+  Otherwise, the process continues to the next generation.
+
+  Consider a scenario where the termination criterion is defined as the 
+  discovery of an individual possessing the maximum number of ones, represented 
+  as $1111$.
+  This would correspond to a condition where $\phi_\mathbf{G} = 4$.
+
+  Recall that we found the individual $1111$ after applying the variation 
+  operators to the population. 
+  As a result, the termination criterion is met and the genetic algorithm 
+  concludes its process.
+
+  It's worth noting that not all search space has been explored, as demonstrated 
+  in \vref{tab:genetic_algorithms:termination:search_space}.
+  The algorithm's fitness-oriented search strategy means it performs a guided, 
+  rather than exhaustive, search. 
+  However, the increasing fitness of the population's individuals across 
+  generations indicates convergence towards an optimal solution.
+  
+  \begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c||c|c|c|c|}
+      \hline
+            & $00$ & $01$ & $10$ & $11$ \\
+      \hline
+      \hline
+      $00$  & \cellcolor{darkgray}  & \cellcolor{darkgray} 
+        & \cellcolor{darkgray}  & \\
+      \hline
+      $01$  & \cellcolor{darkgray}  & \cellcolor{darkgray}  
+        &                       & \\
+      \hline
+      $10$  &                       &                       
+        & \cellcolor{darkgray}  & \\
+      \hline
+      $11$  & \cellcolor{darkgray}  & \cellcolor{darkgray}  
+        &                       & \cellcolor{darkgray} \\
+      \hline
+    \end{tabular}
+    \caption{
+      Candidates from the search space that were explored by the genetic 
+      algorithm.
+      Cells that are coloured in dark gray represent candidates that were
+      explored by the genetic algorithm.
+      Each individual is defined by the row and column that it occupies in the
+      search space, where the row represents the first 2 bits of the individual
+      and the column represents the last 2 bits of the individual; e.g. the
+      individual $0001$ is located in the first row and second column of the
+      table.
+    }
+    \label{tab:genetic_algorithms:termination:search_space}
+  \end{table}
+
+  For small search spaces like in our example, the distinction between this 
+  algorithm and a purely random search may seem minimal.
+  But for larger search spaces, as explored later in this thesis, the difference
+  becomes highly significant.
+
+  It's important to underline that genetic algorithms, being stochastic in 
+  nature, do not guarantee discovery of the optimal solution.
+  Their effectiveness depends on various factors such as the fitness function, 
+  the representation scheme, the variation operators, and the selection 
+  strategy.
+  These components and their impact on performance across different problems
+  will be thoroughly examined in this thesis.
+
+  In summary, the termination phase of the genetic algorithm represents a 
+  crucial step in determining the overall process outcome.
+  By utilizing a targeted termination criterion -- such as the discovery of an
+  individual with the highest possible fitness score -- the algorithm
+  effectively navigates the search space.
+  While not exhaustive in its exploration, the algorithm uses a fitness-oriented
+  strategy to guide its trajectory towards an optimal solution.
+  It's essential to recognize the inherent limitations of genetic algorithms due
+  to their stochastic nature.
+  Despite these, their potential to outperform random searches, especially in
+  large search spaces, is considerable.
+  However, success relies heavily on choosing appropriate parameters and
+  procedures, a topic to be explored in-depth in subsequent sections of this
+  thesis.
