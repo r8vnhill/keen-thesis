@@ -50,15 +50,30 @@
       \State Generate an initial population by recursively building random programs.
       \State Execute each program and assign a fitness value to it.
       \Repeat
-        \State \(\mathit{parents} \gets \mathrm{selectParents}(\mathit{population})\) \Comment{Parent selection for reproduction}
-        \State \(\mathrm{alter}(\mathit{offspring})\) \Comment{Apply genetic operators to offspring}
-        \State \(\mathit{population} \gets \mathrm{selectSurvivors}(\mathit{population}, \mathit{offspring})\) \Comment{Survivor selection to form next generation}
-      \Until{termination condition is met} \Comment{Termination can be a fixed number of generations, or a satisfactory fitness level, etc.}
-      \State \textbf{return} \(\mathrm{fittest}(\mathit{population})\) \Comment{Return the best solution found}
+        \State \(\mathit{parents} \gets \mathrm{selectParents}(\mathit{population})\) 
+          \Comment{Parent selection for reproduction}
+        \State \(\mathrm{alter}(\mathit{offspring})\) 
+          \Comment{Apply genetic operators to offspring}
+        \State \(\mathit{population} \gets \mathrm{selectSurvivors}(
+          \mathit{population}, \mathit{offspring})\) 
+          \Comment{Survivor selection to form next generation}
+      \Until{termination condition is met} 
+        \Comment{
+          Termination can be a fixed number of generations, or a satisfactory 
+          fitness level, etc.
+        }
+      \State \textbf{return} \(\mathrm{fittest}(\mathit{population})\) 
+        \Comment{Return the best solution found}
     \end{algorithmic}
-    \caption{Outline of the Genetic Programming algorithm, showcasing its structural similarities with the Genetic Algorithm}
+    \caption{
+      Outline of the Genetic Programming algorithm, showcasing its structural 
+      similarities with the Genetic Algorithm
+    }
     \label{alg:genetic_programming}
   \end{algorithm}
 
   In the ensuing sections, we will delve into the fundamental components of a GP
   algorithm and elucidate them through an example.
+
+  \subimport{./}{Representation.tex}
+%
