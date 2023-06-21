@@ -1,32 +1,34 @@
 \tl_const:Nn \l__figures_modulename_tl { ravenhill/latex/figures }
 
-\NewDocumentCommand { \includefigureht } { o m } {
-  \group_begin:
-  \IfNoValueTF {#1} { } {
-    \prop_clear_new:N \g_rvnlatex_tmp_prop
-    \keys_set:nn { \l__figures_modulename_tl } { #1 }
-    \setvfig { centering } { \l_rvnlatex_centering_bool } 
-    \setvfig { width } { \l_rvnlatex_width_dim }
-  }
-  \begin{figure}[ht!]
-    \keys_if_exist:nnTF { \l__figures_modulename_tl } { centering } { 
-      \bool_if:nTF { \getvfig { centering } } { \centering } {} 
-    } {
-      \centering
-    }
-    \includegraphics [
-      \keys_if_exist:nnT { \l__figures_modulename_tl } { width } { width = \getvfig { width }, }  
-    ] {#2}
-  \end{figure}
-  \group_end:
+% | \IncludeGraphics - Include multiple sub-figures with automatic aligning.
+% | 
+% | Syntax:
+% |   \IncludeGraphics[<cols>]{<file1>, <file2>, ...}
+% |
+% | Parameters:
+% |   #1 <cols> - Number of columns to use for the sub-figures. Default is 2.
+% |   #2 <file1>, <file2>, ... - List of files to include.
+\NewDocumentCommand { \IncludeGraphics } { o m } {
+
 }
 
-% | Generic getter for the document variables.
-\NewExpandableDocumentCommand { \getvfig } { m } { \prop_item:Nn \g_rvnlatex_doc_prop {#1} }
-\NewDocumentCommand { \setvfig } { m m } { \prop_gput:NnV \g_rvnlatex_doc_prop {#1} #2 }
+\str_new:N \l__figures_first_file_str  % var figures_firstfile: str
+\str_new:N \l__figures_second_file_str   % var figures_secondfile: str
+\clist_new:N \l__figures_files_clist  % var figures_files: clist
+\int_new:N \l__figures_count_int  % var figures_count: int
 
-% | Dictionary containing the metadata of the figure.
-\keys_define:nn { \l__figures_modulename_tl } {
-  centering .bool_set:N = \l_rvnlatex_centering_bool,
-  width .dim_set:N = \l_rvnlatex_width_dim,
+\cs_new_protected:Npn \latexito_figures_block:x #1 {
+  \clist_set:Nx \l__figures_files_clist { #1 }  % figures_files = #1
+  \int_set:Nn \l__figures_count_int { 
+    \clist_count:N \l__figures_files_clist 
+  }  % figures_count = len(figures_files)
+  \latexito_createfigblock:nn { \l__figures_files_clist } { \l__figures_count_int }
+}
+
+\cs_new_protected:Npn \latexito_createfigblock:nn #1 #2 {
+  \int_compare:nNnTF { 0 } = { #2 } { 
+    % If there are no files, do nothing.
+  } {
+    
+  }
 }
