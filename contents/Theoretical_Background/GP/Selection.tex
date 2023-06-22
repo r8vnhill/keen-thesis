@@ -1,0 +1,91 @@
+\subsection{Selection}
+\label{sec:background:genetic_programming:selection}
+
+  The selection process in Genetic Programming (GP) is similar to that of Genetic 
+  Algorithms (GA).
+  However, unique modifications have been proposed for the standard process in GP,
+  which consider the semantics, or the functional behavior, of the programs being
+  evolved~\autocite{liskowskiComparisonSemanticawareSelection2015}.
+  This work will not delve into this topic, as it is beyond the scope of this
+  document.
+
+  For the problem under study, we use a selection process similar to the one 
+  used in the \textit{One Max} problem (a simple optimization problem where the 
+  objective is to maximize the number of ones in a binary string).
+  The equation for calculating the selection probability will diverge from 
+  \vref{eq:selection_probability}, as it presumes the fittest individual is the 
+  one with the highest fitness value.
+  In contrast, the symbolic regression problem, which is our focus, considers the
+  individual with the lowest fitness value as the fittest.
+
+  For this particular case of the symbolic regression problem, we adjust our 
+  approach to selection.
+  We introduce a \emph{corrected fitness function}, \(\phi'\), defined as:
+
+  \begin{equation}
+    \label{eq:bg:gp:sym:corrected_fitness}
+    \phi'(I) = \left(\sum \Phi_\mathbf{P}\right) - \phi_I
+  \end{equation}
+
+  Here, \(\phi_I\) signifies the fitness of individual \(I\), and 
+  \(\Phi_\mathbf{P}\) represents the \textit{batch fitness function} defined in 
+  \vref{def:batch_fitness_function} applied to the population \(\mathbf{P}\).
+  We then define the selection probability for an individual \(\mathbf{P}_i\) as:
+
+  \begin{equation}
+    \label{eq:bg:gp:sym:selection_probability}
+    p_i = \frac{\phi'(\mathbf{P}_i)}{\sum_{j = 1}^N \phi'(\mathbf{P}_j)}
+  \end{equation}
+
+  In this equation, \(N\) stands for the size of the population.
+
+  With this methodology, we calculate the selection probabilities for the 
+  population as illustrated in \vref{tab:bg:gp:sel:prob}.
+  The outcome shows that 
+  the individual with the highest error has a considerably low probability of 
+  being selected, while the other individuals have roughly equal chances.
+
+  \begin{table}[ht!]
+    \centering
+    \begin{tabular}{|l|r|r|}
+      \hline
+      Individual  & Fitness & Selection Probability \\
+      \hline
+      \(I_1\) & 177\,596.851\,131 &  0.113\,616\% \\
+      \(I_2\) &      137.398\,836 & 33.307\,633\% \\
+      \(I_3\) &      331.924\,267 & 33.271\,246\% \\
+      \(I_4\) &      138.079\,865 & 33.307\,505\% \\
+      \hline
+    \end{tabular}
+    \caption{Selection probabilities for the symbolic regression problem.}
+    \label{tab:bg:gp:sel:prob}
+  \end{table}
+
+  Assuming a \emph{survival rate} of 50\%, let's consider that the selection
+  process favors \(I_2\) and \(I_3\) as survivors due to their higher selection
+  probabilities (as shown in the previous table).
+  In this scenario, \(I_1\) and \(I_4\) are identified as the ones to be replaced
+  by the offspring in the next generation.
+  A comparison between the survivors and the target function is shown in
+  \vref{fig:bg:gp:sel:prob}.
+
+  \begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{img/theoretical_framework/gp_pop_sel_survivors.png}
+    \caption{Comparison between the survivors and the target function.}
+    \label{fig:bg:gp:sel:prob}
+  \end{figure}
+
+  To conclude, this section discussed the selection process in Genetic 
+  Programming (GP), noting that it largely mirrors that of Genetic Algorithms 
+  (GA) with some differences.
+  These differences primarily focus on the semantics of the programs being
+  evolved.
+  The symbolic regression problem, necessitates a corrected fitness function and
+  an adjusted selection probability equation.
+  We outlined how these modifications are implemented and computed selection
+  probabilities for a hypothetical population.
+  A survival rate of 50\% resulted in two individuals being selected as
+  survivors and two being marked for replacement in the next generation.
+  This lays the groundwork for the next phase of the process, which is
+  variation.

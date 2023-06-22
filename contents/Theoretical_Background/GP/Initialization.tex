@@ -116,16 +116,17 @@
 
   \begin{table}[ht!]
     \centering
-    \begin{tabular}{c|c|r}
-      \multicolumn{3}{c}{\textbf{Generation 0}} \\
+    \begin{tabular}{c|c|c|r}
+      \multicolumn{4}{c}{\textbf{Generation 0}} \\
       \hline
       \hline
-      \textbf{Individual} & \textbf{Program} & \textbf{Fitness} \\
+      \textbf{Individual} & \textbf{Program} & \textbf{Depth} & \textbf{Fitness} \\
       \hline
-      \(I_1\) & \Gape[2pt][2pt]{\(\frac{3}{\sin(2)} \times 5^3 \)} & 177\,596.851\,131 \\
-      \(I_2\) & \Gape[2pt][2pt]{\(7 - (5 + \sin(x))\)} & 137.398\,836 \\
-      \(I_3\) & \Gape[2pt][2pt]{\(7 + 2\)} & 331.924\,267 \\
-      \(I_4\) & \Gape[2pt][2pt]{\(5x^2\)} & 138.079\,865
+      \(I_1\) 
+        & \Gape[2pt][2pt]{\(\frac{3}{\sin(2)} \times 5^3 \)} & 3 & 177\,596.851\,131 \\
+      \(I_2\) & \Gape[2pt][2pt]{\(7 - (5 + \sin(x))\)} & 3 & 137.398\,836 \\
+      \(I_3\) & \Gape[2pt][2pt]{\(7 + 2\)} & 1 & 331.924\,267 \\
+      \(I_4\) & \Gape[2pt][2pt]{\(5x^2\)} & 2 & 138.079\,865
     \end{tabular}
     \caption{Population of individuals in generation 0}
     \label{tab:genetic_programming:initialization:population}
@@ -161,7 +162,7 @@
 
   \begin{figure}[ht!]
     \centering
-    \includegraphics[width=0.6\textwidth]{img/theoretical_framework/gp_pop_1.png}
+    \includegraphics[width=0.6\textwidth]{img/theoretical_framework/gp_pop_init.png}
     \caption{
       Graphical representation of the population in generation 0 compared to the
       expected output.
