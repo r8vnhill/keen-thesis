@@ -26,6 +26,31 @@
   shown in \vref{fig:genetic_programming:representation:points} and 
   \vref{tab:genetic_programming:representation:points}.
 
+  The next step would be to define the primitive set, that is the set of
+  functions and terminals that will be used to build the programs.
+  In this case, we will use the following set of functions and terminals:
+
+  \begin{itemize}
+    \item Functions:
+      \begin{enumerate*}%[label=(\roman*)]
+        \item \(+\) (Addition)
+        \item \(-\) (Subtraction)
+        \item \(\times\) (Multiplication)
+        \item \(/\) (Division)
+        \item \(\sin\) (Sine)
+        \item \(\cos\) (Cosine)
+        \item \(\exp\) (Exponential)
+        \item \(\log\) (Logarithm)
+      \end{enumerate*}
+    \item Terminals:
+      \begin{enumerate*}
+        \item \(x\) (The variable \(x\))
+        \item \(c \in 1 \dots 7\) (An ephemeral constant\footnote{
+            See \vref{def:ephemeral_constant}.
+          })
+      \end{enumerate*}
+  \end{itemize}
+
   \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.6\textwidth]{img/theoretical_framework/symbolic.png}
@@ -69,31 +94,6 @@
     \label{tab:genetic_programming:representation:points}
   \end{table}
 
-  The next step would be to define the primitive set, that is the set of
-  functions and terminals that will be used to build the programs.
-  In this case, we will use the following set of functions and terminals:
-
-  \begin{itemize}
-    \item Functions:
-      \begin{itemize}
-        \item \(+\): Addition
-        \item \(-\): Subtraction
-        \item \(\times\): Multiplication
-        \item \(/\): Division
-        \item \(\sin\): Sine
-        \item \(\cos\): Cosine
-        \item \(\exp\): Exponential
-        \item \(\log\): Logarithm
-      \end{itemize}
-    \item Terminals:
-      \begin{itemize}
-        \item \(x\): The variable \(x\)
-        \item \(c \in 1 \dots 7\): An ephemeral constant\footnote{
-            See \vref{def:ephemeral_constant}.
-          }
-      \end{itemize}
-  \end{itemize}
-
   Using this set of functions and terminals, we can represent the program as a
   tree, as shown in \vref{fig:genetic_programming:representation:tree}.
 
@@ -106,6 +106,145 @@
     \label{fig:genetic_programming:representation:tree}
   \end{figure}
 
+  Note that this definition arises the possibility of having a program that
+  has an infinite number of nodes, as the tree can grow indefinitely.
+  This leads the search to be infinite, and thus, the algorithm will never
+  find a solution.
+  To  avoid this, we need to define \emph{constraints} on the generation of the
+  trees.
+  The most common constraints are the \emph{maximum height} of the tree and the
+  \emph{maximum number of nodes} in the tree.
+
+  Using this representation, we can define the \emph{genotype} of the
+  individuals to contain only one \emph{chromosome} which is composed of a
+  single \emph{gene}\footnote{%
+    Although the most common representation is to have a single gene referencing
+    the root of the tree, several variations that use multi-gene chromosomes
+    have been proposed, such as Koza's \textit{Automatically Defined 
+    Functions}~\autocite{kozaGeneticProgrammingII1994}, Angeline and Pollack's 
+    \textit{Genetic Library Builder}~\autocite{peterjangelineEvolutionaryInductionSubroutines1992,peterj.angelineGeneticProgrammingEmergent1994},
+    or Rosca and Ballard's \textit{Adaptive Representation}~\autocite{roscaLearningAdaptingRepresentations1994}.
+  } that is the tree representation of the program.
+  Recalling the definition of cardinality presented in
+  \vref{def:cardinality_of_the_search_space}, we can see that the cardinality of
+  the search space will be the number of possible trees that can be generated
+  using the primitive set and the maximum height of the tree.
+
+  From this lemma, arises the problem of calculating the number of trees of
+  height \(H\) for a given set of terminal and function nodes.
+  This problem is solved by the following theorem.
+
+  \begin{lemma}
+  \label{thm:genetic_programming:representation:cardinality}
+    Let \(\mathbb{T}_{H}\) be the set of all possible \textbf{labeled trees} of
+    height \(H\), with \(H \in \mathbb{N}\).
+    Given the sets \(\mathcal{T}\) and \(\mathcal{F}\) corresponding to the
+    possible labels of terminal nodes (nodes that do not have children) and the
+    possible labels of internal nodes (nodes that have children) respectively,
+    the number of trees in \(\mathbb{T}_{H}\) is given by the following
+    recurrence relation:
+
+    % TODO: Check if this is correct (it's not considering the number of
+    %       trees of height H-1 that end on only terminal nodes)
+    \begin{equation}
+      \label{eq:genetic_programming:representation:cardinality}
+      |\mathbb{T}_{H}(\mathcal{T},\, \mathcal{F})| = \begin{cases}
+        |\mathcal{T}| & \text{if } H = 0 \\
+        \sum_{f \in \mathcal{F}} \prod_{i=1}^{A(f)} |\mathbb{T}_{H-1}(\mathcal{T},\, \mathcal{F})| & \text{if } H > 0
+      \end{cases}
+    \end{equation}
+  \end{lemma}
+
+  \begin{lemma}
+    Let \(\mathbb{T}_{\leq H}\) be the set of all possible \textbf{labeled 
+    trees} of height \(h \leq H\), with \(H \in \mathbb{N}\) and \(h \in 
+    \mathbb{N}\).
+    Given the sets \(\mathcal{T}\) and \(\mathcal{F}\) corresponding to the
+    possible labels of terminal nodes (nodes that do not have children) and the 
+    possible labels of internal nodes (nodes that have children) respectively,
+    the number of trees in \(\mathbb{T}_{\leq H}\) is given by the following
+    recurrence relation:
+
+    \begin{equation}
+      \label{eq:genetic_programming:representation:cardinality}
+      |\mathbb{T}_{\leq H}(\mathcal{T},\, \mathcal{F})| = \begin{cases}
+        |\mathcal{T}| 
+          & \text{if } H = 0 \\
+        |\mathbb{T}_{H}(\mathcal{T},\, \mathcal{F})| 
+            + |\mathbb{T}_{\leq H - 1}(\mathcal{T},\, \mathcal{F})|
+          & \text{if } H > 0
+      \end{cases}
+    \end{equation}
+
+    Where \(\mathbb{T}_{H}\) is the set of all possible trees of height \(H\).
+  \end{lemma}
+
+  \begin{proof}
+    The proof is by induction on \(H\).
+    For the sake of simplicity, we will use the notation
+    \(|\mathbb{T}_{\leq H}| = |\mathbb{T}_{\leq H}(\mathcal{T},\, \mathcal{F})|\)
+    and \(|\mathbb{T}_{H}| = |\mathbb{T}_{H}(\mathcal{T},\, \mathcal{F})|\).
+
+    \paragraph{Base case: \(H = 0\)}
+    In this case, the only possible tree is the one that has a single node,
+    which is a terminal node.
+    Therefore, 
+    
+    \[
+      |\mathbb{T}_{\leq 0}| = |\mathbb{T}_{0}| = |\mathcal{T}|
+    \]
+
+    \paragraph{Inductive step}
+    Let the statement be true for \(H = h\), with \(h \in \mathbb{N}\).
+    We will prove that the statement is also true for \(H = h + 1\).
+    Given the set \(|\mathbb{T}_{\leq h + 1}|\), we can divide it into two
+    subsets: the trees of height \(h + 1\) ,\(\mathbb{T}_{h + 1}\), and the
+    trees of height less than \(h + 1\). \(\mathbb{T}_{\leq h + 1 - 1} = 
+    \mathbb{T}_{\leq h}\).
+    It should be clear that \(\mathbb{T}_{h + 1} \cup \mathbb{T}_{\leq h} = 
+    \mathbb{T}_{\leq h + 1}\), and that \(\mathbb{T}_{h + 1} \cap 
+    \mathbb{T}_{\leq h} = \emptyset\).
+    
+    Then, the cardinality of \(\mathbb{T}_{\leq h + 1}\) is given by the
+    cardinality of \(\mathbb{T}_{h + 1}\) plus the cardinality of
+    \(\mathbb{T}_{\leq h}\).
+
+    \[
+      |\mathbb{T}_{\leq h + 1}| = |\mathbb{T}_{h + 1}| + |\mathbb{T}_{\leq h}|
+    \]
+
+    By the inductive hypothesis, we know that \(|\mathbb{T}_{\leq h}| =
+    |\mathbb{T}_{h}| + |\mathbb{T}_{\leq h - 1}|\).
+    Therefore, we can substitute the cardinality of \(\mathbb{T}_{\leq h}\) in
+    the previous equation.
+
+    \[
+      |\mathbb{T}_{\leq h + 1}|
+        = |\mathbb{T}_{h + 1}| + |\mathbb{T}_{h}| + |\mathbb{T}_{\leq h - 1}|
+        = |\mathbb{T}_{h + 1}| + |\mathbb{T}_{h}| + |\mathbb{T}_{h - 1}|
+          + |\mathbb{T}_{\leq h - 2}|
+    \]
+
+    We can continue this process until we reach the base case, where the
+    cardinality of \(\mathbb{T}_{\leq 0}\) is equal to the cardinality of
+    \(\mathbb{T}_{0}\).
+
+    \[
+      |\mathbb{T}_{\leq h + 1}|
+        = |\mathbb{T}_{h + 1}| + |\mathbb{T}_{h}| + |\mathbb{T}_{h - 1}| + 
+          \dots + |\mathbb{T}_{0}|
+    \]
+
+    Therefore, we can conclude that the cardinality of 
+    \(\mathbb{T}_{\leq h + 1}\) is equal to the sum of the cardinalities of
+    \(\mathbb{T}_{h}\) and \(\mathbb{T}_{\leq h}\), which proves the hypothesis.
+
+    \[
+      |\mathbb{T}_{\leq h + 1}| = |\mathbb{T}_{h}| + |\mathbb{T}_{\leq h}|
+    \]
+  \end{proof}
+
+  
   Now, we need to define how to evaluate the fitness of a program.
   Again, there are many ways to do this, but a common way is to use the
   \emph{mean squared error} (MSE) between the points and the program.

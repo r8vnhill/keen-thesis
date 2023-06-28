@@ -1,0 +1,22 @@
+\subsubsection{Crossover}
+\label{sec:bg:gp:variation:crossover}
+  Since the individuals in GP are programs, all the variation operators must
+  preserve the syntactic correctness of the individuals.
+  In the case of crossover, this means that the resulting individuals must be
+  syntactically correct programs.
+  
+  Because of this, the crossover operator used in \vref{sec:bg:ga:var:cx} is not
+  applicable to GP\footnote{%
+    Although this is true in most GP problems, there could be scenarios where
+    the crossover operator used in GA could be used in GP, as seen in
+    \vref{chap:beacon}.
+  } since it doesn't consider the syntactic correctness of the individuals.
+
+  The operator used in GP is dependant on the representation of the individuals.
+  In the case of tree-based GP, the most basic crossover operator is the
+  \emph{subtree crossover}\footnote{%
+    See \vref{sec:keen:operators:crossover:single_node}.
+  }.
+  This operator selects a random node from each parent and swaps the subtrees
+  rooted at those nodes.
+  

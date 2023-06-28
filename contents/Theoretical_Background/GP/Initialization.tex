@@ -6,20 +6,15 @@
   There are many ways to generate random individuals, but a very common (and
   simple) method is the \emph{grow 
   method}~\autocite{kozaGeneticProgrammingProgramming1992a}.
-  In this method, a maximum depth is defined, and the algorithm then creates a
-  random tree with a depth between 0 and the maximum depth.
-
-  \begin{definition}[Depth of a tree]
-    The depth of a tree is defined as the length of the longest (non 
-    backtracking) path from the root to a leaf.
-  \end{definition}
+  In this method, a maximum height is defined, and the algorithm then creates a
+  random tree with a height between 0 and the maximum height.
 
   \begin{remark}
-    A tree with a depth of 0 is a tree with only one node, the root.
+    A tree with a height of 0 is a tree with only one node, the root.
   \end{remark}
 
   \begin{remark}
-    The tree in \vref{fig:genetic_programming:representation:tree} has a depth
+    The tree in \vref{fig:genetic_programming:representation:tree} has a height
     of 5, as the longest path from the root to a leaf is 
     \[
       - \to + \to - \to \times \to \mathrm{exp} \to x
@@ -27,7 +22,7 @@
   \end{remark}
 
   The grow method then proceeds to recursively generate the trees with random
-  nodes until a terminal node is selected or the maximum depth is reached.
+  nodes until a terminal node is selected or the maximum height is reached.
   This method is shown in \vref{alg:genetic_programming:initialization:grow}.
 
   \begin{algorithm}[ht!]
@@ -38,7 +33,7 @@
       \Require \(\mathbf{t}\) and \(\mathbf{f}\) are the sets of terminal and 
         function nodes respectively, where \(\mathbf{t} \neq \emptyset\) and
         \(\mathbf{f} \neq \emptyset\)
-      \Ensure a random tree with a depth between \(l\) and \(h\)
+      \Ensure a random tree with a height between \(l\) and \(h\)
       \Function{\(\mathrm{grow}\)}{$\mathbf{t}$, $\mathbf{f}$, $d$}
         \State \(c \gets \emptyset\)
         \If{
@@ -62,15 +57,15 @@
     \label{alg:genetic_programming:initialization:grow}
   \end{algorithm}
 
-  With this method, the algorithm can generate trees where the depth of the 
-  shortest path from the root to a leaf is \(l\) and the depth of the longest
+  With this method, the algorithm can generate trees where the size of the 
+  shortest path from the root to a leaf is \(l\) and the size of the longest
   path is \(h\).
 
   Now that the algorithm can generate random trees, it can generate a random
   population of trees by generating a random tree for each individual in the
   population.
-  Assuming a population size of \(p = 4\), a maximum depth of \(h = 3\), a
-  minimum depth of \(l = 1\), and the primitives set defined in the previous
+  Assuming a population size of \(p = 4\), a maximum height of \(h = 3\), a
+  minimum height of \(l = 1\), and the primitives set defined in the previous
   section, the algorithm could generate the population shown in
   \vref{fig:genetic_programming:initialization:population}.
 
@@ -174,10 +169,10 @@
   In summary, the initialization stage of the genetic programming algorithm, a 
   population of random individuals, represented as trees, was generated using 
   the \enquote{grow method}.
-  The depth of these trees, signifying the length of the longest path from the
+  The height of these trees, signifying the length of the longest path from the
   root to a leaf, is determined randomly within a specified range.
   Each tree is recursively populated with random nodes until a terminal node is
-  chosen or the maximum depth is reached.
+  chosen or the maximum height is reached.
   Once a random population of trees is created, the fitness of each individual,
   based on the Mean Squared Error (MSE) between the expected and actual output,
   is calculated.
@@ -185,5 +180,5 @@
   facilitating the evaluation and selection process in the succeeding stages of
   the algorithm.
   The output of this process is a random population of trees with fitness scores
-  and depth measurements, ready for the next steps of selection, crossover, and
+  and height measurements, ready for the next steps of selection, crossover, and
   mutation.
