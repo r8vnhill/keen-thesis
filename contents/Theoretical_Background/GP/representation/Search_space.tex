@@ -157,7 +157,7 @@
       |\mathbb{T}_{\leq H}(\mathcal{T},\, \mathcal{F})| = \begin{cases}
         |\mathcal{T}| 
           & \text{if } H = 0 \\
-        \left(\mathlarger{\sum}_{h = 1}^{H - 1}\,
+        \left(\mathlarger{\sum}_{h = 0}^{H - 1}\,
           \mathlarger{\sum}_{f \in \mathcal{F}} 
             |\mathbb{T}_{h}(\mathcal{T},\, \mathcal{F})|^{A(f)}\right)
           + |\mathcal{T}|
@@ -198,9 +198,11 @@
             \sum_{f \in \mathcal{F}} |\mathbb{T}_{H - 2}|^{A(f)}
           \right) + \cdots + \left(
             \sum_{f \in \mathcal{F}} |\mathbb{T}_{1}|^{A(f)}
+          \right) + \left(
+            \sum_{f \in \mathcal{F}} |\mathbb{T}_{0}|^{A(f)}
           \right) + |\mathbb{T}_{0}| \\
         &= \left(
-          \sum_{h = 1}^{H - 1}\,
+          \sum_{h = 0}^{H - 1}\,
             \sum_{f \in \mathcal{F}} 
               \mathbb{T}_{h}(\mathcal{T},\, \mathcal{F})|^{A(f)}
           \right) + |\mathcal{T}|
@@ -228,26 +230,33 @@
   \begin{align*}
     |\mathcal{S}| 
       &= |\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})| 
-        = \left(\mathlarger{\sum}_{h = 1}^{4}\,
+        = \left(\mathlarger{\sum}_{h = 0}^{4}\,
           \mathlarger{\sum}_{f \in \mathcal{F}} 
           |\mathbb{T}_{h}(\mathcal{T},\, \mathcal{F})|^{A(f)}
         \right) + 8 \\
-      &= \left(
-          \sum_{h = 1}^{4}\, \left(
-            4 \cdot |\mathbb{T}_{h}(\mathcal{T},\, \mathcal{F})|^{2} +
-            4 \cdot |\mathbb{T}_{h}(\mathcal{T},\, \mathcal{F})|^{1}
-          \right)
-        \right) + 8 \\
-      &= 4 \left(
-          \sum_{h = 1}^{4}\, (
-            |\mathbb{T}_{h}(\mathcal{T},\, \mathcal{F})|^{2} +
-            |\mathbb{T}_{h}(\mathcal{T},\, \mathcal{F})|
-          )
-        \right) + 8 \\
-      &= \left(
-          4 \sum_{h = 1}^{4}\, (
-            |\mathbb{T}_{h}(\mathcal{T},\, \mathcal{F})|^{2} +
-            |\mathbb{T}_{h - 1}(\mathcal{T},\, \mathcal{F})|
-          )
-        \right) + 8 \\
+      &\approx 9.532\,942 \times 10^{36}
   \end{align*}
+
+  Thus, the search space of the genetic programming algorithm is of the order of
+  \(10^{36}\) programs.\footnote{%
+    This value was computed using the script shown in 
+    \vref{lst:cardinality_of_T_leq_5}.
+  }
+  It should be easy to see that the size of the search space make it unfeasible
+  to perform an exhaustive search.
+  This is why we need to use a heuristic search algorithm, such as genetic
+  programming.
+  In \vref{fig:bg:gp:repr_ev:leq_h_height_trees} we can see how the number of
+  trees of height less or equal to \(h\) rapidly increases as \(h\) increases.
+
+  \begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/theoretical_framework/t_leq.png}
+    \caption{
+      Total number of trees of height less or equal to \(h\) for \(h \in
+      \{0,\, \ldots,\, 5\}\) and \(\mathcal{T} = \{x,\, c\}\) and \(\mathcal{F}
+      = \{+,\, -,\, \times,\, /,\, \sin,\, \cos,\, \exp,\, \log\}\).
+      Note that the \(Y\) axis is in logarithmic scale.
+    }
+    \label{fig:bg:gp:repr_ev:leq_h_height_trees}
+  \end{figure}

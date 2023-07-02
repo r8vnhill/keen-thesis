@@ -1,0 +1,50 @@
+\chapter{Additional Listings}
+\label{app:Listings}
+  This appendix contains additional listings of the source code used in this
+  thesis that are not essential to the understanding of the thesis.
+  The listings are included here for completeness.
+  
+  \begin{src}
+    \captionof{listing}{%
+      Calculation of \(|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|\) for 
+      \(\mathcal{T} = \{x,\, c\}\) and the set \(\mathcal{F} = \{+,\, -,\, 
+      \times,\, /,\, \sin,\, \cos,\, \exp,\, \log\}\).
+      \\ % Some vertical space before the listing.
+    }
+    \label{lst:cardinality_of_T_leq_5}
+    \begin{minted}{julia}
+      # A([+ - * / sin cos exp log]) = [2 2 2 2 1 1 1 1]
+      arities = [2 2 2 2 1 1 1 1]
+      # |T| = |[x 1 2 3 4 5 6 7]| = 8
+      terminals_size = 8
+      """
+          t_leq(h)
+
+      Calculates the total number of trees of height less or equal to `h`.
+      """
+      function t_leq(h::UInt8)::Int128
+        if h == 0
+          return terminals_size
+        else
+          c_sum = terminals_size
+          for i = 0:h - 1
+            c_sum = c_sum + sum(t(i) .^ arities)
+          end
+          return c_sum
+        end
+      end
+      """
+          t(h)
+
+      Calculates the total number of trees of height `h`.
+      """
+      function t(h::UInt8)::Int128
+        if h == 0
+          terminals_size
+        else
+          sum(t(h - 1) .^ arities) 
+        end
+      end
+      res = t_leq(5)
+    \end{minted}
+  \end{src}

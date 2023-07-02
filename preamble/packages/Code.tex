@@ -1,0 +1,22 @@
+% | minted (with the chapter and newfloat options) - Syntax highlighting for code 
+% | snippets in the document
+% |
+% | The minted package provides advanced features for syntax highlighting in LaTeX
+% | documents. It uses Pygments, a Python-based syntax highlighter, which provides 
+% | support for a wide range of programming and markup languages. The minted package 
+% | provides a flexible and customizable interface for including source code in a 
+% | document. 
+% |
+% | The 'chapter' option places the listing number before the figure or table number. 
+% | For instance, Listing 2.3 will be the third listing in the second chapter. This 
+% | option improves the organization of documents, especially those with a large 
+% | number of code snippets.
+% |
+% | The 'newfloat' option is used to define a new floating environment for code 
+% | listings. This allows listings to be included in documents in a way similar to 
+% | figures and tables.
+% |
+% | Note: The minted package requires the '--shell-escape' flag to be enabled 
+% | during the LaTeX compilation process because it interfaces with Pygments 
+% | (a Python library) externally.
+\usepackage[chapter, newfloat, cache=false]{minted}

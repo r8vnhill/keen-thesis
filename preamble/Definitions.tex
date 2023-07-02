@@ -10,4 +10,10 @@
 \ExplSyntaxOff
 
 \subimport{./}{Theorems.tex}
-% \RenewDocumentCommand { \chaptermark }{ m }{ \leftmark{\theHchapter.~#1} }
+\NewDocumentEnvironment{src}{
+  % No arguments.
+}{
+  \captionsetup{type=listing}
+}{
+  % No after code.
+}

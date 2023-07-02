@@ -12,7 +12,7 @@ Whenever LaTeX is needed, use proper code formatting, e.g.:
 \end{equation}
 ```
 
-## Rule 2: Documentation comments
+## Rule 2: Documentation comments for LaTeX commands and packages
 
 Whenever asked for a documentation comment you should use the following syntax:
 ```latex
@@ -34,3 +34,28 @@ For the command and package names you should:
 Ensure that no line in a code snippet surpasses 80 characters. 
 If necessary, break up the lines and use proper indentation for readability and 
 adherence to common coding standards.
+
+## Rule 4: Documentation for Julia functions
+
+Whenever asked for a documentation comment you should use the following syntax:
+
+```julia
+"""
+    <function name>(<parameter name>)
+
+<short description>
+
+<extended description>
+
+# Arguments
+- `<parameter name>` - <parameter description>
+- `<parameter name>` - <parameter description>
+- ...
+
+# Examples
+\```julia-repl
+julia> <function name>(<parameter name>)
+<output>
+\```
+"""
+```
