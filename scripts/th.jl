@@ -1,8 +1,8 @@
 using Plots; pythonplot()
 using LaTeXStrings
 
-# A([+ - * / sin cos exp log]) = [2 2 2 2 1 1 1 1]
-arities = [2 2 2 2 1 1 1 1]
+# A([+ - * / sin cos exp log]) = [2 2 2 2 1 1 1]
+arities = [2 2 2 2 1 1 2]
 # |T| = |[x 1 2 3 4 5 6 7]| = 8
 terminals_size = 8
 
@@ -11,7 +11,7 @@ terminals_size = 8
 
 Calculates the total number of trees of height less or equal to `h`.
 """
-function t_leq(h::UInt8)::UInt128
+function t_leq(h::Int)::Int128
   if h == 0
     return terminals_size
   else
@@ -28,7 +28,7 @@ end
 
 Calculates the total number of trees of height `h`.
 """
-function t(h::UInt8)::UInt128
+function t(h::Int)::Int128
   if h == 0
     terminals_size
   else
@@ -37,12 +37,12 @@ function t(h::UInt8)::UInt128
 end
 
 x = 1:5
-y = t_leq.(x)
+y = @. t_leq(x)
 println(y)
 plot(x, y, lw=2, legend=false, yaxis=:log)
 xlabel!(L"$h$")
 ylabel!(L"$|T_{\leq h}|$")
-png("img/theoretical_framework/t_leq.png")
+# png("img/theoretical_framework/t_leq.png")
 # res = t_leq(5)
 # println(res)
 # clipboard("$res")
