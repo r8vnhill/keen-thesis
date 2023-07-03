@@ -1,8 +1,8 @@
 using Plots; pythonplot()
 using LaTeXStrings
 
-# A([+ - * / sin cos exp log]) = [2 2 2 2 1 1 1]
-arities = [2 2 2 2 1 1 2]
+# A([+ - * / sin cos pow]) = [2 2 2 2 1 1 2]
+arities = [2, 2, 2, 2, 1, 1, 2]
 # |T| = |[x 1 2 3 4 5 6 7]| = 8
 terminals_size = 8
 
@@ -42,7 +42,7 @@ println(y)
 plot(x, y, lw=2, legend=false, yaxis=:log)
 xlabel!(L"$h$")
 ylabel!(L"$|T_{\leq h}|$")
-# png("img/theoretical_framework/t_leq.png")
-# res = t_leq(5)
-# println(res)
-# clipboard("$res")
+png("img/theoretical_framework/t_leq.png")
+res = t_leq(5)
+println(res)
+clipboard("$res")

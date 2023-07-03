@@ -217,13 +217,14 @@
 
   \[
     A(f) = \begin{cases}
-      2 & \text{if } f \in \{+,\, -,\, \times,\, /\} \\
-      1 & \text{if } f \in \{\sin,\, \cos,\, \exp,\, \log\}
+      2 & \text{if } f \in \{+,\, -,\, \times,\, /,\, \mathrm{pow}\} \\
+      1 & \text{if } f \in \{\sin,\, \cos\}
     \end{cases}
   \]
 
-  Given that the height of the AST of the target program is 5, we can use that
-  value as the maximum height of the programs in the search space.
+  Given that the height of the AST of the target program is 4, we can use 5 as 
+  the maximum height of the programs in the search space (to allow a little of
+  \enquote{breathing room} to the generated programs).
   Noting that, since \(c\) can be one of 7 possible values, \(|\mathcal{T}| = 
   8\), we can calculate the cardinality of the search space as follows:
 
@@ -234,11 +235,12 @@
           \mathlarger{\sum}_{f \in \mathcal{F}} 
           |\mathbb{T}_{h}(\mathcal{T},\, \mathcal{F})|^{A(f)}
         \right) + 8 \\
-      &\approx 9.532\,942 \times 10^{36}
+      &\approx 9.531\,142 \times 10^{37}  \\
+      &\approx 10^{38}
   \end{align*}
 
   Thus, the search space of the genetic programming algorithm is of the order of
-  \(10^{36}\) programs.\footnote{%
+  \(10^{38}\) programs.\footnote{%
     This value was computed using the script shown in 
     \vref{lst:cardinality_of_T_leq_5}.
   }
@@ -255,7 +257,7 @@
     \caption{
       Total number of trees of height less or equal to \(h\) for \(h \in
       \{0,\, \ldots,\, 5\}\) and \(\mathcal{T} = \{x,\, c\}\) and \(\mathcal{F}
-      = \{+,\, -,\, \times,\, /,\, \sin,\, \cos,\, \exp,\, \log\}\).
+      = \{+,\, -,\, \times,\, /,\, \sin,\, \cos,\, \mathrm{pow}\}\).
       Note that the \(Y\) axis is in logarithmic scale.
     }
     \label{fig:bg:gp:repr_ev:leq_h_height_trees}
