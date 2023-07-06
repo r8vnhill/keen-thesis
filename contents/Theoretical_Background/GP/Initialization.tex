@@ -13,14 +13,6 @@
     A tree with a height of 0 is a tree with only one node, the root.
   \end{remark}
 
-  \begin{remark}
-    The tree in \vref{fig:bg:gp:repr_ev:tree} has a height
-    of 5, as the longest path from the root to a leaf is 
-    \[
-      - \to + \to - \to \times \to \mathrm{exp} \to x
-    \]
-  \end{remark}
-
   The grow method then proceeds to recursively generate the trees with random
   nodes until a terminal node is selected or the maximum height is reached.
   This method is shown in \vref{alg:genetic_programming:initialization:grow}.
@@ -66,12 +58,43 @@
   population.
   Assuming a population size of \(p = 4\), a maximum height of \(h = 3\), a
   minimum height of \(l = 1\), and the primitives set defined in the previous
-  section, the algorithm could generate the population shown in
-  \vref{fig:genetic_programming:initialization:population}.
+  section, the algorithm could generate the population: 
+  \(
+    \mathbf{P} = \{\mathbf{I}_1,\,\mathbf{I}_2,\,\mathbf{I}_3,\,\mathbf{I}_4\} 
+      = \left\{
+        \frac{3}{\sin(2)} \times 5^3,\,
+        7 - (5 + \sin(x)),\,
+        7 + 2,\,
+        5x^2
+      \right\}
+  \), as shown in \vref{fig:genetic_programming:initialization:population}.
 
   \begin{figure}[ht!]
     \centering
-    \includegraphics[width=\textwidth]{img/theoretical_framework/GP Initial Population.png}
+    \begin{subfigure}[t]{0.4\textwidth}
+      \centering
+      \includegraphics[height=5.5cm]{img/theoretical_framework/GP Initial Population 1.png}
+      \caption{\(\mathbf{I}_1 = \mathlarger{\frac{3}{\sin(2)}} \times 5^3\)}
+      \label{fig:genetic_programming:initialization:population:1}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.4\textwidth}
+      \centering
+      \includegraphics[height=5.5cm]{img/theoretical_framework/GP Initial Population 2.png}
+      \caption{\(\mathbf{I}_2 = 7 - (5 + \sin(x))\)}
+      \label{fig:genetic_programming:initialization:population:2}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.4\textwidth}
+      \centering
+      \includegraphics[height=2.75cm]{img/theoretical_framework/GP Initial Population 3.png}
+      \caption{\(\mathbf{I}_3 = 7 + 2\)}
+      \label{fig:genetic_programming:initialization:population:3}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.4\textwidth}
+      \centering
+      \includegraphics[height=4.125cm]{img/theoretical_framework/GP Initial Population 4.png}
+      \caption{\(\mathbf{I}_4 = 5x^2\)}
+      \label{fig:genetic_programming:initialization:population:4}
+    \end{subfigure}
     \caption{A population of random trees.}
     \label{fig:genetic_programming:initialization:population}
   \end{figure}
@@ -82,26 +105,26 @@
   the actual output of the individual.
 
   \begin{align*}
-    \mathrm{MSE}(\mathbf{y}, I_1[\mathbf{x}])
-      & = \frac{1}{10} \sum_{i=1}^{10} (\mathbf{y}_i - I_1(\mathbf{x}_i))^2
+    \mathrm{MSE}(\mathbf{y}, \mathbf{I}_1[\mathbf{x}])
+      & = \frac{1}{10} \sum_{i=1}^{10} (\mathbf{y}_i - \mathbf{I}_1(\mathbf{x}_i))^2
         = \frac{1}{10} \sum_{i=1}^{10} \left(
           \mathbf{y}_i - \frac{3}{\sin(2)} \cdot 5^3\right)^2 \\
-      & = 177596.85113055952  \\
-    \mathrm{MSE}(\mathbf{y}, I_2[\mathbf{x}])
-      & = \frac{1}{10} \sum_{i=1}^{10} (\mathbf{y}_i - I_2(\mathbf{x}_i))^2
+      & \approx 177\,596.851\,131  \\
+    \mathrm{MSE}(\mathbf{y}, \mathbf{I}_2[\mathbf{x}])
+      & = \frac{1}{10} \sum_{i=1}^{10} (\mathbf{y}_i - \mathbf{I}_2(\mathbf{x}_i))^2
         = \frac{1}{10} \sum_{i=1}^{10} \left(
           \mathbf{y}_i - 7 - (5 + \sin(x_i))\right)^2 \\
-      & = 137.39883553479902  \\
-    \mathrm{MSE}(\mathbf{y}, I_3[\mathbf{x}])
-      & = \frac{1}{10} \sum_{i=1}^{10} (\mathbf{y}_i - I_3(\mathbf{x}_i))^2
+      & \approx 137.398\,836  \\
+    \mathrm{MSE}(\mathbf{y}, \mathbf{I}_3[\mathbf{x}])
+      & = \frac{1}{10} \sum_{i=1}^{10} (\mathbf{y}_i - \mathbf{I}_3(\mathbf{x}_i))^2
         = \frac{1}{10} \sum_{i=1}^{10} \left(
           \mathbf{y}_i - (7 + 2)\right)^2 \\
-      & = 331.9242673984617 \\
-    \mathrm{MSE}(\mathbf{y}, I_4[\mathbf{x}])
-      & = \frac{1}{10} \sum_{i=1}^{10} (\mathbf{y}_i - I_4(\mathbf{x}_i))^2
+      & \approx 331.924\,267 \\
+    \mathrm{MSE}(\mathbf{y}, \mathbf{I}_4[\mathbf{x}])
+      & = \frac{1}{10} \sum_{i=1}^{10} (\mathbf{y}_i - \mathbf{I}_4(\mathbf{x}_i))^2
         = \frac{1}{10} \sum_{i=1}^{10} \left(
           \mathbf{y}_i - 5x^2\right)^2 \\
-      & = 138.07986538961543
+      & \approx 138.079\,865
   \end{align*}
 
   With this, we can assign a fitness to each individual in the population as
@@ -117,11 +140,11 @@
       \hline
       \textbf{Individual} & \textbf{Program} & \textbf{Depth} & \textbf{Fitness} \\
       \hline
-      \(I_1\) 
+      \(\mathbf{I}_1\) 
         & \Gape[2pt][2pt]{\(\frac{3}{\sin(2)} \times 5^3 \)} & 3 & 177\,596.851\,131 \\
-      \(I_2\) & \Gape[2pt][2pt]{\(7 - (5 + \sin(x))\)} & 3 & 137.398\,836 \\
-      \(I_3\) & \Gape[2pt][2pt]{\(7 + 2\)} & 1 & 331.924\,267 \\
-      \(I_4\) & \Gape[2pt][2pt]{\(5x^2\)} & 2 & 138.079\,865
+      \(\mathbf{I}_2\) & \Gape[2pt][2pt]{\(7 - (5 + \sin(x))\)} & 3 & 137.398\,836 \\
+      \(\mathbf{I}_3\) & \Gape[2pt][2pt]{\(7 + 2\)} & 1 & 331.924\,267 \\
+      \(\mathbf{I}_4\) & \Gape[2pt][2pt]{\(5x^2\)} & 2 & 138.079\,865
     \end{tabular}
     \caption{Population of individuals in generation 0}
     \label{tab:genetic_programming:initialization:population}
@@ -133,8 +156,8 @@
       \hline
       & \textbf{Fitness} & \textbf{Individual}  \\
       \hline
-      Best & 137.398\,836 & \(I_2\) \\
-      Worst & 177\,596.851\,131 & \(I_1\) \\
+      Best & 137.398\,836 & \(\mathbf{I}_2\) \\
+      Worst & 177\,596.851\,131 & \(\mathbf{I}_1\) \\
       \hline
       \hline
       Average & \multicolumn{2}{r|}{44\,551.063\,525} \\
@@ -153,7 +176,7 @@
 
   A graphical representation of the population is shown in
   \vref{fig:genetic_programming:initialization:population_graph}.
-  It is clear from the figure that the worst individual is \(I_1\).
+  It is clear from the figure that the worst individual is \(\mathbf{I}_1\).
 
   \begin{figure}[ht!]
     \centering
