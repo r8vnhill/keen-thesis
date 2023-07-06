@@ -39,7 +39,7 @@ end
 x = 1:5
 y = @. t_leq(x)
 println(y)
-plot(x, y, lw=2, legend=false, yaxis=:log)
+plot(x, y, lw=2, legend=false, yaxis=:log, tickfontsize=14, guidefontsize=16)
 xlabel!(L"$h$")
 ylabel!(L"$|T_{\leq h}|$")
 png("img/theoretical_framework/t_leq.png")

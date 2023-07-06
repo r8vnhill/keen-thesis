@@ -51,7 +51,7 @@ Individual 4: 5 * x^2
 I_4(x) = 5 * x.^2
 
 println("Plotting the population and the target function...")
-plot(f, label=L"$f(x)$", lw=2)
+plot(f, label=L"$f(x)$", lw=2, tickfontsize=12, legendfontsize=12, legend=:bottomright, guidefontsize=14)
 plot!(I_1, label=L"$\mathrm{I}_1(x)$", lw=1)
 plot!(I_2, label=L"$\mathrm{I}_2(x)$", lw=2, ls=:dot)
 plot!(I_3, label=L"$\mathrm{I}_3(x)$", lw=2, ls=:dashdot)

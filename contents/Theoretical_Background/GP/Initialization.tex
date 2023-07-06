@@ -7,7 +7,7 @@
   simple) method is the \emph{grow 
   method}~\autocite{kozaGeneticProgrammingProgramming1992a}.
   In this method, a maximum height is defined, and the algorithm then creates a
-  random tree with a height between 0 and the maximum height.
+  random tree with a given minimum height and a maximum height.
 
   \begin{remark}
     A tree with a height of 0 is a tree with only one node, the root.
@@ -29,9 +29,12 @@
       \Function{\(\mathrm{grow}\)}{$\mathbf{t}$, $\mathbf{f}$, $d$}
         \State \(c \gets \emptyset\)
         \If{
-          \(d = n\ \lor\ \left(d \geq l\ 
-            \land\ \mathrm{random}() < \frac{|\mathrm{t}|}{|\mathrm{t}| 
-              + |\mathrm{f}|}\right)\)
+          \(d = n\ 
+            \lor\ \left(
+              d \geq l\ 
+              \land\ \mathrm{random}() 
+                < \mathlarger{\frac{|\mathrm{t}|}{|\mathrm{t}| + |\mathrm{f}|}}
+            \right)\)
         }
           \State \Return a random node from \(\mathbf{t}\)
         \Else
@@ -50,8 +53,7 @@
   \end{algorithm}
 
   With this method, the algorithm can generate trees where the size of the 
-  shortest path from the root to a leaf is \(l\) and the size of the longest
-  path is \(h\).
+  longest path from the root to a leaf is a number \(n \in [l, h]\).
 
   Now that the algorithm can generate random trees, it can generate a random
   population of trees by generating a random tree for each individual in the
