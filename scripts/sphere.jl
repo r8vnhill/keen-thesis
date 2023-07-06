@@ -9,7 +9,7 @@ x = range(-5, 5, length=100)
 y = range(-5, 5, length=100)
 z = @. sphere(x', y)
 
-contour(x, y, z, levels=20, lw=1, fill=true, color=:batlowK50)
+contour(x, y, z, levels=100, lw=1, fill=true, color=:batlowK50)
 xlabel!(L"$x$")
 ylabel!(L"$y$")
 png("img/test_functions/sphere_contour.png")

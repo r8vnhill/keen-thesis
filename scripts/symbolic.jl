@@ -5,7 +5,7 @@ using Statistics
 """
 Calculates the mean squared error between the observed and predicted values.
 """
-function mse(observed::Vector{Float64}, prediction::Vector{Float64})
+function mse(observed::Vector{Float64}, prediction::Vector{Float64})::Float64
   return sum((observed - prediction).^2) / length(observed)
 end
 
@@ -52,10 +52,10 @@ I_4(x) = 5 * x.^2
 
 println("Plotting the population and the target function...")
 plot(f, label=L"$f(x)$", lw=2)
-plot!(I_1, label=L"$I_1(x)$", lw=1)
-plot!(I_2, label=L"$I_2(x)$", lw=2, ls=:dot)
-plot!(I_3, label=L"$I_3(x)$", lw=2, ls=:dashdot)
-plot!(I_4, label=L"$I_4(x)$", lw=2, ls=:dash)
+plot!(I_1, label=L"$\mathrm{I}_1(x)$", lw=1)
+plot!(I_2, label=L"$\mathrm{I}_2(x)$", lw=2, ls=:dot)
+plot!(I_3, label=L"$\mathrm{I}_3(x)$", lw=2, ls=:dashdot)
+plot!(I_4, label=L"$\mathrm{I}_4(x)$", lw=2, ls=:dash)
 title!("Individuals of the population and the target function")
 xlabel!(L"$x$")
 ylabel!(L"$f(x)$")
@@ -109,15 +109,15 @@ open("data/gp_sym_probabilities_1.txt", "w") do io
   println(io, "Individual  & Fitness & Selection Probability \\\\")
   println(io, "\\hline")
   for (i, fitness, prob) in zip(eachindex(mses), mses, probabilities)
-    println(io, "\\(I_", i, "\\) & ", fitness, " & ", prob * 100, "\\% \\\\")
+    println(io, "\\(\\mathrm{I}_", i, "\\) & ", fitness, " & ", prob * 100, "\\% \\\\")
   end
   println(io, "\\hline")
 end
 
 println("Plotting the population and the target function...")
 plot(f, -1, 1, label=L"$f(x)$", lw=2)
-plot!(I_2, label=L"$I_2(x)$", lw=2, ls=:dot)
-plot!(I_3, label=L"$I_3(x)$", lw=2, ls=:dashdot)
+plot!(I_2, label=L"$\mathrm{I}_2(x)$", lw=2, ls=:dot)
+plot!(I_3, label=L"$\mathrm{I}_3(x)$", lw=2, ls=:dashdot)
 title!("Survivors of the population and the target function")
 xlabel!(L"$x$")
 ylabel!(L"$f(x)$")
