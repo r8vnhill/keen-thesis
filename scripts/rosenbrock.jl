@@ -20,16 +20,33 @@ end
 
 x = range(-5, 5, length=100)
 y = range(-5, 5, length=100)
-z = @. rosenbrock(x', y)
+log_z = @. log(rosenbrock(x', y))
 
 println("Creating contour plot...")
-contour(x, y, z, levels=20, lw=1, fill=true, color=:batlowK50)
+contour(
+  x, 
+  y, 
+  log_z, 
+  levels=100, 
+  fill=true,
+  tickfontsize=14,
+  color=:batlowK50, 
+  colorbar_ticks=(-3:2:12, [latexstring("\$10^{$i}\$") for i in -3:2:12]),
+  colorbar_tickfontsize=14
+)
 xlabel!(L"$x$")
 ylabel!(L"$y$")
 # png("img/test_functions/rosenbrock_contour.png")
 
 # println("Creating surface plot...")
-# surface(x, y, z, color=:batlowK50)
+# surface(
+#   x, 
+#   y, 
+#   log_z, 
+#   color=:batlowK50,
+#   colorbar_ticks=(-3:2:12, [latexstring("\$10^{$i}\$") for i in -3:2:12]),
+#   colorbar_tickfontsize=14
+# )
 # xlabel!(L"$x$")
 # ylabel!(L"$y$")
-# png("img/test_functions/rosenbrock_surface.png")
+# # png("img/test_functions/rosenbrock_surface.png")
