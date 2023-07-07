@@ -1,48 +1,61 @@
-\section{Rastrigin Function}
+\section{Rastrigin Function: A Non-Convex Optimization Benchmark}
 \label{sec:test_functions:rastrigin}
-  The Rastrigin function is a non-convex function used as a performance test problem for 
-  optimization algorithms.
-  It is a typical example of non-linear multimodal function.
-  It was first proposed by Rastrigin in 1974.\footnote{
-    Rastrigin, L. A. \enquote{Systems of extremal control.} Mir, Moscow (1974).
-  }
+
+  The Rastrigin function, first proposed by Rastrigin in 1974\footnote{
+    Rastrigin, L. A. (1974). \enquote{Systems of extremal control.} Mir, Moscow.
+  }, is a prominent non-convex function utilized as a benchmark for optimization
+  algorithms.
+  This function is a classic example of non-linear multimodal optimization
+  problems, known for their complexity due to the abundance of local minima.
 
   \begin{definition}[Rastrigin Function]
-    \label{def:test_functions:rastrigin}
-    The \emph{Rastrigin function}, \(f: \mathbb{R}^n \rightarrow \mathbb{R}\), is defined as:
+  \label{def:test_functions:rastrigin}
+    The \emph{Rastrigin function}, denoted as \(f:\:\mathbb{R}^n \rightarrow 
+    \mathbb{R}\), is formulated as:
 
     \begin{equation}
-      \label{eq:test_functions:rastrigin}
-      f(\mathbf{x}) = An + \sum_{i=1}^{n} \left[ \mathbf{x}_i^2 - A\cos(2\pi \mathbf{x}_i) \right]
+    \label{eq:test_functions:rastrigin}
+      f(\mathbf{x}) = An + \sum_{i=1}^{n} \left[
+        \mathbf{x}_i^2 - A\cos(2\pi \mathbf{x}_i)
+      \right]
     \end{equation}
       
-    where:
-
+    Here, 
     \begin{itemize}
       \item \(n\) is the number of dimensions.
-      \item \(\mathbf{x}\) is a vector of \(n\) real values.
+      \item \(\mathbf{x}\) is a vector composed of \(n\) real numbers.
+      \item \(A\) is a constant, typically set to 10.
     \end{itemize}
+
   \end{definition}
 
-  The global minimum of the Rastrigin function is \(f(\mathbf{x}^*) = 0\) at \(\mathbf{x}^* = 
-  (0, \ldots, 0)\).
-  The function has many local minima, which are regularly distributed.
-  The \(A\) parameter controls the depth of the local minima.
-  The function is usually evaluated on the hypercube \(\mathbf{x} \in 
-  [-5.12,\, 5.12]^n\).
-  A contour plot and a surface plot of the Rastrigin function for \(n = 2\) are shown in
-  \vref{fig:test_functions:rastrigin}.
+  The global minimum of the Rastrigin function is situated at \(\mathbf{x}^* =
+  (0, \ldots, 0)\), with \(f(\mathbf{x}^*) = 0\).
+  It's particularly challenging due to its numerous local minima, distributed
+  regularly throughout the search space. The function is predominantly evaluated
+  within the hypercube \(\mathbf{x} \in [-5.12,\, 5.12]^n\).
+
+  Visualizations of the Rastrigin function for \(n = 2\) are presented in
+  \vref{fig:test_functions:rastrigin}, showcasing both the contour plot and the
+  3D surface plot.
 
   \begin{figure}[ht!]
     \centering
-    \begin{subfigure}[b]{0.4\textwidth}
+    \begin{subfigure}[b]{0.45\textwidth}
       \centering
       \includegraphics[width=\textwidth]{img/test_functions/rastrigin_contour.png}
+      \caption{Contour plot of the Rastrigin Function.}
+      \label{fig:test_functions:rastrigin:contour}
     \end{subfigure}
-    \begin{subfigure}[b]{0.4\textwidth}
+    \begin{subfigure}[b]{0.45\textwidth}
       \centering
       \includegraphics[width=\textwidth]{img/test_functions/rastrigin_surface.png}
+      \caption{3D surface plot of the Rastrigin Function.}
+      \label{fig:test_functions:rastrigin:surface}
     \end{subfigure}
-    \caption{Rastrigin Function for \(n = 2\)}
+    \caption{
+      Visualizations of the Rastrigin Function for \(n = 2\), with the global
+      minimum marked by a red dot.
+    }
     \label{fig:test_functions:rastrigin}
   \end{figure}

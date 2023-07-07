@@ -2,19 +2,42 @@ using Plots; pythonplot()
 using LaTeXStrings
 
 A = 10
-f(x_1, x_2) = 2A + x_1^2 - A * cos(2π * x_1) + x_2^2 - A * cos(2π*x_2)
+function rastrigin(x::Float64, y::Float64)::Float64
+  return 2A + x^2 - A * cos(2π * x) + y^2 - A * cos(2π * y)
+end
+  
 
-x_1 = range(-5.12, 5.12, length=100)
-x_2 = range(-5.12, 5.12, length=50)
-z = @. f(x_1', x_2)
+x = range(-5.12, 5.12, length=100)
+y = range(-5.12, 5.12, length=100)
+z = @. rastrigin(x', y)
 
-contour(x_1, x_2, f, levels=20, lw=1, fill=true, color=:batlowK50)
-xlabel!(L"$x_1$")
-ylabel!(L"$x_2$")
+println("Creating contour plot...")
+contour(
+  x, y, z, 
+  levels=100, 
+  fill=true, 
+  color=:batlowK50,
+  tickfontsize=12, 
+  guidefontsize=14, 
+  colorbar_tickfontsize=12
+)
+contour!(x, y, z, levels=10, lw=1, color=:black, legend=false)
+scatter!([0], [0], color=:red, ms=6, legend=false)
+xlabel!(L"$x$")
+ylabel!(L"$y$")
+display(plot!())
 png("img/test_functions/rastrigin_contour.png")
 
-surface(x_1, x_2, z, color=:batlowK50)
-xlabel!(L"$x_1$")
-ylabel!(L"$x_2$")
+println("Creating surface plot...")
+surface(
+  x, y, z, 
+  color=:batlowK50,
+  colorbar=false, 
+  tickfontsize=12, 
+  guidefontsize=14
+)
+xlabel!(L"$x$")
+ylabel!(L"$y$")
 zlabel!(L"$f(x)$")
+display(plot!())
 png("img/test_functions/rastrigin_surface.png")

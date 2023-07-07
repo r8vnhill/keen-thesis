@@ -123,3 +123,56 @@ xlabel!(L"$x$")
 ylabel!(L"$f(x)$")
 
 png("img/theoretical_framework/gp_pop_sel_survivors.png")  # Save the plot to a file.
+
+"""
+Output 1: 7 - x^2 + sin(x)
+"""
+O_1(x) = @. (7 - x^2 + sin(x))
+
+
+"""
+Output 2: 5 * 5
+"""
+O_2(_) = 5.0 * 5
+
+# """
+# Individual 3: 7 + 2
+# """
+# I_3(_) = 7.0 + 2
+
+# """
+# Individual 4: 5 * x^2
+# """
+# I_4(x) = 5 * x.^2
+
+println("Plotting the population and the target function...")
+plot(f, label=L"$f(x)$", lw=2, tickfontsize=12, legendfontsize=12, legend=:bottomright, guidefontsize=14)
+plot!(O_1, label=L"$\mathrm{O}_1(x)$", lw=1)
+plot!(O_2, label=L"$\mathrm{O}_2(x)$", lw=2, ls=:dot)
+# plot!(I_3, label=L"$\mathrm{O}_3(x)$", lw=2, ls=:dashdot)
+# plot!(I_4, label=L"$\mathrm{O}_4(x)$", lw=2, ls=:dash)
+title!("Individuals of the population and the target function")
+xlabel!(L"$x$")
+ylabel!(L"$f(x)$")
+display(plot!())
+png("img/theoretical_framework/gp_pop_crossover.png")  # Save the plot to a file.
+
+"""
+Mean squared errors.
+"""
+mses = [
+  mse(f.(xs), O_1.(xs))
+  mse(f.(xs), O_2.(xs))
+  # mse(f.(xs), O_3.(xs))
+  # mse(f.(xs), O_4.(xs))
+]
+println("Mean squared errors: ", mses)
+
+# Save the mean squared errors to a file.
+open("data/bg_gp_sym_mse_crossover.txt", "w") do io
+  for (i, mse) in zip(eachindex(mses), mses)
+    println(io, "mse(f(x), O_", i, "(x)) = ", mse)
+  end
+  println(io, "average = ", mean(mses))
+  println(io, "std = ", std(mses))
+end
