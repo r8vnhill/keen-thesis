@@ -51,11 +51,5 @@ Whenever asked for a documentation comment you should use the following syntax:
 - `<parameter name>` - <parameter description>
 - `<parameter name>` - <parameter description>
 - ...
-
-# Examples
-\```julia-repl
-julia> <function name>(<parameter name>)
-<output>
-\```
 """
 ```
