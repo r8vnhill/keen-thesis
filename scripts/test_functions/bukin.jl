@@ -1,58 +1,28 @@
 using Plots; pythonplot()
 using LaTeXStrings
+include("../commons/draw.jl")
 
-function bukin(x::Float64, y::Float64)::Float64
-    return 100 * sqrt(abs(y - 0.01 * x^2)) + 0.01 * abs(x + 10)
-end
+"""
+    bukin(x::Float64, y::Float64)::Float64
 
-x = range(-15, -5, length=100)
-y = range(-3, 3, length=100)
-log_z = @. log(bukin(x', y))
+Calculate the Bukin function, which is commonly used as a performance test problem
+  for optimization algorithms.
 
-max = maximum(log_z)
-min = minimum(log_z)
-step = (max - min) / 4
+# Arguments
+  - `x::Float64`: the first dimension value
+  - `y::Float64`: the second dimension value
 
-println("Creating contour plot...")
-contour(
-  x, y, log_z,
-  levels=100,
-  fill=true,
-  color=:batlowK50,
-  tickfontsize=12,
-  guidefontsize=14,
-  colorbar_tickfontsize=12,
-  colorbar_ticks=(min:step:max, [latexstring(
-    if trunc(Int, i) == 0
-      "\$1\$"
-    else
-      "\$10^{$(trunc(Int, i))}\$"
-    end
-  ) for i in min:step:max])
+# Returns
+  The calculated Bukin function value as a Float64.
+"""
+bukin(x::Float64, y::Float64)::Float64 = 
+  100 * sqrt(abs(y - 0.01 * x^2)) + 0.01 * abs(x + 10)
+
+draw(
+  x_range = -15 => -5,
+  y_range = -3 => 3,
+  f = bukin,
+  minima = [-10] => [1],
+  name = "bukin",
+  log_scale = true
 )
-contour!(x, y, log_z, levels=10, lw=1, color=:black, legend=false)
-scatter!([-10], [1], color=:red, ms=6, legend=false)
-xlabel!(L"$x$")
-ylabel!(L"$y$")
-display(plot!())
-png("img/test_functions/bukin_contour.png")
-
-println("Creating surface plot...")
-surface(
-  x, y, log_z,
-  color=:batlowK50,
-  colorbar=false,
-  tickfontsize=12,
-  guidefontsize=14,
-  zticks=ticks=(min:step:max, [latexstring(
-    if trunc(Int, i) == 0
-      "\$1\$"
-    else
-      "\$10^{$(trunc(Int, i))}\$"
-    end
-  ) for i in min:step:max])
-)
-xlabel!(L"$x$")
-ylabel!(L"$y$")
-display(plot!())
-png("img/test_functions/bukin_surface.png")

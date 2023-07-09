@@ -1,42 +1,26 @@
 using Plots; pythonplot()
 using LaTeXStrings
+include("../commons/draw.jl")
 
-function sphere(x::Float64, y::Float64)
-    return x^2 + y^2
-end
+"""
+    sphere(x::Number, y::Number)::Number
 
-x = range(-5, 5, length=100)
-y = range(-5, 5, length=100)
-z = @. sphere(x', y)
+Calculate the Sphere function, which is commonly used as a performance test problem
+    for optimization algorithms.
 
-max = maximum(z)
-min = minimum(z)
-step = (max - min) / 8
+# Arguments
+- `x::Number`: the first dimension value
+- `y::Number`: the second dimension value
 
-contour(
-    x, y, z,
-    levels=100,
-    fill=true,
-    color=:batlowK50,
-    tickfontsize=12, 
-    guidefontsize=14, 
-    colorbar_tickfontsize=12
+# Returns
+- The calculated Sphere function value as a Number.
+"""
+sphere(x::Number, y::Number)::Number = x^2 + y^2
+
+draw(
+    x_range = -10 => 10,
+    y_range = -10 => 10,
+    f = sphere,
+    minima = [0] => [0],
+    name = "sphere"
 )
-contour!(x, y, z, levels=10, lw=1, color=:black, legend=false)
-scatter!([0], [0], color=:red, ms=6, legend=false)
-xlabel!(L"$x$")
-ylabel!(L"$y$")
-display(plot!())
-png("img/test_functions/sphere_contour.png")
-
-surface(
-    x, y, z,
-    color=:batlowK50,
-    colorbar=false,
-    tickfontsize=12, 
-    guidefontsize=14
-)
-xlabel!(L"$x$")
-ylabel!(L"$y$")
-display(plot!())
-png("img/test_functions/sphere_surface.png")

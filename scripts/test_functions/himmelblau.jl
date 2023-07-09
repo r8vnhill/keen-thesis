@@ -1,64 +1,27 @@
 using Plots; pythonplot()
 using LaTeXStrings
+include("../commons/draw.jl")
 
-function himmelblau(x::Float64, y::Float64)::Float64
-    return (x^2 + y - 11)^2 + (x + y^2 - 7)^2
-end
+"""
+    himmelblau(x::Number, y::Number)::Number
 
-x = range(-5, 5, length=100)
-y = range(-5, 5, length=100)
-log_z = @. log(himmelblau(x', y))
+Calculate the Himmelblau function, which is commonly used as a performance test problem
+  for optimization algorithms.
 
-max = maximum(log_z)
-min = minimum(log_z)
-step = (max - min) / 4
+# Arguments
+  - `x::Number`: the first dimension value
+  - `y::Number`: the second dimension value
 
-println("Creating contour plot...")
-contour(
-  x, y, log_z,
-  levels=100,
-  fill=true,
-  color=:batlowK50,
-  tickfontsize=12,
-  guidefontsize=14,
-  colorbar_tickfontsize=12,
-  colorbar_ticks=(min:step:max, [latexstring(
-    if trunc(Int, i) == 0
-      "\$1\$"
-    else
-      "\$10^{$(trunc(Int, i))}\$"
-    end
-  ) for i in min:step:max])
+# Returns
+  The calculated Himmelblau function value as a Number.
+"""
+himmelblau(x::Number, y::Number)::Number = (x^2 + y - 11)^2 + (x + y^2 - 7)^2
+
+draw(
+  x_range = -5 => 5,
+  y_range = -5 => 5,
+  f = himmelblau,
+  minima = [3, -2.805118, -3.779310, 3.584428] => [2, 3.131312, -3.283186, -1.848126],
+  name = "himmelblau",
+  log_scale = true
 )
-contour!(x, y, log_z, levels=10, lw=1, color=:black, legend=false)
-scatter!(
-  [3, -2.805118, -3.779310, 3.584428], 
-  [2, 3.131312, -3.283186, -1.848126], 
-  color=:red, 
-  ms=6, 
-  legend=false
-)
-xlabel!(L"$x$")
-ylabel!(L"$y$")
-display(plot!())
-png("img/test_functions/himmelblau_contour.png")
-
-println("Creating surface plot...")
-surface(
-  x, y, log_z,
-  color=:batlowK50,
-  colorbar=false,
-  tickfontsize=12,
-  guidefontsize=14,
-  zticks=ticks=(min:step:max, [latexstring(
-    if trunc(Int, i) == 0
-      "\$1\$"
-    else
-      "\$10^{$(trunc(Int, i))}\$"
-    end
-  ) for i in min:step:max])
-)
-xlabel!(L"$x$")
-ylabel!(L"$y$")
-display(plot!())
-png("img/test_functions/himmelblau_surface.png")
