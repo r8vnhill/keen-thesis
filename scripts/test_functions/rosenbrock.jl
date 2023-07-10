@@ -22,7 +22,7 @@ draw(
   x_range = -5 => 5,
   y_range = -5 => 5,
   f = rosenbrock,
-  minima = [1] => [1],
+  minima = [1 => 1],
   name = "rosenbrock",
   log_scale = true
 )

@@ -23,7 +23,7 @@ draw(
   x_range = -10 => 10,
   y_range = -10 => 10,
   f = matyas,
-  minima = [0] => [0],
+  minima = [0 => 0],
   name = "matyas",
   log_scale = true
 )

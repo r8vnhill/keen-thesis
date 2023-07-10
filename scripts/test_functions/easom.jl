@@ -21,7 +21,7 @@ draw(
   x_range = -100 => 100,
   y_range = -100 => 100,
   f = easom,
-  minima = [pi; pi] => [pi; pi],
+  minima = [pi => pi],
   name = "easom",
 )
 
@@ -29,6 +29,6 @@ draw(
   x_range = 0 => 2 * pi,
   y_range = 0 => 2 * pi,
   f = easom,
-  minima = [pi; pi] => [pi; pi],
+  minima = [pi => pi],
   name = "easom_closeup",
 )

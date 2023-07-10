@@ -22,6 +22,6 @@ draw(
   x_range = -5.12 => 5.12,
   y_range = -5.12 => 5.12,
   f = rastrigin,
-  minima = [0] => [0],
+  minima = [0 => 0],
   name = "rastrigin",
 )

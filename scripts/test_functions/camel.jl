@@ -21,7 +21,7 @@ draw(
   x_range = -5 => 5,
   y_range = -5 => 5,
   f = three_hump_camel,
-  minima = [0] => [0],
+  minima = [0 => 0],
   name = "three_hump_camel",
   log_scale = true
 )

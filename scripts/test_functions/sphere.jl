@@ -21,6 +21,6 @@ draw(
     x_range = -10 => 10,
     y_range = -10 => 10,
     f = sphere,
-    minima = [0] => [0],
+    minima = [0 => 0],
     name = "sphere"
 )

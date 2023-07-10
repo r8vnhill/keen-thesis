@@ -22,7 +22,7 @@ draw(
   x_range = -15 => -5,
   y_range = -3 => 3,
   f = bukin,
-  minima = [-10] => [1],
+  minima = [-10 => 1],
   name = "bukin",
   log_scale = true
 )

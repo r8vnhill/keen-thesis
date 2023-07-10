@@ -1,26 +1,147 @@
 \subsubsection{Crossover}
-\label{sec:bg:gp:variation:crossover}
-  Since the individuals in GP are programs, all the variation operators must
-  preserve the syntactic correctness of the individuals.
-  In the case of crossover, this means that the resulting individuals must be
-  syntactically correct programs.
+\label{sec:bg:gp:var:cx}
+  Variation operators in Genetic Programming (GP) must maintain the syntactic 
+  correctness of the programs or individuals.
+  For crossover, this implies that the resultant offspring must be syntactically
+  correct programs.
+
+  The crossover operator used in Genetic Algorithms (GAs), described in 
+  \vref{sec:bg:ga:var:cx}, is not typically suitable for GP, as it does not 
+  guarantee the syntactic correctness of the resulting individuals.
+  Though there could be instances where the crossover operator used in GAs is
+  applicable to GP, as depicted in \vref{chap:beacon}, these are not common
+  scenarios.
+
+  The choice of operator in GP depends on the representation of the individuals.
+
+  For tree-based GP, the fundamental crossover operator is the \emph{subtree 
+  crossover}, referenced in \vref{sec:keen:operators:crossover:single_node}.
+
+  This operator selects a random node from each parent and exchanges the 
+  subtrees rooted at these nodes.
+  Usually, a constraint similar to the one used for generating the initial
+  population is applied to this operator to prevent the creation of overly large
+  trees.
+
+  Assuming we select two individuals, \(\mathbf{I}_1\) and \(\mathbf{I}_2\), 
+  from the population, the subtree crossover operator chooses a random node from 
+  each individual, say \(\clubsuit = 7\) from \(\mathbf{I}_1\) and 
+  \(\diamondsuit = x^2\) from \(\mathbf{I}_2\).
+  The subtrees rooted at these nodes are then interchanged, as shown below:
+
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{rrl}                    
+        & \(\chi(\mathbf{I}_2,\,\mathbf{I}_4)\)
+        & \(= \chi(\clubsuit - (5 + \sin(x)),\,5\diamondsuit)\)
+      \\
+        &   
+        & \(= (\diamondsuit - (5 + \sin(x)),\,5\clubsuit)\)
+      \\
+      \(\Leftrightarrow\)
+        & \((\mathbf{O}_1,\,\mathbf{O}_2)\)
+        & \(= (x^2 - (5 + \sin(x)),\,5 \cdot 7)\)
+    \end{tabular}
+  \end{table}
+
+  where \(\chi\) signifies the subtree crossover operator between two 
+  individuals.
+  The crossover of \(\mathbf{I}_1\) and \(\mathbf{I}_2\) is depicted in
+  \vref{fig:bg:gp:variation:crossover:subtree}.
+
+  \begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.8\textwidth]
+      {img/theoretical_framework/GP Crossover.png}
+    \caption{
+      Crossing over of \(\mathbf{I}_2 = 7 - (5 + \sin(x))\) and 
+      \(\mathbf{I}_4 = 5x^2\), producing \(\mathbf{O}_1 = x^2 - (5 + \sin(x))\) 
+      and \(\mathbf{O}_2 = 5 \cdot 7\).
+    }
+    \label{fig:bg:gp:variation:crossover:subtree}
+  \end{figure}
+
+
+    Following the application of the subtree crossover operator, the fitness of 
+    the individuals in the population is evaluated as shown in 
+    \vref{tab:bg:gp:variation:crossover:subtree:fitness}.
+    A summary of the population's fitness is given in 
+    \vref{tab:bg:gp:variation:crossover:subtree:fitness:summary}.
+
+    \begin{table}[ht!]
+      \centering
+      \begin{tabular}{c|c|r}
+        \multicolumn{3}{c}{\textbf{Generation 1}} \\
+        \hline
+        \hline
+        \textbf{Individual} & \textbf{Program}        & \textbf{Fitness} \\
+        \hline
+        \(\mathbf{I}_2\)    & \(7 - (5 + \sin(x))\)   & 137.398\,836 \\
+        \(\mathbf{I}_3\)    & \(7 + 2\)               & 331.924\,267 \\
+        \(\mathbf{O}_1\)    & \(x^2 - (5 + \sin(x))\) & 1944.288\,127 \\
+        \(\mathbf{O}_2\)    & \(5 \cdot 7\)           & 33.740\,766
+      \end{tabular}
+      \caption{Population after applying the subtree crossover operator.}
+      \label{tab:bg:gp:variation:crossover:subtree:fitness}
+    \end{table}
+
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{|c|r|c|}
+        \hline
+              & \textbf{Fitness} & \textbf{Individual}  \\
+        \hline
+        Best  & \(33.740\,766\) & \(O_2\) \\
+        Worst & \(1944.288\,127\) & \(O_1\) \\
+        \hline
+        \hline
+        Average & \multicolumn{2}{c|}{\(611.837\,999\)} \\
+        \hline
+        Standard deviation & \multicolumn{2}{c|}{\(896.858\,214\)} \\
+        \hline
+      \end{tabular}
+      \caption{
+        Fitness summary of the population after applying the subtree crossover
+        operator.
+      }
+      \label{tab:bg:gp:variation:crossover:subtree:fitness:summary}
+    \end{table}
+
+    A notable improvement in the population's fitness is observed after the 
+    application of the subtree crossover operator.
+    Comparing the results from 
+    \vref{tab:genetic_programming:initialization:fitness}, we find that the 
+    average fitness (or error) has dropped from \(44\,551.063\,525\) to 
+    \(611.837\,999\), equating to an improvement of approximately \(98.627\%\).
+
+  \[
+    \frac{\bar{\Phi}_i - \bar{\Phi}_X}{\bar{\Phi}_i}
+     = \frac{44\,551.063\,525 - 611.837\,999}{44\,551.063\,525} \approx 98.627\%
+  \]
+
+  where \(\bar{\Phi}_i\) is the average fitness of the population after
+  initialization and \(\bar{\Phi}_X\) is the average fitness of the population
+  after applying the subtree crossover operator.
+
+  A reduction in the population's fitness standard deviation, from 
+  \(88\,697.238\,974\) to \(896.858\,214\), is also seen.
+  This decrease of around \(98.989\%\) indicates that the population's diversity
+  has reduced.
+
+  \[
+    \frac{\sigma_i - \sigma_X}{\sigma_i}
+     = \frac{88\,697.238\,974 - 896.858\,214}{88\,697.238\,974} \approx 98.989\%
+  \]
+
+  where \(\sigma_i\) is the standard deviation of the fitness of the population
+  after initialization and \(\sigma_X\) is the standard deviation of the
+  fitness of the population after applying the subtree crossover operator.
   
-  Because of this, the crossover operator used in \vref{sec:bg:ga:var:cx} is not
-  applicable to GP\footnote{%
-    Although this is true in most GP problems, there could be scenarios where
-    the crossover operator used in GA could be used in GP, as seen in
-    \vref{chap:beacon}.
-  } since it doesn't consider the syntactic correctness of the individuals.
+  Diversity here is a measure of population's dispersion, and a decline in 
+  diversity may signal that the population is not converging towards a solution 
+  (too much diversity) or is converging prematurely (too little diversity).
 
-  The operator used in GP is dependant on the representation of the individuals.
-  In the case of tree-based GP, the most basic crossover operator is the
-  \emph{subtree crossover}\footnote{%
-    See \vref{sec:keen:operators:crossover:single_node}.
-  }.
-  This operator selects a random node from each parent and swaps the subtrees
-  rooted at those nodes.
-  This operator is usually accompanied by a constraint alike the one used in
-  generating the initial population, to avoid the issue of generating trees that
-  are too large.
 
-  Suppose we select individuals \(I_1\) and \(I_2\) from the population
+  In the following section, we discuss the mutation operator, which can be used 
+  to introduce diversity into the population, thereby preventing premature 
+  convergence.

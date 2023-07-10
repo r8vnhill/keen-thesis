@@ -34,7 +34,7 @@ function _draw_contour(
   xs::AbstractVector{<:Number},
   ys::AbstractVector{<:Number},
   zss::Matrix{<:Number},
-  minima::Pair{<:AbstractVector{<:Number}, <:AbstractVector{<:Number}},
+  minima::Vector{<:Pair{<:Number, <:Number}},
   name::String,
   log_scale::Bool=false
 )::String
@@ -79,7 +79,13 @@ function _draw_contour(
     alpha = 0.8,
     legend = false
   )
-  scatter!(minima...,color = :red, ms = 6, legend = false)
+  scatter!(
+    map(x -> x.first, minima), 
+    map(x -> x.second, minima), 
+    color = :red, 
+    ms = 6, 
+    legend = false
+  )
   xlabel!(L"$x$")
   ylabel!(L"$y$")
   display(plot!())
@@ -194,7 +200,7 @@ function draw(;
   y_range::Pair{<:Number, <:Number} = -100 => 100,
   granularity::Number = 0.01,
   f::Function,
-  minima::Pair{<:AbstractVector{<:Number}, <:AbstractVector{<:Number}},
+  minima::Vector{<:Pair{<:Number, <:Number}},
   name::String,
   log_scale::Bool = false,
 )::Vector{String}
@@ -213,4 +219,29 @@ function draw(;
   # _draw_surface functions
   [_draw_contour(xs, ys, zss, minima, name, log_scale)
   _draw_surface(xs, ys, zss, name, log_scale)]
+end
+
+function draw_lines(;x_axis::Vector{<:Number}, fs::Vector{Function})
+  for f in fs
+    plot!(x_axis, f, label=L"$f(x)$", lw=2, tickfontsize=12, legendfontsize=12, legend=:bottomright, guidefontsize=14)
+  end
+  plot(
+    x_axis,
+    f,
+    label=L"$f(x)$", 
+    lw=2, 
+    tickfontsize=12, 
+    legendfontsize=12, 
+    legend=:bottomright, 
+    guidefontsize=14
+  )
+  plot!(xs, I_1, label=L"$\mathrm{I}_1(x)$", lw=1)
+  plot!(xs, I_2, label=L"$\mathrm{I}_2(x)$", lw=2, ls=:dot)
+  plot!(xs, I_3, label=L"$\mathrm{I}_3(x)$", lw=2, ls=:dashdot)
+  plot!(xs, I_4, label=L"$\mathrm{I}_4(x)$", lw=2, ls=:dash)
+  title!("Individuals of the population and the target function")
+  xlabel!(L"$x$")
+  ylabel!(L"$f(x)$")
+  display(plot!())
+  png("img/theoretical_framework/gp_pop_init.png")  # Save the plot to a file.
 end

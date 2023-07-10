@@ -21,7 +21,7 @@ draw(
   x_range = -10 => 10,
   y_range = -10 => 10,
   f = booth,
-  minima = [1] => [3],
+  minima = [1 => 3],
   name = "booth",
   log_scale = true
 )

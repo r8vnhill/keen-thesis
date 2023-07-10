@@ -24,6 +24,6 @@ draw(
   x_range = -10 => 10,
   y_range = -10 => 10,
   f = levi,
-  minima = [1, 1] => [1, 1],
+  minima = [1 => 1],
   name = "levi",
 )

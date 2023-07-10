@@ -23,7 +23,7 @@ draw(
   x_range = -2 => 2,
   y_range = -2 => 2,
   f = goldstein_price,
-  minima = [0] => [-1],
+  minima = [0 => -1],
   name = "goldstein_price",
   log_scale = true
 )

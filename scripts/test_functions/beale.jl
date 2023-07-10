@@ -21,7 +21,7 @@ draw(
   x_range = -4.5 => 4.5,
   y_range = -4.5 => 4.5,
   f = beale,
-  minima = [3] => [0.5],
+  minima = [3 => 0.5],
   name = "beale",
   log_scale = true
 )

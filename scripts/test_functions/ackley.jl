@@ -23,6 +23,6 @@ draw(
   x_range = -5 => 5,
   y_range = -5 => 5,
   f = ackley,
-  minima = [0] => [0],
+  minima = [0 => 0],
   name = "ackley"
 )
