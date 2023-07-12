@@ -1,0 +1,77 @@
+\subsubsection{Mutation}
+\label{sec:bg:gp:variation:mutation}
+  Mutation, another crucial genetic operator, introduces new genetic material 
+  into the population, thus maintaining genetic diversity and preventing 
+  premature convergence to suboptimal solutions.
+  In the context of GP, the mutation operator modifies a program in the
+  population, while ensuring the resultant individual's syntactic correctness.
+
+  In tree-based GP, a common form of mutation is the \emph{point 
+  mutation}~\autocite{poliFieldGuideGenetic2008a,wilhelmstotterJeneticsJavaGenetica},
+  which selects a random node from an individual and replaces it with a random
+  primitive with the same arity.
+  This operator is similar to the bit-flip mutation operator used on 
+  \vref{sec:ga:var:mut}.
+  As with bit-flip mutation, point mutation can also be applied with a certain
+  probability to each node in an individual, meaning that more than one node
+  can be mutated in a single individual.
+
+  Suppose we mutate all the individuals in the population resulting from the
+  crossover operation in \vref{sec:bg:gp:var:cx}, and that exactly
+  one node is mutated in each individual.
+  Let the selected nodes be \(\clubsuit = \sin\) in \(\mathbf{I}_2\),
+  \(\spadesuit = 7\) in \(\mathbf{I}_3\), \(\heartsuit = 5\) in 
+  \(\mathbf{O}_1\), and \(\diamondsuit = 2\) in \(\mathbf{O}_2\).
+  Then, a possible result of applying the point mutation operator can be:
+
+  \[
+    M\!\left(
+      \begin{bmatrix}
+        I_2 \\ I_3 \\ O_1 \\ O_2
+      \end{bmatrix}
+    \right) = M\!\left(
+      \begin{bmatrix}
+        7 - (5 + \clubsuit(x)) \\
+        \spadesuit + 2 \\
+        \heartsuit \cdot 7 \\
+        x^\diamondsuit - (5 + \sin(x))
+      \end{bmatrix}
+    \right) = \left(
+      \begin{bmatrix}
+        7 - (5 + \clubsuit'(x)) \\
+        \spadesuit' + 2 \\
+        \heartsuit' \cdot 7 \\
+        x^{\diamondsuit'} - (5 + \sin(x))
+      \end{bmatrix}
+    \right) = \left(
+      \begin{bmatrix}
+        7 - (5 + \cos(x)) \\
+        6 + 2 \\
+        6 \cdot 7 \\
+        x^3 - (5 + \sin(x))
+      \end{bmatrix}
+    \right)
+  \]
+
+  Here, \(\clubsuit'\), \(\spadesuit'\), \(\heartsuit'\), and \(\diamondsuit'\)
+  are random primitives with the same arity as \(\clubsuit\), \(\spadesuit\),
+  \(\heartsuit\), and \(\diamondsuit\), respectively.
+  That being, \(\clubsuit' = \cos\), \(\spadesuit' = 6\), \(\heartsuit' = 6\),
+  and \(\diamondsuit' = 3\).
+
+  The fitness of the individuals in the population after applying the subtree 
+  mutation operator is then evaluated.
+  The results of this fitness evaluation are shown in 
+  \vref{tab:bg:gp:var:mut:fitness}.
+  A summary of the fitness of the population is presented in 
+  \vref{tab:bg:gp:var:mut:fitness:summary}.
+
+% Inserting tables
+
+Just like the crossover operator, mutation can also significantly influence 
+the fitness and diversity of the population. By generating new structures 
+in the population, mutation can help prevent stagnation and maintain diversity, 
+thus avoiding premature convergence to suboptimal solutions.
+
+In the next section, we discuss the combination of crossover and mutation 
+operators and their role in navigating the search space effectively.

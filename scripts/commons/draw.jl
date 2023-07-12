@@ -221,27 +221,125 @@ function draw(;
   _draw_surface(xs, ys, zss, name, log_scale)]
 end
 
-function draw_lines(;x_axis::Vector{<:Number}, fs::Vector{Function})
-  for f in fs
-    plot!(x_axis, f, label=L"$f(x)$", lw=2, tickfontsize=12, legendfontsize=12, legend=:bottomright, guidefontsize=14)
+"""
+    draw_lines(fs::Vector{Function}; x_lim::Pair{<:Number, <:Number}, 
+               names::Vector{String}, 
+               line_styles::Union{
+                Vector{<:Pair{<:Int, Symbol}}, 
+                Pair{<:Int, Symbol}
+               } = 2 => :solid, 
+               title::String = "", x_label::String = "", y_label::String = "", 
+               filename::String)::String
+
+Draw a plot with multiple lines based on a vector of functions, each with 
+  specified names, line styles, and save the plot as a PNG file.
+
+  This function takes as input a vector of functions `fs` to be plotted. Each 
+  function has a corresponding name in the `names` vector. Line styles can be 
+  either a single style applied to all functions, or a vector of styles for each 
+  function. The plot's title, x-label, y-label, and filename are also provided 
+  as optional parameters.
+
+# Arguments
+  - `fs`: A vector of functions to be plotted.
+  - `x_lim`: A pair of numbers defining the limits for the x-axis.
+  - `names`: A vector of strings, each representing the name (label) of a function to be plotted.
+  - `line_styles`: A style or vector of styles for the lines. Each style is a pair 
+    of an integer (the line width) and a symbol (the line style).
+  - `title`: The title of the plot (default is "").
+  - `x_label`: The label for the x-axis (default is "").
+  - `y_label`: The label for the y-axis (default is "").
+  - `filename`: The name of the file where the plot will be saved in PNG format.
+
+# Returns
+  - The filename of the saved PNG file.
+"""
+function draw_lines(
+  fs::Vector{Function};
+  x_lim::Pair{<:Number, <:Number},
+  names::Vector{String},
+  line_styles::Union{Vector{<:Pair{<:Int, Symbol}}, Pair{<:Int, Symbol}} = 2 => :solid,
+  title::String = "",
+  x_label::String = "",
+  y_label::String = "",
+  filename::String
+)::String
+  @assert length(fs) == length(names) "The number of functions and names must be equal."
+  if line_styles isa Symbol
+    line_styles = [line_styles for _ in 1:length(fs)]
+  else
+    @assert length(fs) == length(line_styles) 
+      "The number of functions and line styles must be equal."
   end
-  plot(
-    x_axis,
-    f,
-    label=L"$f(x)$", 
-    lw=2, 
-    tickfontsize=12, 
-    legendfontsize=12, 
-    legend=:bottomright, 
-    guidefontsize=14
-  )
-  plot!(xs, I_1, label=L"$\mathrm{I}_1(x)$", lw=1)
-  plot!(xs, I_2, label=L"$\mathrm{I}_2(x)$", lw=2, ls=:dot)
-  plot!(xs, I_3, label=L"$\mathrm{I}_3(x)$", lw=2, ls=:dashdot)
-  plot!(xs, I_4, label=L"$\mathrm{I}_4(x)$", lw=2, ls=:dash)
-  title!("Individuals of the population and the target function")
-  xlabel!(L"$x$")
-  ylabel!(L"$f(x)$")
+  println("Drawing line plot...")
+  for i in eachindex(fs)
+    if i == 1
+      _line_plot(fs[1], x_lim, names[1], line_styles[1])
+    else
+      _line_plot!(fs[i], names[i], line_styles[i])
+    end
+  end
+  title!(title)
+  xlabel!(x_label)
+  ylabel!(y_label)
   display(plot!())
-  png("img/theoretical_framework/gp_pop_init.png")  # Save the plot to a file.
+  png(filename)
 end
+
+"""
+    _line_plot(f::Function, x_lim::Pair{<:Number, <:Number}, name::String, 
+               line_style::Pair{<:Int, Symbol})::Plots.Plot
+
+Plot a line based on a function `f` with specified x-axis limits, name, and 
+  line style.
+
+  This function creates a line plot of a given function `f`, within the provided 
+  x-axis limits `x_lim`. The name of the plot and the line style are set using 
+  the parameters `name` and `line_style` respectively. The plot's fontsizes and 
+  legend placement are also set within this function.
+
+# Arguments
+  - `f` - The function to be plotted.
+  - `x_lim` - A pair of numbers defining the limits for the x-axis.
+  - `name` - A string representing the name (label) of the plot.
+  - `line_style` - A pair consisting of the line width (an integer) and the line 
+    style (a symbol).
+"""
+_line_plot(
+  f::Function,
+  x_lim::Pair{<:Number, <:Number},
+  name::String,
+  line_style::Pair{<:Int, Symbol}
+)::Plots.Plot = plot(
+  f,
+  x_lim...,
+  label=latexstring(name),
+  lw = line_style.first,
+  ls = line_style.second,
+  tickfontsize=12, 
+  legendfontsize=12, 
+  legend=:bottomright, 
+  guidefontsize=14
+)
+
+"""
+    _line_plot!(f::Function, name::String, line_style::Pair{<:Int, Symbol})::Plots.Plot
+
+Add a line to the existing plot based on a function `f` with specified name 
+  and line style.
+
+  This function adds a line plot of a given function `f` to an existing plot.
+  The name of the plot and the line style are set using the parameters `name` 
+  and `line_style` respectively.
+
+# Arguments
+  - `f`: The function whose plot is to be added.
+  - `name`: A string representing the name (label) of the plot.
+  - `line_style`: A pair consisting of the line width (an integer) and the line 
+    style (a symbol).
+"""
+_line_plot!(
+  f::Function,
+  name::String,
+  line_style::Pair{<:Int, Symbol}
+)::Plots.Plot = plot!(f, label = latexstring(name), lw = line_style.first, ls = line_style.second)
