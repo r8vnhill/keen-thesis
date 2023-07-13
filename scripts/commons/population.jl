@@ -127,6 +127,7 @@ Save a population's individual parameters and statistics to a file.
   This function creates or modifies a file in the file system.
 """
 save_population(pop::Population, filename::String)::Nothing = open(filename, "w") do io
+  header = ["Individual" "ϕ"]
   for individual in pop.individuals
     println(io, "ϕ(", individual.name, "(x)) = ", individual.ϕ)
     println(io, 
