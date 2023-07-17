@@ -1,4 +1,4 @@
-include("../option.jl")
+include("../commons/option.jl")
 
 """
     struct Caption
@@ -64,7 +64,7 @@ Display a `Caption` object in a LaTeX-like format.
   ```
 """
 
-Base.show(io::IO, _::MIME"text/latex", caption::Caption)::Nothing = print(
+Base.show(io::IO, ::MIME"text/latex", caption::Caption)::Nothing = print(
   io, 
   "\\caption{$(caption.text)}" *
     if !is_none(caption.label) "\n\\label{" * 

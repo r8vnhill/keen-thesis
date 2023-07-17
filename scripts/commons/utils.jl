@@ -24,6 +24,35 @@ Indent a multiline string by `n` spaces.
 """
 indent(s::String, n::Int)::String = join([" "^n * line for line in split(s, '\n')], '\n')
 
+"""
+    format_number(num::Real)
+
+Format a number by adding `\\,` for every thousand in the integer part and after every 3 decimal 
+  places.
+
+  This function takes a number as input, splits it into integer and decimal parts, and then 
+  formats each part separately.
+  It inserts `\\,` after every group of three digits in the integer part (counting from the right),
+  and after every three decimal places.
+
+# Arguments
+  - `num::Real`: The number to format.
+
+# Returns
+  - A string representing the formatted number.
+
+# Examples
+  ```julia
+  julia> format_number(1000)
+  "1\\,000.000\\,000"
+
+  julia> format_number(124378.6927)
+  "124\\,378.692\\,700"
+
+  julia> format_number(200.123456789)
+  "200.123\\,456\\,789"
+  ```
+"""
 function format_number(num::Real)
   # split the number into integer and decimal parts
   int, frac = split(@sprintf("%.6f", num), ".")

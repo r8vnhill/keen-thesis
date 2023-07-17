@@ -35,11 +35,10 @@ end
 
 A data structure representing a population in a genetic algorithm.
 
-This structure holds the fitness values of each individual in a population.
+  This structure holds the fitness values of each individual in a population.
 
 # Fields
-- `fitness`: A vector of numbers representing the fitness values of individuals 
-  in the population.
+  - `individuals`: A vector of `Individual` objects representing the individuals in the population.
 """
 struct Population{T}
   individuals::Vector{Individual{T}}
@@ -60,7 +59,7 @@ This function applies a map operation to the population's individuals to extract
 - A vector containing the fitness values of all individuals in the population.
 """
 function Φ(pop::Population)::Vector{Number}
-  map(individual -> individual.ϕ, pop.individuals)
+  Base.map(individual -> individual.ϕ, pop.individuals)
 end
 
 """

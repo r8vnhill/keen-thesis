@@ -1,8 +1,9 @@
 using LaTeXStrings
-include("../utils.jl")
-include("../option.jl")
-include("captions.jl")
-include("position.jl")
+using Logging
+include("../../commons/utils.jl")
+include("../../commons/option.jl")
+include("../captions.jl")
+include("../position.jl")
 include("tabular.jl")
 
 """
@@ -181,6 +182,7 @@ function savetable(
   io::IO = stdout,
   overwrite::Bool = true
 )::Nothing 
+  @debug "Saving table to" repr(io)
   if !overwrite && isfile(io)
     error("File already exists: $(repr(io))")
   end

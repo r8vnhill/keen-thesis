@@ -257,11 +257,11 @@ Draw a plot with multiple lines based on a vector of functions, each with
 function draw_lines(
   fs::Vector{Function};
   x_lim::Pair{<:Number, <:Number},
-  names::Vector{String},
+  names::Vector{<:AbstractString},
   line_styles::Union{Vector{<:Pair{<:Int, Symbol}}, Pair{<:Int, Symbol}} = 2 => :solid,
-  title::String = "",
-  x_label::String = "",
-  y_label::String = "",
+  title::AbstractString = "",
+  x_label::AbstractString = "",
+  y_label::AbstractString = "",
   filename::String
 )::String
   @assert length(fs) == length(names) "The number of functions and names must be equal."
@@ -308,12 +308,12 @@ Plot a line based on a function `f` with specified x-axis limits, name, and
 _line_plot(
   f::Function,
   x_lim::Pair{<:Number, <:Number},
-  name::String,
+  name::AbstractString,
   line_style::Pair{<:Int, Symbol}
 )::Plots.Plot = plot(
   f,
   x_lim...,
-  label=latexstring(name),
+  label=name,
   lw = line_style.first,
   ls = line_style.second,
   tickfontsize=12, 
@@ -340,6 +340,6 @@ Add a line to the existing plot based on a function `f` with specified name
 """
 _line_plot!(
   f::Function,
-  name::String,
+  name::AbstractString,
   line_style::Pair{<:Int, Symbol}
 )::Plots.Plot = plot!(f, label = latexstring(name), lw = line_style.first, ls = line_style.second)

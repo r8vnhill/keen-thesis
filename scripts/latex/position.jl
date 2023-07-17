@@ -55,7 +55,6 @@ Parse and validate a LaTeX float position string.
 
 # Returns
   - If `s` is a valid LaTeX float position, `s` is returned.
-
   - If `s` is not a valid LaTeX float position, an error is thrown.
 
 # Examples
