@@ -55,13 +55,7 @@ savetable(
 draw_lines(
   cat(f, initial_individuals, dims=1), 
   x_lim = -5 => 5,
-  names = [
-    L"f(x)", 
-    L"\mathrm{I}_1(x)",
-    L"\mathrm{I}_2(x)", 
-    L"\mathrm{I}_3(x)", 
-    L"\mathrm{I}_4(x)"
-  ],
+  names = vcat([L"f(x)"], [L"\mathrm{I}_%$i(x)" for i in eachindex(initial_individuals)]),
   line_styles = [2 => :solid, 1 => :solid, 2 => :dot, 2 => :dashdot, 2 => :dash],
   title = "Individuals of the population after initialization",
   x_label = L"x",
