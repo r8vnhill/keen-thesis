@@ -8,43 +8,30 @@
     \captionof{listing}{%
       Calculation of \(|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|\) for 
       \(\mathcal{T} = \{x,\, c\}\) and the set \(\mathcal{F} = \{+,\, -,\, 
-      \times,\, /,\, \sin,\, \cos,\, \mathrm{pow}\}\).
+      \times,\, /,\, \sin,\, \cos,\, \mathrm{pow}\}\) using the \textit{Julia}
+      programming language.
       \\ % Some vertical space before the listing.
     }
     \label{lst:cardinality_of_T_leq_5}
-    \begin{minted}{julia}
-      # A([+ - * / sin cos pow]) = [2 2 2 2 1 1 2]
-      arities = [2, 2, 2, 2, 1, 1, 2]
-      # |T| = |[x 1 2 3 4 5 6 7]| = 8
-      terminals_size = 8
-      """
-          t_leq(h)
-
-      Calculates the total number of trees of height less or equal to `h`.
-      """
-      function t_leq(h::UInt8)::Int128
-        if h == 0
-          return terminals_size
-        else
-          c_sum = terminals_size
-          for i = 0:h - 1
-            c_sum = c_sum + sum(t(i) .^ arities)
-          end
-          return c_sum
+    \begin{minted}[mathescape=true]{julia}
+      arities = [2, 2, 2, 2, 1, 1, 2] # $A\left(\{+,\,-,\,\times,\,/,\,\sin,\,\cos,\,\mathrm{pow}\}\right) = \{2,\,2,\,2,\,2,\,1,\,1,\,2\}$
+      terminals_size = 8  # $|\mathcal{T}| = |\{x,\,1,\,2,\,3,\,4,\,5,\,6,\,7\}| = 8$
+      # $|\mathbb{T}_{\leq \mathtt{h}}|$
+      t_leq(h::Int)::Int128 = if h == 0 # $|\mathcal{T}|$ if $\mathtt{h} = 0$
+        terminals_size
+      else  # $\left(\sum_{h = 0}^{\mathtt{h} - 1}\,\sum_{f \in \mathcal{F}} |\mathbb{T}_h|^{A(f)}\right)+ |\mathcal{T}|$ if $\mathtt{h} > 0$
+        c_sum = terminals_size
+        for i = 0:h - 1
+          c_sum = c_sum + sum(t(i) .^ arities)
         end
+        c_sum
       end
-      """
-          t(h)
-
-      Calculates the total number of trees of height `h`.
-      """
-      function t(h::UInt8)::Int128
-        if h == 0
-          terminals_size
-        else
-          sum(t(h - 1) .^ arities) 
-        end
+      # $|\mathbb{T}_\mathbf{h}|$
+      t(h::Int)::Int128 = if h == 0 # $|\mathcal{T}|$ if $\mathtt{h} = 0$
+        terminals_size
+      else  # $\sum_{f \in \mathcal{F}} |\mathbb{T}_{\mathtt{h} - 1}|^{A(f)}$ if $\mathtt{h} > 0$
+        sum(t(h - 1) .^ arities) 
       end
-      res = t_leq(5)
+      res = t_leq(5)  # $|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|$
     \end{minted}
   \end{src}

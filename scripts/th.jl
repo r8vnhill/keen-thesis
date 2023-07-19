@@ -11,16 +11,14 @@ terminals_size = 8
 
 Calculates the total number of trees of height less or equal to `h`.
 """
-function t_leq(h::Int)::Int128
-  if h == 0
-    return terminals_size
-  else
-    c_sum = terminals_size
-    for i = 0:h - 1
-      c_sum = c_sum + sum(t(i) .^ arities)
-    end
-    return c_sum
+t_leq(h::Int)::Int128 = if h == 0
+    terminals_size
+else
+  c_sum = terminals_size
+  for i = 0:h - 1
+    c_sum = c_sum + sum(t(i) .^ arities)
   end
+  c_sum
 end
   
 """
@@ -28,20 +26,19 @@ end
 
 Calculates the total number of trees of height `h`.
 """
-function t(h::Int)::Int128
-  if h == 0
-    terminals_size
-  else
-    sum(t(h - 1) .^ arities) 
-  end
+t(h::Int)::Int128 = if h == 0
+  terminals_size
+else
+  sum(t(h - 1) .^ arities) 
 end
 
 x = 1:5
 y = @. t_leq(x)
 println(y)
 plot(x, y, lw=2, legend=false, yaxis=:log, tickfontsize=14, guidefontsize=16)
-xlabel!(L"$h$")
-ylabel!(L"$|T_{\leq h}|$")
+xlabel!(L"h")
+ylabel!(L"|T_{\leq h}|")
+display(plot!())
 png("img/theoretical_framework/t_leq.png")
 res = t_leq(5)
 println(res)
