@@ -44,6 +44,12 @@ struct Population{T}
   individuals::Vector{Individual{T}}
 end
 
+function Base.show(io::IO, mime::MIME"text/plain", pop::Population)::Nothing
+  println(io, "Population(")
+  join(io, map(individual -> indent(repr(mime, individual), 2), pop.individuals), ",\n")
+  print(io, ")")
+end
+
 """
     Φ(pop::Population)::Vector{Number}
 

@@ -45,7 +45,7 @@ struct Table
   caption::Union{Option{Caption}, Caption}
 end
 
-"""
+@doc raw"""
     Base.show(io::IO, mime::MIME"text/latex", tab::Table)
 
 Render a `Table` object to a LaTeX `table` environment.
@@ -69,22 +69,22 @@ Render a `Table` object to a LaTeX `table` environment.
   julia> caption = caption("Table caption", label="tab:label");
   julia> table = Table(content, position, caption);
   julia> show(stdout, MIME("text/latex"), table)
-  \\begin{table}[ht]
-    \\centering
-      \\begin{tabular}{cc}
-      Name & Age \\\\
-      \\hline
-      Alice & 30 \\\\
-      Bob & 25 \\\\
-      \\end{tabular}
-    \\caption{Table caption}
-    \\label{tab:label}
-  \\end{table}
+  \begin{table}[ht]
+    \centering
+      \begin{tabular}{cc}
+      Name & Age \\
+      \hline
+      Alice & 30 \\
+      Bob & 25 \\
+      \end{tabular}
+    \caption{Table caption}
+    \label{tab:label}
+  \end{table}
   ```
 """
 function Base.show(io::IO, mime::MIME"text/latex", tab::Table)::Nothing 
-  println(io, "\\begin{table}" * if !is_none(tab.position) repr(tab.position) else "" end)
-  println(io, indent("\\centering", 2))
+  println(io, raw"\begin{table}" * if !is_none(tab.position) repr(tab.position) else "" end)
+  println(io, indent(raw"\centering", 2))
   println(io, indent(repr(mime, tab.content), 2))
   if !is_none(tab.caption)
     println(io, indent(repr(mime, unbox(tab.caption)), 2))

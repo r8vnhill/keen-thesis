@@ -90,7 +90,7 @@ Create a `Cell` object.
   Cell("Data", Alignment{:c}(), 2)
   ```
 """
-cell(data::Any, alignment::Alignment = align"c", length::Int = 1)::Cell = 
+cell(data::Any; alignment::Alignment = align"c", length::Int = 1)::Cell = 
   if length < 1
     error("Invalid cell length: $length")
   else

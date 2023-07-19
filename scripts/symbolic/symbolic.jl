@@ -71,7 +71,7 @@ initial_population = Population(
     ) for i in eachindex(initial_individuals)]
 )
 
-println("Initial population: ", initial_population)
+println("Initial population: ", repr("text/plain", initial_population))
 println("Initial population average fitness: ", average_fitness(initial_population))
 println("Initial population standard deviation of fitness: ", stddev_fitness(initial_population), 
   "\n")
@@ -80,7 +80,7 @@ savetable(
   table(
     tabular(
       vcat(
-        row(cell(bold"Generation 0", bottom_rules = 2, length = 4, alignment = align"c")),
+        row(cell(bold"Generation 0", alignment = align"c", length = 4), bottom_rules = 2),
         row([bold"Individual", bold"Program", bold"Height", bold"Fitness"], bottom_rules = 1),
         row([L"\mathbf{I}_%$i", initial_population.individuals[i].name, 
           initial_population.individuals[i].height, initial_population.individuals[i].ϕ

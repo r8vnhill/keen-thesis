@@ -28,7 +28,7 @@ struct Tabular
   alignment::Alignment
 end
 
-"""
+@doc raw"""
     Base.show(io::IO, ::MIME"text/latex", tab::Tabular)
 
 Render a `Tabular` object to a LaTeX `tabular` environment.
@@ -56,20 +56,24 @@ Render a `Tabular` object to a LaTeX `tabular` environment.
     "ll"
   )
   julia> show(stdout, MIME("text/latex"), t)
-  \\begin{tabular}{ll}
-  Name & Age \\\\
-  \\hline
-  Alice & 30 \\\\
-  Bob & 25 \\\\
-  \\end{tabular}
+  \begin{tabular}{ll}
+    Name & Age \\
+    \hline
+    Alice & 30 \\
+    Bob & 25 \\
+  \end{tabular}
   ```
 """
 function Base.show(io::IO, mime::MIME"text/latex", tab::Tabular)
-  println(io, "\\begin{tabular}{$(tab.alignment)}")
+  println(io, "\\begin{tabular}{$(repr(mime, tab.alignment))}")
   for r in tab.content
     println(io, indent(repr(mime, r), 2))
   end
   print(io, "\\end{tabular}")
+end
+
+function get(tab::Tabular, i::Int)::Row
+  return tab.content[i]
 end
 
 """

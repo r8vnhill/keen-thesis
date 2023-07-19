@@ -33,7 +33,7 @@ struct Row
   bottom_rules::Int
 end
 
-"""
+@doc raw"""
     Base.show(io::IO, ::MIME"text/latex", row::Row)
 
 Render a `Row` object to a LaTeX table row.
@@ -54,15 +54,15 @@ Render a `Row` object to a LaTeX table row.
   Row(["Alice", "Bob"], 1, 2)
 
   julia> show(stdout, MIME("text/latex"), r)
-  \\hline
-  Alice & Bob \\\\
-  \\hline
-  \\hline
+  \hline
+  Alice & Bob \\
+  \hline
+  \hline
   ```
 """
-function Base.show(io::IO, ::MIME"text/latex", row::Row)
+function Base.show(io::IO, mime::MIME"text/latex", row::Row)
   print(io, "\\hline\n" ^ row.top_rules)
-  print(io, join(_format_data(row.data), " & "))
+  print(io, join([repr(mime, c) for c in row.data], " & "))
   print(io, "\t\\\\")
   print(io, ("\n" * "\\hline") ^ row.bottom_rules)
 end
@@ -92,12 +92,12 @@ Format the data in a vector for display in a LaTeX table.
   "200.123\\,456\\,789"
   ```
 """
-function _format_data(data::Vector)::Vector{String}
-  return [if d isa Number
-    format_number(d)
+function _format_data(data::Vector{Cell})::Vector{String}
+  return [if is_numeric(c) isa Number
+    format_number(c)
   else
-    d
-  end for d in data]
+    c
+  end for c in data]
 end
 
 """
@@ -120,4 +120,5 @@ Create a `Row` object representing a row in a LaTeX table.
   Row(["Alice", "Bob"], 1, 2)
   ```
 """
-row(data::Vector; top_rules::Int = 0, bottom_rules::Int = 0) = Row(data, top_rules, bottom_rules)
+row(data::Vector; top_rules::Int = 0, bottom_rules::Int = 0) = 
+  Row([cell(d) for d in data], top_rules, bottom_rules)
