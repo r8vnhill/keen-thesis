@@ -5,6 +5,7 @@ using Statistics
 include("../commons/draw.jl")
 include("../commons/mse.jl")
 include("../commons/population.jl")
+include("../commons/utils.jl")
 include("../latex/tables/alignment.jl")
 include("../latex/tables/table.jl")
 include("../latex/text.jl")
@@ -51,17 +52,6 @@ savetable(
     )
   ), "contents/Theoretical_Background/GP/representation/tab-bg-gp-repr_ev-points.tex"
 )
-
-# draw_lines(
-#   cat(f, initial_individuals, dims=1), 
-#   x_lim = -5 => 5,
-#   names = vcat([L"f(x)"], [L"\mathrm{I}_%$i(x)" for i in eachindex(initial_individuals)]),
-#   line_styles = [2 => :solid, 1 => :solid, 2 => :dot, 2 => :dashdot, 2 => :dash],
-#   title = "Individuals of the population after initialization",
-#   x_label = L"x",
-#   y_label = L"f(x)",
-#   filename = "img/theoretical_framework/gp_pop_init.png"
-# )
 
 initial_population = Population(
   [Individual{Function}(
@@ -112,20 +102,35 @@ corrected_population = map(
   initial_population
 )
 
-println("Corrected population: ", corrected_population)
+println("Corrected population: $(repr("text/plain", corrected_population))")
 
 P = selection_probabilities(corrected_population)
-println("Selection probabilities: ", P, "\n")
+println("Selection probabilities: $(repr("text/plain", P))\n")
 
-# Save the probabilities to a file.
-open("data/gp_sym_probabilities_1.txt", "w") do io
-  println(io, "Individual  & Fitness & Selection Probability \\\\")
-  println(io, "\\hline")
-  for (ind, prob) in zip(corrected_population.individuals, P)
-    println(io, ind.name, " & ", ind.ϕ, " & ", prob * 100, "\\% \\\\")
-  end
-  println(io, "\\hline")
-end
+savetable(
+  table(
+    tabular(
+      vcat(
+        [
+          row(
+            [bold"Individual", bold"Fitness", bold"Selection Probability"],
+            bottom_rules = 1,
+            top_rules = 1
+          )
+        ], [
+          row([
+            corrected_population.individuals[i].name,
+            corrected_population.individuals[i].ϕ,
+            format_number(P[i] * 100) * "\\%"
+          ], bottom_rules = 1,) for i in eachindex(corrected_population.individuals)
+        ]
+      ), alignment = align"|l|r|r|"
+    ), caption = caption(
+      "Selection probabilities for the symbolic regression problem.", 
+      label = "tab:bg:gp:sel:prob"
+    ), position = p"ht!"
+  ), raw"contents\Theoretical_Background\GP\selection\tab-bg-gp-sel-prob.tex"
+)
 
 survivors = [
   initial_population.individuals[2]

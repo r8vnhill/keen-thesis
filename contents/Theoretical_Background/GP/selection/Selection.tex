@@ -45,21 +45,7 @@
   the individual with the highest error has a considerably low probability of 
   being selected, while the other individuals have roughly equal chances.
 
-  \begin{table}[ht!]
-    \centering
-    \begin{tabular}{|l|r|r|}
-      \hline
-      Individual  & Fitness & Selection Probability \\
-      \hline
-      \(I_1\) & 177\,596.851\,131 &  0.113\,616\% \\
-      \(I_2\) &      137.398\,836 & 33.307\,633\% \\
-      \(I_3\) &      331.924\,267 & 33.271\,246\% \\
-      \(I_4\) &      138.079\,865 & 33.307\,505\% \\
-      \hline
-    \end{tabular}
-    \caption{Selection probabilities for the symbolic regression problem.}
-    \label{tab:bg:gp:sel:prob}
-  \end{table}
+  \subimport{.}{tab-bg-gp-sel-prob.tex}
 
   Assuming a \emph{survival rate} of 50\%, let's consider that the selection
   process favors \(I_2\) and \(I_3\) as survivors due to their higher selection

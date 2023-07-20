@@ -56,17 +56,30 @@ Format a number by adding `\,` for every thousand in the integer part and after 
 function format_number(num::Real)
   # check if the number is an integer
   if num isa Integer
-    s = string(num)
-    return reverse(join([reverse(s[i:min(end, i + 2)]) for i in 1:3:length(s)], "\\,"))
+    return replace(_format_int(num), "," => "\\,")
   else
+    # round the number to the seventh decimal
+    num = round(num, digits=7)
     # split the number into integer and decimal parts
     int, frac = split(@sprintf("%.6f", num), ".")
     # format the integer part
-    int = reverse(join([reverse(int[i:min(end, i + 2)]) for i in 1:3:length(int)], "\\,"))
+    int = _format_int(parse(Int, int))
     # format the decimal part
-    frac = join([frac[i:min(end, i + 2)] for i in 1:3:length(frac)], "\\,")
+    frac = join([frac[3*i+1:min(end, 3*i+3)] for i in 0:div(length(frac), 3)-1], ",")
     # join the integer and decimal parts
-    return int * "." * frac
+    return replace(int * "." * frac, "," => "\\,")
   end
 end
 
+function _format_int(num::Integer)::String
+  reversed = num |> string |> reverse
+  # Insert a comma after every 3 digits
+  result = ""
+  for (i, c) in enumerate(reversed)
+    if i % 3 == 1 && i != 1
+      result *= ","
+    end
+    result *= string(c)
+  end
+  reverse(result)
+end

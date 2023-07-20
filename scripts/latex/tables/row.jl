@@ -89,4 +89,3 @@ Create a `Row` object representing a row in a LaTeX table.
 """
 row(data::Vector; top_rules::Int = 0, bottom_rules::Int = 0) = 
   Row([cell(d) for d in data], top_rules, bottom_rules)
-
