@@ -52,16 +52,16 @@ savetable(
   ), "contents/Theoretical_Background/GP/representation/tab-bg-gp-repr_ev-points.tex"
 )
 
-draw_lines(
-  cat(f, initial_individuals, dims=1), 
-  x_lim = -5 => 5,
-  names = vcat([L"f(x)"], [L"\mathrm{I}_%$i(x)" for i in eachindex(initial_individuals)]),
-  line_styles = [2 => :solid, 1 => :solid, 2 => :dot, 2 => :dashdot, 2 => :dash],
-  title = "Individuals of the population after initialization",
-  x_label = L"x",
-  y_label = L"f(x)",
-  filename = "img/theoretical_framework/gp_pop_init.png"
-)
+# draw_lines(
+#   cat(f, initial_individuals, dims=1), 
+#   x_lim = -5 => 5,
+#   names = vcat([L"f(x)"], [L"\mathrm{I}_%$i(x)" for i in eachindex(initial_individuals)]),
+#   line_styles = [2 => :solid, 1 => :solid, 2 => :dot, 2 => :dashdot, 2 => :dash],
+#   title = "Individuals of the population after initialization",
+#   x_label = L"x",
+#   y_label = L"f(x)",
+#   filename = "img/theoretical_framework/gp_pop_init.png"
+# )
 
 initial_population = Population(
   [Individual{Function}(
@@ -80,14 +80,24 @@ savetable(
   table(
     tabular(
       vcat(
-        row(cell(bold"Generation 0", alignment = align"c", length = 4), bottom_rules = 2),
-        row([bold"Individual", bold"Program", bold"Height", bold"Fitness"], bottom_rules = 1),
-        row([L"\mathbf{I}_%$i", initial_population.individuals[i].name, 
-          initial_population.individuals[i].height, initial_population.individuals[i].ϕ
-        ]) for i in eachindex(initial_population.individuals)
+        [
+          row([cell(bold"Generation 0", alignment = align"c", length = 4)], bottom_rules = 2)
+          row([bold"Individual", bold"Program", bold"Height", bold"Fitness"], bottom_rules = 1)
+        ],
+        [
+          row([
+            initial_population.individuals[i].name,
+             
+            initial_heights[i],
+            initial_population.individuals[i].ϕ
+          ]) for i in eachindex(initial_population.individuals)
+        ]
       ), alignment = align"c|c|c|r"
-    )
-  )
+    ), caption = caption(
+      "Initial population of the genetic programming algorithm", 
+      label = "tab:bg:gp:sym:init:pop"
+    ), position = p"ht!",
+  ), "contents/Theoretical_Background/GP/initialization/tab-bg-gp-sym-init-pop.tex"
 )
 save_population(initial_population, "data/bg_gp_sym_pop_init.txt")
 

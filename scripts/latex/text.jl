@@ -16,7 +16,7 @@ julia> bold"hello"
 ```
 """
 macro bold_str(s::String)
-  return "\textbf{$s}"
+  return "\\textbf{$s}"
 end
 
 @doc raw"""
@@ -54,7 +54,7 @@ julia> italic"hello"
 ```
 """
 macro italic_str(s::String)
-  return "\textit{$s}"
+  return "\\textit{$s}"
 end
 
 @doc raw"""
@@ -92,7 +92,7 @@ julia> emph"hello"
 ```
 """
 macro emph_str(s::String)
-  return "\emph{$s}"
+  return "\\emph{$s}"
 end
 
 @doc raw"""
