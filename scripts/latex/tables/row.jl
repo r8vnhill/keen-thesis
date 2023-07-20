@@ -1,6 +1,6 @@
 include("cell.jl")
 
-"""
+@doc raw"""
     struct Row
 
 The `Row` struct represents a row in a LaTeX table.
@@ -21,10 +21,10 @@ The `Row` struct represents a row in a LaTeX table.
   In LaTeX, this would render as:
 
   ```
-  \\hline
-  Alice & Bob \\\\
-  \\hline
-  \\hline
+  \hline
+  Alice & Bob \\
+  \hline
+  \hline
   ```
 """
 struct Row
@@ -68,39 +68,6 @@ function Base.show(io::IO, mime::MIME"text/latex", row::Row)
 end
 
 """
-    _format_data(data::Vector)::Vector{String}
-
-Format the data in a vector for display in a LaTeX table.
-
-  This function takes a vector of data, `data`, and formats it for display in a LaTeX table. 
-  Specifically, it converts numerical data to a LaTeX-friendly string format using the
-  `format_number` function.
-  Non-numerical data are left unchanged.
-
-# Arguments
-  - `data::Vector`: A vector of data to format for display in a LaTeX table.
-
-# Returns
-  A vector of formatted strings, ready to be displayed in a LaTeX table.
-
-# Examples
-  ```julia
-  julia> _format_data([1000, 124378.6927, 200.123456789])
-  3-element Vector{String}:
-  "1\\,000"
-  "124\\,378.692\\,7"
-  "200.123\\,456\\,789"
-  ```
-"""
-function _format_data(data::Vector{Cell})::Vector{String}
-  return [if is_numeric(c) isa Number
-    format_number(c)
-  else
-    c
-  end for c in data]
-end
-
-"""
     row(data::Vector; top_rules::Int = 0, bottom_rules::Int = 0)
 
 Create a `Row` object representing a row in a LaTeX table.
@@ -122,3 +89,4 @@ Create a `Row` object representing a row in a LaTeX table.
 """
 row(data::Vector; top_rules::Int = 0, bottom_rules::Int = 0) = 
   Row([cell(d) for d in data], top_rules, bottom_rules)
+

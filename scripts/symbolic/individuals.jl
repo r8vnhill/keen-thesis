@@ -9,6 +9,9 @@ initial_individuals = [
   x -> 5 * x.^2
 ]
 
+""" Initial heights """
+initial_heights = [3, 3, 1, 2]
+
 """ Population after crossover """
 crossed_individuals = [
   _ -> 3 / sin(2) * 5^3,

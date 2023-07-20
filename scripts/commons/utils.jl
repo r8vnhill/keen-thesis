@@ -24,15 +24,15 @@ Indent a multiline string by `n` spaces.
 """
 indent(s::String, n::Int)::String = join([" "^n * line for line in split(s, '\n')], '\n')
 
-"""
+@doc raw"""
     format_number(num::Real)
 
-Format a number by adding `\\,` for every thousand in the integer part and after every 3 decimal 
+Format a number by adding `\,` for every thousand in the integer part and after every 3 decimal 
   places.
 
   This function takes a number as input, splits it into integer and decimal parts, and then 
   formats each part separately.
-  It inserts `\\,` after every group of three digits in the integer part (counting from the right),
+  It inserts `\,` after every group of three digits in the integer part (counting from the right),
   and after every three decimal places.
 
 # Arguments
@@ -44,22 +44,29 @@ Format a number by adding `\\,` for every thousand in the integer part and after
 # Examples
   ```julia
   julia> format_number(1000)
-  "1\\,000.000\\,000"
+  "1\,000.000\,000"
 
   julia> format_number(124378.6927)
-  "124\\,378.692\\,700"
+  "124\,378.692\,700"
 
   julia> format_number(200.123456789)
-  "200.123\\,456\\,789"
+  "200.123\,456\,789"
   ```
 """
 function format_number(num::Real)
-  # split the number into integer and decimal parts
-  int, frac = split(@sprintf("%.6f", num), ".")
-  # format the integer part
-  int = reverse(join([reverse(int[i:min(end, i + 2)]) for i in 1:3:length(int)], "\\,"))
-  # format the decimal part
-  frac = join([frac[i:min(end, i + 2)] for i in 1:3:length(frac)], "\\,")
-  # join the integer and decimal parts
-  return int * "." * frac
+  # check if the number is an integer
+  if num isa Integer
+    s = string(num)
+    return reverse(join([reverse(s[i:min(end, i + 2)]) for i in 1:3:length(s)], "\\,"))
+  else
+    # split the number into integer and decimal parts
+    int, frac = split(@sprintf("%.6f", num), ".")
+    # format the integer part
+    int = reverse(join([reverse(int[i:min(end, i + 2)]) for i in 1:3:length(int)], "\\,"))
+    # format the decimal part
+    frac = join([frac[i:min(end, i + 2)] for i in 1:3:length(frac)], "\\,")
+    # join the integer and decimal parts
+    return int * "." * frac
+  end
 end
+
