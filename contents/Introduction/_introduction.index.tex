@@ -2,30 +2,69 @@
 \label{chap:introduction}
   \section{Motivation}
   \label{sec:motivation}
-    The notion of learning machines has been around since the 1950s, when Alan Turing 
-    \autocite{turingCOMPUTINGMACHINERYINTELLIGENCE1950a} asked a simple question: 
-    \enquote{Can machines think?}.
-    Since then, the field of artificial intelligence has grown exponentially, with new
-    applications being developed every day.
-    
-    The first ideas on artificially simulating evolution date back to 1954, when Nills Aall
-    Barricelli~\autocite{barricelliNumericalTestingEvolution1962} proposed a definition of
-    evolution as a pure statistical process, establishing the basis for the field of
-    \emph{evolutionary computation} (EC).
-    In this work, Baricelly states that in order for a system to be considered an evolutionary
-    system, its components must satisfy the following conditions:
+    The birth of artificial intelligence (AI) as we understand it today can be
+    traced back to the mid-20th century, when Alan Turing posed the provocative
+    question: \enquote{Can machines
+    think?}~\autocite{turingCOMPUTINGMACHINERYINTELLIGENCE1950a}.
+    From that moment on, the field has grown dramatically, developing an
+    extensive range of applications that continue to expand and evolve.
 
-    \begin{enumerate}
-      \item Be able to reproduce.
-      \item Be able to und-ergo hereditary changes (mutations) in order to permit evolution by a 
-        process of survival of the fittest.
-    \end{enumerate}
+    One of the early attempts to simulate evolution artificially dates back to
+    1954 when Nills Aall
+    Barricelli~\autocite{barricelliNumericalTestingEvolution1962} defined
+    evolution as a purely statistical process.
+    This pioneering work laid the foundations for the field of
+    \emph{evolutionary computation} (EC), setting the criteria for a system to
+    be deemed evolutionary.
+    Barricelli posited that such a system's components must be capable of
+    reproduction and mutation, enabling evolution via natural selection or
+    survival of the fittest.
 
-    John Holland~\autocite{hollandAdaptationNaturalArtificial1992a} will later formalize these
-    ideas in his book \emph{Adaptation in Natural and Artificial Systems}, where he introduces
-    the concept of \emph{genetic algorithms} (GA), a method for solving optimization problems
-    based on the principles of natural selection and genetics.
-    Holland's work will be the basis for the field of \emph{evolutionary algorithms} (EA).
+    Furthering these principles, John Holland's seminal work, \emph{Adaptation
+    in Natural and Artificial
+    Systems}~\autocite{hollandAdaptationNaturalArtificial1992a}, introduced
+    \emph{genetic algorithms} (GA), a revolutionary approach to solving
+    optimization problems inspired by the mechanisms of natural selection and
+    genetics.
+    This established the foundation for the field of \emph{evolutionary
+    algorithms} (EA), spurring the development of numerous techniques and
+    algorithms, including genetic algorithms, genetic programming, and
+    evolutionary strategies.
+
+    Despite the demonstrated success of evolutionary algorithms in solving
+    complex optimization problems, from scheduling and data mining to machine
+    learning and beyond, their implementation can be cumbersome, often requiring
+    a significant amount of repetitive coding.
+    As AI adoption continues to grow, so does the need for streamlined,
+    user-friendly libraries and frameworks that enable efficient experimentation
+    and implementation of these powerful algorithms.
+
+    One promising platform for the development of such a framework is the
+    \emph{Kotlin programming language}~\autocite{KotlinProgrammingLanguagea}.
+    \textit{Kotlin} boasts an intuitive syntax, static typing, and seamless
+    interoperability with
+    \textit{Java}~\autocite{CallingJavaKotlin,CallingKotlinJava,KotlinJavaInteropGuide},
+    making it a compelling choice for AI and EC practitioners.
+    The language's stature has been recognized officially in Android app
+    development~\autocite{AndroidKotlinfirstApproach}, and it enjoys growing
+    popularity among developers, with over 60\% of Android developers now using
+    it~\autocite{LatestProgrammingLanguages2023}.
+    Additionally, Kotlin is ranked as the ninth fastest-growing language
+    globally from 2021 to 2023, according to a study by
+    GitHub~\autocite{TopProgrammingLanguages}, surpassing Python by 0.4\%.
+
+    The Kotlin Multiplatform feature further enhances the language's appeal by
+    enabling code sharing across a multitude of platforms, including JVM,
+    JavaScript, Android, iOS, and native desktop applications.
+    This capability fosters increased productivity and consistency in
+    development work.
+
+    Given these strengths, the main goal of this thesis is to leverage
+    \textit{Kotlin} to design and implement a novel genetic algorithms
+    framework, contributing to the ever-expanding usage of \textit{Kotlin} in
+    the AI community.
+    We anticipate that this framework will expedite research and applications in
+    the field, accelerating the pace of innovation in evolutionary computation.
 
   \section{Hyphotesis and Research Questions}
   \label{sec:hyphotesis_and_research_questions}

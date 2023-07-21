@@ -11,6 +11,7 @@ include("../latex/tables/table.jl")
 include("../latex/text.jl")
 include("individuals.jl")
 include("selection.jl")
+include("samples.jl")
 
 println("""
 
@@ -21,37 +22,7 @@ println("""
 """
 )
 
-""" Sample points. """
-data = [
-  -0.889160069272859
-  -0.8561029711395651
-  -0.8212951850355155
-  -0.8181934125983823
-  -0.4298586689110253
-  -0.3523275114715019
-  -0.0357759083395397
-  0.017449673577553337
-  0.5290096774879465
-  0.8211010511234629
-]
-println("Sample points: ")
-println(repr("text/plain", data))
-
-rows = vcat(
-  row([L"x", L"y"], top_rules = 1, bottom_rules = 2),
-  [row([d, f(d)], bottom_rules = 1) for d in data]
-)
-
-savetable(
-  table(
-    tabular(rows, alignment = align"|r|r|"),
-    position = p"ht!",
-    caption = caption(
-      "A set of points generated from the function " * L"5x^3 - 2x^2 + \sin(x) - 7", 
-      label = "tab:bg:gp:repr_ev:points"
-    )
-  ), "contents/Theoretical_Background/GP/representation/tab-bg-gp-repr_ev-points.tex"
-)
+data = create_samples()
 
 initial_population = Population(
   [Individual{Function}(
