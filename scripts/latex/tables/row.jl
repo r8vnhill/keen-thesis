@@ -87,5 +87,5 @@ Create a `Row` object representing a row in a LaTeX table.
   Row(["Alice", "Bob"], 1, 2)
   ```
 """
-row(data::Vector; top_rules::Int = 0, bottom_rules::Int = 0) = 
+row(data...; top_rules::Int = 0, bottom_rules::Int = 0) = 
   Row([cell(d) for d in data], top_rules, bottom_rules)

@@ -104,6 +104,10 @@ Construct a `Tabular` object with the specified content and alignment.
   ```
 """
 tabular(
-  content::Vector{Row};
+  content...;
   alignment::Alignment
-) = Tabular(content, alignment)
+)::Tabular = if isempty(content)
+  throw(ArgumentError("Cannot create a tabular environment with no content."))
+else
+  Tabular([row(c) for c in content], alignment)
+end

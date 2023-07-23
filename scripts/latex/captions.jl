@@ -37,7 +37,7 @@ Construct a Caption object with a provided text and optional label.
 # Raises
   - `error`: If the label is not valid according to `_validate_label` function.
 """	
-caption(text::String; label::Union{String, Option{String}} = None{String}())::Caption =
+caption(text::AbstractString; label::Union{String, Option{String}} = None{String}())::Caption =
   if _validate_label(label)
     Caption(text, label)
   else

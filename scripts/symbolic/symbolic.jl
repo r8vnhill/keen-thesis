@@ -19,48 +19,11 @@ println("""
 === Starting symbolic regression script ===
 ===========================================
 
-"""
-)
+""")
 
-data = create_samples()
+samples = create_samples()
 
-initial_population = Population(
-  [Individual{Function}(
-      initial_individuals[i], 
-      L"\mathrm{I}_%$i(x)", 
-      mse(f.(data), initial_individuals[i].(data))
-    ) for i in eachindex(initial_individuals)]
-)
-
-println("Initial population: ", repr("text/plain", initial_population))
-println("Initial population average fitness: ", average_fitness(initial_population))
-println("Initial population standard deviation of fitness: ", stddev_fitness(initial_population), 
-  "\n")
-
-savetable(
-  table(
-    tabular(
-      vcat(
-        [
-          row([cell(bold"Generation 0", alignment = align"c", length = 4)], bottom_rules = 2)
-          row([bold"Individual", bold"Program", bold"Height", bold"Fitness"], bottom_rules = 1)
-        ],
-        [
-          row([
-            initial_population.individuals[i].name,
-             
-            initial_heights[i],
-            initial_population.individuals[i].ϕ
-          ]) for i in eachindex(initial_population.individuals)
-        ]
-      ), alignment = align"c|c|c|r"
-    ), caption = caption(
-      "Initial population of the genetic programming algorithm", 
-      label = "tab:bg:gp:sym:init:pop"
-    ), position = p"ht!",
-  ), "contents/Theoretical_Background/GP/initialization/tab-bg-gp-sym-init-pop.tex"
-)
-save_population(initial_population, "data/bg_gp_sym_pop_init.txt")
+initial_population = create_population()
 
 sum_of_fitnesses = sum(Φ(initial_population))
 
@@ -148,10 +111,10 @@ png("img/theoretical_framework/gp_pop_crossover.png")  # Save the plot to a file
 Mean squared errors.
 """
 mses = [
-  mse(f.(data), survivors[1].value.(data))
-  mse(f.(data), survivors[2].value.(data))
-  mse(f.(data), O_1.(data))
-  mse(f.(data), O_2.(data))
+  mse(f.(samples), survivors[1].value.(samples))
+  mse(f.(samples), survivors[2].value.(samples))
+  mse(f.(samples), O_1.(samples))
+  mse(f.(samples), O_2.(samples))
 ]
 println("Mean squared errors: ", mses)
 
@@ -175,10 +138,10 @@ std_improvement = (std_mse_Σ - std_mse_X) / std_mse_Σ * 100
 println("Standard deviation improvement: ", std_improvement, "%")
 
 mutated_mses = [
-  mse(f.(data), mutated_population[1].(data))
-  mse(f.(data), mutated_population[2].(data))
-  mse(f.(data), mutated_population[3].(data))
-  mse(f.(data), mutated_population[4].(data))
+  mse(f.(samples), mutated_population[1].(samples))
+  mse(f.(samples), mutated_population[2].(samples))
+  mse(f.(samples), mutated_population[3].(samples))
+  mse(f.(samples), mutated_population[4].(samples))
 ]
 
 println("Mutated mean squared errors: ", mutated_mses)
