@@ -1,0 +1,125 @@
+\section{Distributed Evolutionary Algorithms in Python (DEAP)}
+\label{sec:sota:deap}
+
+  \emph{Distributed Evolutionary Algorithms in Python} (DEAP) is an evolutionary
+  computation framework for rapid prototyping and testing of ideas.
+  It seeks to provide a clear and simple interface to ease the design of complex
+  algorithms.
+  What distinguishes DEAP from many other evolutionary computation libraries is
+  its high modularity and flexibility.
+  It allows the creation of almost any kind of evolutionary algorithm, genetic
+  algorithm, or even hybrid algorithms.
+
+  DEAP is built around two main components: the \texttt{Creators} and the
+  \texttt{Toolbox}.
+  The \texttt{Creators} module is used to generate new classes that will be used
+  within the genetic algorithm, such as individuals and populations.
+  The \texttt{Toolbox} is a container for the various operators required in
+  evolutionary algorithms, such as the evaluation, selection, mutation, and
+  crossover functions.
+
+  Here is a simple example of a genetic algorithm using DEAP:
+
+  \begin{src}
+    \captionof{listing}{A simple genetic algorithm using DEAP}
+    \label{src:sota:deap:example}
+    \begin{minted}[linenos]{python}
+      creator.create("FitnessMax", base.Fitness, weights=(1.0,))
+      creator.create("Individual", list, fitness=creator.FitnessMax)
+      toolbox = base.Toolbox()
+      toolbox.register("attr_bool", random.randint, 0, 1)
+      toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_bool, n=20)
+      toolbox.register("population", tools.initRepeat, list, toolbox.individual)
+      toolbox.register("evaluate", lambda ind: (sum(ind),))
+      toolbox.register("mate", tools.cxTwoPoint)
+      toolbox.register("mutate", tools.mutFlipBit, indpb=0.05)
+      toolbox.register("select", tools.selTournament, tournsize=3)
+      TARGET_FITNESS = 20
+      if __name__ == "__main__":
+          random.seed(11)
+          pop = toolbox.population(n=20)
+          hof = tools.HallOfFame(1)
+          stats = tools.Statistics(lambda ind: ind.fitness.values)
+          stats.register("max", max)
+          gen = 0
+          while True:
+              gen += 1
+              offspring = algorithms.varAnd(pop, toolbox, cxpb=0.5, mutpb=0.2)
+              fits = toolbox.map(toolbox.evaluate, offspring)
+              for fit, ind in zip(fits, offspring):
+                  ind.fitness.values = fit
+              pop = toolbox.select(offspring, k=len(pop))
+              hof.update(pop)
+              record = stats.compile(pop)
+              if record['max'][0] >= TARGET_FITNESS:
+                  break
+          print(f"Target fitness reached at generation {gen}.")
+          print(f"Best individual is: {hof[0]}")
+          print(f"with fitness: {hof[0].fitness.values[0]}")
+    \end{minted}
+  \end{src}
+
+  This example demonstrates the use of DEAP to implement a simple genetic
+  algorithm, with the added functionality to stop evolution once a target
+  fitness is achieved.
+
+  Here is a breakdown of the code:
+
+  \begin{enumerate}
+    \item[1-2] DEAP uses a meta-factory to create user-defined classes.
+      Here, we create two classes: \texttt{FitnessMax} for the fitness
+      (single-objective, to be maximized) and \texttt{Individual} to represent
+      an individual in the population.
+    \item[3] The \texttt{Toolbox} is created, it is used to store various
+      functions and their arguments.
+    \item[4-5] We register two functions in the toolbox: \texttt{attr\_bool} 
+      which generates a random binary number (0 or 1), and \texttt{individual}
+      which creates a new individual using the \texttt{attr\_bool} function.
+      The individual consists of 20 binary numbers (genes).
+    \item[6-7] We then register two more functions: \texttt{population} which
+      creates a population of individuals, and \texttt{evaluate} which evaluates
+      an individual's fitness as the sum of its genes.
+    \item[8-10] We register three more functions in the toolbox: \texttt{mate}
+      for performing two-point crossover, \texttt{mutate} for flipping bits in
+      the individual's gene sequence with a 5\% probability, and \texttt{select}
+      for performing tournament selection with a tournament size of 3.
+    \item[12] We set the target fitness to 20. 
+    \item[13-32] In the main section of the code, we seed the random number
+      generator, create a population of 20 individuals, and set up the 
+      \textit{Hall of Fame} and a statistics object to keep track of the maximum
+      fitness in the population.
+    \item[16-31] A while loop is used to run the genetic algorithm until the
+      target fitness is reached. Inside the loop:
+      \begin{enumerate}
+        \item[18-19] We apply crossover and mutation to the population, then
+          evaluate the fitness of the offspring.
+        \item[20-21] We assign the newly computed fitness values to the
+          individuals.
+        \item[22] We replace the old population with the selected individuals
+          from the offspring.
+        \item[23-24] We update the Hall of Fame and compile the statistics.
+        \item[25-26] We check if the maximum fitness has reached the target
+          fitness.
+          If it has, we break the loop and the algorithm stops.
+        \item[28-31] After the loop, we print the generation when the target
+          fitness was reached and the best individual in the population along with
+          its fitness.
+      \end{enumerate}
+  \end{enumerate}
+
+  This example illustrates the key aspects of using DEAP: creating custom classes, setting up a toolbox, defining and registering functions, and manually controlling the loop of the genetic algorithm.
+
+  DEAP provides robust support for multi-objective algorithms and
+  parallelization, which are common requirements in complex optimization
+  problems.
+  The library also includes a set of benchmark functions and examples to help
+  users understand the various algorithms' behavior and performance.
+
+
+  One point to note is that DEAP is designed to work with Python, a
+  dynamically-typed language.
+  Thus, this framework might be less suitable for users seeking the performance
+  benefits of statically-typed languages or the robustness provided by strong
+  type-checking.
+  Despite this, DEAP's flexibility and modularity have made it a popular choice
+  among researchers and practitioners in the field of genetic algorithms.
