@@ -1,24 +1,24 @@
-\section{Distributed Evolutionary Algorithms in Python (DEAP)}
+\section{Distributed Evolutionary Algorithms in \textit{Python} (DEAP)}
 \label{sec:sota:deap}
 
-  \emph{Distributed Evolutionary Algorithms in Python} (DEAP) is an evolutionary
-  computation framework for rapid prototyping and testing of ideas.
-  It seeks to provide a clear and simple interface to ease the design of complex
+  \emph{Distributed Evolutionary Algorithms in Python} (DEAP) is a powerful
+  evolutionary computation framework designed for rapid prototyping and
+  validation of concepts.
+  It stands apart from many other evolutionary computation libraries due to its
+  significant modularity and versatility, which enables the construction of a
+  broad range of evolutionary algorithms, genetic algorithms, and even hybrid
   algorithms.
-  What distinguishes DEAP from many other evolutionary computation libraries is
-  its high modularity and flexibility.
-  It allows the creation of almost any kind of evolutionary algorithm, genetic
-  algorithm, or even hybrid algorithms.
 
-  DEAP is built around two main components: the \texttt{Creators} and the
-  \texttt{Toolbox}.
-  The \texttt{Creators} module is used to generate new classes that will be used
-  within the genetic algorithm, such as individuals and populations.
-  The \texttt{Toolbox} is a container for the various operators required in
-  evolutionary algorithms, such as the evaluation, selection, mutation, and
-  crossover functions.
+  DEAP is structured around two primary components: the \texttt{Creators} and
+  the \texttt{Toolbox}.
+  The \texttt{Creators} module facilitates the generation of new classes
+  integral to the genetic algorithm, such as individuals and populations.
+  In contrast, the \texttt{Toolbox} serves as a comprehensive repository for
+  various operators necessary in evolutionary algorithms, including the
+  evaluation, selection, mutation, and crossover functions.
 
-  Here is a simple example of a genetic algorithm using DEAP:
+  The following illustrates the use of DEAP to solve the OMP problem using a
+  genetic algorithm:
 
   \begin{src}
     \captionof{listing}{A simple genetic algorithm using DEAP}
@@ -30,7 +30,7 @@
       toolbox.register("attr_bool", random.randint, 0, 1)
       toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_bool, n=20)
       toolbox.register("population", tools.initRepeat, list, toolbox.individual)
-      toolbox.register("evaluate", lambda ind: (sum(ind),))
+      toolbox.register("evaluate", lambda i: (sum(i),))
       toolbox.register("mate", tools.cxTwoPoint)
       toolbox.register("mutate", tools.mutFlipBit, indpb=0.05)
       toolbox.register("select", tools.selTournament, tournsize=3)
@@ -39,7 +39,7 @@
           random.seed(11)
           pop = toolbox.population(n=20)
           hof = tools.HallOfFame(1)
-          stats = tools.Statistics(lambda ind: ind.fitness.values)
+          stats = tools.Statistics(lambda i: i.fitness.values)
           stats.register("max", max)
           gen = 0
           while True:
@@ -54,10 +54,18 @@
               if record['max'][0] >= TARGET_FITNESS:
                   break
           print(f"Target fitness reached at generation {gen}.")
-          print(f"Best individual is: {hof[0]}")
+          print(f"Best individual is: {''.join(map(str, hof[0]))}")
           print(f"with fitness: {hof[0].fitness.values[0]}")
     \end{minted}
   \end{src}
+
+  When executed, the program outputs the following:
+
+  \begin{minted}{text}
+    Target fitness reached at generation 12.
+    Best individual is: 11111111111111111111
+    with fitness: 20.0
+  \end{minted}
 
   This example demonstrates the use of DEAP to implement a simple genetic
   algorithm, with the added functionality to stop evolution once a target
@@ -66,12 +74,16 @@
   Here is a breakdown of the code:
 
   \begin{enumerate}
-    \item[1-2] DEAP uses a meta-factory to create user-defined classes.
+    \item[1-2] DEAP uses a meta-factory to \textit{dynamically} create
+      user-defined classes.
       Here, we create two classes: \texttt{FitnessMax} for the fitness
       (single-objective, to be maximized) and \texttt{Individual} to represent
       an individual in the population.
-    \item[3] The \texttt{Toolbox} is created, it is used to store various
-      functions and their arguments.
+      The second argument to \texttt{create} is the base class, meaning that
+      \texttt{FitnessMax} is a subclass of \texttt{base.Fitness} and
+      \texttt{Individual} is a subclass of \texttt{list}.
+    \item[3] The \texttt{Toolbox} is created, it is used to store most of the
+      functions and arguments required to perform the genetic algorithm.
     \item[4-5] We register two functions in the toolbox: \texttt{attr\_bool} 
       which generates a random binary number (0 or 1), and \texttt{individual}
       which creates a new individual using the \texttt{attr\_bool} function.
@@ -80,34 +92,40 @@
       creates a population of individuals, and \texttt{evaluate} which evaluates
       an individual's fitness as the sum of its genes.
     \item[8-10] We register three more functions in the toolbox: \texttt{mate}
-      for performing two-point crossover, \texttt{mutate} for flipping bits in
-      the individual's gene sequence with a 5\% probability, and \texttt{select}
+      for performing \textit{two-point crossover}, \texttt{mutate} with a
+      \textit{bit-flip mutator} with a 5\% probability, and \texttt{select}
       for performing tournament selection with a tournament size of 3.
-    \item[12] We set the target fitness to 20. 
-    \item[13-32] In the main section of the code, we seed the random number
-      generator, create a population of 20 individuals, and set up the 
-      \textit{Hall of Fame} and a statistics object to keep track of the maximum
-      fitness in the population.
-    \item[16-31] A while loop is used to run the genetic algorithm until the
-      target fitness is reached. Inside the loop:
+    \item[11] We set the target fitness to 20 (since we aim to maximize the sum
+      of the genes, the maximum possible fitness is 20) 
+    \item[12-32] In the main section of the code, we seed the random number
+      generator to ensure reproducibility, create a population of 20
+      individuals, and set up the \textit{Hall of Fame} and a statistics object
+      to keep track of the maximum fitness in the population.
+    \item[19-29] A while loop is used to run the genetic algorithm until the
+      target fitness is reached.
+      Inside the loop:
+
       \begin{enumerate}
-        \item[18-19] We apply crossover and mutation to the population, then
-          evaluate the fitness of the offspring.
-        \item[20-21] We assign the newly computed fitness values to the
+        \item[21-22] We apply crossover and mutation to the population using the
+          \texttt{varAnd} function,\footnote{This function simply applies the
+          variation operators to the population.} and then evaluate the fitness
+          of the offspring
+        \item[23-24] We assign the newly computed fitness values to the
           individuals.
-        \item[22] We replace the old population with the selected individuals
+        \item[25] We replace the old population with the selected individuals
           from the offspring.
-        \item[23-24] We update the Hall of Fame and compile the statistics.
-        \item[25-26] We check if the maximum fitness has reached the target
+        \item[26-27] We update the Hall of Fame and compile the statistics.
+        \item[28-29] We check if the maximum fitness has reached the target
           fitness.
           If it has, we break the loop and the algorithm stops.
-        \item[28-31] After the loop, we print the generation when the target
-          fitness was reached and the best individual in the population along with
-          its fitness.
       \end{enumerate}
+
+    \item[30-32] Finally, we print the results.
   \end{enumerate}
 
-  This example illustrates the key aspects of using DEAP: creating custom classes, setting up a toolbox, defining and registering functions, and manually controlling the loop of the genetic algorithm.
+  This example illustrates the key aspects of using DEAP: creating custom
+  classes, setting up a toolbox, defining and registering functions, and
+  manually controlling the loop of the genetic algorithm.
 
   DEAP provides robust support for multi-objective algorithms and
   parallelization, which are common requirements in complex optimization
@@ -115,11 +133,54 @@
   The library also includes a set of benchmark functions and examples to help
   users understand the various algorithms' behavior and performance.
 
+  DEAP is widely regarded as one of the most comprehensive and cutting-edge
+  genetic algorithm frameworks currently available.
+  It boasts a wealth of documentation and a robust community of users and
+  contributors.
+  However, certain facets of DEAP may pose challenges for users, as reflected in
+  the preceding code example.
 
-  One point to note is that DEAP is designed to work with Python, a
-  dynamically-typed language.
-  Thus, this framework might be less suitable for users seeking the performance
-  benefits of statically-typed languages or the robustness provided by strong
-  type-checking.
+  \begin{itemize}
+    \item DEAP's code can be quite verbose, and the utilization of a toolbox
+      might initially confuse newcomers, given that it's not a standard
+      convention in evolutionary algorithms.
+      This characteristic becomes more evident when juxtaposed with the code
+      syntax of other frameworks.
+    \item A trade-off exists between the framework's flexibility and ease of
+      use.
+      While DEAP's malleability is commendable, it heavily relies on code
+      injection.
+      This reliance complicates static analysis, resulting in warnings such as
+      \enquote{Unresolved attribute reference} in \textit{PyCharm} and 
+      \enquote{\texttt{reportGeneralTypeIssues}} in \textit{Visual Studio
+      Code} with \textit{Pylance} (on lines 2, 5, 6, 14, 22, and 25), which
+      can inhibit certain IDE capabilities, including auto-completion and
+      refactoring.
+    \item DEAP's dependence on code injection can potentially introduce risks
+      in production environments.
+      Even though code injection is not inherently unsafe, if handled
+      carelessly, it can result in system vulnerabilities.
+    \item \textit{Python}'s dynamic typing can be a double-edged sword.
+      While it offers flexibility, type errors will not be detected until
+      runtime, which can potentially lead to bugs and render the code more
+      challenging to comprehend.
+    \item For efficiency, DEAP necessitates the \textit{NumPy} library, which
+      isn't part of the standard \textit{Python} library.
+      Although this is not inherently negative, it does introduce an extra
+      dependency that needs to be managed.
+    \item Enhancing DEAP's functionality mandates an in-depth comprehension of
+      the library's architecture, and in many instances, necessitates manual
+      modifications to the algorithm's execution loop.
+      This is evident in the previous example, where manual control of the
+      algorithm's loop is required to halt upon reaching the target fitness.
+    \item The library's tendency to abbreviate variable names can render the
+      code difficult to interpret.
+      Without referring to the documentation, understanding the meaning of
+      variables such as \texttt{cxpb} and \texttt{mutpb} can be challenging.
+      The problem can be exacerbated by \textit{Python}'s keyword arguments
+      (\texttt{kwargs}), as they are not explicitly declared, preventing IDEs
+      from providing valuable information about them.
+  \end{itemize}
+
   Despite this, DEAP's flexibility and modularity have made it a popular choice
-  among researchers and practitioners in the field of genetic algorithms.
+  among researchers and practitioners in the field of evolutionary computation.

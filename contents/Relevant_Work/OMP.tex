@@ -1,0 +1,45 @@
+\section{The One Max Problem}
+\label{sota:omp}
+  For the purpose of illustrating the use of the different frameworks, we will
+  use the \textit{One Max problem} introduced on \vref{sec:bg:ga:repr}.
+
+  The \emph{One Max problem}, or the Ones Counting problem, is a classic and
+  straightforward optimization problem often used as a benchmark in the study of
+  evolutionary algorithms and other heuristic search methods.
+  It serves as a deceptively simple yet effective test of an algorithm's
+  optimization ability.
+
+  Given a binary string of length $n$, the \textit{One Max problem} is to find a
+  binary string such that the sum of its bits (counting the number of ones) is
+  maximized.
+  In formal terms, if we denote the binary string as $x = (x_1, x_2, ..., x_n)$
+  where each $x_i \in \{0,\,1\}$ for all $i = 1,\, 2,\, \dots,\, n$, the 
+  \textit{fitness function} $\phi(x)$ to be maximized can be expressed as:
+
+  \begin{equation}
+    \phi(x) = \sum_{i=1}^{n} x_i
+  \end{equation}
+
+  The function $f(x)$ counts the number of ones in the string $x$.
+  The maximum possible value of $f(x)$ is $n$, which is achieved when all bits
+  in the string are one.
+  The \textit{One Max problem} is an instance of a unimodal problem since
+  there's only one local maximum which is also a global maximum.
+
+  It's important to note that despite its simplicity, the \textit{One Max
+  problem} does provide a non-trivial task for many search algorithms.
+  For a binary string of length $n$, there are $2^n$ possible solutions.
+  For larger $n$, an exhaustive search of the solution space is not feasible,
+  hence the need for efficient optimization algorithms.
+
+  Due to its characteristics, the \textit{One Max problem} is often used to
+  evaluate the performance of optimization algorithms especially genetic and
+  evolutionary algorithms.
+  It's particularly well-suited for genetic algorithms as the operations of
+  crossover and mutation can directly change the number of ones in a binary
+  string, thus impacting the fitness of a potential solution.
+
+  Despite the straightforward objective function, the \textit{One Max problem} is
+  invaluable in the study of heuristic search methods due to its accessibility,
+  simplicity and the vastness of its search space, which permits the analysis
+  and comparison of the performance of different optimization techniques.
