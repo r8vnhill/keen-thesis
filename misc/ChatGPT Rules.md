@@ -53,3 +53,17 @@ Whenever asked for a documentation comment you should use the following syntax:
 - ...
 """
 ```
+
+## Rule 5: Mention of tools, technologies, etc.
+
+Whenever you mention a tool, you should use italic font, e.g.:
+> \textit{Keen} is a \textit{Kotlin} genetic algorithm framework.
+
+## Rule 6: Use of quotation marks
+
+Whenever you quote something, you should use the following syntax:
+> \enquote{This is a quote.}
+
+## Rule 7: Use of math environments
+
+Always prefer using `\( ... \)` and `\[ ... \]` over `$ ... $` and `$$ ... $$`.

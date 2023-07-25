@@ -24,7 +24,8 @@
 % | #2 (displayed name) - The name displayed when the environment is used.
 \newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{corollary}{Corollary}[theorem]
 \newtheorem*{remark}{Remark}
 \newtheorem{definition}{Definition}[chapter]
 
-\RenewDocumentEnvironment{proof}{}{\textit{\textbf{Proof.}}}{\qed}
+\RenewDocumentEnvironment{proof}{}{\emph{Proof.}}{\qed}
