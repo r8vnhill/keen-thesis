@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from commons.logs import debug
+from commons.logs import debug, info
 
-__all__ = ["CONTENTS_DIR", "debug"]
+__all__ = ["CONTENTS_DIR", "debug", "info"]
 __author__ = ["r8vnhill"]
 
 CONTENTS_DIR = Path(__file__).parent.parent.parent / "contents"

@@ -4,7 +4,7 @@ from typing import Callable
 import coloredlogs
 
 from commons import CONTENTS_DIR, debug
-from latex import Caption, Position
+from latex import Caption, Position, math
 from latex.tables import Row, Table, Tabular
 
 
@@ -41,11 +41,11 @@ def create_samples(f: Callable[[float], float]) -> list[tuple[float, float]]:
                -0.3523275114715019, -0.0357759083395397, 0.017449673577553337, 0.5290096774879465, 0.8211010511234629]
     debug(f'Created samples: {samples}', __name__)
     data = [(d, f(d)) for d in samples]
-    tab = Table(Tabular(Row(r"\(x\)", r"\(y\)", top_rules=1, bottom_rules=2),
+    tab = Table(Tabular(Row(math("x"), math("y"), top_rules=1, bottom_rules=2),
                         *[Row(*d, bottom_rules=1) for d in data],
                         alignment="|r|r|"),
                 caption=Caption(
-                    r"A set of points generated from the function \(5x^3 - 2x^2 + \sin(x) - 7\)",
+                    "A set of points generated from the function " + math(r"5x^3 - 2x^2 + \sin(x) - 7"),
                     label="tab:bg:gp:repr_ev:points"),
                 position=[Position.HERE, Position.TOP, Position.STRICT])
     debug(f'Created table:\n{tab}', __name__)

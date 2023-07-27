@@ -12,7 +12,7 @@ initial_individuals = [
 ]
 
 """ Initial heights """
-initial_heights = [3, 3, 1, 2]
+  initial_heights = [3, 3, 1, 2]
 
 """ Population after crossover """
 crossed_individuals = [

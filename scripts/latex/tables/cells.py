@@ -37,7 +37,7 @@ class Cell:
     alignment: Alignment
     length: int
 
-    def __init__(self, data: object, alignment: Alignment = Alignment('c'), length: int = 1):
+    def __init__(self, data: object, alignment: Alignment | str = 'c', length: int = 1):
         if length < 1:
             raise ValueError(f'Cell length [{length}] must be positive...')
         match data:
@@ -47,7 +47,7 @@ class Cell:
                 self.length = l
             case _:
                 self.data = data
-                self.alignment = alignment
+                self.alignment = Alignment(alignment)
                 self.length = length
 
     def __str__(self):
