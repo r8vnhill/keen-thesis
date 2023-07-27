@@ -67,3 +67,21 @@ Whenever you quote something, you should use the following syntax:
 ## Rule 7: Use of math environments
 
 Always prefer using `\( ... \)` and `\[ ... \]` over `$ ... $` and `$$ ... $$`.
+
+## Rule 8: Documentation for Python code
+
+Whenever asked for a documentation comment you should use the following syntax:
+
+```python
+def <function name>(<parameter name>):
+    """
+    <short description>
+
+    <extended description>
+
+    :param <parameter name>: <parameter description>
+    :param <parameter name>: <parameter description>
+    :return: <return description>
+    """
+```
+

@@ -32,7 +32,7 @@ corrected_population = map(
     individual.value, 
     individual.name, 
     sum_of_fitnesses - individual.ϕ
-  ), 
+  ),
   initial_population
 )
 
@@ -44,27 +44,32 @@ println("Selection probabilities: $(repr("text/plain", P))\n")
 savetable(
   table(
     tabular(
-      vcat(
-        [
-          row(
-            [bold"Individual", bold"Fitness", bold"Selection Probability"],
-            bottom_rules = 1,
-            top_rules = 1
-          )
-        ], [
-          row([
-            corrected_population.individuals[i].name,
-            corrected_population.individuals[i].ϕ,
-            format_number(P[i] * 100) * "\\%"
-          ], bottom_rules = 1,) for i in eachindex(corrected_population.individuals)
-        ]
-      ), alignment = align"|l|r|r|"
+      row(
+        [bold"Individual", bold"Fitness", bold"Selection Probability"],
+        bottom_rules = 1,
+        top_rules = 1
+      ),
+      [row(
+        corrected_population.individuals[i].name,
+        corrected_population.individuals[i].ϕ,
+        format_number(P[i] * 100) * "\\%", 
+        bottom_rules = 1) 
+      for i in eachindex(corrected_population.individuals)]...,
+      alignment = align"|l|r|r|"
     ), caption = caption(
       "Selection probabilities for the symbolic regression problem.", 
       label = "tab:bg:gp:sel:prob"
     ), position = p"ht!"
   ), raw"contents\Theoretical_Background\GP\selection\tab-bg-gp-sel-prob.tex"
 )
+
+mean_mse_initial = mean([
+  mse(f.(samples), initial_population.individuals[i].value.(samples)) for i in eachindex(initial_population.individuals)
+])
+
+std_mse_initial = std([
+  mse(f.(samples), initial_population.individuals[i].value.(samples)) for i in eachindex(initial_population.individuals)
+])
 
 survivors = [
   initial_population.individuals[2]
@@ -131,10 +136,10 @@ end
 mean_mse_X = mean(mses)
 std_mse_X = std(mses)
 
-avg_improvement = (mean_mse_Σ - mean_mse_X) / mean_mse_Σ * 100
+avg_improvement = (mean_mse_initial - mean_mse_X) / mean_mse_initial * 100
 println("Improvement: ", avg_improvement, "%")
 
-std_improvement = (std_mse_Σ - std_mse_X) / std_mse_Σ * 100
+std_improvement = (std_mse_initial - std_mse_X) / std_mse_initial * 100
 println("Standard deviation improvement: ", std_improvement, "%")
 
 mutated_mses = [
@@ -152,8 +157,28 @@ mutated_std_mses = std(mutated_mses)
 println("Mutated average: ", mutated_avg_mses)
 println("Mutated standard deviation: ", mutated_std_mses)
 
-mutated_avg_improvement = (mean_mse_X - mutated_avg_mses) / mean_mse_X * 100
+mutated_avg_improvement = (mean_mse_initial - mutated_avg_mses) / mean_mse_initial * 100
 println("Mutated improvement: ", mutated_avg_improvement, "%")
 
-mutated_std_improvement = (std_mse_X - mutated_std_mses) / std_mse_X * 100
+mutated_std_improvement = (std_mse_initial - mutated_std_mses) / std_mse_initial * 100
 println("Mutated standard deviation improvement: ", mutated_std_improvement, "%")
+
+println("Plotting the mutated population and the target function...")
+
+plot(
+  f, -1, 1, 
+  label=L"$f(x)$", 
+  lw=2, 
+  tickfontsize=12, 
+  legendfontsize=12, 
+  guidefontsize=14
+)
+plot!(mutated_population[1], label=L"M(\mathrm{I}_2(x))", lw=2, ls=:dashdot)
+plot!(mutated_population[2], label=L"M(\mathrm{I}_3(x))", lw=2, ls=:dash)
+plot!(mutated_population[3], label=L"M(\mathrm{O}_1(x))", lw=2, ls=:dot)
+plot!(mutated_population[4], label=L"M(\mathrm{O}_2(x))", lw=2, ls=:solid)
+title!("Mutated individuals of the population and the target function")
+xlabel!(L"$x$")
+ylabel!(L"$f(x)$")
+display(plot!())
+png("img/theoretical_framework/gp_pop_mutation.png")  # Save the plot to a file.

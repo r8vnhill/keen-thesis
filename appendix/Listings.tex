@@ -35,3 +35,29 @@
       res = t_leq(5)  # $|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|$
     \end{minted}
   \end{src}
+
+  \begin{src}
+    \captionof{listing}{%
+      Minimal implementation of the \textit{One Max} problem using the
+      \textit{Keen} framework.
+      \\
+    }
+    \label{lst:app:keen_one_max}
+    \begin{minted}{kotlin}
+      fun main() {
+          Core.random = Random(11)
+          val result = engine(
+              { gt: Genotype<Boolean, BoolGene> -> gt.flatten().count { it }.toDouble() },
+              genotype { chromosome { booleans { size = 20; truesProbability = 0.5 } } }) {
+              populationSize = 20
+              selector = TournamentSelector(sampleSize = 3)
+              alterers =
+                  listOf(BitFlipMutator(probability = 0.03), SinglePointCrossover(probability = 0.2))
+              limits = listOf(TargetFitness(20.0))
+              }.evolve()
+          println("Target fitness reached at generation ${result.generation}")
+          println("Best individual is ${result.best.genotype}")
+          println("with fitness ${result.best.fitness}")
+      }
+    \end{minted}
+  \end{src}

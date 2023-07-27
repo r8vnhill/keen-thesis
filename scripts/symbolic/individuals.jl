@@ -63,11 +63,11 @@ function create_population()::Population
     tabular(
       row(cell(bold"Generation 0", alignment = align"c", length = 4), bottom_rules = 2),
       row(bold"Individual", bold"Program", bold"Height", bold"Fitness", bottom_rules = 1),
-      [row([
-        initial_population.individuals[i].name, 
+      [row(
+        population.individuals[i].name, 
         initial_heights[i],
-        initial_population.individuals[i].ϕ
-      ]) for i in eachindex(initial_population.individuals)]...,
+        population.individuals[i].ϕ
+      ) for i in eachindex(population.individuals)]...,
       alignment = align"c|c|c|r"
     ),
     caption = caption(
@@ -79,5 +79,5 @@ function create_population()::Population
   @info "Saving initial population table:\n$(repr("text/latex", tab))"
   @info "Saved initial population table to: " * 
     savetable(tab, "contents/Theoretical_Background/GP/initialization/tab-bg-gp-sym-init-pop.tex")
-  population
+  return population
 end
