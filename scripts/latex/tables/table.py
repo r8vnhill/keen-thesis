@@ -49,7 +49,7 @@ class Table:
         io.write(str(self))
         return io.name
 
-    def save(self, path: str | Path, overwrite: bool = True) -> str:
+    def save(self, path: str | Path, overwrite: bool = True) -> Path:
         """
         Write the LaTeX code for the table to a file.
 
@@ -61,11 +61,12 @@ class Table:
         :return: The name of the file to which the LaTeX code was written.
         """
         debug(f"Saving table to {path}", __name__)
-        if not overwrite and Path(path).exists():
-            raise FileExistsError(f"File {path} already exists")
-        with open(str(path), 'w' if overwrite else 'x') as f:
+        resolved_path = Path(path)
+        if not overwrite and resolved_path.exists():
+            raise FileExistsError(f"File {resolved_path} already exists")
+        with open(str(resolved_path), 'w' if overwrite else 'x') as f:
             self.write(f)
-        return path
+        return resolved_path
 
     def __str__(self) -> str:
         """

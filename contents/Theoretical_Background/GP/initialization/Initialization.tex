@@ -132,28 +132,10 @@
   With this, we can assign a fitness to each individual in the population as
   shown in \vref{tab:bg:gp:sym:init:pop}.
   A summary of the population's fitness is shown in
-  \vref{tab:genetic_programming:initialization:fitness}.
+  \vref{tab:bg:gp:sym:init:pop:summary}.
 
   \subimport{.}{tab-bg-gp-sym-init-pop.tex}
-
-  \begin{table}[ht!]
-    \centering
-    \begin{tabular}{|c|r|c|}
-      \hline
-      & \textbf{Fitness} & \textbf{Individual}  \\
-      \hline
-      Best & 137.398\,836 & \(\mathbf{I}_2\) \\
-      Worst & 177\,596.851\,131 & \(\mathbf{I}_1\) \\
-      \hline
-      \hline
-      Average & \multicolumn{2}{r|}{44\,551.063\,525} \\
-      \hline
-      Standard Deviation & \multicolumn{2}{r|}{88\,697.238\,974} \\
-      \hline
-    \end{tabular}
-    \caption{Fitness of the individuals in generation 0}
-    \label{tab:genetic_programming:initialization:fitness}
-  \end{table}
+  \subimport{.}{tab-bg-gp-sym-init-pop-summary.tex}
 
   We can observe that the worst individual has an error significantly larger
   than the best individual.
