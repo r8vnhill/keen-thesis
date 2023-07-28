@@ -28,6 +28,8 @@ class Row:
         :param bottom_rules: The number of horizontal lines below the row, default is 0.
         :param spacing: The optional spacing for the first cell in the row. Default is None.
         """
+        if top_rules < 0 or bottom_rules < 0:
+            raise ValueError("Number of rules must be non-negative.")
         match content:
             case (Row(d, t, b, s), ):
                 self.data = d

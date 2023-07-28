@@ -1,14 +1,14 @@
 from math import sin
 from typing import Callable
 
-import coloredlogs
-
 from commons import CONTENTS_DIR, debug
 from latex import Caption, Position, math
 from latex.tables import Row, Table, Tabular
 
+Sample = tuple[float, float]
 
-def create_samples(f: Callable[[float], float]) -> list[tuple[float, float]]:
+
+def create_samples(f: Callable[[float], float]) -> list[Sample]:
     """
     Generates a list of samples based on the provided function `f`, and represents these samples as a LaTeX table.
 
@@ -37,24 +37,48 @@ def create_samples(f: Callable[[float], float]) -> list[tuple[float, float]]:
 
     The list `samples` will be a list of tuples where each tuple contains a sample point and its square.
     """
-    samples = [-0.889160069272859, -0.8561029711395651, -0.8212951850355155, -0.8181934125983823, -0.4298586689110253,
-               -0.3523275114715019, -0.0357759083395397, 0.017449673577553337, 0.5290096774879465, 0.8211010511234629]
-    debug(f'Created samples: {samples}', __name__)
+    samples = [
+        -0.889160069272859,
+        -0.8561029711395651,
+        -0.8212951850355155,
+        -0.8181934125983823,
+        -0.4298586689110253,
+        -0.3523275114715019,
+        -0.0357759083395397,
+        0.017449673577553337,
+        0.5290096774879465,
+        0.8211010511234629,
+    ]
+    debug(f"Created samples: {samples}", __name__)
     data = [(d, f(d)) for d in samples]
-    tab = Table(Tabular(Row(math("x"), math("y"), top_rules=1, bottom_rules=2),
-                        *[Row(*d, bottom_rules=1) for d in data],
-                        alignment="|r|r|"),
-                caption=Caption(
-                    "A set of points generated from the function " + math(r"5x^3 - 2x^2 + \sin(x) - 7"),
-                    label="tab:bg:gp:repr_ev:points"),
-                position=[Position.HERE, Position.TOP, Position.STRICT])
-    debug(f'Created table:\n{tab}', __name__)
-    path = tab.save(CONTENTS_DIR / "Theoretical_Background" / "GP" / "representation" / "tab-bg-gp-repr_ev-points.tex")
-    debug(f'Saved table to {path}', __name__)
+    tab = Table(
+        Tabular(
+            Row(math("x"), math("y"), top_rules=1, bottom_rules=2),
+            *[Row(*d, bottom_rules=1) for d in data],
+            alignment="|r|r|",
+        ),
+        caption=Caption(
+            "A set of points generated from the function "
+            + math(r"5x^3 - 2x^2 + \sin(x) - 7"),
+            label="tab:bg:gp:repr_ev:points",
+        ),
+        position=[Position.HERE, Position.TOP, Position.STRICT],
+    )
+    debug(f"Created table:\n{tab}", __name__)
+    path = tab.save(
+        CONTENTS_DIR
+        / "Theoretical_Background"
+        / "GP"
+        / "representation"
+        / "tab-bg-gp-repr_ev-points.tex"
+    )
+    debug(f"Saved table to {path}", __name__)
     return data
 
 
-if __name__ == '__main__':
-    coloredlogs.install(level='DEBUG')
-    SAMPLES = create_samples(lambda x: 5 * x ** 3 - 2 * x ** 2 + sin(x) - 7)
+if __name__ == "__main__":
+    import coloredlogs  # type: ignore
+
+    coloredlogs.install(level="DEBUG")
+    SAMPLES = create_samples(lambda x: 5 * x**3 - 2 * x**2 + sin(x) - 7)
     print(SAMPLES)
