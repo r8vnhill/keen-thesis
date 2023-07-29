@@ -2,7 +2,10 @@ import logging
 from math import sin
 
 import coloredlogs  # type: ignore
+<<<<<<< HEAD
 import numpy as np
+=======
+>>>>>>> c9d3aa4d8f1711d715b4de1964aee208cd056fd6
 
 from commons import info
 from symbolic.initialization import create_population
@@ -28,4 +31,7 @@ if __name__ == "__main__":
     )
     info(f"Corrected population: {CORRECTED_POPULATION}", "symbolic")
     save_probabilities(CORRECTED_POPULATION)
+<<<<<<< HEAD
     observed = np.array([i.value for i in POPULATION])
+=======
+>>>>>>> c9d3aa4d8f1711d715b4de1964aee208cd056fd6
