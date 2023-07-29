@@ -19,7 +19,7 @@ INITIAL_FUNCTIONS: list[Function] = [
 INITIALIZATION_PATH = CONTENTS_DIR / "Theoretical_Background" / "GP" / "initialization"
 
 
-def _create_individuals(fns: list[Function], samples: list[Sample]) -> list[Individual]:
+def _create_individuals(fns: list[Function], samples: list[Sample]) -> list[Individual[Function]]:
     """
     Creates individuals for the initial population.
 
@@ -139,7 +139,7 @@ def _save_population_summary(tab: Table) -> str | Path:
     return save_path
 
 
-def create_population(samples: list[Sample]) -> Population:
+def create_population(samples: list[Sample]) -> Population[Function]:
     """
     Creates the initial population for the genetic programming algorithm.
 
