@@ -46,4 +46,5 @@ if __name__ == "__main__":
     draw_population(concat(TARGET, SURVIVORS),
                     x_limits=(-1, 1),
                     graph_title="Survivors of the population and the target function",
-                    file_path=IMG_DIR / "theoretical_framework" / "gp_pop_sel_survivors.png")
+                    file_path=IMG_DIR / "theoretical_framework"
+                              / "gp_pop_sel_survivors.png")
