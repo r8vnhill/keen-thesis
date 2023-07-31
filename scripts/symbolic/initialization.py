@@ -1,7 +1,7 @@
 from math import sin
 from pathlib import Path
 
-from commons import debug, CONTENTS_DIR
+from commons import debug, CONTENTS_DIR, draw_lines, Line
 from latex import math, bold, Caption, Position
 from latex.tables import Table, Tabular, Row, Cell
 from symbolic.functions import Function
@@ -10,16 +10,19 @@ from symbolic.population import Individual, Population
 from symbolic.samples import Sample
 
 INITIAL_FUNCTIONS: list[Function] = [
-    Function(math(r"\frac{3}{\sin(2)} \cdot 5^3"), lambda _: 3 / sin(2) * 5**3, 3),
-    Function(math(r"7 - (5 + \sin(x))"), lambda x: 7 - (5 + sin(x)), 3),
-    Function(math(r"7 + 2"), lambda _: 7 + 2, 1),
-    Function(math(r"5x^2"), lambda x: 5 * x**2, 2),
+    Function(math(r"\mathbf{I}_1"), math(r"\frac{3}{\sin(2)} \cdot 5^3"),
+             lambda _: 3 / sin(2) * 5 ** 3, 3),
+    Function(math(r"\mathbf{I}_2"), math(r"7 - (5 + \sin(x))"),
+             lambda x: 7 - (5 + sin(x)), 3),
+    Function(math(r"\mathbf{I}_3"), math(r"7 + 2"), lambda _: 7 + 2, 1),
+    Function(math(r"\mathbf{I}_4"), math(r"5x^2"), lambda x: 5 * x ** 2, 2),
 ]
 
 INITIALIZATION_PATH = CONTENTS_DIR / "Theoretical_Background" / "GP" / "initialization"
 
 
-def _create_individuals(fns: list[Function], samples: list[Sample]) -> list[Individual[Function]]:
+def _create_individuals(fns: list[Function], samples: list[Sample]) -> list[
+    Individual[Function]]:
     """
     Creates individuals for the initial population.
 
@@ -66,7 +69,8 @@ def _create_population_table(population: Population) -> Table:
     return Table(
         Tabular(
             Row(Cell(bold("Generation 0"), alignment="c", length=4), bottom_rules=2),
-            Row(bold("Individual"), bold("Program"), bold("Height"), bold("Fitness")),
+            Row(bold("Individual"), bold("Program"), bold("Height"), bold("Fitness"),
+                bottom_rules=1),
             *[
                 Row(i.name, i.value.latex, i.value.depth, i.fitness, spacing="2pt")
                 for i in population
@@ -117,7 +121,7 @@ def _create_population_summary(population: Population) -> Table:
                 bottom_rules=1,
                 top_rules=1,
             ),
-            alignment="c|r|c",
+            alignment="|c|r|c|",
         ),
         caption=Caption(
             "Fitness of the individuals in generation 0",
@@ -143,8 +147,8 @@ def create_population(samples: list[Sample]) -> Population[Function]:
     """
     Creates the initial population for the genetic programming algorithm.
 
-    This function creates the initial population for the genetic programming algorithm by evaluating each function
-    in the 'fns' list for each sample in the 'samples' list.
+    This function creates the initial population for the genetic programming algorithm by
+    evaluating each function in the 'fns' list for each sample in the 'samples' list.
 
     The function then logs some information about the initial population, including the average fitness and the standard
     deviation of the fitness.
@@ -168,3 +172,33 @@ def create_population(samples: list[Sample]) -> Population[Function]:
     _save_population_table(tab)
     _save_population_summary(summary)
     return population
+
+
+def plot_population(population: Population[Function],
+                    x_limits: Tuple[float, float],
+                    graph_title: str,
+                    file_path: Path) -> None:
+    """
+    Generate a plot illustrating the given population of functions.
+
+    :param population: A `Population` instance, comprising several function
+                       representations.
+    :param x_limits: A tuple specifying the lower and upper limits for the x-axis.
+    :param graph_title: The title to be displayed at the top of the plot.
+    :param file_path: A `Path` instance denoting the location and filename where the plot
+                      will be saved.
+    """
+
+    # Generate list of Line instances corresponding to population functions
+    functions_to_plot = [Line(individual.name, individual.value.python) for individual in
+                         population]
+
+    draw_lines(
+        *functions_to_plot,
+        x_lim=x_limits,
+        title=graph_title,
+        x_label=math("x"),
+        y_label=math("f(x)"),
+        path=file_path
+    )
+

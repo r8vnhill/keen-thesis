@@ -8,6 +8,16 @@ def math(text) -> str:
     return r"\(" + str(text) + r"\)"
 
 
+def tex(text) -> str:
+    """
+    Converts the input text into a LaTeX inline math mode string.
+
+    :param text: A string representing a mathematical expression.
+    :return: A string with the input text wrapped within LaTeX inline math mode delimiters.
+    """
+    return text.replace(r"\(", "$").replace(r"\)", "$")
+
+
 def bold(text: str, math_mode: bool = False) -> str:
     """
     Converts the input text into a LaTeX bold string.

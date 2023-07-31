@@ -49,14 +49,14 @@ class Population(Sized, Generic[T]):
         return [i.fitness for i in self.individuals]
 
     @property
-    def average_fitness(self) -> float:
+    def average_fitness(self) -> np.float64:
         """
         A property that returns the average fitness of the population.
         """
         return np.average(self.fitness)
 
     @property
-    def stddev_fitness(self) -> float:
+    def stddev_fitness(self) -> np.float64:
         """
         A property that returns the standard deviation of fitness in the population.
         """
@@ -64,13 +64,13 @@ class Population(Sized, Generic[T]):
         return np.std(self.fitness)
 
     @property
-    def selection_probability(self) -> list[float]:
+    def selection_probability(self) -> list[np.float64]:
         """
         A property that returns a list of selection probabilities for all individuals in the population.
         Each individual's selection probability is calculated as its fitness divided by the total fitness of the
         population.
         """
-        return [i.fitness / sum(self.fitness) for i in self.individuals]
+        return [i.fitness / np.sum(self.fitness) for i in self.individuals]
 
     def map(self, transform: Callable[[Individual[T]], Individual[T]]) -> 'Population[T]':
         """
@@ -100,6 +100,23 @@ class Population(Sized, Generic[T]):
         Returns an iterator for the population.
         """
         return iter(self.individuals)
+
+
+def concat(*individuals: Individual[T] | list[Individual[T]]) -> Population[T]:
+    """
+    Concatenates the values of the given individuals and returns a new individual with the concatenated value.
+
+    :param individuals: A list of individuals to concatenate.
+
+    :returns: A new individual with the concatenated value.
+    """
+    flattened = []
+    for i in individuals:
+        if isinstance(i, list):
+            flattened.extend(i)
+        else:
+            flattened.append(i)
+    return Population(flattened)
 
 
 if __name__ == '__main__':

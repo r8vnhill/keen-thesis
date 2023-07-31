@@ -1,7 +1,7 @@
 from latex.captions import Caption
 from latex.env import environment, OptionalArgument, MandatoryArgument
 from latex.positions import Position
-from latex.text import math, bold
+from latex.text import math, bold, tex
 
 __author__ = ["r8vnhill"]
 __all__ = [
@@ -13,4 +13,5 @@ __all__ = [
     "MandatoryArgument",
     "math",
     "bold",
+    "tex",
 ]

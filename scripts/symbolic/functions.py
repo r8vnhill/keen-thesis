@@ -11,6 +11,7 @@ class Function:
     It contains the function's LaTeX representation, its Python representation, and its depth.
     """
 
+    identity: str
     latex: str
     python: Callable[[float], float]
     depth: int
