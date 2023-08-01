@@ -7,14 +7,8 @@
 \import{definitions}{Metadata.dtx}
 \import{definitions}{Title_Page.dtx}
 \import{definitions}{Figures.dtx}
+\import{definitions}{Code.dtx}
 \ExplSyntaxOff
 
 \subimport{./}{Theorems.tex}
 \RenewDocumentCommand{\emph}{m}{\textit{\textbf{#1}}}
-\NewDocumentEnvironment{src}{
-  % No arguments.
-}{
-  \captionsetup{type=listing}
-}{
-  % No after code.
-}

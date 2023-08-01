@@ -1,5 +1,5 @@
 \section{Jenetics: Java Genetic Algorithm Library}
-\label{sec:sota:jenetics}
+\label{sec:sota:\textit{jenetics}}
 
   \emph{Jenetics}~\autocite{wilhelmstotterJeneticsJavaGenetica} is a robust
   EC library developed in \textit{Java}.
@@ -8,7 +8,7 @@
   The library is open-source and available under the \textit{MIT} 
   license~\autocite{MITLicense2006}.
 
-  Jenetics structure revolves around two main concepts: 
+  \textit{Jenetics} structure revolves around two main concepts: 
   \texttt{Phenotype}\footnote{See \vref{def:phenotype}} and \texttt{Engine}.
   The \texttt{Phenotype} is a representation of a single candidate solution to
   a given optimization problem.
@@ -19,94 +19,170 @@
   condition is met (this uses a very similar approach to the one we presented 
   in \vref{sec:sota:pharo}).
 
-  Onr thing that sets Jenetics apart from other libraries is the use of the
-  \textit{Java's Stream API}~\autocite{StreamJavaPlatform} to make a seamless
-  integration between it and the \texttt{EvolutionStream} class used by the
-  \texttt{Engine}.
+  Onr thing that sets \textit{Jenetics} apart from other libraries is the use 
+  of the \textit{Java's Stream API}~\autocite{StreamJavaPlatform} to make a 
+  seamless integration between it and the \texttt{EvolutionStream} class used 
+  by the \texttt{Engine}.
   This means that the evolution has access to all the features provided by the
   Stream API, such as parallelization, filtering, and mapping.
 
-  Below, we demonstrate the use of Jenetics to solve the OMP problem with a
+  Below, we demonstrate the use of \textit{Jenetics} to solve the OMP with a 
   genetic algorithm:
 
   % \begin{src}
-  %   \captionof{listing}{A simple genetic algorithm using Jenetics}
+  %   \captionof{listing}{A simple genetic algorithm using \textit{Jenetics}}
   %   \label{src:sota:jenetics:example}
   %   \begin{minted}[linenos]{java}
-  %     N
+  %     public class OneMax {
+  %       public static void main(String[] args) {
+  %         RandomRegistry.random(new Random(11));
+  %         final var engine =
+  %             Engine.builder((Genotype<BitGene> gt) ->
+  %                               gt.chromosome().as(BitChromosome.class).bitCount(),
+  %                           BitChromosome.of(20, 0.5))
+  %                   .maximizing()
+  %                   .populationSize(20)
+  %                   .alterers(new Mutator<>(0.05), new SinglePointCrossover<>(0.5))
+  %                   .build();
+  %         Phenotype<BitGene, Integer> best = engine.stream()
+  %                                                  .limit(Limits.byFitnessThreshold(19))
+  %                                                  .collect(EvolutionResult.toBestPhenotype());
+  %         System.out.println("Target fitness reached at generation: " + best.generation());
+  %         System.out.println("Best individual is: " + best.genotype());
+  %         System.out.println("with fitness: " + best.fitness());
+  %       }
+  %     }
   %   \end{minted}
   % \end{src}
 
   When executed, the program outputs the following:
 
-  % \begin{minted}{text}
-  %   Genotype of best individual: [1111111111]
-  %   Fitness: 10.0
-  % \end{minted}
+  \begin{minted}{text}
+    Target fitness reached at generation: 40
+    Best individual is: [00001111|11111111|11111111]
+    with fitness: 20
+  \end{minted}
 
-  This example demonstrates Jenetics' usage for implementing a straightforward
+  This example demonstrates \textit{Jenetics}' usage for implementing a straightforward
   genetic algorithm, with the added ability to stop evolution once steady
   fitness is achieved.
 
   Here is an explanation of the code:
 
   \begin{enumerate}
-    \item[1-3] We define the genotype factory \texttt{gtf} for the problem.
-    The genotype consists of a binary chromosome of length 10, with each gene
-    having a 50\% chance of being 0 or 1.
-    \item[4] We define the fitness function \texttt{ff} for our problem.
-    Here, we use the \texttt{OneMax} fitness function.
-    \item[5-12] We set up the \texttt{Engine} for the genetic algorithm.
-    We specify the optimization goal (maximum fitness), the population size, and
-    the alteration operations (mutation and single-point crossover).
-    We then build the engine.
-    \item[13-16] We run the genetic algorithm until steady fitness is achieved
-    (no improvement for seven generations).
-    We collect the best result.
-    \item[17-18] Finally, we print the genotype of the best individual and its
-    fitness.
+    \item[1-2] First, a class containing a \texttt{main} method is established.
+      This forms the launching point of the program.
+    \item[3] The \texttt{RandomRegistry} is then utilized to preset the random 
+      seed, a step that ensures consistency and replicability of program 
+      outputs.
+    \item[4-11] The core configuration of the evolutionary engine occurs next, 
+      tailored specifically to the problem at hand.
+      \begin{enumerate}
+        \item[5-7] An \texttt{Engine} is instantiated using the 
+          \texttt{Engine.builder} method, requiring two arguments: a 
+          \texttt{Function} and a \texttt{Genotype}.
+          The \texttt{Function} assesses the fitness of a \texttt{Genotype} by 
+          tallying the quantity of \texttt{1}s in the \texttt{Genotype}.
+          A \texttt{Genotype} is created via the \texttt{BitChromosome.of} 
+          method, which mandates the \texttt{length} of the chromosome and the 
+          \texttt{probability} of a \texttt{1} appearing within the chromosome.
+          Here, \texttt{BitChromosome} is a distinct version of the 
+          \texttt{Chromosome} interface, used to depict a \texttt{Genotype} 
+          composed of \texttt{BitGene}s.
+        \item[8] The \texttt{maximizing} method signals that the objective is 
+          to boost fitness to its maximum possible value.
+        \item[9] The \texttt{populationSize} method sets the size of the 
+          evolutionary population.
+        \item[10] The \texttt{alterers} method sets the genetic operations to 
+          be used in the evolution.
+          Here, the \texttt{Mutator} and \texttt{SinglePointCrossover} are 
+          selected.
+          The \texttt{Mutator} behaves similarly to a \textit{bit-flip 
+          mutation} operator in this context.
+        \item[11] Finally, the \texttt{build} method assembles the functional 
+          \texttt{Engine}.
+      \end{enumerate}
+    \item[12-14] Execution of the evolution process follows.
+      \begin{enumerate}
+        \item[12] The \texttt{stream} method generates an 
+          \texttt{EvolutionStream} from the \texttt{Engine}, allowing for 
+          control over the evolution process.
+        \item[13] The \texttt{limit} method sets the termination condition.
+          The evolution halts once a \texttt{Phenotype} possessing a fitness 
+          \textbf{exceeding} 19 is located.
+        \item[14] Lastly, the \texttt{collect} method gathers the evolution's 
+          output, in this case, capturing the optimal \texttt{Phenotype} 
+          discovered.
+      \end{enumerate}
+    \item[15-17] The final stage involves printing the evolution results to the 
+      console for review and analysis.
   \end{enumerate}
 
-  This example showcases the key aspects of using Jenetics: creating genotypes,
-  setting up an engine, and controlling the evolution process.
+  This example showcases the key aspects of using \textit{Jenetics}: creating 
+  genotypes, setting up an engine, and controlling the evolution process.
 
-  Jenetics provides extensive support for multi-objective algorithms and
-  parallel execution, which are common necessities in intricate optimization
+  \textit{Jenetics} provides extensive support for multi-objective algorithms 
+  and parallel execution, which are common necessities in intricate optimization
   problems.
-  Furthermore, the library includes various benchmark functions and examples to
-  aid users in understanding the behavior and performance of different
-  algorithms.
 
   As one of the most comprehensive and state-of-the-art genetic algorithm
-  libraries available today, Jenetics enjoys widespread acclaim.
-  Its wealth of documentation and strong user community underscore its
-  reputation.
-  Nonetheless, as reflected in the preceding code example, some facets of
-  Jenetics may pose challenges for users.
+  libraries available today, \textit{Jenetics} enjoys widespread acclaim.
+  Nonetheless, some facets of \textit{Jenetics} may pose challenges for users.
 
   \begin{itemize}
-    \item The code in Jenetics may appear verbose to some users, and the
-    extensive use of fluent interfaces might initially confuse newcomers, given
-    that it's not a standard practice in evolutionary algorithms.
+    \item Since it is a Java library, \textit{Jenetics} inherits some of the
+      language's shortcomings, such as verbosity and complexity.
+    \item The library's documentation is not comprehensive, and some of the
+      examples are outdated, or even exist multiple implementations of the same
+      example.
+    \item The lack of documentation proper documentation is reflected in line 3
+      of the example, where the \texttt{RandomRegistry} is used to set the
+      random seed.
+      This is meant to ensure the replicability of the program's output, 
+      according to the documentation, but executing the program shows that this
+      does not work.
+      This could be solved by providing complete code samples, but reviewing the
+      documentation it is common to find code snippets that are not complete,
+      with missing assignments (depicted by the common use of \texttt{...} in 
+      the code samples), or by not giving concrete use cases of the library's
+      features.
     \item A balance exists between the framework's flexibility and its ease of
-    use.
-    While Jenetics' adaptability is commendable, it heavily relies on builders
-    and factories, which can complicate the code structure and understanding.
-    \item The library's verbosity can lead to longer debugging sessions.
-    Furthermore, Java's type system and the heavy use of generics can make the
-    code more challenging to understand.
-    \item Although Java's static typing can help catch errors at compile time,
-    the syntax can become quite complex, particularly when dealing with
-    generics.
-    \item To maintain efficiency, Jenetics leans on the Java Stream API for
-    parallelization, which may be complex for beginners to understand and use
-    effectively.
-    \item Enhancing Jenetics' functionality requires an in-depth understanding
-    of the library's architecture.
-    For instance, the modification of the evolution's control flow may
-    necessitate custom alteration and selection operators.
+      use.
+      While \textit{Jenetics}' adaptability is commendable, it heavily relies
+      on builders and factories, which in occasions can make the code more
+      complex and difficult to understand.
+    \item \textit{Java}'s lack of proper type inference can make the code more
+      verbose than necessary.
+      This is particularly noticeable when using classes such as
+      \texttt{Phenotype}, which require the specification of multiple type
+      parameters.
+    \item To maintain efficiency, \textit{Jenetics} leans on the Java Stream 
+      API for parallelization, this is not a standard approach in the field of
+      evolutionary computation, and it may be difficult to understand for
+      newcomers.
+      Additionally, the use of the Stream API may lead to difficult to debug
+      code, since the execution of the code is mostly handled by the 
+      \textit{Java} standard library.
+      In addition, the use of the Stream API depends on the use of deferred
+      execution, even when executing the code sequentially.
+    \item \textit{Jenetics} is parallel by default, this may negatively impact
+      the performance of the program when running on small populations or
+      problems with a small number of variables, since the overhead of
+      parallelization may be greater than the benefits of parallel execution.
+    \item When solving complex problems the code quickly becomes complicated
+      with the introduction of \textit{codecs}, \textit{proxies}, and the 
+      \texttt{Problem} interface.
+    \item \textit{Jenetics} heavily relies on the use of features not present in
+      \textit{Java}'s standard library, in particular, immutable data.
+      This increases the learning curve for newcomers.
+    \item \textit{Jenetics} depends on newer versions of \textit{Java}, which
+      may be a problem for users that are not able to update their version of
+      \textit{Java} (this problem becomes more relevant when considering that
+      most \textit{Android} devices do not support newer versions of
+      \textit{Java})
   \end{itemize}
 
-  Despite these, Jenetics' modularity and flexibility have made it a popular
-  choice among researchers and practitioners in the field of evolutionary
-  computation.
+  Despite these shortcomings, \textit{Jenetics} is a powerful and flexible
+  library that can be used to solve a wide variety of optimization problems.
+  The library is actively maintained, and it is one of the most popular
+  evolutionary computation libraries available today.
