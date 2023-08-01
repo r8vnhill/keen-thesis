@@ -3,48 +3,68 @@ from math import sin
 
 import coloredlogs  # type: ignore
 
-from commons import info, draw_lines, Line, LineStyle, IMG_DIR
+from commons import IMG_DIR
 from latex import math
 from symbolic.functions import Function
-from symbolic.initialization import create_population, draw_population
-from symbolic.population import Individual, concat
-from symbolic.samples import create_samples
-from symbolic.selection import save_probabilities
+from symbolic.initialization import plot_population, initialize_population
+from symbolic.mse import mse
+from symbolic.population import Individual, concat, Population
+from symbolic.samples import create_samples, Sample
+from symbolic.selection import calculate_probabilities, select_survivors
 
 
 def target_function(x: float) -> float:
-    return 5 * x ** 3 - 2 * x ** 2 + sin(x) - 7
+    """A target function for calculating a mathematical expression."""
+    return 5 * x**3 - 2 * x**2 + sin(x) - 7
+
+
+def create_target_individual() -> Individual[Function]:
+    """Creates an individual representing the target function."""
+    return Individual(math("f(x)"), Function(python=target_function), 0)
+
+
+def crossover(
+    survivors: list[Individual[Function]], samples: list[Sample]
+) -> Population[Function]:
+    crossed_fns = [
+        Function(latex=math(r"5 \cdot 7"), python=lambda _: 5 * 7),
+        Function(
+            latex=math(r"x^2 - (5 + \sin(x))"), python=lambda x: x**2 - (5 + sin(x))
+        ),
+    ]
+    crossed_individuals = [
+        survivors[0],
+        survivors[1],
+        Individual(
+            math("O_1"),
+            crossed_fns[0],
+            mse([crossed_fns[0](x) for x, _ in samples], [x for _, x in samples]),
+        ),
+        Individual(
+            math("O_2"),
+            crossed_fns[1],
+            mse([crossed_fns[1](x) for x, _ in samples], [x for _, x in samples]),
+        ),
+    ]
+    logging.info(f"Crossed individuals: {crossed_individuals}")
+    crossed_population = Population(crossed_individuals)
+
+    return Population(crossed_individuals)
+
+
+def main() -> None:
+    """Main function that initializes and manages the population of Individuals."""
+    target_individual = create_target_individual()
+    population, samples = initialize_population(
+        target_individual, create_samples(target_function)
+    )
+    survivors = select_survivors(population, target_individual)
+
+    crossed_individuals = crossover(survivors, samples)
 
 
 if __name__ == "__main__":
+    # Set logging level for matplotlib and install colored logs
     logging.getLogger("matplotlib").setLevel(logging.WARNING)
     coloredlogs.install(logging.DEBUG)
-    TARGET = Individual(math("f(x)"), Function("", "", target_function, 0), 0)
-    SAMPLES = create_samples(target_function)
-    info(f"Samples: {SAMPLES}", "symbolic")
-    POPULATION = create_population(SAMPLES)
-    draw_population(concat(TARGET, POPULATION.individuals),
-                    x_limits=(-5, 5),
-                    graph_title="Individuals of the population after initialization",
-                    file_path=IMG_DIR / "theoretical_framework" / "gp_pop_init.png")
-    info(f"Population: {POPULATION}", "symbolic")
-    SUM_OF_FITNESSES = sum([i.fitness for i in POPULATION])
-    info(f"Sum of fitnesses: {SUM_OF_FITNESSES}", "symbolic")
-    CORRECTED_POPULATION = POPULATION.map(
-        lambda i: Individual(i.name, i.value, SUM_OF_FITNESSES - i.fitness)
-    )
-    info(f"Corrected population: {CORRECTED_POPULATION}", "symbolic")
-    save_probabilities(CORRECTED_POPULATION)
-    AVERAGE_INITIAL_FITNESS = POPULATION.average_fitness
-    info(f"Average initial fitness: {AVERAGE_INITIAL_FITNESS}", "symbolic")
-    STDDEV_INITIAL_FITNESS = POPULATION.stddev_fitness
-    info(f"Standard deviation of initial fitness: {STDDEV_INITIAL_FITNESS}", "symbolic")
-    SURVIVORS: list[Individual[Function]] = [
-        POPULATION.individuals[1],
-        POPULATION.individuals[2]
-    ]
-    draw_population(concat(TARGET, SURVIVORS),
-                    x_limits=(-1, 1),
-                    graph_title="Survivors of the population and the target function",
-                    file_path=IMG_DIR / "theoretical_framework"
-                              / "gp_pop_sel_survivors.png")
+    main()

@@ -1,3 +1,6 @@
+import numpy as np
+from numpy import float_, int_
+
 
 def indent(text: str, spaces: int = 2) -> str:
     """
@@ -13,7 +16,7 @@ def surround(text: str, top: str, bottom: str) -> str:
     return f"{top}\n{text}\n{bottom}"
 
 
-def format_number(num: int | float) -> str:
+def format_number(num: int_ | float_) -> str:
     """
     Formats a real number for display, grouping digits for readability.
 
@@ -33,10 +36,10 @@ def format_number(num: int | float) -> str:
         '123\\,456.789\\,123\\,456'
     """
     match num:
-        case int(n):
+        case int(_):
             return f'{num:,}'.replace(",", "\\,")
         case _:
-            num = round(num, 7)
+            num = np.round(num, 7)  # type: ignore
             int_part, frac_part = f"{num:.6f}".split(".")
             int_part = f'{int(int_part):,}'
             frac_part = ",".join([frac_part[i:i + 3] for i in range(0, len(frac_part), 3)])

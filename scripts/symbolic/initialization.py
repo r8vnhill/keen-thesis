@@ -1,28 +1,35 @@
+import logging
 from math import sin
 from pathlib import Path
 
-from commons import debug, CONTENTS_DIR, draw_lines, Line
+from commons import debug, CONTENTS_DIR, IMG_DIR
 from latex import math, bold, Caption, Position
 from latex.tables import Table, Tabular, Row, Cell
 from symbolic.functions import Function
 from symbolic.mse import mse
-from symbolic.population import Individual, Population
+from symbolic.population import Individual, Population, concat, plot_population
 from symbolic.samples import Sample
 
 INITIAL_FUNCTIONS: list[Function] = [
-    Function(math(r"\mathbf{I}_1"), math(r"\frac{3}{\sin(2)} \cdot 5^3"),
-             lambda _: 3 / sin(2) * 5 ** 3, 3),
-    Function(math(r"\mathbf{I}_2"), math(r"7 - (5 + \sin(x))"),
-             lambda x: 7 - (5 + sin(x)), 3),
+    Function(
+        math(r"\mathbf{I}_1"),
+        math(r"\frac{3}{\sin(2)} \cdot 5^3"),
+        lambda _: 3 / sin(2) * 5**3,
+        3,
+    ),
+    Function(
+        math(r"\mathbf{I}_2"), math(r"7 - (5 + \sin(x))"), lambda x: 7 - (5 + sin(x)), 3
+    ),
     Function(math(r"\mathbf{I}_3"), math(r"7 + 2"), lambda _: 7 + 2, 1),
-    Function(math(r"\mathbf{I}_4"), math(r"5x^2"), lambda x: 5 * x ** 2, 2),
+    Function(math(r"\mathbf{I}_4"), math(r"5x^2"), lambda x: 5 * x**2, 2),
 ]
 
 INITIALIZATION_PATH = CONTENTS_DIR / "Theoretical_Background" / "GP" / "initialization"
 
 
-def _create_individuals(fns: list[Function], samples: list[Sample]) -> list[
-    Individual[Function]]:
+def _create_individuals(
+    fns: list[Function], samples: list[Sample]
+) -> list[Individual[Function]]:
     """
     Creates individuals for the initial population.
 
@@ -69,8 +76,13 @@ def _create_population_table(population: Population) -> Table:
     return Table(
         Tabular(
             Row(Cell(bold("Generation 0"), alignment="c", length=4), bottom_rules=2),
-            Row(bold("Individual"), bold("Program"), bold("Height"), bold("Fitness"),
-                bottom_rules=1),
+            Row(
+                bold("Individual"),
+                bold("Program"),
+                bold("Height"),
+                bold("Fitness"),
+                bottom_rules=1,
+            ),
             *[
                 Row(i.name, i.value.latex, i.value.depth, i.fitness, spacing="2pt")
                 for i in population
@@ -174,31 +186,22 @@ def create_population(samples: list[Sample]) -> Population[Function]:
     return population
 
 
-def plot_population(population: Population[Function],
-                    x_limits: Tuple[float, float],
-                    graph_title: str,
-                    file_path: Path) -> None:
-    """
-    Generate a plot illustrating the given population of functions.
+def initialize_population(
+    target_individual: Individual[Function], samples: list[Sample]
+) -> tuple[Population[Function], list[Sample]]:
+    """Initializes the population of Individuals."""
+    # Create samples
+    logging.info(f"Samples: {samples}")
 
-    :param population: A `Population` instance, comprising several function
-                       representations.
-    :param x_limits: A tuple specifying the lower and upper limits for the x-axis.
-    :param graph_title: The title to be displayed at the top of the plot.
-    :param file_path: A `Path` instance denoting the location and filename where the plot
-                      will be saved.
-    """
+    # Create and log the initial population
+    population = create_population(samples)
+    logging.info(f"Population: {population}")
 
-    # Generate list of Line instances corresponding to population functions
-    functions_to_plot = [Line(individual.name, individual.value.python) for individual in
-                         population]
-
-    draw_lines(
-        *functions_to_plot,
-        x_lim=x_limits,
-        title=graph_title,
-        x_label=math("x"),
-        y_label=math("f(x)"),
-        path=file_path
+    # Plot the population
+    plot_population(
+        concat(target_individual, population.individuals),
+        x_limits=(-5, 5),
+        graph_title="Individuals of the population after initialization",
+        file_path=IMG_DIR / "theoretical_framework" / "gp_pop_init.png",
     )
-
+    return population, samples
