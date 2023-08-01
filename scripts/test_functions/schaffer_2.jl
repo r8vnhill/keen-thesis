@@ -8,3 +8,11 @@ draw(
   minima = [0 => 0],
   name = "schaffer_2",
 )
+
+draw(
+  f = schaffer_2,
+  minima = [0 => 0],
+  name = "schaffer_2_closeup",
+  x_range = -30 => 30,
+  y_range = -30 => 30,
+)
