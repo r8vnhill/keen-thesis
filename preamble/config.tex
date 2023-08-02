@@ -23,3 +23,16 @@
 \fancyhead[LE]{\thepage}
 % \fancyfoot[C]{\textit{\getvmeta{title}}}
 \fancyfoot{}
+
+\makeatletter
+\def\FV@DefineFindStop{%
+  \ifx\FancyVerbStopString\relax
+    \ifnum\FancyVerbStopNum<\@ne
+      \let\FV@FindStartStop\FV@@PreProcessLine
+    \else
+      \let\FV@FindStartStop\FV@FindStopNum
+    \fi
+  \else
+    \let\FV@FindStartStop\FV@FindStopString
+  \fi}
+\makeatother

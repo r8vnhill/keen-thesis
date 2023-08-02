@@ -1,5 +1,5 @@
 \section{Jenetics: Java Genetic Algorithm Library}
-\label{sec:sota:\textit{jenetics}}
+\label{sec:sota:jenetics}
 
   \emph{Jenetics}~\autocite{wilhelmstotterJeneticsJavaGenetica} is a robust
   EC library developed in \textit{Java}.
@@ -29,39 +29,19 @@
   Below, we demonstrate the use of \textit{Jenetics} to solve the OMP with a 
   genetic algorithm:
 
-  % \begin{src}
-  %   \captionof{listing}{A simple genetic algorithm using \textit{Jenetics}}
-  %   \label{src:sota:jenetics:example}
-    \begin{minted}[linenos]{java}
-      public class OneMax {
-        public static void main(String[] args) {
-          RandomRegistry.random(new Random(11));
-          final var engine =
-              Engine.builder((Genotype<BitGene> gt) ->
-                                gt.chromosome().as(BitChromosome.class).bitCount(),
-                            BitChromosome.of(20, 0.5))
-                    .maximizing()
-                    .populationSize(20)
-                    .alterers(new Mutator<>(0.05), new SinglePointCrossover<>(0.5))
-                    .build();
-          Phenotype<BitGene, Integer> best = engine.stream()
-                                                   .limit(Limits.byFitnessThreshold(19))
-                                                   .collect(EvolutionResult.toBestPhenotype());
-          System.out.println("Target fitness reached at generation: " + best.generation());
-          System.out.println("Best individual is: " + best.genotype());
-          System.out.println("with fitness: " + best.fitness());
-        }
-      }
-    \end{minted}
-  % \end{src}
+  \lstinputlisting[
+    language=Java, 
+    caption={A simple genetic algorithm using \textit{Jenetics}},
+    label={src:sota:jenetics:example}
+  ]{Jenetics1.java}
 
   When executed, the program outputs the following:
 
-  \begin{minted}{text}
+  \begin{verbatim}
     Target fitness reached at generation: 40
     Best individual is: [00001111|11111111|11111111]
     with fitness: 20
-  \end{minted}
+  \end{verbatim}
 
   This example demonstrates \textit{Jenetics}' usage for implementing a straightforward
   genetic algorithm, with the added ability to stop evolution once steady
