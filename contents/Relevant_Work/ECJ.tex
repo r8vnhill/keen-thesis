@@ -1,0 +1,24 @@
+\section{ECJ: A Java-based Evolutionary Computation Research System}
+\label{sec:sota:ecj}
+
+The Evolutionary Computation in Java (ECJ)~\autocite{luke2009ecj} is a powerful and flexible framework for conducting research and experiments in the field of evolutionary computation. ECJ has been under active development for more than two decades, and during this period, it has grown into one of the most comprehensive open-source libraries for evolutionary computation.
+
+What sets ECJ apart from other libraries is its ability to handle a broad range of evolutionary computation paradigms. It offers support for genetic algorithms, genetic programming, multi-objective optimization, co-evolution, and many more. It also comes with built-in functionality for distributed computing, allowing researchers to harness the power of large-scale computing clusters for their experiments.
+
+The ECJ library is designed with flexibility and extensibility in mind. It employs a design pattern that uses parameter files for configuration, thus enabling researchers to customize the algorithms according to their specific needs without having to modify the source code. The library is highly modular, and its components can be easily replaced or extended.
+
+The following code sample demonstrates how to solve the OneMax problem using ECJ:
+
+% \lstinputlisting[
+%   language=Java, 
+%   caption={A simple genetic algorithm using \textit{ECJ}},
+%   label={src:sota:ecj:example}
+% ]{OneMax.java}
+
+This code is straightforward, and it highlights the elegance of ECJ's design. It defines a class `OneMax` that extends `Problem` and implements `SimpleProblemForm`. Inside the `evaluate()` method, it counts the number of ones in the individual's genome and sets this count as the individual's fitness.
+
+ECJ provides several mechanisms for controlling the termination of an evolutionary run. The most commonly used mechanism is to specify the maximum number of generations in the parameter file. However, ECJ also supports other termination conditions, such as reaching a certain fitness level, the absence of improvement for a certain number of generations, or a combination of these conditions.
+
+Like any other framework, ECJ is not without its limitations. For example, it has a steep learning curve due to its extensive feature set and the heavy reliance on parameter files. It is also primarily geared towards research applications, which means it may be overkill for simple optimization problems. However, these limitations are outweighed by the benefits that ECJ provides in terms of flexibility, extensibility, and comprehensiveness.
+
+In conclusion, ECJ is an outstanding tool for anyone interested in evolutionary computation research. It provides a powerful and flexible platform for implementing, experimenting with, and analyzing evolutionary algorithms. Its strengths lie in its comprehensive feature set, its flexibility and extensibility, and its commitment to open-source development and community support.

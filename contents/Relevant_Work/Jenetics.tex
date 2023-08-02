@@ -105,61 +105,21 @@
   and parallel execution, which are common necessities in intricate optimization
   problems.
 
-  As one of the most comprehensive and state-of-the-art genetic algorithm
-  libraries available today, \textit{Jenetics} enjoys widespread acclaim.
-  Nonetheless, some facets of \textit{Jenetics} may pose challenges for users.
+  Recognized as one of the most comprehensive and cutting-edge genetic algorithm libraries today, \textit{Jenetics} receives wide-ranging acclaim. However, certain aspects of \textit{Jenetics} could be challenging for its users.
 
   \begin{itemize}
-    \item Since it is a Java library, \textit{Jenetics} inherits some of the
-      language's shortcomings, such as verbosity and complexity.
-    \item The library's documentation is not comprehensive, and some of the
-      examples are outdated, or even exist multiple implementations of the same
-      example.
-    \item The lack of documentation proper documentation is reflected in line 3
-      of the example, where the \texttt{RandomRegistry} is used to set the
-      random seed.
-      This is meant to ensure the replicability of the program's output, 
-      according to the documentation, but executing the program shows that this
-      does not work.
-      This could be solved by providing complete code samples, but reviewing the
-      documentation it is common to find code snippets that are not complete,
-      with missing assignments (depicted by the common use of \texttt{...} in 
-      the code samples), or by not giving concrete use cases of the library's
-      features.
-    \item A balance exists between the framework's flexibility and its ease of
-      use.
-      While \textit{Jenetics}' adaptability is commendable, it heavily relies
-      on builders and factories, which in occasions can make the code more
-      complex and difficult to understand.
-    \item \textit{Java}'s lack of proper type inference can make the code more
-      verbose than necessary.
-      This is particularly noticeable when using classes such as
-      \texttt{Phenotype}, which require the specification of multiple type
-      parameters.
-    \item To maintain efficiency, \textit{Jenetics} leans on the Java Stream 
-      API for parallelization, this is not a standard approach in the field of
-      evolutionary computation, and it may be difficult to understand for
-      newcomers.
-      Additionally, the use of the Stream API may lead to difficult to debug
-      code, since the execution of the code is mostly handled by the 
-      \textit{Java} standard library.
-      In addition, the use of the Stream API depends on the use of deferred
-      execution, even when executing the code sequentially.
-    \item \textit{Jenetics} is parallel by default, this may negatively impact
-      the performance of the program when running on small populations or
-      problems with a small number of variables, since the overhead of
-      parallelization may be greater than the benefits of parallel execution.
-    \item When solving complex problems the code quickly becomes complicated
-      with the introduction of \textit{codecs}, \textit{proxies}, and the 
-      \texttt{Problem} interface.
-    \item \textit{Jenetics} heavily relies on the use of features not present in
-      \textit{Java}'s standard library, in particular, immutable data.
-      This increases the learning curve for newcomers.
-    \item \textit{Jenetics} depends on newer versions of \textit{Java}, which
-      may be a problem for users that are not able to update their version of
-      \textit{Java} (this problem becomes more relevant when considering that
-      most \textit{Android} devices do not support newer versions of
-      \textit{Java})
+    \item As a Java library, \textit{Jenetics} unavoidably incorporates some of Java's limitations, notably its verbosity and complexity.
+    \item The library's documentation could be more comprehensive. Currently, some examples are outdated or have redundant implementations.
+    \item The insufficient documentation is most evident in the use of the \texttt{RandomRegistry} to set the random seed, as seen in example line 3. The documentation claims this ensures the replicability of the program's output, but practical execution proves otherwise. More complete code samples and concrete use cases would ameliorate this issue.
+    \item There is a delicate balance between the framework's flexibility and its usability. \textit{Jenetics}' notable adaptability leans heavily on builders and factories, which can occasionally obfuscate the code.
+    \item Java's lack of robust type inference can lead to verbosity, particularly evident when using classes like \texttt{Phenotype} requiring multiple type parameters.
+    \item \textit{Jenetics} relies on the Java Stream API for parallelization to maintain efficiency. However, this approach is not typical in the field of evolutionary computation, making it challenging for beginners. Furthermore, the use of the Stream API can result in difficult-to-debug code due to the execution mainly handled by Java's standard library.
+    \item By default, \textit{Jenetics} operates in parallel. This can detrimentally affect program performance when working on small populations or problems with fewer variables due to parallelization's overhead.
+    \item Complex problem-solving with \textit{Jenetics} can quickly complicate the code, introducing \textit{codecs}, \textit{proxies}, and the \texttt{Problem} interface.
+    \item \textit{Jenetics} extensively employs features not found in Java's standard library, particularly immutable data, thereby steepening the learning curve for beginners.
+    \item \textit{Jenetics} is compatible with newer versions of Java, potentially problematic for users unable to update their Java version. This issue is especially relevant for most Android devices, which do not support newer Java versions.
+    \item There's a lack of a robust mechanism for visualizing the evolution process, a feature commonly found in other evolutionary computation libraries.
+    \item \textit{Jenetics} isn't entirely type-safe, necessitating explicit casts via the \texttt{as} method.
   \end{itemize}
 
   Despite these shortcomings, \textit{Jenetics} is a powerful and flexible
