@@ -1,10 +1,19 @@
 {
 	"folders": [
     {
-      "path": "."
+      "path": "img"
     },
     {
-      "path": "img"
+      "path": "contents"
+    },
+    {
+      "path": "scripts"
+    },
+    {
+      "path": "appendix"
+    },
+    {
+      "path": "preamble"
     }
   ],
   "settings": {

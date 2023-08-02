@@ -89,7 +89,7 @@ function _draw_contour(
   xlabel!(L"$x$")
   ylabel!(L"$y$")
   display(plot!())
-  png("img/test_functions/$(name)_contour.png")  
+  png("../img/test_functions/$(name)_contour.png")  
 end
 
 """
@@ -158,7 +158,7 @@ function _draw_surface(
   xlabel!(L"$x$")
   ylabel!(L"$y$")
   display(plot!())
-  png("img/test_functions/$(name)_surface.png")
+  png("../img/test_functions/$(name)_surface.png")
 end
 
 """

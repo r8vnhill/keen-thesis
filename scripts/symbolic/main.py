@@ -3,7 +3,7 @@ from math import sin
 
 import coloredlogs  # type: ignore
 
-from commons import IMG_DIR
+from commons import IMG_DIR, debug
 from latex import math
 from symbolic.functions import Function
 from symbolic.initialization import plot_population, initialize_population
@@ -46,6 +46,7 @@ def crossover(
             mse([crossed_fns[1](x) for x, _ in samples], [x for _, x in samples]),
         ),
     ]
+    debug(crossed_individuals)
     logging.info(f"Crossed individuals: {crossed_individuals}")
     crossed_population = Population(crossed_individuals)
 
