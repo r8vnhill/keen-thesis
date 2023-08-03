@@ -1,0 +1,74 @@
+\section{Architecture}
+\label{sec:architecture}
+  The architectural blueprint of \textit{Keen} is divisible into five distinct
+  modules: \textit{evolution engine}, \textit{genetic material}, 
+  \textit{genetic operators}, \textit{utility}, and \textit{programs}.
+
+  The \emph{utility} module, as implied by its name, houses utility classes and 
+  functions serving other modules.
+  We won't delve into its specifics in this document.
+
+  The \emph{genetic material} module is composed of classes embodying the 
+  characteristics of the evolving individuals, known as \texttt{Phenotype}s.
+  Its primary components include the \texttt{Phenotype} and \texttt{Genotype} 
+  classes, along with the \texttt{Chromosome} and \texttt{Gene} hierarchies.
+
+  The \emph{genetic operators} module comprises classes representing the 
+  genetic operators leveraged by the evolution engine for individuals' 
+  evolution.
+  It houses classes typifying crossover and mutation operators, further 
+  categorized into \textbf{crossover}, \textbf{mutation}, and 
+  \textbf{selection}.
+
+  The \emph{evolution engine} module contains classes defining the evolution 
+  engine and the requisite classes to facilitate the evolution process.
+
+  A fifth module, \emph{programs}, depicts programs evolved under the 
+  \textit{genetic programming} paradigm.
+  As it's in its nascent development stages, this module's comprehensive 
+  coverage will not be featured in this document.
+
+  Most of the \textit{Keen} classes are parameterized by the type of 
+  information they hold (for instance, an integer) and the type of gene that 
+  composes the individuals of the population (for instance, an integer gene).
+  This design offers immense flexibility, empowering users to define the 
+  genetic material utilized by the evolution engine.
+  Thanks to \textit{Kotlin}'s type inference system, most use cases allow the 
+  omission of type parameters when the compiler can infer them, enhancing code 
+  readability.
+
+  Designed with immutability at its core, most of \textit{Keen}'s classes are 
+  immutable.
+  This design ensures robustness and predictability as users can be assured 
+  that objects remain unchanged post-creation.
+  This philosophy also enhances \textit{Keen}'s parallelization capabilities by 
+  allowing shared memory use without necessitating synchronization mechanisms.
+
+  \textit{Keen} offers factory methods for most classes, promoting concise, 
+  readable code.
+  This is accomplished using a language-oriented programming technique to 
+  create a mini \textit{domain specific language} (DSL) that facilitates more 
+  intuitive and readable object creation.
+  While factory methods are \textit{Keen}'s preferred object creation mode, the 
+  framework's design permits "manual" object creation if users need more 
+  control over the creation process.
+  An example of the DSL is shown below, where a \texttt{Genotype} is created
+  for the \textit{Room Scheduling} problem, where each \texttt{Chromosome}
+  represents a meeting and is composed of a single integer gene representing
+  the meeting's assigned room.
+
+  \begin{minted}{kotlin}
+    genotype {
+        repeat(meetings.size) {
+            chromosome {
+                ints { 
+                    size = 1
+                    range = meetings.indices.first to meetings.indices.last 
+                }
+            }
+        }
+    }
+  \end{minted}
+  
+  The following sections offer a deeper exploration into these modules, 
+  spotlighting key classes and their functions.
