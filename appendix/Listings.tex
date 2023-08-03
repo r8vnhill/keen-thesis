@@ -4,60 +4,55 @@
   thesis that are not essential to the understanding of the thesis.
   The listings are included here for completeness.
   
-  % \begin{src}
-  %   \captionof{listing}{%
-  %     Calculation of \(|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|\) for 
-  %     \(\mathcal{T} = \{x,\, c\}\) and the set \(\mathcal{F} = \{+,\, -,\, 
-  %     \times,\, /,\, \sin,\, \cos,\, \mathrm{pow}\}\) using the \textit{Julia}
-  %     programming language.
-  %     \\ % Some vertical space before the listing.
-  %   }
-  %   \label{lst:cardinality_of_T_leq_5}
-  %   \begin{minted}[mathescape=true]{julia}
-  %     arities = [2, 2, 2, 2, 1, 1, 2] # $A\left(\{+,\,-,\,\times,\,/,\,\sin,\,\cos,\,\mathrm{pow}\}\right) = \{2,\,2,\,2,\,2,\,1,\,1,\,2\}$
-  %     terminals_size = 8  # $|\mathcal{T}| = |\{x,\,1,\,2,\,3,\,4,\,5,\,6,\,7\}| = 8$
-  %     # $|\mathbb{T}_{\leq \mathtt{h}}|$
-  %     t_leq(h::Int)::Int128 = if h == 0 # $|\mathcal{T}|$ if $\mathtt{h} = 0$
-  %       terminals_size
-  %     else  # $\left(\sum_{h = 0}^{\mathtt{h} - 1}\,\sum_{f \in \mathcal{F}} |\mathbb{T}_h|^{A(f)}\right)+ |\mathcal{T}|$ if $\mathtt{h} > 0$
-  %       c_sum = terminals_size
-  %       for i = 0:h - 1
-  %         c_sum = c_sum + sum(t(i) .^ arities)
-  %       end
-  %       c_sum
-  %     end
-  %     # $|\mathbb{T}_\mathbf{h}|$
-  %     t(h::Int)::Int128 = if h == 0 # $|\mathcal{T}|$ if $\mathtt{h} = 0$
-  %       terminals_size
-  %     else  # $\sum_{f \in \mathcal{F}} |\mathbb{T}_{\mathtt{h} - 1}|^{A(f)}$ if $\mathtt{h} > 0$
-  %       sum(t(h - 1) .^ arities) 
-  %     end
-  %     res = t_leq(5)  # $|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|$
-  %   \end{minted}
-  % \end{src}
-
-  % \begin{src}
-  %   \captionof{listing}{%
-  %     Minimal implementation of the \textit{One Max} problem using the
-  %     \textit{Keen} framework.
-  %     \\
-  %   }
-  %   \label{lst:app:keen_one_max}
-  %   \begin{minted}{kotlin}
-  %     fun main() {
-  %         Core.random = Random(11)
-  %         val result = engine(
-  %             { gt: Genotype<Boolean, BoolGene> -> gt.flatten().count { it }.toDouble() },
-  %             genotype { chromosome { booleans { size = 20; truesProbability = 0.5 } } }) {
-  %             populationSize = 20
-  %             selector = TournamentSelector(sampleSize = 3)
-  %             alterers =
-  %                 listOf(BitFlipMutator(probability = 0.03), SinglePointCrossover(probability = 0.2))
-  %             limits = listOf(TargetFitness(20.0))
-  %             }.evolve()
-  %         println("Target fitness reached at generation ${result.generation}")
-  %         println("Best individual is ${result.best.genotype}")
-  %         println("with fitness ${result.best.fitness}")
-  %     }
-  %   \end{minted}
-  % \end{src}
+  \paragraph{
+    Calculation of \(|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|\) for 
+    \(\mathcal{T} = \{x,\, c\}\) and the set \(\mathcal{F} = \{+,\, -,\, 
+    \times,\, /,\, \sin,\, \cos,\, \mathrm{pow}\}\) using the \textit{Julia}
+    programming language.
+  }
+  \label{lst:cardinality_of_T_leq_5}
+    \begin{minted}[mathescape=true]{julia}
+      arities = [2, 2, 2, 2, 1, 1, 2] # $A\left(\{+,\,-,\,\times,\,/,\,\sin,\,\cos,\,\mathrm{pow}\}\right) = \{2,\,2,\,2,\,2,\,1,\,1,\,2\}$
+      terminals_size = 8  # $|\mathcal{T}| = |\{x,\,1,\,2,\,3,\,4,\,5,\,6,\,7\}| = 8$
+      # $|\mathbb{T}_{\leq \mathtt{h}}|$
+      t_leq(h::Int)::Int128 = if h == 0 # $|\mathcal{T}|$ if $\mathtt{h} = 0$
+        terminals_size
+      else  # $\left(\sum_{h = 0}^{\mathtt{h} - 1}\,\sum_{f \in \mathcal{F}} |\mathbb{T}_h|^{A(f)}\right)+ |\mathcal{T}|$ if $\mathtt{h} > 0$
+        c_sum = terminals_size
+        for i = 0:h - 1
+          c_sum = c_sum + sum(t(i) .^ arities)
+        end
+        c_sum
+      end
+      # $|\mathbb{T}_\mathbf{h}|$
+      t(h::Int)::Int128 = if h == 0 # $|\mathcal{T}|$ if $\mathtt{h} = 0$
+        terminals_size
+      else  # $\sum_{f \in \mathcal{F}} |\mathbb{T}_{\mathtt{h} - 1}|^{A(f)}$ if $\mathtt{h} > 0$
+        sum(t(h - 1) .^ arities) 
+      end
+      res = t_leq(5)  # $|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|$
+    \end{minted}
+  \paragraph{
+    Minimal implementation of the \textit{One Max} problem using the 
+    \textit{Keen} framework.
+  }
+  \label{lst:app:keen_one_max}
+    \begin{minted}{kotlin}
+      fun main() {
+          Core.random = Random(11)
+          val result = engine(
+              { gt: Genotype<Boolean, BoolGene> -> gt.flatten().count { it }.toDouble() },
+              genotype { chromosome { booleans { size = 20; truesProbability = 0.5 } } }) {
+              populationSize = 20
+              selector = TournamentSelector(sampleSize = 3)
+              alterers = listOf(
+                BitFlipMutator(probability = 0.03),
+                SinglePointCrossover(probability = 0.2)
+              )
+              limits = listOf(TargetFitness(20.0))
+              }.evolve()
+          println("Target fitness reached at generation ${result.generation}")
+          println("Best individual is ${result.best.genotype}")
+          println("with fitness ${result.best.fitness}")
+      }
+    \end{minted}

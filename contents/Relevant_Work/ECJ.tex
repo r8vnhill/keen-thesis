@@ -1,7 +1,7 @@
 \section{ECJ: A Java-based Evolutionary Computation Research System}
 \label{sec:sota:ecj}
 
-The Evolutionary Computation in Java (ECJ)~\autocite{luke2009ecj} is a powerful and flexible framework for conducting research and experiments in the field of evolutionary computation. ECJ has been under active development for more than two decades, and during this period, it has grown into one of the most comprehensive open-source libraries for evolutionary computation.
+The \emph{Evolutionary Computation in Java} (ECJ)~\autocite{ECJ} is a powerful and flexible framework for conducting research and experiments in the field of evolutionary computation. ECJ has been under active development for more than two decades, and during this period, it has grown into one of the most comprehensive open-source libraries for evolutionary computation.
 
 What sets ECJ apart from other libraries is its ability to handle a broad range of evolutionary computation paradigms. It offers support for genetic algorithms, genetic programming, multi-objective optimization, co-evolution, and many more. It also comes with built-in functionality for distributed computing, allowing researchers to harness the power of large-scale computing clusters for their experiments.
 
@@ -9,16 +9,150 @@ The ECJ library is designed with flexibility and extensibility in mind. It emplo
 
 The following code sample demonstrates how to solve the OneMax problem using ECJ:
 
-% \lstinputlisting[
-%   language=Java, 
-%   caption={A simple genetic algorithm using \textit{ECJ}},
-%   label={src:sota:ecj:example}
-% ]{OneMax.java}
+\begin{minted}[linenos]{java}
+public class OneMax extends Problem implements SimpleProblemForm {
+  @Override
+  public void evaluate(final EvolutionState state,
+                       final Individual ind,
+                       final int subpopulation,
+                       final int threads) {
+    if (ind.evaluated) {
+      return;
+    }
+    if (!(ind instanceof BitVectorIndividual)) {
+      state.output.fatal("Individual must be a BitVectorIndividual")
+    }
+    int sum = 0;
+    // This is necessary to safe-cast ind to BitVectorIndividual
+    BitVectorIndividual ind2 = null;
+    if (ind instanceof BitVectorIndividual) {
+      ind2 = (BitVectorIndividual) ind;
+    }
+    if (ind2 != null) {
+      for (int x = 0; x < ind2.genome.length; x++) {
+        sum += (ind2.genome[x] ? 1 : 0);
+      }
 
-This code is straightforward, and it highlights the elegance of ECJ's design. It defines a class `OneMax` that extends `Problem` and implements `SimpleProblemForm`. Inside the `evaluate()` method, it counts the number of ones in the individual's genome and sets this count as the individual's fitness.
+      if (!(ind2.fitness instanceof SimpleFitness)) {
+        state.output.fatal("Fitness must be a SimpleFitness")
+      }
+      ((SimpleFitness) ind2.fitness)
+          .setFitness(state,
+              /* fitness = */ sum / (double) ind2.genome.length,
+              /* isIdeal = */ sum == ind2.genome.length);
+      ind2.evaluated = true;
+    }
+  }
+}
+\end{minted}
 
-ECJ provides several mechanisms for controlling the termination of an evolutionary run. The most commonly used mechanism is to specify the maximum number of generations in the parameter file. However, ECJ also supports other termination conditions, such as reaching a certain fitness level, the absence of improvement for a certain number of generations, or a combination of these conditions.
+An explanation of the code:
 
-Like any other framework, ECJ is not without its limitations. For example, it has a steep learning curve due to its extensive feature set and the heavy reliance on parameter files. It is also primarily geared towards research applications, which means it may be overkill for simple optimization problems. However, these limitations are outweighed by the benefits that ECJ provides in terms of flexibility, extensibility, and comprehensiveness.
+\begin{enumerate}
+  \item[1] The class \texttt{OneMax} extends \texttt{Problem} and implements \texttt{SimpleProblemForm}, which is ECJ's interface for problems that can be solved with generational evolutionary algorithms.
+  
+  \item[2-6] The \texttt{evaluate} method is overridden from the \texttt{Problem} class. It is responsible for evaluating the fitness of an \texttt{Individual} (a candidate solution in the population). The arguments include the current state of the evolution, the individual to be evaluated, the subpopulation to which the individual belongs, and the number of the thread executing this method (useful in a multithreaded setting).
+  
+  \item[7-9] The method checks if the individual has already been evaluated. If it has, then the method immediately returns to avoid unnecessary computation.
+  
+  \item[10-12] If the individual is not an instance of \texttt{BitVectorIndividual} (which represents individuals whose genome consists of bits), a fatal error is reported. The OneMax problem assumes a bit string representation of individuals.
+  
+  \item[13-18] Variable \texttt{sum} is initialized to keep track of the total number of 1s in the individual's bit string representation. The individual is then safe-casted to \texttt{BitVectorIndividual}. This is necessary because the \texttt{ind} argument is of type \texttt{Individual}, but we need to work with its \texttt{BitVectorIndividual} specifics (such as its \texttt{genome} property).
+  
+  \item[20-22] If the casting is successful, a loop iterates through the genome (bit string) of the individual, incrementing \texttt{sum} for every bit set to 1.
+  
+  \item[24-26] If the fitness of the individual is not an instance of \texttt{SimpleFitness} (which represents a single floating-point fitness value), a fatal error is reported.
+  
+  \item[27-30] The individual's fitness is then set to the proportion of bits set to 1 in the bit string (\texttt{sum / (double) ind2.genome.length}). If all bits are set to 1 (i.e., \texttt{sum} equals the length of the genome), then the individual is marked as ideal.
+  
+  \item[31] Finally, \texttt{ind2.evaluated} is set to \texttt{true}, indicating that the individual has been evaluated.
+\end{enumerate}
 
-In conclusion, ECJ is an outstanding tool for anyone interested in evolutionary computation research. It provides a powerful and flexible platform for implementing, experimenting with, and analyzing evolutionary algorithms. Its strengths lie in its comprehensive feature set, its flexibility and extensibility, and its commitment to open-source development and community support.
+To run the OneMax problem, we need to create a parameter file that specifies the problem, the evolutionary algorithm, and the parameters of the algorithm. The following is a sample parameter file for the OneMax problem:
+
+\begin{minted}[linenos]{text}
+breedthreads = 1
+evalthreads = 1
+seed.0 = 11
+eval.problem = ec.app.onemax.OneMax
+pop.subpop.0.species.ind = ec.vector.BooleanVectorIndividual
+pop.subpop.0.species.genome-size = 20
+pop.subpop.0.species.fitness = ec.FitnessSimple
+pop.subpop.0.size = 20
+pop.subpop.0.species.pipe = ec.vector.breed.VectorMutationPipeline
+pop.subpop.0.species.pipe.source.0 = ec.vector.breed.VectorCrossoverPipeline
+pop.subpop.0.species.pipe.source.0.prob = 0.5
+pop.subpop.0.species.pipe.source.0.source.0 = ec.select.TournamentSelection
+pop.subpop.0.species.pipe.source.0.source.1 = ec.select.TournamentSelection
+eval.problem.terminateFitness = 20
+\end{minted}
+
+This is a parameter file for ECJ, which specifies various configuration settings for an evolutionary computation run. 
+
+\begin{enumerate}
+  \item[1-2] \texttt{breedthreads} and \texttt{evalthreads} determine the number of threads to be used for breeding and evaluation operations, respectively. Both are set to 1, which means a single-threaded operation.
+  
+  \item[3] \texttt{seed.0} sets the initial seed for the random number generator. Different seeds will lead to different runs, even with identical configuration parameters.
+  
+  \item[4] \texttt{eval.problem} sets the problem to be solved, in this case, \texttt{ec.app.onemax.OneMax}, which refers to the OneMax problem class implemented earlier.
+  
+  \item[5-6] \texttt{pop.subpop.0.species.ind} sets the type of individual in the population. \texttt{ec.vector.BooleanVectorIndividual} means that each individual will be a Boolean vector, which is appropriate for the OneMax problem. \texttt{pop.subpop.0.species.genome-size} sets the length of the Boolean vector to 20.
+  
+  \item[7-8] \texttt{pop.subpop.0.species.fitness} sets the type of fitness to be used. \texttt{ec.FitnessSimple} represents a single floating-point fitness value. \texttt{pop.subpop.0.size} sets the population size to 20.
+  
+  \item[9] \texttt{pop.subpop.0.species.pipe} defines the pipeline for breeding new individuals. \texttt{ec.vector.breed.VectorMutationPipeline} means a mutation operation will be applied.
+  
+  \item[10] \texttt{pop.subpop.0.species.pipe.source.0} sets the source of individuals for the mutation operation to be a crossover operation (\texttt{ec.vector.breed.VectorCrossoverPipeline}), with a crossover probability of 0.5.
+  
+  \item[12-13] \texttt{pop.subpop.0.species.pipe.source.0.source.0} and \texttt{pop.subpop.0.species.pipe.source.0.source.1} set the source of individuals for the crossover operation to be tournament selection (\texttt{ec.select.TournamentSelection}).
+  
+  \item[14] \texttt{eval.problem.terminateFitness} sets the fitness level at which the evolutionary run should terminate. When an individual reaches a fitness of 20, the run will stop, implying that a perfect solution (all bits set to 1) has been found for the OneMax problem.
+\end{enumerate}
+
+To run the OneMax problem, we need to execute the following command:
+
+\begin{minted}{powershell}
+  java -cp . ec.Evolve -file .\ec\app\onemax\one_max.properties  
+\end{minted}
+
+This command will run the OneMax problem with the parameter file \texttt{one\_max.properties} in the package \texttt{ec.app.onemax}.
+According to the official ECJ documentation, this command should be able to solve the OneMax problem, however, we were unable to get it to work. The following is the output of the command:
+
+\begin{minted}{text}
+  # Code omitted for brevity
+  Exception in thread "main" ec.util.ParamClassLoadException:
+  No class name provided.
+  PARAMETER: state
+          at ec.util.ParameterDatabase.getInstanceForParameter(ParameterDatabase.java:493)
+          at ec.Evolve.initialize(Evolve.java:479)
+          at ec.Evolve.initialize(Evolve.java:412)
+          at ec.Evolve.main(Evolve.java:758)
+\end{minted}
+
+The error message indicates that the parameter \texttt{state} is missing. This parameter is required by ECJ, but is not specified in the parameter file. We tried to add the parameter to the file, but the error persisted. We also tried to run the OneMax problem with the parameter file provided by the ECJ documentation, but the error persisted. We were unable to find a solution to this problem.
+
+While ECJ stands as one of the most comprehensive and sophisticated Evolutionary Computation (EC) frameworks available, it presents users with a daunting learning curve. We've identified several areas of concern that contribute to this complexity:
+
+\begin{itemize}
+  \item \textbf{Verbose and obscure code:} The framework's verbosity hinders code comprehension. To illustrate, the \texttt{eval} method in the \texttt{OneMax} class spans 31 lines, yet only 3 of these lines (20-22) actually pertain to the OneMax problem itself—the rest are framework-related.
+
+  \item \textbf{Complex configuration:} Setting up the framework involves numerous layers of boilerplate code, necessitating a deep understanding of the underlying concepts and terminology. Lines such as \mintinline[breaklines, breakafter=.]{text}{pop.subpop.0.species.pipe.source.0.source.0} can be particularly opaque to newcomers.
+
+  \item \textbf{Outdated documentation and implementation:} The \texttt{README.md} file has not been updated in 4 years, and the OneMax class equivalent was last refreshed 5 years ago. Even the most recent version (27) of the framework dates back 4 years, rendering much of the documentation and implementation obsolete.
+
+  \item \textbf{Legacy Java syntax:} ECJ's reliance on older Java syntax, specifically the lack of generics, results in frequent casting and \texttt{instanceof} checks. This not only makes the code more brittle but also complicates understanding.
+
+  \item \textbf{Exclusion from popular package managers:} The absence of ECJ from widely-used package managers like Maven or JitPack imposes additional burdens on integration with other projects, as manual download and compilation become necessary.
+
+  \item \textbf{Limited IDE compatibility:} The design of ECJ emphasizes command line compilation and execution, undermining the utility of modern Integrated Development Environments (IDEs) and complicating debugging efforts.
+
+  \item \textbf{Inconvenience for integration:} Rather than being crafted for use as a library, the framework is designed with the expectation of direct source code inclusion. This requirement to import source code into users' own projects increases the difficulty of integration.
+
+  \item \textbf{Generic name complicates research:} The term 'ECJ' is sufficiently common to cause confusion when seeking information on the framework. Queries such as "ECJ" or "ECJ Java" yield results concerning the European Court of Justice or the Eclipse Compiler for Java, respectively, rather than the intended framework.
+
+  \item \textbf{Limited community and resources:} As of 2023, ECJ lacks a robust community of developers or users. The dearth of online resources like tutorials or Stack Overflow discussions compounds the challenges for new users seeking to leverage the framework effectively.
+
+  \item \textbf{Non-utilization of modern Java features:} Beyond the lack of generics, the framework fails to harness modern Java features like lambda expressions, lists, or Optional types. These features, by enabling more concise and readable code, can significantly enhance error prevention.
+\end{itemize}
+
+In conclusion, the Evolutionary Computation in Java (ECJ) framework, while extensive and capable, poses considerable barriers to entry for users due to its complexity, outdated documentation, and heavy reliance on legacy Java syntax. Furthermore, despite its versatility in supporting various evolutionary computation paradigms and distributed computing, the steep learning curve, absence from popular package managers, and limited compatibility with modern IDEs make it challenging for newcomers and experienced developers alike. The verbose code, intricate configuration requirements, and limited use of modern Java features also contribute to the difficulty in understanding and integrating the ECJ into projects. Our exploration further exposed issues with the execution of sample problems, highlighting the need for updated documentation and maintenance. However, ECJ's modular design, extensibility, and breadth of capabilities maintain its status as a valuable tool for research in the field of evolutionary computation. Future efforts could focus on modernizing the framework, improving documentation, and fostering an active user community to mitigate the identified issues and enhance its usability.
