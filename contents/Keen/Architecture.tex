@@ -1,74 +1,74 @@
 \section{Architecture}
 \label{sec:architecture}
-  The architectural blueprint of \textit{Keen} is divisible into five distinct
-  modules: \textit{evolution engine}, \textit{genetic material}, 
-  \textit{genetic operators}, \textit{utility}, and \textit{programs}.
+    \textit{Keen}, our sophisticated and flexible genetic programming library, organizes its architectural blueprint into five distinguishable modules: \textit{Evolution Engine}, \textit{Genetic Material}, \textit{Genetic Operators}, \textit{Utility}, and \textit{Programs}.
 
-  The \emph{utility} module, as implied by its name, houses utility classes and 
-  functions serving other modules.
-  We won't delve into its specifics in this document.
 
-  The \emph{genetic material} module is composed of classes embodying the 
-  characteristics of the evolving individuals, known as \texttt{Phenotype}s.
-  Its primary components include the \texttt{Phenotype} and \texttt{Genotype} 
-  classes, along with the \texttt{Chromosome} and \texttt{Gene} hierarchies.
+    The \textit{Utility} module serves as the library's toolbox, providing various auxiliary classes and functions that the remaining modules can utilize.
+    As its content is primarily supplementary, it won't be thoroughly examined within this document.
 
-  The \emph{genetic operators} module comprises classes representing the 
-  genetic operators leveraged by the evolution engine for individuals' 
-  evolution.
-  It houses classes typifying crossover and mutation operators, further 
-  categorized into \textbf{crossover}, \textbf{mutation}, and 
-  \textbf{selection}.
+    The \textit{Genetic Material} module encapsulates the foundational elements defining the characteristics of our evolving entities or \texttt{Phenotype}s.
+    Its core constituents are the \texttt{Phenotype} and \texttt{Genotype} classes, accompanied by the encompassing \texttt{Chromosome} and \texttt{Gene} hierarchies.
 
-  The \emph{evolution engine} module contains classes defining the evolution 
-  engine and the requisite classes to facilitate the evolution process.
+    Within the \textit{Genetic Operators} module, we define the different genetic operators that the \textit{Evolution Engine} leverages to stimulate the evolutionary process.
+    This module accommodates classes embodying crossover, mutation, and selection operators, systematically grouped into corresponding categories: \textbf{Crossover}, \textbf{Mutation}, and \textbf{Selection}.
 
-  A fifth module, \emph{programs}, depicts programs evolved under the 
-  \textit{genetic programming} paradigm.
-  As it's in its nascent development stages, this module's comprehensive 
-  coverage will not be featured in this document.
+    The \textit{Evolution Engine} module houses classes that construct the engine of evolution itself, along with essential classes promoting the smooth progression of the evolution process.
 
-  Most of the \textit{Keen} classes are parameterized by the type of 
-  information they hold (for instance, an integer) and the type of gene that 
-  composes the individuals of the population (for instance, an integer gene).
-  This design offers immense flexibility, empowering users to define the 
-  genetic material utilized by the evolution engine.
-  Thanks to \textit{Kotlin}'s type inference system, most use cases allow the 
-  omission of type parameters when the compiler can infer them, enhancing code 
-  readability.
+    Finally, the nascent \textit{Programs} module showcases genetic programming paradigms through a collection of programs developed under this concept.
+    However, as it is in its preliminary stages, this document will not cover it in detail.
 
-  Designed with immutability at its core, most of \textit{Keen}'s classes are 
-  immutable.
-  This design ensures robustness and predictability as users can be assured 
-  that objects remain unchanged post-creation.
-  This philosophy also enhances \textit{Keen}'s parallelization capabilities by 
-  allowing shared memory use without necessitating synchronization mechanisms.
+    A majority of the \textit{Keen} classes are parameterized by the type of data they handle and the gene type composing the population individuals, like an integer or an integer gene.
+    This design choice lends \textit{Keen} a wide range of flexibility, enabling users to tailor the genetic material for the evolution engine.
+    Moreover, thanks to \textit{Kotlin}'s proficient type inference, we can generally omit type parameters, thereby boosting code legibility.
 
-  \textit{Keen} offers factory methods for most classes, promoting concise, 
-  readable code.
-  This is accomplished using a language-oriented programming technique to 
-  create a mini \textit{domain specific language} (DSL) that facilitates more 
-  intuitive and readable object creation.
-  While factory methods are \textit{Keen}'s preferred object creation mode, the 
-  framework's design permits "manual" object creation if users need more 
-  control over the creation process.
-  An example of the DSL is shown below, where a \texttt{Genotype} is created
-  for the \textit{Room Scheduling} problem, where each \texttt{Chromosome}
-  represents a meeting and is composed of a single integer gene representing
-  the meeting's assigned room.
+    \textit{Keen} upholds the principle of immutability, rendering most of its classes immutable.
+    This provides an assurance of robustness and predictability, as objects remain unaltered post-creation, enhancing parallelization by allowing shared memory use without the need for synchronization mechanisms.
 
-  \begin{minted}{kotlin}
-    genotype {
-        repeat(meetings.size) {
-            chromosome {
-                ints { 
-                    size = 1
-                    range = meetings.indices.first to meetings.indices.last 
+    Furthermore, \textit{Keen} offers factory methods for most classes, fostering an intuitive and straightforward programming experience.
+    It employs language-oriented programming techniques to form a domain-specific language (DSL), streamlining object creation with more readable code.
+    This approach is evident in libraries such as \textit{Kotlinx.html}~\autocite{KotlinxHtml2023}, \textit{Kotlin Telegram Bot}~\autocite{KotlinTelegramBot2023}, and \textit{Kotest}~\autocite{KotestKotesta}.
+    While we promote factory methods as the primary mode of object creation, the design caters to manual object creation, granting users greater control over the process when needed.
+
+
+    Here's an illustrative DSL example, where we create a \texttt{Genotype} for the \textit{Room Scheduling} problem.
+    Here, each \texttt{Chromosome} represents a meeting, composed of a single integer gene indicating the assigned room.
+    The full code snippet can be found in \vref{lst:app:keen_room_scheduling}.
+
+    \begin{minted}{kotlin}
+        genotype {
+            repeat(meetings.size) {
+                chromosome {
+                    ints { 
+                        size = 1
+                        range = meetings.indices.first to meetings.indices.last 
+                    }
                 }
             }
         }
-    }
-  \end{minted}
-  
-  The following sections offer a deeper exploration into these modules, 
-  spotlighting key classes and their functions.
+    \end{minted}
+
+    The approach we see here closely mirrors the use of configuration files in 
+    ECJ.
+    However, as our DSL is defined entirely within \textit{Kotlin}, it offers 
+    significant advantages.
+    These include type safety, robust Integrated Development Environment (IDE) 
+    support, and the ability to leverage the full capabilities of the language 
+    in defining our genotypes.
+
+    In the given example, we employed the standard \texttt{repeat} function 
+    from the \textit{Kotlin} library to create a number of chromosomes equal to 
+    the number of meetings.
+    It is essential to note that this function is not part of our DSL but a 
+    standard feature provided by the language.
+
+    Furthermore, our approach enhances the readability of the code.
+    Compared to using ECJ's configuration files, the DSL presents a more 
+    intelligible and cleaner interface.
+    By defining the configurations in the same language and even within the 
+    same files as the rest of the code, we significantly improve code 
+    readability.
+    This consolidation offers a more streamlined, unified development 
+    environment that facilitates easier understanding and manipulation of the 
+    codebase.
+
+    In the following sections, we will delve deeper into the pivotal classes within these modules and examine their functions and significance.

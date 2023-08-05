@@ -13,6 +13,6 @@ draw(
   f = schaffer_4,
   minima = [0 => 1.25313, 0 => -1.25313, 1.25313 => 0, -1.25313 => 0],
   name = "schaffer_4_closeup",
-  x_range = -30 => 30,
-  y_range = -30 => 30,
+  x_range = -15 => 15,
+  y_range = -15 => 15,
 )

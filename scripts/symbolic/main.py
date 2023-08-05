@@ -3,14 +3,13 @@ from math import sin
 
 import coloredlogs  # type: ignore
 
-from commons import IMG_DIR, debug
 from latex import math
+from symbolic.crossover import crossover
 from symbolic.functions import Function
-from symbolic.initialization import plot_population, initialize_population
-from symbolic.mse import mse
-from symbolic.population import Individual, concat, Population
-from symbolic.samples import create_samples, Sample
-from symbolic.selection import calculate_probabilities, select_survivors
+from symbolic.initialization import initialize_population
+from symbolic.population import Individual
+from symbolic.samples import create_samples
+from symbolic.selection import select_survivors
 
 
 def target_function(x: float) -> float:
@@ -21,36 +20,6 @@ def target_function(x: float) -> float:
 def create_target_individual() -> Individual[Function]:
     """Creates an individual representing the target function."""
     return Individual(math("f(x)"), Function(python=target_function), 0)
-
-
-def crossover(
-    survivors: list[Individual[Function]], samples: list[Sample]
-) -> Population[Function]:
-    crossed_fns = [
-        Function(latex=math(r"5 \cdot 7"), python=lambda _: 5 * 7),
-        Function(
-            latex=math(r"x^2 - (5 + \sin(x))"), python=lambda x: x**2 - (5 + sin(x))
-        ),
-    ]
-    crossed_individuals = [
-        survivors[0],
-        survivors[1],
-        Individual(
-            math("O_1"),
-            crossed_fns[0],
-            mse([crossed_fns[0](x) for x, _ in samples], [x for _, x in samples]),
-        ),
-        Individual(
-            math("O_2"),
-            crossed_fns[1],
-            mse([crossed_fns[1](x) for x, _ in samples], [x for _, x in samples]),
-        ),
-    ]
-    debug(crossed_individuals)
-    logging.info(f"Crossed individuals: {crossed_individuals}")
-    crossed_population = Population(crossed_individuals)
-
-    return Population(crossed_individuals)
 
 
 def main() -> None:

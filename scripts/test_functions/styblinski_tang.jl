@@ -13,7 +13,8 @@ Calculate the Styblinski-Tang function, which is commonly used as a performance 
 # Returns
 - The calculated Styblinski-Tang function value as a Number.
 """
-styblinski_tang(x::Number, y::Number)::Number = 0.5 * (x^4 - 16x^2 + 5x) + 0.5 * (y^4 - 16y^2 + 5y)
+styblinski_tang(x::Number, y::Number)::Number = 
+    0.5 * (x^4 - 16x^2 + 5x) + 0.5 * (y^4 - 16y^2 + 5y)
 
 draw(
     x_range = -5 => 5,
