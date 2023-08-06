@@ -147,7 +147,8 @@ def _save_population_summary(tab: Table) -> str | Path:
     """
     Saves the LaTeX table summarizing the initial population to a .tex file.
 
-    :param tab: A Table object representing the LaTeX table summarizing the initial population.
+    :param tab: A Table object representing the LaTeX table summarizing the initial
+                population.
     :return: The path to the saved file.
     """
     save_path = tab.save(INITIALIZATION_PATH / "tab-bg-gp-sym-init-pop-summary.tex")
@@ -169,8 +170,8 @@ def create_population(samples: list[Sample]) -> Population[Function]:
 
     Finally, the LaTeX table is saved to a .tex file.
 
-    :param samples: A list of samples, where each sample is a tuple of the form (x, y), representing the inputs and
-                    outputs for the function.
+    :param samples: A list of samples, where each sample is a tuple of the form (x, y),
+                    representing the inputs and outputs for the function.
 
     :return: A Population object representing the initial population.
     """

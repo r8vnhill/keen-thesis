@@ -1,11 +1,22 @@
-def math(text) -> str:
+import re
+
+
+def math(text: str) -> str:
     """
     Converts the input text into a LaTeX inline math mode string.
 
     :param text: A string representing a mathematical expression.
     :return: A string with the input text wrapped within LaTeX inline math mode delimiters.
     """
-    return r"\(" + str(text) + r"\)"
+    # Remove non-escaped $ and $$
+    text = re.sub(r'(?<!\\)\$', '', text)
+    text = re.sub(r'(?<!\\)\$\$', '', text)
+
+    # Remove non-escaped \( and \)
+    text = re.sub(r'(?<!\\)\\[(]', '', text)
+    text = re.sub(r'(?<!\\)\\[)]', '', text)
+
+    return r"\(" + text + r"\)"
 
 
 def tex(text) -> str:

@@ -1,3 +1,7 @@
+from symbolic.functions import Function
+from symbolic.samples import Sample
+
+
 def mse(observed: list[float], predicted: list[float]) -> float:
     """
     Computes the Mean Squared Error (MSE) between two lists of numbers.
@@ -23,3 +27,10 @@ def mse(observed: list[float], predicted: list[float]) -> float:
               In general, lower MSE values represent better fits to the data.
     """
     return sum([(o - p) ** 2 for o, p in zip(observed, predicted)]) / len(observed)
+
+
+# Utility functions
+def function_mse(func: Function, samples: list[Sample]) -> float:
+    predicted = [func(x) for x, _ in samples]
+    actual = [y for _, y in samples]
+    return mse(predicted, actual)

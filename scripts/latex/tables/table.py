@@ -22,7 +22,8 @@ class Table:
     position: Optional[list[Position]]
     caption: Optional[Caption]
 
-    def __init__(self, tabular: Tabular, position: Optional[list[Position]] = None, caption: Optional[Caption] = None):
+    def __init__(self, tabular: Tabular, position: Optional[list[Position]] = None,
+                 caption: Optional[Caption] = None):
         """
         Construct a new Table object.
 
@@ -62,6 +63,10 @@ class Table:
         """
         debug(f"Saving table to {path}", __name__)
         resolved_path = Path(path)
+
+        # Create any missing subfolders
+        resolved_path.parent.mkdir(parents=True, exist_ok=True)
+
         if not overwrite and resolved_path.exists():
             raise FileExistsError(f"File {resolved_path} already exists")
         with open(str(resolved_path), 'w' if overwrite else 'x') as f:
@@ -78,7 +83,8 @@ class Table:
                            f"\\centering\n"
                            f"{self.content}\n"
                            f"{self.caption}\n" if self.caption else "",
-                           OptionalArgument(render_position(*self.position)) if self.position else "")
+                           OptionalArgument(
+                               render_position(*self.position)) if self.position else "")
 
     def __repr__(self) -> str:
         """

@@ -76,7 +76,7 @@ class Population(Sized, Generic[T]):
         return [i.fitness / np.sum(self.fitness) for i in self.individuals]
 
     def map(
-        self, transform: Callable[[Individual[T]], Individual[T]]
+            self, transform: Callable[[Individual[T]], Individual[T]]
     ) -> "Population[T]":
         """
         Apply a given transformation function to each individual in the population and return a new population
@@ -119,7 +119,7 @@ class Population(Sized, Generic[T]):
 
 
 def concat(
-    *individuals: Individual[T] | list[Individual[T]] | Population[T],
+        *individuals: Individual[T] | list[Individual[T]] | Population[T],
 ) -> Population[T]:
     """
     Concatenates the values of the given individuals and returns a new population
@@ -141,10 +141,10 @@ def concat(
 
 
 def plot_population(
-    population: Population[Function],
-    x_limits: tuple[float, float],
-    graph_title: str,
-    file_path: Path,
+        population: Population[Function],
+        x_limits: tuple[float, float],
+        graph_title: str,
+        file_path: Path,
 ) -> None:
     """
     Generate a plot illustrating the given population of functions.
