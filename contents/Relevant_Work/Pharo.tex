@@ -1,0 +1,61 @@
+\section{Agile Artificial Intelligence in Pharo}
+\label{sec:sota:pharo}
+  Alexandre Bergel's \emph{\enquote{Agile Artificial Intelligence in 
+  Pharo}}~\autocite{bergelAgileArtificialIntelligence2020} delivers a 
+  comprehensive exploration of genetic algorithms, encapsulating their theory 
+  and application within the \textit{Pharo} programming environment.
+  This language, dynamic and reflective, finds its roots in \textit{Smalltalk}.
+
+  Bergel's tome not only introduces readers to genetic algorithms but also to 
+  neural networks and the concept of neuroevolution.
+  The framework's design and the reasoning behind it are meticulously detailed, 
+  offering readers insights into its three main components: \emph{genetic 
+  operators}, \emph{selection operators}, and the \emph{evolution engine}.
+  Accompanying this detailed framework are test cases.
+  These serve dual roles: exemplifying the framework's application and guiding 
+  enthusiasts in developing their own robust and extensible frameworks.
+
+  To showcase the framework's utility, the OMP problem resolution via a genetic 
+  algorithm is provided:
+
+  \begin{listing}[H]
+    \caption{A simple genetic algorithm using Bergel's framework.}
+    \label{src:sota:pharo:example}
+  \end{listing}
+  \vspace{-2em}
+  \begin{minted}{smalltalk}
+    | engine |
+    engine := GAEngine new.
+    engine populationSize: 20.
+    engine numberOfGenes: 20.
+    engine createGeneBlock: [ :rand :index :ind | (0 to: 1) atRandom: rand ].
+    engine fitnessBlock: [ :ind | ind count: [ :each | each = 1 ] ].
+    engine endIfFitnessIsAbove: 19.
+    engine run.
+    Transcript show: engine "Target fitness reached at generation "; 
+      engine logs last generation.
+    Transcript show: engine "Best individual is: "; 
+      engine logs last fittestIndividual.
+    Transcript show: engine "with fitness: ";
+      engine logs last bestFitness.
+  \end{minted}
+
+  Breaking it down:
+
+  \begin{enumerate}
+      \item[1-2] A new genetic algorithm engine is declared and initialized.
+      \item[3-4] The population and number of genes are both set to 20.
+      \item[5] The gene creation block is outlined for initial population 
+        generation, returning a random digit either 0 or 1.
+      \item[6] The fitness block is then detailed, here counting the number of 
+        1s in an individual.
+      \item[7] The algorithm's termination condition is set, halting if an 
+        individual's fitness surpasses 19.
+      \item[8] Finally, the algorithm is executed.
+  \end{enumerate}
+
+  While Bergel's framework, as presented in the book, stands as a clear and 
+  potent genetic algorithm tool for \textit{Pharo}, its primary intent is 
+  instructional.
+  As such, it may not rival the robustness of seasoned frameworks like DEAP or 
+  \textit{Jenetics}.
