@@ -1,0 +1,47 @@
+\section{Problem Description}
+\label{sec:knapsack:probl}
+  The \emph{Knapsack Problem} is a canonical combinatorial optimization problem. 
+  It involves selecting items, each characterized by a specific weight and 
+  value, to maximize the total value while adhering to a weight constraint. 
+
+  The goal is to ascertain the optimal subset of items (maximize profit) for the 
+  knapsack, ensuring the total weight remains under the knapsack's capacity.
+
+  Two primary variants of the Knapsack Problem exist: \emph{0-1 Knapsack}
+  (\(\mathrm{K_{0 / 1}}\)) and \emph{Unbounded Knapsack} (\(\mathrm{K_{*}}\)).
+
+  \subsection{0-1 Knapsack Problem}
+    In this variant, each item can be taken once or disregarded.
+    This constraint can be expressed as \(x_i \in \{0, 1\}\).
+    The mathematical formulation is:
+
+    \begin{equation}
+      \label{eq:knapsack:01}
+      \begin{aligned}
+        \text{maximize} \quad & \sum_{i=1}^{n} v_i x_i \\
+        \text{subject to} \quad & \sum_{i=1}^{n} w_i x_i \leq W \\
+          & x_i \in \{0, 1\} \quad \forall i \in \{1, 2, \dots, n\}
+      \end{aligned}
+    \end{equation}
+
+    Analyzing the problem's search space, we note that the potential 
+    combinations of selected items equate to a size of \(2^n\).
+    Given that the \emph{Subset Sum Problem}, to which this problem is 
+    reducible, is NP-hard, \(\mathrm{K}_{0/1}\) inherits this complexity.
+
+    \paragraph{Example:}
+      Consider 8 items \((w,\, v) = \{(11,\, 1),\, (21,\, 11),\, (31,\, 21),\, 
+      (33,\, 23),\, (43,\, 33),\, (53,\, 43),\, (55,\, 45),\, (65,\, 55)\}\). For a knapsack with a 
+      capacity \(W = 110\), the optimal selection consists of items 1, 3, 4, 5, 
+      and 6.
+      This results in a cumulative value of 159 and a total weight of 109.
+
+
+  \textbf{Unbounded Knapsack Problem:}
+  Here, there's no limit to the number of instances of each item that can be selected.
+
+  \textbf{Example:}
+  Given items with weights [10, 20, 30] and values [60, 100, 120] and \(W = 100\), one can pick the first item three times to get the maximum value of 180.
+
+  \textbf{Search Space Dimensions:}
+  For the 0-1 Knapsack, the search space is of size \(2^n\), making the problem NP-hard. For the Unbounded Knapsack, the search space can be considered infinite since there's no limit on the number of each item.
