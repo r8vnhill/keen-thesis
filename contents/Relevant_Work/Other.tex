@@ -1,0 +1,54 @@
+\section{Other Libraries}
+\label{sec:sota:other}
+  The preceding sections elucidated a select set of leading frameworks in 
+  EC.
+  Yet, our research ambit encompassed a broader array of libraries.
+  This thorough examination was pivotal in sculpting our proposed
+  \textit{Kotlin}-based EC framework.
+  By discerning the strengths and nuances of each library, we endeavored to 
+  assimilate their best features, circumventing common shortcomings.
+
+  Below is a succinct overview of additional frameworks:
+
+  \begin{itemize}
+    \item \textbf{EvolvingObjects} (EO)~\autocite{EvolvingObjectsWelcomeEvolving} - 
+      A template-based \textit{C++} framework, it encompasses a myriad of evolutionary algorithms and operators, such as GAs, ES, and PSO.
+      At present, certain features like GP are not supported.
+    \item \textbf{Inspyred}~\autocite{InspyredBioinspiredAlgorithms} - 
+      A Python-oriented framework, Inspyred, inspired by De Jong~\autocite{dejongEvolutionaryComputationUnified2006},
+      distinctly separates algorithm-specific computations from problem-centric 
+      ones.
+      It encompasses a diverse array of evolutionary algorithms, including GAs 
+      and ES.
+      Currently, it does not support GP.
+    \item \textbf{Pyevolve} - This Python-centric framework provides multiple 
+      evolutionary algorithms, inclusive of GAs and GP.
+      However, it's worth noting that it's no longer under active maintenance.
+    \item \textbf{PGAPack}~\autocite{SchlatterbeckPgapackParallel} - 
+      Crafted in \textit{C}, this parallel genetic algorithm library boasts of 
+      features like interoperability with \textit{Fortran}, \textit{C}, and 
+      \textit{C++}, compatibility across varied parallel architectures, and a 
+      \textit{Python} interface~\autocite{SchlatterbeckPgapyPythona}.
+    \item \textbf{pagmo}~\autocite{Pagmo2023} - 
+      A \textit{C++} library, pagmo prioritizes massively parallel optimization, 
+      offering a unified interface for diverse optimization algorithms, 
+      including evolutionary ones.
+      It also features a \textit{Python} interface~\autocite{Pygmo2023}.
+    \item \textbf{easy\_ga}~\autocite{EasyGaSrc} - 
+      Based in \textit{Rust}, easy\_ga facilitates swift GA prototyping, 
+      predominantly supporting traditional GAs.
+    \item \textbf{genevo}\autocite{GenevoRust} -
+      Another \textit{Rust}-oriented framework, genevo also chiefly supports classic GAs.
+    \item \textbf{Evolutionary Computation Framework} (ECF)~\autocite{djakobovicECFEvolutionaryComputation2023} - 
+      ECF, written in \textit{C++}, offers a rich set of evolutionary 
+      algorithms, rivalling frameworks like DEAP and ECJ in terms of 
+      comprehensiveness.
+      However, it grapples with issues akin to ECJ, such as limited 
+      documentation and an inherent steep learning curve.
+  \end{itemize}
+
+  The multifariousness and capabilities intrinsic to these libraries underscore 
+  the expansive potential within the realm of genetic algorithms.
+  Our deep dive into each has equipped us to craft a \textit{Kotlin}-based 
+  framework that endeavors to synergize the strengths of each while introducing 
+  innovative attributes.
