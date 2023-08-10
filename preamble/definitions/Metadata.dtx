@@ -23,7 +23,7 @@
 % | Dictionary containing the metadata of the document.
 \keys_define:nn { ravenhill/latex/meta } {
   title .tl_set:N = \l_rvnlatex_title_str ,
-  logo .tl_set:N = \l_rvnlatex_logo_str ,
+  logo .tl_set:N = \l_rvnlatex_logos_clist ,
   date .tl_set:N = \l_rvnlatex_date_tl ,
   city .tl_set:N = \l_rvnlatex_city_str ,
   country .tl_set:N = \l_rvnlatex_country_str ,
@@ -51,7 +51,7 @@
   \prop_new:c { g_rvnlatex_doc_prop }
   \keys_set:nn { ravenhill/latex/meta } { #1 }
   \setvmeta { title } { \l_rvnlatex_title_str }
-  \setvmeta { logo } { \l_rvnlatex_logo_str }
+  \setvmeta { logos } { \l_rvnlatex_logos_clist }
   \setvmeta { date } { \l_rvnlatex_date_tl }
   \setvmeta { city } { \l_rvnlatex_city_str }
   \setvmeta { country } { \l_rvnlatex_country_str }

@@ -15,7 +15,52 @@
   
   \subsection{Genetic Material}
   \label{sec:keen:ga:material}
-    \Blindtext
+    The genetic material is the core of the GAs, as it is the primary
+    representation of the problem domain.
+    As such, it is imperative that the genetic material is structured in a
+    manner that is both efficient and flexible.
+
+    To achieve this, we designed the genetic material to be 
+    \enquote{gene-centric}.
+    This means that the genetic material is represented directly or indirectly
+    as a collection of genes.
+    This design decision was made to provide a high degree of flexibility in
+    the design of the APIs, e.g., we could use polymorphic behavior to
+    represent the genetic material as a single gene, as a collection of genes 
+    (chromosome), or even as a collection of collections of genes (genotype).
+
+    \paragraph{Gene}
+      The gene is the most basic unit of genetic material.
+      It is the smallest unit of genetic material that can be manipulated by
+      the framework.
+      
+      Each gene should be able to:
+      \begin{enumerate*}
+        \item \textit{mutate},
+        \item \textit{reproduce}, and
+        \item \textit{store} information.
+      \end{enumerate*}
+      In an effort to maintain a high degree of extensibility, we designed each
+      gene to perform the least amount of work possible, delegating the
+      majority of the work to the operators (refer to \vref{sec:keen:operators}).
+      This design decision was made to ensure that the framework is able to
+      support a wide variety of genetic material, e.g., binary, integer, real,
+      and even custom genetic material.
+
+      Given that we propose the following interface that each gene should
+      implement:
+
+      \begin{minted}{kotlin}
+        interface Gene<DNA, G: Gene<DNA, G>> : GeneticMaterial<DNA, G>, 
+                                               SelfReferential<G> {
+            val dna: DNA
+            fun mutate(): G = withDna(generator())
+            fun generator(): DNA = dna
+            fun withDna(dna: DNA): G
+            override fun flatten() = listOf(dna)
+        }
+      \end{minted}
+
   \subsection{Evolution Engine}
   \label{sec:keen:ga:engine}
     \Blindtext

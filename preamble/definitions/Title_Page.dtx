@@ -5,7 +5,7 @@
 % TITLE PAGE UTILITIES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% region : USER COMMANDS ---------------------------------------------------------------------------
+% region : -================= USER COMMANDS ===================================-
 
 % | Renders the title and subtitle of the document.
 % | Arguments:
@@ -23,9 +23,12 @@
 
 % | Renders the logo of the document.
 \NewDocumentCommand { \inputlogo } { o } {
+  %\keys_if_exist:nnT { ravenhill/latex/meta } { logos } {          % if (logos exists):
+  %  \latexito_inputlogo:V { \getvmeta { logos } }                 %   input_logo(metadata[logos])
+  %}                                                               % else { }
   \begin{figure}[H]
     \centering
-    \includegraphics[height=#1]{ \getvmeta { logo } }
+    \includegraphics[height=#1]{ \getvmeta { logos } }
   \end{figure}
 }
 
@@ -52,13 +55,13 @@
   \getvmeta { date }
 }
 
-% endregion ----------------------------------------------------------------------------------------
+% endregion USER COMMANDS
 
-\str_new:N \l__createblock_first_str                                  % var first: str
-\str_new:N \l__createblock_second_str                                 % var second: str 
+\str_new:N \l__createblock_first_str  % var first: str
+\str_new:N \l__createblock_second_str % var second: str 
 
-\clist_new:N \l__authblock_authcopy_clist                             % var cl: clist
-\int_new:N \l__authblock_count_int                                    % var i: int
+\clist_new:N \l__authblock_authcopy_clist % var cl: clist
+\int_new:N \l__authblock_count_int  % var i: int
 
 % | Creates an author block.
 % |
@@ -108,3 +111,4 @@
     }
   \end{center}
 }
+

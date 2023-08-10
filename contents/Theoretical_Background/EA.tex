@@ -1,35 +1,56 @@
 \section{Evolutionary Algorithms}
 \label{sec:evolutionary_algorithms}
-  In the field of computational intelligence, evolutionary algorithms (EA) 
-  \autocite{yuIntroductionEvolutionaryAlgorithms2010} are a family of algorithms inspired by the 
-  process of natural selection.
-  They are part of the larger field of evolutionary 
-  computation,\footnote{See \vref{def:evolutionary_computation}} which is a subfield of 
-  metaheuristics.\footnote{See \vref{def:metaheuristic}}
+  In the field of computational intelligence, \emph{evolutionary algorithms}
+  (EA)~\autocite{yuIntroductionEvolutionaryAlgorithms2010} are a family of
+  algorithms inspired by the process of natural selection.
+  They are part of the larger field of \textit{evolutionary 
+  computation},\footnote{See \vref{def:evolutionary_computation}} which is a 
+  subfield of \textit{metaheuristics}.\footnote{See \vref{def:metaheuristic}}
 
-  EAs are algorithms that perform optimization or learning tasks by evolving solutions to a given
-  problem. These tasks may range from function optimization to machine learning or game AI development.
+  EAs are algorithms that perform optimization or learning tasks by evolving
+  solutions to a given problem via emergent 
+  intelligence~\autocite{peterj.angelineGeneticProgrammingEmergent1994}.
+  These tasks may range from function optimization to machine learning or game
+  AI development.
   EAs have three main characteristics:
 
   \begin{itemize}
-    \item \textbf{Population-based:} These algorithms work with a population of solutions, allowing
-      them to explore the search space in parallel.\footnote{
-        Not to be confused with parallelization, which is a technique used to speed up the execution
-        of an algorithm by running it in parallel on multiple processors.
-        \enquote{Parallel} in this context means that the algorithm is exploring multiple points in
-        the search space (\vref{def:search_space}) simultaneously.
-      }
-    \item \textbf{Fitness-oriented:} The solutions in the population are evaluated using a fitness
-      function, which is a problem-dependent function that assigns a value to each solution based on its quality.
-      The goal of the algorithm is to find the solution with the highest\footnote{
-        In some cases, the goal is to minimize the fitness function, in which case the algorithm
-        will aim to find the solution with the lowest fitness.
+    \item \textbf{\textsc{Population-based:}} These algorithms work with a 
+      \textbf{population of solutions}, allowing them to explore the search 
+      space in \textit{parallel}.
+    \item \textbf{\textsc{Fitness-oriented}:} The solutions in the population 
+      are evaluated using a \emph{fitness function}, which is a 
+      \textbf{problem-dependent function} that assigns a value to each solution 
+      based on its quality.
+      The goal of the algorithm is to find the solution with the 
+      highest\footnote{
+        In some cases, the goal is to minimize the fitness function, in which 
+        case the algorithm will aim to find the solution with the lowest
+        fitness.
       } fitness.
-    \item \textbf{Variation-driven:} The candidate solutions are modified using genetic operators,
-      such as mutation, crossover, and selection, to create new solutions.
-      These operators are usually based on the biological processes of mutation and recombination.
+    \item \textbf{\textsc{Variation-driven}:} The candidate solutions are 
+      modified using \emph{genetic operators}, such as mutation, crossover, and 
+      selection, to create new solutions.
+      These operators are usually based on the biological processes of 
+      \textit{mutation} and \textit{recombination}.
   \end{itemize}
   
-  While these principles serve as the foundation for most EAs, it's important to note that some 
-  variants may prioritize some principles over others, or introduce new principles. 
-  This diversity allows EAs to be adapted to a wide range of problems and scenarios.
+  \begin{remark}
+    \enquote{Parallel} in this context means that the algorithm is exploring 
+    multiple points in the search space in the same generation (iteration).
+    It should not be confused with parallel computing, which is a technique
+    used to speed up the execution of the algorithm by running it on multiple
+    processors.
+
+    Even though EAs are parallel in nature, they can be run on a single
+    processor.
+    Nevertheless, this parallel nature makes them a good candidate for
+    parallel computing; in this thesis we will explore the use of parallel
+    computing to speed up the execution of certain stages of the algorithm.
+  \end{remark}
+
+  While these principles serve as the foundation for most EAs, it's important to 
+  note that some variants may prioritize some principles over others, or 
+  introduce new principles. 
+  This diversity allows EAs to be adapted to a wide range of problems and 
+  scenarios.

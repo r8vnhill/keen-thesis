@@ -26,6 +26,12 @@
 \newtheorem{lemma}{Lemma}[chapter]
 \newtheorem{corollary}{Corollary}[theorem]
 \newtheorem*{remark}{Remark}
+\tcolorboxenvironment{remark}{
+  enhanced jigsaw,
+  leftrule=1pt,
+  rightrule=1pt,
+  boxrule=0pt,
+}
 \newtheorem{definition}{Definition}[chapter]
 
 \RenewDocumentEnvironment{proof}{}{\emph{Proof.}}{\qed}
