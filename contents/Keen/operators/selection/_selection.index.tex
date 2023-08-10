@@ -1,0 +1,67 @@
+\subsection{Selection}
+\label{sec:keen:operators:selection}
+  Building upon the concepts presented in \vref{def:selection_operator}, the 
+  \emph{selector operator} is mathematically represented as \(\Sigma : \mathbb
+  {P} \times \mathbb{N} \times \cdots \to \mathbb{P}\).
+  At its core, the selector operator processes a given population 
+  \(\mathbb{P}\), selects \(n\) individuals based on specific criteria, and 
+  outputs a subset of the initial population.
+  To ensure adaptability, the design challenge centers around establishing a 
+  versatile interface to cater to diverse selection strategies.
+
+  A promising approach consists of introducing an interface encompassing a 
+  method that requires the population and desired number of individuals as 
+  inputs.
+  We can incorporate any supplementary parameters as properties of a specific 
+  selector object.
+  This conceptualization can be defined as:
+
+  \begin{listing}[H]
+    \caption{Selector interface}
+    \label{lst:keen:operators:selection:interface}
+  \end{listing}
+  \begin{minted}{kotlin}
+    interface Selector<DNA, G : Gene<DNA, G>> {
+      operator fun invoke(
+          population: Population<DNA, G>,
+          count: Int,
+          optimizer: PhenotypeOptimizer<DNA, G>
+      ): Population<DNA, G>
+    }
+  \end{minted}
+
+  In this model, the \texttt{Selector} interface gets parameterized according 
+  to the \texttt{DNA} and \texttt{Gene} types.
+  The incorporated \texttt{invoke} method explicitly mentions the population, 
+  the individual count, and an instance of the \texttt{PhenotypeOptimizer} 
+  class.
+  Thanks to Kotlin's capacity for operator overloading, this framework allows 
+  direct function invocation through the selector object, depicted as \texttt
+  {selector(...)}.\footnote{Syntactic sugar for \texttt{selector.invoke(...)}.}
+
+  We introduce an additional parameter, \texttt{PhenotypeOptimizer}, which 
+  signifies the optimization strategy employed to facilitate selection, be it 
+  maximization or minimization.\footnote{
+    Both these strategies - maximization and minimization - are integral 
+    components of the \textit{Utility} module in \textit{Keen}.
+    Additionally, the \texttt{PhenotypeOptimizer} interface can be modified to 
+    support bespoke optimization techniques.
+  }
+
+  \begin{remark}
+    To add depth to our architecture, the \texttt{Selector} interface 
+    seamlessly integrates with the \texttt{AbstractSelector} abstract class.
+    This integration ensures foundational functionalities for all selector 
+    types, while also allowing developers to design specialized selectors by 
+    extending this class.
+  \end{remark}
+
+  \subsubsection{Random Selector}
+  \label{sec:keen:operators:selection:random}
+    \Blindtext
+  \subsubsection{Roulette Wheel Selector}
+  \label{sec:keen:operators:selection:roulette_wheel}
+    \Blindtext
+  \subsubsection{Tournament Selector}
+  \label{sec:keen:operators:selection:tournament}
+    \Blindtext
