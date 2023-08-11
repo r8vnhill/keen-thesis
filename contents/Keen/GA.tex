@@ -52,14 +52,14 @@
 
       Thus, we suggest the following interface for gene implementation:
 
-      \begin{kotlin}
-        interface Gene<DNA, G: Gene<DNA, G>> : GeneticMaterial<DNA, G>, 
+      \begin{code}[Gene interface][label={lst:keen:ga:gene}]{kotlin}
+        interface Gene<DNA, G: Gene<DNA, G>> : GeneticMaterial<DNA, G>,
                                                SelfReferential<G> {
             val dna: DNA
             fun mutate(): G
             fun withDna(dna: DNA): G
         }
-      \end{kotlin}
+      \end{code}
 
     \paragraph{Chromosome}
       A chromosome is defined as an iterable collection of genes.
@@ -70,7 +70,7 @@
       
       To this end, we suggest the following interface for each chromosome:
       
-      \begin{minted}{kotlin}
+      \begin{code}[Chromosome interface][label={lst:keen:ga:chromosome}]{kotlin}
         interface Chromosome<DNA, G : Gene<DNA, G>> : GeneticMaterial<DNA, G>, 
                                                       Iterable<G> {
             val genes: List<G>
@@ -80,7 +80,7 @@
                 fun make(): Chromosome<DNA, G>
             }
         }
-      \end{minted}
+      \end{code}
       
       Incorporated within is the \texttt{Factory} interface, dedicated to 
       the creation of new chromosomes.
@@ -103,7 +103,7 @@
       Consequently, the genotype can be represented by a concrete class, as 
       demonstrated below:
       
-      \begin{minted}{kotlin}
+      \begin{code}[Genotype class][label={lst:keen:ga:genotype}]{kotlin}
         class Genotype<DNA, G : Gene<DNA, G>>(val chromosomes: List<Chromosome<DNA, G>>) :
             GeneticMaterial<DNA, G>, Iterable<Chromosome<DNA, G>> {
       
@@ -111,7 +111,7 @@
                 fun make(): Genotype<DNA, G> { ... }
             }
         }
-      \end{minted}
+      \end{code}
       
       Embedded within is the \texttt{Factory} class, designated for the 
       generation of new genotypes.
@@ -130,12 +130,12 @@
       that a phenotype can be compared with its peers. 
       In light of this, the structure for the phenotype is delineated as:
       
-      \begin{minted}{kotlin}
+      \begin{code}[Phenotype class][label={lst:keen:ga:phenotype}]{kotlin}
         class Phenotype<DNA, G : Gene<DNA, G>>(
             val genotype: Genotype<DNA, G>,
             val fitness: Double = Double.NaN
         ) : GeneticMaterial<DNA, G>, Comparable<Phenotype<DNA, G>> { ... }
-      \end{minted}
+      \end{code}
       
   \subsection{Evolution Engine}
   \label{sec:keen:ga:engine}

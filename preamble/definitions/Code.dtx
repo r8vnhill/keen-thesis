@@ -6,23 +6,28 @@
     #1
 }
 
-\NewTCBListing {code} { s o m } {
+\NewTCBListing [
+  auto~counter, 
+  number~within=chapter
+] {code} { s o o m } {
   listing~engine=minted,
-  minted~language=#3,
+  minted~language=#4,
   listing~only,
   breakable,
   enhanced,
   minted~options={
-    fontsize=\small,
+    fontsize=\normalsize,
     numbersep=3mm,
     \IfBooleanTF #1 {linenos} {}
   },
+  boxrule=0pt,
   colback=black!5!white,
   colframe=black!50!white,
   left=5mm,
+  title={Listing~\thetcbcounter~--~#2},
   overlay={
     \begin{tcbclipinterior}
       \fill[black!25!white] (frame.south~west) rectangle ([xshift=5mm]frame.north~west);
     \end{tcbclipinterior}
-  },#2
+  },
 }

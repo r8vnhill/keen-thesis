@@ -1,0 +1,120 @@
+\subsection{Evolution Engine}
+\label{sec:keen:ga:engine}
+
+  The \emph{evolution engine} serves as the framework's nucleus, orchestrating the
+  evolution of the population.
+  It encapsulates all functions essential for the evolutionary process.
+  This engine integrates the fundamental structure of the evolutionary algorithms,
+  invoking relevant functions from associated entities like the 
+  \emph{genetic material} and \emph{genetic operators}.
+
+  Specifically, the engine manages:
+
+  \begin{enumerate}
+    \item Population initialization;
+    \item Population evaluation;
+    \item Selection of individuals for the forthcoming generation;
+    \item Genetic operator application on chosen individuals;
+    \item Evaluation of the newly formed individuals;
+    \item Supplanting the old population with the new;
+    \item Iteration from step 3 until meeting termination criteria.
+  \end{enumerate}
+
+  Furthermore, the engine offers hooks for both pre and post-processing steps
+  related to the population and individuals.
+  These hooks facilitate user-driven customization of the evolution trajectory.
+  Although this feature remains outside this work's scope, its availability merits
+  acknowledgment.
+
+  The engine's architecture is depicted in \vref{lst:keen:ga:engine}.
+
+  \begin{code}*[Evolution engine structure][label={lst:keen:ga:engine}]{kotlin}
+    class Engine<DNA, G : Gene<DNA, G>>(...) : Evolver<DNA, G> {
+        override fun evolve(): EvolutionResult<DNA, G> {
+            var evolution = EvolutionState.empty<DNA, G>()
+            var result = EvolutionResult(optimizer, evolution.population, generation)
+            while (limits.none { it(this) }) {
+                result = evolve(evolution)
+                evolution = result.next()
+            }
+            return result
+        }
+        fun evolve(start: EvolutionState<DNA, G>) = runBlocking {
+            val interceptedStart = interceptor.before(start)
+            val evolution = startEvolution(interceptedStart)
+            val evaluatedPopulation = evaluate(evolution)
+            val offspring = selectOffspring(evaluatedPopulation)
+            val survivors = selectSurvivors(evaluatedPopulation)
+            val alteredOffspring = alter(offspring, evolution)
+            val nextPopulation = survivors + alteredOffspring.population
+            val pop = evaluate(EvolutionState(nextPopulation, generation), true)
+            evolutionResult = EvolutionResult(optimizer, pop, ++generation)
+            val afterResult = interceptor.after(evolutionResult)
+            afterResult
+        }
+
+        class Builder<DNA, G : Gene<DNA, G>>(
+            private val fitnessFunction: (Genotype<DNA, G>) -> Double,
+            private val genotype: Genotype.Factory<DNA, G>,
+        ) {
+            fun build() = Engine(...)
+            ...
+        }
+    }
+  \end{code}
+
+  In the provided code, the function \texttt{runBlocking} harnesses 
+  \textit{coroutines} to allow parallel computation.
+
+  It's worth noting that two distinct \texttt{evolve} functions exist: 
+  
+  \begin{itemize}
+    \item \texttt{evolve()} oversees the entire evolutionary procedure.
+    \item \texttt{evolve(start: EvolutionState<DNA, G>)} orchestrates a singular
+      iteration of the evolutionary process, commencing from a specified
+      \texttt{EvolutionState}.
+  \end{itemize}
+
+  The supplementary \texttt{Builder} class streamlines the engine configuration 
+  process.
+  Although its utilization is recommended for engine instantiation, it remains 
+  optional, ensuring flexibility for users.
+
+  Finally, the \texttt{Evolver} interface is designed to accommodate varying 
+  engine implementations, with the \texttt{Engine} class being the exclusive 
+  existing implementation to date.
+
+  \paragraph{Termination Criteria}
+    The algorithm employs a set of \texttt{Limit} objects to define its 
+    termination criteria.
+    These objects contain the logic to determine when the algorithm should halt, 
+    thus permitting multiple criteria definitions without requiring 
+    engine-specific awareness of their details.
+
+    The structure of the \texttt{Limit} interface is shown in 
+    \vref{lst:keen:ga:limit}.
+
+    \begin{code}[Limit interface][label={lst:keen:ga:limit}]{kotlin}
+      interface Limit {
+          operator fun invoke(engine: Engine<*, *>): Boolean
+      }
+    \end{code}
+
+    Within this interface, the exclusive function is the \texttt{invoke} 
+    operator.
+    This design lets the \texttt{Limit} object function as an invokable entity, 
+    as demonstrated in line 5 of \vref{lst:keen:ga:engine}.
+
+    Currently, the framework incorporates four predefined termination criteria:
+    \begin{enumerate*}
+      \item \texttt{GenerationCount}: halts after a designated number of 
+        generations.
+      \item \texttt{SteadyGenerations}: halts after a certain count of 
+        non-improving generations.
+      \item \texttt{TargetFitness}: ceases once a defined fitness value is 
+        attained.
+      \item \texttt{Matcher}: stops when a predetermined predicate is 
+        met.\footnote{
+          Note that all criteria fundamentally use the \texttt{Matcher} class.
+        }
+    \end{enumerate*}
