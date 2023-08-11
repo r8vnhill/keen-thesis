@@ -1,1 +1,28 @@
-\NewDocumentEnvironment{src}{}{\captionsetup{type=listing}}{}
+\newtcblisting{kotlin}[2][]{
+    minted~language=kotlin,
+    boxrule=0pt,
+    listing~only,
+    title={#2},
+    #1
+}
+
+\NewTCBListing {code} { s o m } {
+  listing~engine=minted,
+  minted~language=#3,
+  listing~only,
+  breakable,
+  enhanced,
+  minted~options={
+    fontsize=\small,
+    numbersep=3mm,
+    \IfBooleanTF #1 {linenos} {}
+  },
+  colback=black!5!white,
+  colframe=black!50!white,
+  left=5mm,
+  overlay={
+    \begin{tcbclipinterior}
+      \fill[black!25!white] (frame.south~west) rectangle ([xshift=5mm]frame.north~west);
+    \end{tcbclipinterior}
+  },#2
+}
