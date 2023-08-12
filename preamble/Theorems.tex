@@ -33,5 +33,11 @@
   boxrule=0pt,
 }
 \newtheorem{definition}{Definition}[chapter]
+\tcolorboxenvironment{definition}{
+  enhanced jigsaw,
+  leftrule=1pt,
+  rightrule=1pt,
+  boxrule=0pt,
+}
 
 \RenewDocumentEnvironment{proof}{}{\emph{Proof.}}{\qed}
