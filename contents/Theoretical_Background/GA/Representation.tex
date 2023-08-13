@@ -1,29 +1,28 @@
 \subsection{Representation and Evaluation}
 \label{sec:bg:ga:repr}
-  One of the most important aspects of a GA is the representation of the 
-  individuals.
-  The representation is the encoding of potential solutions to the problem into a 
-  form that can be manipulated by the algorithm.
-  This defines the search space of the algorithm, and it is one of the main 
-  factors that determines the performance of the algorithm.
+  A pivotal component of a Genetic Algorithm (GA) is the representation of 
+  individuals, which encodes potential solutions into a form manipulable by the 
+  GA.
+  This representation delineates the algorithm's search space and is a prime 
+  determinant of its performance.
 
-  The most general representation of an individual is a matrix of genes\footnote{
-    See \vref{def:gene}.
-  } called the \emph{genotype}\footnote{
-    See~\autocite{wilhelmstotterJeneticsJavaGenetica}.
-  } of the individual, where each column of the matrix is called a
-  \emph{chromosome}\footnote{
-    See \vref{def:chromosome}.
+  The predominant representation is a matrix of genes\footnote{See 
+  \vref{def:gene}} termed the \emph{genotype}\footnote{
+    See~\autocite{wilhelmstotterJeneticsJavaGenetica}
+  }, wherein each column is denoted as a \emph{chromosome}\footnote{
+    See \vref{def:chromosome}
   }.
+
   
   \begin{definition}[Cardinality of the search space]
   \label{def:cardinality_of_the_search_space}
     The \emph{cardinality of the search space} is the number of different individuals that can be represented by the encoding.
 
-    Formally, given a vector of alphabets \((\mathcal{A}_1, \mathcal{A}_2, \dots, \mathcal{A}_n)\), 
-    and a representation \(\mathbf{G}\) with \(n\) chromosomes of length \((m_1, m_2, \dots, 
-    m_n)\) where each chromosome is encoded using the alphabet \(\mathcal{A}_i\), the cardinality 
-    of the search space \(S\) is defined as:
+    Formally, given a vector of alphabets \((\mathcal{A}_1,\, \mathcal{A}_2,\, \dots,\, \mathcal{A}_n)\), 
+    and a representation \(\mathbf{G}\) with \(n\) chromosomes of length 
+    \((m_1,\, m_2,\, \dots,\, m_n)\) where each chromosome is encoded using the
+    alphabet \(\mathcal{A}_i\), the cardinality of the search space \(S\) is 
+    defined as:
     
     \begin{equation}
       \label{eq:cardinality_of_the_search_space}
@@ -35,26 +34,28 @@
   \end{definition}
 
   \begin{remark}
-    In the original publication of the GA~\autocite{hollandAdaptationNaturalArtificial1992a}, the
-    genotype was known as the \emph{environment} (\(E\)) and the search space was defined as a class
-    \(\mathcal{E}\) of all possible environments.
+    In the original publication of the GA~\autocite{hollandAdaptationNaturalArtificial1992a},
+    the genotype was known as the \emph{environment} (\(E\)) and the search 
+    space was defined as a class \(\mathcal{E}\) of all possible environments.
   \end{remark}
 
-  To illustrate this concept, consider the following problem: given a binary string of length
-  \(n\), find the string that has the most ones.\footnote{
-    This is known as the \emph{One Max} problem \autocite{OneMaxProblema} or \emph{Ones Counting}
-    problem \autocite{wilhelmstotterJeneticsJavaGenetica}.
-  }
+  To illustrate this concept, consider the following problem: given a binary 
+  string of length \(n\), find the string that has the most ones, this is known 
+  as the \emph{One Max} problem (OMP)~\autocite{andonovUnboundedKnapsackProblem2000}
+  \footnote{
+    Also \emph{Ones Counting} problem~\autocite{wilhelmstotterJeneticsJavaGenetica}, or \emph{Max Ones} problem~\autocite{ECJ}.
+  } (refer to \vref{sota:omp} for a more detailed description of the problem).
   In this case, we can use a single column matrix \(\mathbf{G}\) to represent the individual, 
   where each gene \(g_i \in \mathcal{A}\) represents the \(i\)-th bit of the string, where 
   \(\mathcal{A} = \{0, 1\}\) is the alphabet containing the two possible values of a bit.
   
   Then,
   \[
-    |S| = \prod_{i=1}^1 |\mathcal{A}|^n = 2^n
+    |S_\mathrm{OMP}| = \prod_{i=1}^1 |\mathcal{A}|^n = 2^n
   \]
 
-  Knowing this, we can conclude that an exhaustive search of the search space would require 
+  Knowing this, we can conclude that an exhaustive search of the search space 
+  would require 
   evaluating \(2^n\) individuals, and thus the algorithm would have a time complexity of 
   \(\mathcal{O}(2^n)\).
   
@@ -93,14 +94,15 @@
     \phi_\mathbf{G} = \sum_{i=1}^n g_i
   \end{equation}
 
-  In the \emph{Representation and Evaluation} section, we examined the key aspect of a genetic 
-  algorithm (GA) — the representation of individuals, their encoding and search space.
-  The performance of a GA significantly depends on how solutions are encoded to form individuals.
-  We use the concepts of genotype, chromosome, and gene to describe the individual's representation.
-  The cardinality of the search space, defined as the total number of different individuals that can
-  be represented, is crucial as it impacts the algorithm's complexity.
-  We introduced the \enquote{One Max} problem as an example, using a binary string representation.
-  The fitness function, which evaluates individuals' fitness, plays a critical role in navigating 
-  the search for optimal solutions.
-  In the \enquote{One Max} problem, the fitness function sums the binary string elements, 
-  representing the number of ones in the string.
+  In summary, the chosen representation and evaluation methodology in genetic 
+  algorithms play a foundational role in influencing the efficiency and 
+  performance of the algorithm.
+  The representation, particularly the genotype, steers the search space of the 
+  algorithm, while the fitness function offers a means to measure the quality 
+  of potential solutions within that space.
+  By appreciating these key concepts and their intricacies, one gains deeper 
+  insight into the mechanics of genetic algorithms and the significance of 
+  their design choices.
+  As showcased by the studied problem, even ostensibly straightforward 
+  challenges can lead to complexities, emphasizing the importance of judicious 
+  representation and evaluation strategies in any GA application.
