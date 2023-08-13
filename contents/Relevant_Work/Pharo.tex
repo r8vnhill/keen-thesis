@@ -5,6 +5,9 @@
   comprehensive exploration of genetic algorithms, encapsulating their theory 
   and application within the \textit{Pharo} programming environment.
   This language, dynamic and reflective, finds its roots in \textit{Smalltalk}.
+  The source code of the framework is licensed under a \textit{freeware license}
+  and is available on 
+  \textit{GitHub}.\footnote{\url{https://github.com/Apress/agile-ai-in-pharo/tree/master}}
 
   Bergel's tome not only introduces readers to genetic algorithms but also to 
   neural networks and the concept of neuroevolution.
@@ -26,12 +29,9 @@
   To showcase the framework's utility, the OMP problem resolution via a genetic 
   algorithm is provided:
 
-  \begin{listing}[H]
-    \caption{A simple genetic algorithm using Bergel's framework.}
-    \label{src:sota:pharo:example}
-  \end{listing}
-  \vspace{-2em}
-  \begin{minted}[linenos]{smalltalk}
+  \begin{code}*{A simple genetic algorithm using Bergel's framework.}{
+    label=lst:sota:pharo:omp
+  }{smalltalk}
     engine := GAEngine new.
     engine random: (Random seed: 11).
     engine populationSize: 20.
@@ -47,7 +47,7 @@
     engine traceCr: engine logs last fittestIndividual genes .
     engine trace: 'with fitness: '.
     engine traceCr: engine logs last bestFitness .
-  \end{minted}
+  \end{code}
 
   Breaking it down:
 

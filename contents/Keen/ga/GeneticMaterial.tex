@@ -36,7 +36,7 @@
 
     Thus, we suggest the following interface for gene implementation:
 
-    \begin{code}[Gene interface][label={lst:keen:ga:gene}]{kotlin}
+    \begin{code}{Gene interface}{label={lst:keen:ga:gene}}{kotlin}
       interface Gene<DNA, G: Gene<DNA, G>> : GeneticMaterial<DNA, G>,
                                               SelfReferential<G> {
           val dna: DNA
@@ -54,7 +54,7 @@
     
     To this end, we suggest the following interface for each chromosome:
     
-    \begin{code}[Chromosome interface][label={lst:keen:ga:chromosome}]{kotlin}
+    \begin{code}{Chromosome interface}{label={lst:keen:ga:chromosome}}{kotlin}
       interface Chromosome<DNA, G : Gene<DNA, G>> : GeneticMaterial<DNA, G>, 
                                                     Iterable<G> {
           val genes: List<G>
@@ -87,7 +87,7 @@
     Consequently, the genotype can be represented by a concrete class, as 
     demonstrated below:
     
-    \begin{code}[Genotype class][label={lst:keen:ga:genotype}]{kotlin}
+    \begin{code}{Genotype class}{label={lst:keen:ga:genotype}}{kotlin}
       class Genotype<DNA, G : Gene<DNA, G>>(val chromosomes: List<Chromosome<DNA, G>>) :
           GeneticMaterial<DNA, G>, Iterable<Chromosome<DNA, G>> {
     
@@ -114,7 +114,7 @@
     that a phenotype can be compared with its peers. 
     In light of this, the structure for the phenotype is delineated as:
     
-    \begin{code}[Phenotype class][label={lst:keen:ga:phenotype}]{kotlin}
+    \begin{code}{Phenotype class}{label={lst:keen:ga:phenotype}}{kotlin}
       class Phenotype<DNA, G : Gene<DNA, G>>(
           val genotype: Genotype<DNA, G>,
           val fitness: Double = Double.NaN

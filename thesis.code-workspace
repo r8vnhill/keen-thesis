@@ -1,21 +1,27 @@
 {
 	"folders": [
     {
+      "name": "img",
       "path": "img"
     },
     {
+      "name": "contents",
       "path": "contents"
     },
     {
+      "name": "scripts",
       "path": "scripts"
     },
     {
-      "path": "appendix"
-    },
-    {
+      "name": "preamble",
       "path": "preamble"
     },
     {
+      "name": "appendix",
+      "path": "appendix"
+    },
+    {
+      "name": "keen-thesis",
       "path": "."
     }
   ],

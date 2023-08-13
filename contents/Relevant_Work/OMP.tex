@@ -3,26 +3,26 @@
   For the purpose of illustrating the use of the different frameworks, we will
   use the \textit{One Max problem} introduced on \vref{sec:bg:ga:repr}.
 
-  The \emph{One Max problem}, or the Ones Counting problem, is a classic and
-  straightforward optimization problem often used as a benchmark in the study of
-  evolutionary algorithms and other heuristic search methods.
+  The \emph{One Max problem} is a classic and straightforward optimization
+  problem often used as a benchmark in the study of evolutionary algorithms and
+  other heuristic search methods.
   It serves as a deceptively simple yet effective test of an algorithm's
   optimization ability.
 
   Given a binary string of length $n$, the \textit{One Max problem} is to find a
   binary string such that the sum of its bits (counting the number of ones) is
   maximized.
-  In formal terms, if we denote the binary string as $x = (x_1, x_2, ..., x_n)$
-  where each $x_i \in \{0,\,1\}$ for all $i = 1,\, 2,\, \dots,\, n$, the 
+  In formal terms, if we denote the binary string as $x = (x_1,\, x_2,\, ...,\,
+  x_n)$ where each $x_i \in \{0,\,1\}$ for all $i = 1,\, 2,\, \dots,\, n$, the 
   \textit{fitness function} $\phi(x)$ to be maximized can be expressed as:
 
   \begin{equation}
     \phi(x) = \sum_{i=1}^{n} x_i
   \end{equation}
 
-  The function $f(x)$ counts the number of ones in the string $x$.
-  The maximum possible value of $f(x)$ is $n$, which is achieved when all bits
-  in the string are one.
+  The function $\phi(x)$ counts the number of ones in the string $x$.
+  The maximum possible value of $\phi(x)$ is $n$, which is achieved when all 
+  bits in the string are one.
   The \textit{One Max problem} is an instance of a unimodal problem since
   there's only one local maximum which is also a global maximum.
 

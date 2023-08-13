@@ -28,7 +28,7 @@
 
   The engine's architecture is depicted in \vref{lst:keen:ga:engine}.
 
-  \begin{code}*[Evolution engine structure][label={lst:keen:ga:engine}]{kotlin}
+  \begin{code}*{Evolution engine structure}{label={lst:keen:ga:engine}}{kotlin}
     class Engine<DNA, G : Gene<DNA, G>>(...) : Evolver<DNA, G> {
         override fun evolve(): EvolutionResult<DNA, G> {
             var evolution = EvolutionState.empty<DNA, G>()
@@ -94,15 +94,14 @@
     The structure of the \texttt{Limit} interface is shown in 
     \vref{lst:keen:ga:limit}.
 
-    \begin{code}[Limit interface][label={lst:keen:ga:limit}]{kotlin}
-      interface Limit {
+    \begin{code}{Limit interface}{label={lst:keen:ga:limit}}{kotlin}      interface Limit {
           operator fun invoke(engine: Engine<*, *>): Boolean
       }
     \end{code}
 
     Within this interface, the exclusive function is the \texttt{invoke} 
     operator.
-    This design lets the \texttt{Limit} object function as an invokable entity, 
+    This design lets the \texttt{Limit} object function as an invocable entity, 
     as demonstrated in line 5 of \vref{lst:keen:ga:engine}.
 
     Currently, the framework incorporates four predefined termination criteria:

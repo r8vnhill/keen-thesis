@@ -22,13 +22,9 @@
   The following illustrates the use of DEAP to solve the OMP problem using a
   genetic algorithm:
 
-  % This is a hack to avoid an internal error in minted/fancyverb
-  \begin{listing}[H]
-    \caption{A simple genetic algorithm using DEAP.}
-    \label{src:sota:deap:example}
-  \end{listing}
-  \vspace{-2em}
-  \begin{minted}{python}
+  \begin{code}*{A simple genetic algorithm using DEAP.}{
+    label={src:sota:deap:example}
+  }{python}
     creator.create("FitnessMax", base.Fitness, weights=(1.0,))
     creator.create("Individual", list, fitness=creator.FitnessMax)
     toolbox = base.Toolbox()
@@ -61,7 +57,7 @@
         print(f"Target fitness reached at generation {gen}.")
         print(f"Best individual is: {''.join(map(str, hof[0]))}")
         print(f"with fitness: {hof[0].fitness.values[0]}")
-  \end{minted}
+  \end{code}
 
   When executed, the program outputs the following:
 
@@ -146,45 +142,23 @@
   the preceding code example.
 
   \begin{itemize}
-    \item DEAP's code can be quite verbose, and the utilization of a toolbox
-      might initially confuse newcomers, given that it's not a standard
-      convention in evolutionary algorithms.
-      This characteristic becomes more evident when juxtaposed with the code
-      syntax of other frameworks.
-    \item A trade-off exists between the framework's flexibility and ease of
-      use.
-      While DEAP's malleability is commendable, it heavily relies on code
-      injection.
-      This reliance complicates static analysis, resulting in warnings such as
-      \enquote{Unresolved attribute reference} in \textit{PyCharm} and 
-      \enquote{\texttt{reportGeneralTypeIssues}} in \textit{Visual Studio
-      Code} with \textit{Pylance} (on lines 2, 5, 6, 14, 22, and 25), which
-      can inhibit certain IDE capabilities, including auto-completion and
-      refactoring.
-    \item DEAP's dependence on code injection can potentially introduce risks
-      in production environments.
-      Even though code injection is not inherently unsafe, if handled
-      carelessly, it can result in system vulnerabilities.
-    \item \textit{Python}'s dynamic typing can be a double-edged sword.
-      While it offers flexibility, type errors will not be detected until
-      runtime, which can potentially lead to bugs and render the code more
-      challenging to comprehend.
-    \item For efficiency, DEAP necessitates the \textit{NumPy} library, which
-      isn't part of the standard \textit{Python} library.
-      Although this is not inherently negative, it does introduce an extra
-      dependency that needs to be managed.
-    \item Enhancing DEAP's functionality mandates an in-depth comprehension of
-      the library's architecture, and in many instances, necessitates manual
-      modifications to the algorithm's execution loop.
-      This is evident in the previous example, where manual control of the
-      algorithm's loop is required to halt upon reaching the target fitness.
-    \item The library's tendency to abbreviate variable names can render the
-      code difficult to interpret.
-      Without referring to the documentation, understanding the meaning of
-      variables such as \texttt{cxpb} and \texttt{mutpb} can be challenging.
-      The problem can be exacerbated by \textit{Python}'s keyword arguments
-      (\texttt{kwargs}), as they are not explicitly declared, preventing IDEs
-      from providing valuable information about them.
+    \item \textbf{Toolbox Convention:} DEAP's verbose code and toolbox usage 
+      can confuse those new to evolutionary algorithms.
+    \item \textbf{Flexibility vs. Usability:} DEAP offers flexibility but its 
+      dependence on code injection complicates static analysis and IDE 
+      integration.
+    \item \textbf{Production Risks:} DEAP's code injection can introduce 
+      vulnerabilities if not handled properly.
+    \item \textbf{Python's Typing:} The dynamic typing in Python, while 
+      flexible, can lead to runtime errors and harder-to-understand code.
+    \item \textbf{Dependency on NumPy:} DEAP requires the NumPy library, 
+      introducing an additional dependency to manage.
+    \item \textbf{Library Mastery:} Extending DEAP's capabilities demands a 
+      deep understanding of its architecture and often manual algorithm 
+      modifications.
+    \item \textbf{Abbreviated Variables:} DEAP's use of abbreviated variable 
+      names, coupled with Python's keyword arguments, can hinder code 
+      interpretation without documentation.
   \end{itemize}
 
   Despite this, DEAP's flexibility and modularity have made it a popular choice

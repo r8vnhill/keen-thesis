@@ -1,43 +1,82 @@
+% -------------------------
+% NEW THEOREM ENVIRONMENTS
+% -------------------------
+
 % | newtheorem - Defines new theorem-like environments
-% | newtheorem* - Defines unnumbered theorem-like environments
 % |
-% | The 'newtheorem' and 'newtheorem*' commands in LaTeX are used to define new
+% | The 'newtheorem' command in LaTeX is used to define new
 % | theorem-like environments such as lemmas, remarks, definitions, propositions,
 % | theorems, and so on.
 % |
 % | The 'newtheorem' command produces a numbered environment that is automatically
 % | numbered sequentially. The optional argument 'parent counter' allows you to
-% | specify the scope of this numbering. In the example, 'definition' is numbered
+% | specify the scope of this numbering. For example, 'theorem' is numbered
 % | within the scope of 'chapter'.
+% |
+% | Parameters for newtheorem:
+% | #1 (environment name) - The name of the new environment, e.g., 'theorem'.
+% | #2 (displayed name) - The name displayed when the environment is used.
+% | #3 (parent counter) - Optional argument specifying the counter within which the
+% | new environment should be numbered, e.g., 'chapter'.
+
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{corollary}{Corollary}[theorem]
+
+% | newtheorem* - Defines unnumbered theorem-like environments
 % |
 % | The 'newtheorem*' command, on the other hand, produces an unnumbered
 % | environment. For instance, 'remark' is an unnumbered environment.
 % |
-% | Parameters for newtheorem:
-% | #1 (environment name) - The name of the new environment, e.g., 'definition'.
-% | #2 (displayed name) - The name displayed when the environment is used.
-% | #3 (parent counter) - Optional argument specifying the counter within which the
-% | new environment should be numbered, e.g., 'chapter'.
-% |
 % | Parameters for newtheorem*:
 % | #1 (environment name) - The name of the new environment, e.g., 'remark'.
 % | #2 (displayed name) - The name displayed when the environment is used.
-\newtheorem{theorem}{Theorem}[chapter]
-\newtheorem{lemma}{Lemma}[chapter]
-\newtheorem{corollary}{Corollary}[theorem]
+
 \newtheorem*{remark}{Remark}
+
+% Using tcolorbox to style the 'remark' environment
+% | tcolorboxenvironment - applies tcolorbox styling to a LaTeX environment
+% | 
+% | This command is used to apply specific styling attributes to a given
+% | LaTeX environment. In this case, the 'remark' environment is being styled
+% | with specific border rules using tcolorbox.
+
 \tcolorboxenvironment{remark}{
   enhanced jigsaw,
   leftrule=1pt,
   rightrule=1pt,
   boxrule=0pt,
 }
-\newtheorem{definition}{Definition}[chapter]
+
+% Using declaretheorem to define the 'definition' environment with thmtools
+% | declaretheorem - Defines new theorem-like environments with thmtools
+% |
+% | The 'declaretheorem' command allows for more flexibility in defining
+% | theorem-like environments. Here, 'definition' is defined with numbering
+% | within the 'chapter' scope.
+% |
+% | The resulting environment will be styled using tcolorbox in the following lines.
+
+\declaretheorem[numberwithin=chapter, name=Definition]{definition}
+
+% Using tcolorbox to style the 'definition' environment
+
 \tcolorboxenvironment{definition}{
   enhanced jigsaw,
   leftrule=1pt,
   rightrule=1pt,
   boxrule=0pt,
 }
+
+% --------------------
+% STYLING PROOF LAYOUT
+% --------------------
+
+% | RenewDocumentEnvironment - modifies an existing environment
+% |
+% | This command is used to redefine the behavior of an existing LaTeX
+% | environment. In this case, the 'proof' environment is being modified
+% | to display the word "Proof." in italics at the beginning, and
+% | to end with the qed symbol.
 
 \RenewDocumentEnvironment{proof}{}{\emph{Proof.}}{\qed}

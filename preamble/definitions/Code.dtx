@@ -8,8 +8,9 @@
 
 \NewTCBListing [
   auto~counter, 
-  number~within=chapter
-] {code} { s o o m } {
+  number~within=chapter,
+  crefname={listing}{listings}
+] {code} { s m m m } {
   listing~engine=minted,
   minted~language=#4,
   listing~only,
@@ -30,4 +31,5 @@
       \fill[black!25!white] (frame.south~west) rectangle ([xshift=5mm]frame.north~west);
     \end{tcbclipinterior}
   },
+  #3
 }

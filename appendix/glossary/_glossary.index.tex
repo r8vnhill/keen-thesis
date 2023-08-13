@@ -1,0 +1,137 @@
+\chapter{Glossary}
+\label{appendix:glossary}
+  In this appendix we present a glossary of terms used throughout this document 
+  that may be unfamiliar to the reader and are not defined in the main text.
+
+  \subimport{./}{A.tex}
+
+  \section*{C}
+    \begin{definition}[Chromosome]
+    \label{def:chromosome}
+      Representation of a single column of genetic information of a candidate solution to a given
+      optimization problem.
+
+      Formally, a chromosome is a vector \(\textbf{c} = (g_1, g_2, \dots, g_n)\), where \(g_i\) is a
+      gene (see \vref{def:gene}).
+    \end{definition}
+
+  \section*{E}
+    \begin{definition}[Ephemeral Constant]
+    \label{def:ephemeral_constant}
+      A constant that is randomly generated at the start of the program and 
+      remains constant throughout the execution of the program.
+
+      This is used to represent constant values in the program.
+    \end{definition}
+
+    \begin{definition}[Evolutionary computation]
+    \label{def:evolutionary_computation}
+      Family of algorithms for global optimization inspired by the process of natural selection.
+
+      This typically involves processes mimicking natural selection, mutation, recombination, and 
+      survival of the fittest.
+
+      The solutions to a problem are encoded as a set of \enquote{individuals} in a 
+      \enquote{population}.
+
+      Over multiple generations, these individuals are selected and modified (via genetic operators 
+      like crossover and mutation) in order to find better solutions.
+    \end{definition}
+    
+  \section*{G}
+    \begin{definition}[Gene]
+    \label{def:gene}
+      Representation of a single component of a candidate solution to a given optimization problem.
+
+      Formally, for a multi-dimensional function \(f\), a gene is an element \(g\) in the domain of
+      \(f\).
+    \end{definition}
+
+    \begin{definition}[Generation]
+    \label{def:generation}
+      Number of iterations performed by an evolutionary algorithm.
+    \end{definition}
+
+    \begin{definition}[Genotype]
+    \label{def:genotype}
+      Representation of the full genetic information of a candidate solution to a given optimization
+      problem.
+
+      Formally, a genotype is a matrix \(\mathbf{G} = (\textbf{c}_1, \textbf{c}_2, \dots, 
+      \textbf{c}_n)\), where \(\textbf{c}_i\) is a chromosome (see \vref{def:chromosome}).
+    \end{definition}
+
+  \section*{I}
+    \begin{definition}[Individual]
+    \label{def:individual}
+      A candidate solution to a given optimization problem.
+
+      Formally, an individual is a pair \((\mathbf{G}, \mathbf{f})\), where \(\mathbf{G}\) is the
+      genotype (see \vref{def:genotype}) and \(\mathbf{f}\) is the fitness value of the
+      individual.
+    \end{definition}
+
+  \subimport{./}{M.tex}
+
+  \section*{P}
+    \begin{definition}[Parameter optimization]
+    \label{def:parameter_optimization}
+      Optimization problem where the solution is a set of parameters that 
+      optimize a given function.
+    \end{definition}
+
+    \begin{definition}[Phenotype]
+    \label{def:phenotype}
+      Same as \vref{def:individual}.
+    \end{definition}
+
+    \begin{definition}[Population]
+    \label{def:population}
+      Set of candidate solutions to a given optimization problem.
+    \end{definition}
+
+    \begin{definition}[Program induction]
+    \label{def:program_induction}
+      Inference of an algorithm or program featuring recursive calls or 
+      repetition control structures, starting from information that is known to 
+      be incomplete, called the evidence, such as positive and negative I/O 
+      examples or clausal constraints.
+    \end{definition}
+
+  \section*{S}
+    \begin{definition}[Search space]
+    \label{def:search_space}
+      Set of all candidate solutions to a given optimization problem.
+    \end{definition}
+
+    \begin{definition}[Selector]
+      See \vref{def:selection_operator}.
+    \end{definition}
+
+  \section*{U}
+    \begin{definition}[Unimodal function]
+    \label{def:unimodal_function}
+      A unimodal function is a function that, within a given domain or interval,
+      has only one local maximum and one local minimum, which can also be the
+      global maximum and minimum respectively.
+      In other words, the function increases to a certain point and then 
+      decreases, or vice versa.
+      This single peak or trough is the \enquote{uni} in \enquote{unimodal}.
+
+      Mathematically speaking, if \(f\) is a unimodal function in the interval 
+      \([a,\, b]\), then there exists some point \(c\) in \([a,\, b]\) such 
+      that:
+
+      \begin{enumerate}
+        \item \(f(x)\) is increasing on \([a,\, c]\) and decreasing on \([c,\, 
+          b]\), or
+        \item \(f(x)\) is decreasing on \([a,\, c]\) and increasing on \([c,\,
+          b]\).
+      \end{enumerate}
+    \end{definition}
+
+  \section*{V}
+    \begin{definition}[Variadic function]
+    \label{def:variadic_function}
+      Function that accepts a variable number of arguments.
+    \end{definition}
