@@ -1,0 +1,104 @@
+\subsection{Evolution Listeners}
+\label{sec:keen:ga:listeners}
+
+  The \textit{Keen} framework introduces an \texttt{EvolutionListener} 
+  interface designed with an \textit{observer pattern} to offer users insights 
+  into the evolution process in real-time.
+  This interface provides hooks for various events in the evolution cycle, 
+  ranging from its commencement and culmination to the beginning and conclusion 
+  of each phase, including generation, evaluation, and selection, among others.
+
+  The primary objective of the \texttt{EvolutionListener} is to empower users 
+  to oversee the evolution process, leveraging this data for diverse purposes. 
+  Users can employ this interface to conduct a detailed analysis of the 
+  evolution process, generate comprehensive reports based on its results, or 
+  persistently store the best-performing individual of each generation.
+
+  To facilitate these functions, the interface features the following methods:
+
+  \begin{code}{
+    Evolution Listener Interface (some variables and functions omitted for 
+    brevity)
+  }{label=lst:keen:ga:listeners:interface}{kotlin}
+    interface EvolutionListener<DNA, G : Gene<DNA, G>> {
+        fun onEvolutionEnded() = Unit
+        fun onGenerationStarted(generation: Int, population: Population<DNA, G>) = Unit
+        fun onGenerationFinished(population: Population<DNA, G>) = Unit
+        fun onInitializationStarted() = Unit
+        fun onInitializationFinished() = Unit
+        fun onEvaluationStarted() = Unit
+        fun onEvaluationFinished() = Unit
+        fun onOffspringSelectionStarted() = Unit
+        fun onOffspringSelectionFinished() = Unit
+        fun onSurvivorSelectionStarted() = Unit
+        fun onSurvivorSelectionFinished() = Unit
+        fun onAlterationStarted() = Unit
+        fun onAlterationFinished() = Unit
+        fun onEvolutionStart() = Unit
+        fun onEvolutionFinished() = Unit
+    }
+  \end{code}
+
+  Within the \textit{Keen} framework, several concrete implementations of this 
+  interface are available:
+
+  \begin{itemize}
+    \item \texttt{EvolutionPlotter}: Visualizes the best, worst, and average 
+      fitness throughout the generations in a plot format.
+    \item \texttt{EvolutionPrinter}: Outputs essential evolution data every 
+      \(n\) generations, detailing aspects such as fitness metrics, the 
+      top-performing individual, and the progression of generations.
+    \item \texttt{EvolutionSummary}: Prints a comprehensive summary 
+      post-evolution, encapsulating fitness statistics, leading individuals, 
+      generation count, time metrics for each evolution phase, and the 
+      evolution's total duration.
+    \item \texttt{JsonSerializer}: Serializes and saves the population data of 
+      every generation as a JSON file, complemented by pertinent evolution 
+      details.
+  \end{itemize}
+
+  The implementation of this interface is a novel feature of the \textit{Keen}
+  framework, and it is not present in the frameworks that were used as a
+  reference for this work.
+
+  \subsubsection{Records}
+    The framework harnesses records to chronicle information pertaining to the 
+    evolution process.
+
+    \paragraph{Generation Record}
+      The \texttt{GenerationRecord} class embodies data of an individual 
+      generation, encapsulating each phase of the evolutionary journey within a 
+      generation record.
+
+      \begin{code}{
+        Generation Record Class (some variables and functions omitted for 
+        brevity)
+      }{label=lst:keen:ga:listeners:generation-record}{kotlin}
+        @Serializable
+        data class GenerationRecord(val generation: Int) : AbstractTimedRecord() {
+            val alteration = AlterationRecord()
+            val evaluation = EvaluationRecord()
+            val offspringSelection = SelectionRecord()
+            val survivorSelection = SelectionRecord()
+            val population = PopulationRecord()
+            var steady: Int = ...
+        }
+      \end{code}
+      
+    \paragraph{Evolution Record}
+      The \texttt{EvolutionRecord} class, while centered on the entire 
+      evolutionary process, primarily delegates data storage responsibilities 
+      to the \texttt{GenerationRecord} class.
+
+      \begin{code}{
+        Evolution Record Class (some variables and functions omitted for 
+        brevity)
+      }{label=lst:keen:ga:listeners:evolution-record}{kotlin}
+        @Serializable
+        data class EvolutionRecord<DNA, G : Gene<DNA, G>>(
+            val generations: MutableList<GenerationRecord> = mutableListOf(),
+        ) : AbstractTimedRecord() {
+            val initialization = InitializationRecord()
+        }
+      \end{code}
+      

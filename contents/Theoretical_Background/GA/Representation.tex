@@ -13,24 +13,24 @@
     See \vref{def:chromosome}
   }.
 
-  % TODO: Continue here
   \begin{definition}[Cardinality of the search space]
   \label{def:cardinality_of_the_search_space}
-    The \emph{cardinality of the search space} is the number of different individuals that can be represented by the encoding.
+    The \emph{cardinality of the search space} is the number of different 
+    individuals that can be represented by the encoding.
 
-    Formally, given a vector of alphabets \((\mathcal{A}_1,\, \mathcal{A}_2,\, \dots,\, \mathcal{A}_n)\), 
-    and a representation \(\mathbf{G}\) with \(n\) chromosomes of length 
-    \((m_1,\, m_2,\, \dots,\, m_n)\) where each chromosome is encoded using the
-    alphabet \(\mathcal{A}_i\), the cardinality of the search space \(S\) is 
-    defined as:
+    Formally, given a vector of alphabets \((\mathcal{A}_1,\, \mathcal{A}_2,\, 
+    \dots,\, \mathcal{A}_n)\), and a representation \(\mathbf{G}\) with \(n\) 
+    chromosomes of lengths \((m_1,\, m_2,\, \dots,\, m_n)\) where each 
+    chromosome is encoded using the alphabet \(\mathcal{A}_i\), the cardinality 
+    of the search space \(S\) is defined as:
     
     \begin{equation}
       \label{eq:cardinality_of_the_search_space}
       |S| = \prod_{i=1}^n |\mathcal{A}_i|^{m_i}
     \end{equation}
 
-    Note that this definition assumes that the chromosomes are independent, which may not be the 
-    same for all evolutionary algorithms.
+    Note that this definition assumes that the chromosomes are independent, 
+    which may not be the same for all evolutionary algorithms.
   \end{definition}
 
   \begin{remark}
@@ -41,8 +41,8 @@
 
   To illustrate this concept, consider the following problem: given a binary 
   string of length \(n\), find the string that has the most ones, this is known 
-  as the \emph{One Max} problem (OMP)~\autocite{andonovUnboundedKnapsackProblem2000}
-  \footnote{
+  as the \emph{One Max problem} 
+  (OMP)~\autocite{andonovUnboundedKnapsackProblem2000}\footnote{
     Also \emph{Ones Counting} problem~\autocite{wilhelmstotterJeneticsJavaGenetica}, or \emph{Max Ones} problem~\autocite{ECJ}.
   } (refer to \vref{sota:omp} for a more detailed description of the problem).
   In this case, we can use a single column matrix \(\mathbf{G}\) to represent the individual, 
@@ -94,15 +94,13 @@
     \phi_\mathbf{G} = \sum_{i=1}^n g_i
   \end{equation}
 
-  In summary, the chosen representation and evaluation methodology in genetic 
-  algorithms play a foundational role in influencing the efficiency and 
-  performance of the algorithm.
-  The representation, particularly the genotype, steers the search space of the 
-  algorithm, while the fitness function offers a means to measure the quality 
-  of potential solutions within that space.
-  By appreciating these key concepts and their intricacies, one gains deeper 
-  insight into the mechanics of genetic algorithms and the significance of 
-  their design choices.
-  As showcased by the studied problem, even ostensibly straightforward 
-  challenges can lead to complexities, emphasizing the importance of judicious 
-  representation and evaluation strategies in any GA application.
+  Having laid the groundwork by illustrating the pivotal role of representation 
+  in GAs, we've delineated how the representation forms the backbone of the 
+  algorithm's search space and in turn determines its performance.
+  Key terminologies, including the genotype, chromosomes, cardinality of the 
+  search space, and the crucial role of the fitness function, have been 
+  elucidated with references and examples.
+  With this foundational knowledge, in the forthcoming section, we will delve 
+  deeper into the initialization phase of the algorithm, setting the stage for 
+  how the GA seeds its initial population and embarks on the quest for optimal 
+  solutions.
