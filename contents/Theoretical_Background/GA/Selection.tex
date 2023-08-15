@@ -1,83 +1,77 @@
 \subsection{Selection}
-\label{sec:background:genetic_algorithms:selection}
-  Once initialization is complete, the Genetic Algorithm (GA) enters its main loop, where the core 
-  evolutionary processes take place.
-  In the GA, a mechanism that simulates natural selection operates, providing fitter individuals 
-  with higher chances of survival and breeding opportunities.
+\label{sec:bg:ga:select}
+  Following the initialization phase, a genetic algorithm (GA) progresses 
+  through its main evolutionary cycle.
+  Key to this cycle is the process of selection, which mirrors natural selection 
+  by favoring individuals with higher fitness for reproduction.
 
-  Suppose that we have a population \(P\) of \(N\) individuals, each with a fitness value \(f_i\), 
-  where \(i \in \{1, \ldots, N\}\).
-  Let \(\sigma\) be the survival rate, a parameter controlling the degree of elitism.
-  This is the proportion of individuals that will survive (unmodified) to the next generation.
-  The GA will then select \(\lfloor\sigma N\rfloor\) individuals to survive to the next generation,
-  and \(\lceil(1 - \sigma)N\rceil\) individuals to be replaced by the offspring.\footnote{
-    The sole purpose of employing both \textit{floor} and \textit{ceiling} functions is to guarantee
-    that the total number of individuals chosen for survival and replacement equals \(N\), which
-    makes these functions interchangeable in this context.
+  Given a population \(P\) comprising \(N\) individuals, each identified by 
+  their fitness value \(\phi_i\) (where \(i \in \{1,\, \dots,\, N\}\)), the 
+  survival rate \(\sigma\) helps control elitism.\footnote{
+    For more on elitism, refer to \vref{def:elitism}.
+  } This rate determines the portion of the population that proceeds to the next generation without change.
+  Specifically, \(\lfloor\sigma N\rfloor\) individuals continue, while the 
+  remaining \(\lceil(1 - \sigma)N\rceil\) are replaced by their
+  descendants.\footnote{
+    Using both the \textit{floor} and \textit{ceiling} functions ensures a 
+    consistent total population of \(N\).
   }
 
-  \begin{definition}[Selection operator]
-    \label{def:selection_operator}
-      An operator used to select individuals from a population.
+  \begin{definition}[Selection Operator]
+  \label{def:selection_operator}
+    A tool for choosing specific members from a population, formally expressed 
+    as:
 
-      Formally, a selection operator is a function 
-      \[
-        \Sigma : \mathbb{P} \times \mathbb{N} \times \cdots \to \mathbb{P};
-        (P, n, \dots) \mapsto \Sigma(P, n, \dots)
-      \]
-      where: 
-      
-      \begin{itemize}
-        \item \(\mathbb{P}\) is the set of populations;
-        \item \(\mathbb{N}\) is the set of positive natural numbers;
-        \item \(P\) is a population;
-        \item \(n\) is the number of individuals to select from \(P\);
-        \item \(\Sigma(P,\, n)\) is the population of \(n\) individuals selected
-          from \(P\).
-      \end{itemize}
+    \[
+      \Sigma :\: \mathbb{P} \times \mathbb{N} \times \cdots \to \mathbb{P};\;
+      (P,\, n,\, \dots) \mapsto \Sigma(P,\, n,\, \dots)
+    \]
+
+    Parameters include:
+    
+    \begin{itemize}
+      \item \(\mathbb{P}\): Set of possible populations.
+      \item \(\mathbb{N}\): Set of natural numbers.
+      \item \(P\): A given population.
+      \item \(n\): Number of selections from \(P\).
+      \item \(\Sigma(P,\, n)\): Resultant population from the selections.
+    \end{itemize}
   \end{definition}
 
-  The selection operator is typically implemented as a \emph{stochastic} operator, introducing some 
-  randomness into the selection process.
-
-  As an illustration, consider a \textit{roulette wheel} selection operator\footnote{
-    See \vref{sec:keen:operators:selection:roulette_wheel} for a detailed description of the 
-    roulette wheel selection operator.
-  } applied to a population of four individuals with a survival rate of 0.25.
-  In this selection scheme, each individual is assigned a selection probability proportional to its 
-  fitness value (assuming higher fitness is better).
-  The selection probability of an individual \(i\) is calculated as follows:
+  This selection operator usually integrates randomness, bringing some 
+  unpredictability to the process.
+  As an exemplification, let's consider the \textit{roulette wheel} selection 
+  operator.\footnote{
+    Refer to \vref{sec:keen:op:select:roulette} for details.
+  } Here, individuals are assigned selection probabilities according to their 
+  fitness, as expressed by:
 
   \begin{equation}
     \label{eq:selection_probability}
-    p_i = \frac{f_i}{\sum_{j=1}^{N}f_j}
+    p_i = \frac{\phi_i}{\sum_{j=1}^{N}\phi_j}
   \end{equation}
-
-  In our example, the selection probabilities are detailed in \vref{tab:selection_probabilities}.
 
   \begin{table}[ht!]
     \centering
     \begin{tabular}{|l|r|r|}
       \hline
-      Individual  & Fitness & Selection Probability \\
+      Individual & Fitness & Selection Probability \\
       \hline
-      \(I_1\)     & 2       & 50\%  \\
-      \(I_2\)     & 1       & 25\%  \\
-      \(I_3\)     & 0       & 0\%   \\
-      \(I_4\)     & 1       & 25\%  \\
+      \(I_1\)    & 2       & 50\% \\
+      \(I_2\)    & 1       & 25\% \\
+      \(I_3\)    & 0       & 0\%  \\
+      \(I_4\)    & 1       & 25\% \\
       \hline
     \end{tabular}
-    \caption{Selection probabilities for the individuals in the example population.}
+    \caption{Probabilities of selection for our sample population.}
     \label{tab:selection_probabilities}
   \end{table}
 
-  The selection operator then selects individuals at random, each with a probability equal to their 
-  selection probability. 
-  Suppose \(I_2\) is selected to survive to the next generation, then \(I_1\), \(I_3\), and \(I_4\) 
-  will be replaced by the offspring.
+  Following this, individuals are probabilistically selected for survival.
+  For instance, if \(I_2\) persists, the remaining \(I_1\), \(I_3\), and \(I_4\) 
+  yield their places to the offspring.
 
-  This section has introduced the concept of selection in GAs, which will be explored further in 
-  \vref{sec:keen:operators:selection}. 
-  Next, we will delve into variation operators responsible for generating the offspring that will 
-  replace the individuals not selected to survive to the next generation.
-%
+  Concluding this introduction to selection in GAs, the subsequent sections will 
+  investigate this process further and introduce the variation operators crucial 
+  for offspring generation.
+  

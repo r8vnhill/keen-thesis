@@ -5,10 +5,11 @@
   set for the algorithm's evolutionary journey.
   Here, we define and setup the population of individuals to be employed in the 
   search process.
-  Whether informed by prior knowledge or randomly generated, each individual's evaluation is pivotal to steer the algorithm's quest for optimal solutions.
+  Whether informed by prior knowledge or randomly generated, each individual's 
+  evaluation is pivotal to steer the algorithm's quest for optimal solutions.
 
   As we delve further, stages such as selection 
-  (\vref{sec:background:genetic_algorithms:selection}), crossover 
+  (\vref{sec:bg:ga:select}), crossover 
   (\vref{sec:bg:ga:var:cx}), and mutation (\vref{sec:ga:var:mut}) build upon 
   this foundational phase.
 
@@ -18,45 +19,19 @@
   be informed by insights about the problem at 
   hand~\autocite{dasguptaComparisonMultiobjectiveEvolutionary2008}.
   
-  Upon initializing the population, each individual undergoes evaluation to receive a \emph{fitness value}.
-  This step is imperative to glean insights about the problem, thereby directing the search towards enhanced solutions.
+  Upon initializing the population, each individual undergoes evaluation to 
+  receive a \emph{fitness value}.
+  This step is imperative to glean insights about the problem, thereby directing 
+  the search towards enhanced solutions.
 
-  Using the \emph{One Max} problem as a backdrop, where there's an absence of prior problem knowledge, the initialization encompasses a blind search of the search space, rendering it random.
-  For each population member, a random binary string of length \(n\) is generated.
-
-  [...continue with tables and subsequent content...]
-
-
---------------------------------------------------------------------------------
-
-\subsection{Initialization}
-\label{sec:genetic_algorithms:initialization}
-  GA operates on a group of individuals called a \emph{population}.
-  The algorithm designer must define the size of the population, and how to 
-  initialize it.
-  The initialization process is usually random, but it can also be guided by 
-  some prior knowledge about the problem being solved.
-  For example, if the problem is to find an optimal  to a maze, the population 
-  could be initialized with individuals that represent paths from the start to 
-  the end of the maze.
-  This would speed up the search process, since the algorithm would not have to 
-  start from scratch.
-
-  Once the population is initialized, the algorithm performs an evaluation of 
-  each individual in the population, and assigns a \emph{fitness value} to each 
-  individual.
-  This is done in an effort to learn something about the problem, and to guide 
-  the search process towards better solutions.
-
-  In the case of the \emph{One Max} problem, there is no prior knowledge about 
-  the problem, so the population is initialized via a blind search of the 
-  search space (in other words, the initialization is random).
-  This is done by generating a random binary string of length \(n\) for each 
-  individual in the population.
+  Using the \emph{One Max} problem as a backdrop, where there's an absence of 
+  prior problem knowledge, the initialization encompasses a blind search of the 
+  search space, rendering it random.
+  For each population member, a random binary string of length \(n\) is 
+  generated.
 
   Let's assume that we have a population of size 4, and that the length of the 
   binary strings is \(n = 4\).
-
 
   The initialization process could generate the following individuals:\footnote{
     Since the nature of genetic algorithms is stochastic, the initialization 
@@ -101,44 +76,28 @@
     \label{tab:genetic_algorithms:initialization:population_fitness}
   \end{table}
   
-  It is important to focus a bit on both aggregation functions used in
+  Emphasis should be placed on the aggregation functions outlined in 
   \vref{tab:genetic_algorithms:initialization:population_fitness}.
-  The average fitness is very self explanatory, and this metric is used to
-  grasp a general idea of how the population is performing, where a 
-  higher\footnote{
-    Remembering that \enquote{highest fitness} does not necessarily mean the 
-    greatest value, but a metric of how close the individual is to the optimal 
-    solution.
-  } average fitness means that the population is performing better.
-  The standard deviation is a measure of how much the fitness values deviate
-  from the average fitness.
-  The standard deviation in this case is a measure of how diverse the
-  population is, where a lower standard deviation means that the population is
-  more homogeneous, and a higher standard deviation means that the population
-  is more heterogeneous.
-  This measure is important because it gives us an idea of how much the
-  population is exploring the search space.
-  A low standard deviation means that the population is exploring a small
-  portion of the search space, which may indicate a premature convergence.
-  A high standard deviation means that the population is exploring a large
-  portion of the search space, which may indicate that the population is
-  exploring too much of the search space, and not focusing on the most
+  The \emph{average fitness} is straightforward, offering an overall view of the 
+  population's performance; a higher\footnote{
+    Remember, a \enquote{higher fitness} refers to proximity to the optimal 
+    solution, not necessarily the greatest numerical value.
+  } average suggests better overall performance.
+  On the other hand, the \emph{standard deviation} gauges the dispersion of 
+  fitness values around this average.
+  A low standard deviation indicates a homogeneous population, which might hint 
+  at \textbf{premature convergence} due to limited search space exploration.
+  Conversely, a high standard deviation signifies a diverse population, 
+  potentially suggesting \textbf{excessive exploration} without honing in on 
   promising areas.
 
-  In the initialization phase of a genetic algorithm, we define and setup the 
-  population of individuals to be used in the search process.
-
-  This population can be randomly generated or informed by some prior knowledge 
-  about the problem at hand.
-
-  Each individual is evaluated to determine its fitness, guiding the 
-  algorithm's search for optimal solutions.
-
-  In our \enquote{One Max} problem example, we initialized a population of four 
-  individuals with binary strings of length \(n = 4\) and evaluated their 
-  fitness.
-
-  This setup marks the beginning of the evolutionary process, setting the stage 
-  for the subsequent stages of selection 
-  (\vref{sec:background:genetic_algorithms:selection}), crossover 
+  The initialization phase of a genetic algorithm sets the foundation by 
+  establishing the population of individuals for the search.
+  This population might be randomized or informed by prior domain knowledge.
+  Each member of this population undergoes a fitness evaluation, directing the 
+  search towards optimal outcomes.
+  Using our OMP example, we commenced with a four-individual population with 
+  binary strings of length \(n = 4\), assessing their fitness.
+  This foundational step paves the way for the ensuing phases of selection 
+  (\vref{sec:bg:ga:select}), crossover 
   (\vref{sec:bg:ga:var:cx}), and mutation (\vref{sec:ga:var:mut}).
