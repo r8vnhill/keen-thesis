@@ -54,42 +54,9 @@
     extending this class.
   \end{remark}
 
-  \subsubsection{Random Selector}
-  \label{sec:keen:operators:selection:random}
-    The \texttt{RandomSelector} class is a probability selector, which
-    is a type of selection strategy that assigns a probability to each
-    individual in the population.
-
-    \begin{definition}[Random Selector]
-      The \emph{random selector} is a probability selector that assigns the same
-      probability to each individual in the population.
-      Formally, the \texttt{RandomSelector} is defined as:
-
-      \begin{equation}
-        \Sigma_{\mathrm{random}} : \mathbb{P} \times \mathbb{N} \to \mathbb{P};\;
-        (P,\, n) \mapsto \Sigma_{\mathrm{random}}(P,\, n)  
-      \end{equation}
-
-      where each individual is selected with an uniform distribution of
-      probability:
-
-      \begin{equation}
-        \rho_i = \frac{1}{|P|}
-      \end{equation}
-    \end{definition}
-
-    This selector's purpose is to provide a baseline for comparison with other
-    selection strategies.
-    This kind of selector was not found in the literature, but it is a
-    straightforward implementation that can be used as a benchmark.
-
-    Using the WGP as benchmark, we obtained the results shown in \vref
-    {tab:keen:operators:selection:random}.
-
+  \subimport{./}{Random.tex}
+  \subimport{./}{Roulette.tex}
     
-  \subsubsection{Roulette Wheel Selector}
-  \label{sec:keen:operators:selection:roulette_wheel}
-    \Blindtext
   \subsubsection{Tournament Selector}
   \label{sec:keen:operators:selection:tournament}
     \Blindtext
