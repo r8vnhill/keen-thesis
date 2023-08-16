@@ -27,7 +27,7 @@
 
   \begin{code}*{OMP using \textit{GeneticSharp}}{
     label={lst:sota:geneticsharp:example}
-  }{kotlin}
+  }{csharp}
     public sealed class BinaryChromosome : BinaryChromosomeBase {
         public BinaryChromosome(int length) : base(length) {
             CreateGenes();
@@ -85,10 +85,12 @@
   Here is an explanation of the code:
 
   \begin{enumerate}
-    \item[1-8] The \texttt{BinaryChromosome} class, which is sealed to 
-      prevent further subclassing, represents a chromosome with binary genes.
+    \item[1-8] The \texttt{BinaryChromosome} class, which is sealed\footnote{
+        Details on \vref{def:sealed_class}.
+      } to prevent further subclassing, represents a chromosome with binary 
+      genes.
       Sealing the class is a best practice when a class has a constructor 
-      that calls a virtual method (in this case, the \texttt{CreateGenes})
+      that calls a virtual method (in this case, the \texttt{CreateGenes}).
       By sealing the class, we prevent any confusion that could arise if a 
       subclass were to override the virtual method.
       \begin{enumerate}
