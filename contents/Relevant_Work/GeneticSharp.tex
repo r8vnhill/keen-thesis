@@ -1,31 +1,33 @@
-\section{GeneticSharp: A .NET-based Genetic Algorithm Framework}
+\section{GeneticSharp: Comprehensive Overview of a .NET Genetic Algorithm Library}
 \label{sec:sota:geneticsharp}
-  \emph{GeneticSharp}~\autocite{giacomelliGeneticSharp2023} is a fast, 
-  extensible, multi-platform and multithreading \textit{C\#} Genetic Algorithm 
-  library that \textbf{simplifies the development of applications} using 
-  genetic algorithms.
-  It is open-source and licensed under the \textit{MIT License}~\autocite{MITLicense2006}.
+  \textit{GeneticSharp} is a high-performance, extensible, cross-platform 
+  \textit{C\#} Genetic Algorithm library tailored for multi-threading.
+  This open-source library, designed to streamline the integration of genetic algorithms into applications, is licensed under the 
+  \textit{MIT License}~\autocite{MITLicense2006}.
 
-  The central theme of \textit{GeneticSharp} revolves around three main 
-  concepts: \mintinline[breaklines]{csharp}{Chromosome}, 
+  \textit{GeneticSharp} revolves around three foundational concepts: 
+  \mintinline[breaklines]{csharp}{Chromosome}, 
   \mintinline[breaklines]{csharp}{Population}, and 
-  \mintinline[breaklines]{csharp}{GeneticAlgorithm}.
-  The \texttt{Chromosome} class is the base for all types of chromosomes, 
-  storing genes and managing genetic operators.
-  The \texttt{Population} class holds a set of chromosomes which are evolved 
-  over time.
-  The \texttt{GeneticAlgorithm} is the central point of execution and contains 
-  the genetic algorithm's main loop.
+  \mintinline[breaklines]{csharp}{GeneticAlgorithm}:
 
-  \textit{GeneticSharp} stands out with its support for parallelism, which 
-  greatly speeds up the execution of fitness evaluation, crossover, and 
-  mutation.
-  It also introduces the concept of extensions, providing a simple way to add 
-  new operators and customization to the genetic algorithm.
+  \begin{itemize}
+    \item \texttt{Chromosome} serves as the foundation for various chromosome 
+      types, responsible for gene storage and genetic operator management.
+    \item \texttt{Population} maintains a collection of chromosomes undergoing 
+      evolution.
+    \item \texttt{GeneticAlgorithm} acts as the algorithm's primary driver, 
+      encompassing its main loop.
+  \end{itemize}
 
-  Here's an example of how to solve the OMP using \textit{GeneticSharp}:
+  Distinctively, \textit{GeneticSharp} capitalizes on parallel computing, 
+  accelerating fitness evaluation, crossover, and mutation.
+  Furthermore, its extension-oriented design simplifies the addition of new 
+  operators or further customizations to the genetic algorithm.
 
-  \begin{code}*{OMP using \textit{GeneticSharp}}{
+  Consider the following example, which demonstrates solving the OMP using 
+  \textit{GeneticSharp}:
+
+  \begin{code}*{Solving OMP with \textit{GeneticSharp}}{
     label={lst:sota:geneticsharp:example}
   }{csharp}
     public sealed class BinaryChromosome : BinaryChromosomeBase {
@@ -82,131 +84,93 @@
     Console.WriteLine($"with fitness: {bestChromosome?.Fitness}");
   \end{code}
 
-  Here is an explanation of the code:
+  Dissecting the code reveals the following:
 
   \begin{enumerate}
-    \item[1-8] The \texttt{BinaryChromosome} class, which is sealed\footnote{
+    \item[1-8] The \texttt{BinaryChromosome} class is sealed\footnote{
         Details on \vref{def:sealed_class}.
-      } to prevent further subclassing, represents a chromosome with binary 
-      genes.
-      Sealing the class is a best practice when a class has a constructor 
-      that calls a virtual method (in this case, the \texttt{CreateGenes}).
-      By sealing the class, we prevent any confusion that could arise if a 
-      subclass were to override the virtual method.
+      } to inhibit subclassing and encapsulates a chromosome with binary genes. 
+      Sealing is an advisable practice here due to the constructor's invocation 
+      of the virtual \texttt{CreateGenes} method, thus eliminating potential 
+      ambiguities from subclass method overrides.
       \begin{enumerate}
-        \item[2-4] This is the constructor which takes a length as an argument 
-          and passes it to the base constructor.
-          Note that the base constructor might call a virtual method, and in 
-          order to prevent the virtual method from being overridden by a 
-          subclass (which could lead to unexpected behavior if the subclass 
-          isn't aware that the method is called in the constructor), we seal 
-          the class.
-        \item[4-7] The \texttt{CreateNew} method returns a new instance of
-          \texttt{BinaryChromosome} with the same length.
+        \item[2-4] The constructor, accepting a length parameter, invokes the 
+          base constructor.
+          Given that the base may call a virtual method, sealing thwarts 
+          unforeseen behaviors from subclasses unknowingly overriding it.
+        \item[4-7] \texttt{CreateNew} method proffers a fresh 
+          \texttt{BinaryChromosome} instance retaining the original length.
       \end{enumerate}
-    \item[9-13] The \texttt{OneMaxFitness} class calculates the fitness of a 
-      chromosome.
+    \item[9-13] \texttt{OneMaxFitness} class quantifies a chromosome's fitness.
       \begin{enumerate}
-        \item[10-12] The \texttt{Evaluate} method counts the number of genes 
-          with value 1 (representing binary \mintinline{csharp}{true}) in the 
-          chromosome.
-          This is the measure of fitness in the OneMax problem.
+        \item[10-12] \texttt{Evaluate} method tallies genes equating to 1 
+          (equivalent to binary \mintinline{csharp}{true}), serving as the OMP's fitness metric.
       \end{enumerate}
-    \item[14-35] The \mintinline{csharp}{ReproducibleRandom} class is used for 
-      generating random numbers in a reproducible way.
-      This is especially important to ensure that the results of the genetic
-      algorithm are reproducible across multiple runs.
+    \item[14-35] The \mintinline{csharp}{ReproducibleRandom} class furnishes 
+      reproducibly random numbers, critical for consistent genetic algorithm 
+      outcomes across iterations.
       \begin{enumerate}
-        \item[15-17] A global lock and a thread-local 
+        \item[15-17] A global lock alongside a thread-local 
           \mintinline{csharp}{Random} instance 
-          (\mintinline{csharp}{ThreadRandom}) are declared.
-          These ensure that each thread gets its own
-          \mintinline{csharp}{Random} instance, but they're all seeded in a 
-          synchronized way to provide reproducibility across multiple threads.
-        \item[18-22] The \mintinline{csharp}{NewRandom} method is used to 
-          create a new \mintinline{csharp}{Random} object with a seed of 11.
-          The method is thread-safe due to the use of the 
-          \mintinline{csharp}{lock} keyword.
-        \item[23-34] The \mintinline{csharp}{GetInt}, 
+          (\mintinline{csharp}{ThreadRandom}) ensures synchronized seeding 
+          across threads for consistent randomness.
+        \item[18-22] \mintinline{csharp}{NewRandom} method spawns a 
+          \mintinline{csharp}{Random} object seeded with 11, bolstered by the 
+          \mintinline{csharp}{lock} keyword for thread-safety.
+        \item[23-34] Methods \mintinline{csharp}{GetInt}, 
           \mintinline{csharp}{GetFloat}, and \mintinline{csharp}{GetDouble} 
-          methods are overridden to return values from the 
-          \mintinline{csharp}{Random} instance.
+          yield values from the \mintinline{csharp}{Random} instance.
       \end{enumerate}
-    \item[36-37] Here, we define some constants for the genetic algorithm, 
-      including the length of the chromosomes and the size of the population.
-    \item[38] This line sets the current randomization provider to our 
-      \texttt{ReproducibleRandom} class.
-    \item[39-44] These lines set up the different components of the genetic 
-      algorithm, including the selection method (elite selection), crossover 
-      method (uniform crossover), mutation method (flip bit mutation), and 
-      fitness function (\texttt{OneMaxFitness}).
-    \item[45-47] These lines create the initial population and the genetic 
-      algorithm instance.
-    \item[46] This line sets the termination condition for the genetic 
-      algorithm to be when a chromosome achieves the maximum possible fitness 
-      (equal to the chromosome length).
-    \item[48] This line starts the genetic algorithm.
-    \item[49-52] These lines print the number of generations it took to reach the target fitness, the best chromosome, and its fitness.
+    \item[36-37] Constants pertinent to the genetic algorithm, such as 
+      chromosome length and population size, are delineated.
+    \item[38] Randomization defaults to the \texttt{ReproducibleRandom} class.
+    \item[39-44] Configuration lines dictate the genetic algorithm's components, 
+      encompassing selection (elite), crossover (uniform), mutation (flip bit), 
+      and the fitness function (\texttt{OneMaxFitness}).
+    \item[45-47] The genesis population and genetic algorithm instance are 
+      instantiated.
+    \item[46] The algorithm's cessation is predicated on a chromosome attaining 
+      peak fitness, tantamount to its length.
+    \item[48] The genetic algorithm is set in motion.
+    \item[49-52] Outputs include the generation count to attain target fitness, 
+      the paramount chromosome, and its corresponding fitness.
   \end{enumerate}
 
-  \textit{GeneticSharp}'s strengths lie in its simplicity and ease of use.
-  It presents a straightforward and flexible API that allows the creation of 
-  custom chromosomes, fitness functions, and genetic operators, and the 
-  framework's design allows easy parallelization of computations.
-
-  While \textit{GeneticSharp} offers numerous benefits, it also possesses 
-  certain drawbacks.
+  Despite its many advantages, \textit{GeneticSharp} also has certain 
+  limitations:
 
   \begin{itemize}
-    \item Its API's verbosity may be challenging, particularly when contrasted 
-      with more succinct frameworks like Jenetics.
-      This is evident in our previous example where defining classes for the 
-      chromosome, fitness function, and randomization provider was necessary.
-    \item \textit{GeneticSharp}'s documentation lacks depth in comparison to 
-      its counterparts (in particular DEAP), which coupled with the shortage of 
-      available examples, may make it less user-friendly, especially for 
-      newcomers.
-    \item Supporting parallelization within \textit{GeneticSharp} may introduce 
-      complexities when implementing custom genetic operators.
-      A case in point is the \mintinline{csharp}{ReproducibleRandom} class in our example.
-      It necessitates synchronization techniques to ensure that each thread 
-      possesses its own \mintinline{csharp}{Random} instance.
-      This forces users to familiarize themselves with the framework's 
-      threading model.
-    \item The \mintinline{csharp}{BinaryChromosome} class is marked as 
-      \mintinline{csharp}{sealed}, an advanced feature of \textit{C\#} which 
-      could be perplexing for novices.
-    \item \textit{GeneticSharp} is designed primarily for application 
-      development, thereby potentially limiting its appeal to researchers 
-      aiming to experiment with various genetic algorithms.
-    \item As of 2023, the \textit{GeneticSharp} community remains relatively 
-      small compared to communities dedicated to more established machine 
-      learning or AI libraries.
-      This may result in fewer resources, less frequent updates, and limited 
-      community support.
-    \item In its current version (as of 2023), \textit{GeneticSharp} 
-      exclusively supports classic genetic algorithms, lacking support for 
-      other evolutionary algorithms like genetic programming.
+    \item The library's verbosity might be daunting, especially when compared to 
+      succinct frameworks such as Jenetics.
+    \item The fitness function is defined in a separate class, which may be 
+      cumbersome for simple problems that could be better served by using higher
+      order functions.
+    \item Its documentation and example base are relatively limited, 
+      particularly when juxtaposed against counterparts like DEAP, which could 
+      hinder its user-friendliness for beginners.
+    \item Parallelization, while beneficial, introduces intricacies when 
+      crafting custom genetic operators.
+    \item The use of advanced \textit{C\#} features, like the 
+      \mintinline{csharp}{sealed} attribute in 
+      \mintinline{csharp}{BinaryChromosome}, may confuse newcomers.
+    \item \textit{GeneticSharp} primarily targets application development, 
+      potentially making it less attractive to researchers delving deep into 
+      genetic algorithms.
+    \item The \textit{GeneticSharp} community is relatively nascent as of 2023, 
+      leading to potential challenges in resource availability, update frequency, 
+      and community support.
+    \item The library focuses on traditional genetic algorithms, neglecting other 
+      evolutionary algorithm variants like genetic programming.
   \end{itemize}
-  
-  In conclusion, \textit{GeneticSharp} provides a robust, multi-threaded 
-  platform for implementing genetic algorithms using \textit{C\#}.
-  Its support for parallelism and customizable genetic operators highlight its 
-  adaptability and utility.
-  With its emphasis on application development, it provides an intuitive 
-  platform for developers to integrate genetic algorithms into their software.
 
-  However, its merits must be balanced against its potential drawbacks, 
-  including a more verbose API compared to some other frameworks, limited 
-  documentation and examples, complexities introduced by parallelization 
-  support, and the use of advanced features that may not be beginner-friendly.
-  As of 2023, the community around \textit{GeneticSharp} is smaller, which 
-  might lead to fewer resources, less frequent updates, and limited support.
-  The framework currently only supports classic genetic algorithms, which may 
-  restrict those wishing to explore other evolutionary algorithms.
-
-  Overall, \textit{GeneticSharp} is a powerful tool in the \textit{.NET} 
-  ecosystem for developers needing to leverage genetic algorithms in their 
-  applications.
-  As with any tool, it is essential to understand its capabilities and 
-  limitations to make the most effective use of it
+  In summary, \textit{GeneticSharp} offers a dynamic, parallelized platform for 
+  crafting genetic algorithms in \textit{C\#}. 
+  Its customizability and developer-centric approach make it a compelling choice 
+  for those aiming to harness genetic algorithms within their software projects. 
+  Yet, users must be cognizant of its more intricate API, the nuances introduced 
+  by parallelization, and potential challenges arising from a smaller community 
+  and limited documentation.
+  Ultimately, while \textit{GeneticSharp} solidifies its position as a valuable 
+  tool within the \textit{.NET} arena, its optimal utilization depends on aligning 
+  its capabilities with the user's specific requirements and familiarity with 
+  genetic algorithms.
