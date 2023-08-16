@@ -1,9 +1,9 @@
 \newtcblisting{kotlin}[2][]{
-    minted~language=kotlin,
-    boxrule=0pt,
-    listing~only,
-    title={#2},
-    #1
+  minted~language=kotlin,
+  boxrule=0pt,
+  listing~only,
+  title={#2},
+  #1
 }
 
 \NewTCBListing [
@@ -32,4 +32,8 @@
     \end{tcbclipinterior}
   },
   #3
+}
+
+\AtBeginEnvironment { code } {
+  \RenewDocumentCommand { \fcolorbox } { o m m m } {#4}
 }

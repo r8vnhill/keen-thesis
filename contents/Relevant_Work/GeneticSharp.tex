@@ -1,4 +1,3 @@
-% TODO: Continue from here
 \section{GeneticSharp: A .NET-based Genetic Algorithm Framework}
 \label{sec:sota:geneticsharp}
   \emph{GeneticSharp}~\autocite{giacomelliGeneticSharp2023} is a fast, 
@@ -26,7 +25,9 @@
 
   Here's an example of how to solve the OMP using \textit{GeneticSharp}:
 
-  \begin{minted}[linenos]{csharp}
+  \begin{code}*{OMP using \textit{GeneticSharp}}{
+    label={lst:sota:geneticsharp:example}
+  }{kotlin}
     public sealed class BinaryChromosome : BinaryChromosomeBase {
         public BinaryChromosome(int length) : base(length) {
             CreateGenes();
@@ -79,7 +80,7 @@
     var bestChromosome = ga.BestChromosome as BinaryChromosome;
     Console.WriteLine($"Best individual is: {bestChromosome}");
     Console.WriteLine($"with fitness: {bestChromosome?.Fitness}");
-  \end{minted}
+  \end{code}
 
   Here is an explanation of the code:
 
