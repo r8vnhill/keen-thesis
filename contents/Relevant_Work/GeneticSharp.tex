@@ -140,27 +140,42 @@
   limitations:
 
   \begin{itemize}
-    \item The library's verbosity might be daunting, especially when compared to 
-      succinct frameworks such as Jenetics.
-    \item The fitness function is defined in a separate class, which may be 
-      cumbersome for simple problems that could be better served by using higher
-      order functions.
-    \item Its documentation and example base are relatively limited, 
-      particularly when juxtaposed against counterparts like DEAP, which could 
-      hinder its user-friendliness for beginners.
-    \item Parallelization, while beneficial, introduces intricacies when 
-      crafting custom genetic operators.
-    \item The use of advanced \textit{C\#} features, like the 
-      \mintinline{csharp}{sealed} attribute in 
-      \mintinline{csharp}{BinaryChromosome}, may confuse newcomers.
-    \item \textit{GeneticSharp} primarily targets application development, 
-      potentially making it less attractive to researchers delving deep into 
-      genetic algorithms.
-    \item The \textit{GeneticSharp} community is relatively nascent as of 2023, 
-      leading to potential challenges in resource availability, update frequency, 
-      and community support.
-    \item The library focuses on traditional genetic algorithms, neglecting other 
-      evolutionary algorithm variants like genetic programming.
+    \item \textbf{Overwhelming verbosity:} The library's detailed nature can 
+      overshadow its functionality, especially in contrast to succinct 
+      frameworks like Jenetics.
+    \item \textbf{Externalized fitness function:} The architecture demands that 
+      fitness functions be isolated in distinct classes.
+      This design choice might make trivial problems seem more convoluted than 
+      when using, for example, higher-order functions.
+    \item \textbf{Sparse documentation:} Compared to competitors like DEAP, the 
+      library lags in both instructional content and practical examples.
+      Novices might find this shortage hampers their initial engagement with the 
+      library.
+    \item \textbf{Parallelization trade-offs:} Incorporating parallel 
+      functionality amplifies the complexity of defining custom genetic 
+      operators.
+      Although parallel processing boosts execution speed, developers need to 
+      grapple with the intricacies it introduces.
+    \item \textbf{Advanced C\# intricacies:} Features unique to advanced 
+      \textit{C\#} such as the \mintinline{csharp}{sealed} attribute can 
+      disorient beginners.
+      New users might be deterred by such advanced constructs, especially 
+      without prior experience in \textit{C\#}.
+    \item \textbf{Developer-centric focus:} \textit{GeneticSharp} caters 
+      predominantly to application creation, potentially sidelining academic 
+      researchers.
+      Scholars deeply entrenched in genetic algorithm studies might find the 
+      library's emphasis misaligned with their interests.
+    \item \textbf{Budding community support:} The fledgling nature of the 
+      \textit{GeneticSharp} community in 2023 could impede access to resources 
+      and prompt support.
+      This nascent state might affect user engagement, library updates, and peer 
+      assistance.
+    \item \textbf{Conventional algorithm scope:} The library's focus remains 
+      anchored to traditional genetic algorithms, omitting newer evolutionary 
+      algorithm derivations.
+      Practitioners might find the lack of support for paradigms like genetic 
+      programming limiting.
   \end{itemize}
 
   In summary, \textit{GeneticSharp} offers a dynamic, parallelized platform for 
@@ -171,6 +186,6 @@
   by parallelization, and potential challenges arising from a smaller community 
   and limited documentation.
   Ultimately, while \textit{GeneticSharp} solidifies its position as a valuable 
-  tool within the \textit{.NET} arena, its optimal utilization depends on aligning 
-  its capabilities with the user's specific requirements and familiarity with 
-  genetic algorithms.
+  tool within the \textit{.NET} arena, its optimal utilization depends on 
+  aligning its capabilities with the user's specific requirements and 
+  familiarity with genetic algorithms.

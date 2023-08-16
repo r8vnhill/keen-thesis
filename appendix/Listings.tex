@@ -4,133 +4,132 @@
   thesis that are not essential to the understanding of the thesis.
   The listings are included here for completeness.
   
-  \paragraph{
+  \begin{code}{
     Calculation of \(|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|\) for 
     \(\mathcal{T} = \{x,\, c\}\) and the set \(\mathcal{F} = \{+,\, -,\, 
     \times,\, /,\, \sin,\, \cos,\, \mathrm{pow}\}\) using the \textit{Julia}
     programming language.
-  }
-  \label{lst:cardinality_of_T_leq_5}
-    \begin{minted}[mathescape=true]{julia}
-      arities = [2, 2, 2, 2, 1, 1, 2] # $A\left(\{+,\,-,\,\times,\,/,\,\sin,\,\cos,\,\mathrm{pow}\}\right) = \{2,\,2,\,2,\,2,\,1,\,1,\,2\}$
-      terminals_size = 8  # $|\mathcal{T}| = |\{x,\,1,\,2,\,3,\,4,\,5,\,6,\,7\}| = 8$
-      # $|\mathbb{T}_{\leq \mathtt{h}}|$
-      t_leq(h::Int)::Int128 = if h == 0 # $|\mathcal{T}|$ if $\mathtt{h} = 0$
-        terminals_size
-      else  # $\left(\sum_{h = 0}^{\mathtt{h} - 1}\,\sum_{f \in \mathcal{F}} |\mathbb{T}_h|^{A(f)}\right)+ |\mathcal{T}|$ if $\mathtt{h} > 0$
-        c_sum = terminals_size
-        for i = 0:h - 1
-          c_sum = c_sum + sum(t(i) .^ arities)
-        end
-        c_sum
+  }{label={lst:cardinality_of_T_leq_5}}{julia}
+    arities = [2, 2, 2, 2, 1, 1, 2] # $A\left(\{+,\,-,\,\times,\,/,\,\sin,\,\cos,\,\mathrm{pow}\}\right) = \{2,\,2,\,2,\,2,\,1,\,1,\,2\}$
+    terminals_size = 8  # $|\mathcal{T}| = |\{x,\,1,\,2,\,3,\,4,\,5,\,6,\,7\}| = 8$
+    # $|\mathbb{T}_{\leq \mathtt{h}}|$
+    t_leq(h::Int)::Int128 = if h == 0 # $|\mathcal{T}|$ if $\mathtt{h} = 0$
+      terminals_size
+    else  # $\left(\sum_{h = 0}^{\mathtt{h} - 1}\,\sum_{f \in \mathcal{F}} |\mathbb{T}_h|^{A(f)}\right)+ |\mathcal{T}|$ if $\mathtt{h} > 0$
+      c_sum = terminals_size
+      for i = 0:h - 1
+        c_sum = c_sum + sum(t(i) .^ arities)
       end
-      # $|\mathbb{T}_\mathbf{h}|$
-      t(h::Int)::Int128 = if h == 0 # $|\mathcal{T}|$ if $\mathtt{h} = 0$
-        terminals_size
-      else  # $\sum_{f \in \mathcal{F}} |\mathbb{T}_{\mathtt{h} - 1}|^{A(f)}$ if $\mathtt{h} > 0$
-        sum(t(h - 1) .^ arities) 
-      end
-      res = t_leq(5)  # $|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|$
-    \end{minted}
-  \paragraph{
+      c_sum
+    end
+    # $|\mathbb{T}_\mathbf{h}|$
+    t(h::Int)::Int128 = if h == 0 # $|\mathcal{T}|$ if $\mathtt{h} = 0$
+      terminals_size
+    else  # $\sum_{f \in \mathcal{F}} |\mathbb{T}_{\mathtt{h} - 1}|^{A(f)}$ if $\mathtt{h} > 0$
+      sum(t(h - 1) .^ arities) 
+    end
+    res = t_leq(5)  # $|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|$
+  \end{code}
+  
+  \begin{code}{
     Minimal implementation of the \textit{One Max} problem using the 
     \textit{Keen} framework.
-  }
-  \label{lst:app:keen_one_max}
-    \begin{minted}{kotlin}
-      fun main() {
-          Core.random = Random(11)
-          val result = engine(
-              { gt: Genotype<Boolean, BoolGene> -> gt.flatten().count { it }.toDouble() },
-              genotype { chromosome { booleans { size = 20; truesProbability = 0.5 } } }) {
-              populationSize = 20
-              selector = TournamentSelector(sampleSize = 3)
-              alterers = listOf(
-                BitFlipMutator(probability = 0.03),
-                SinglePointCrossover(probability = 0.2)
-              )
-              limits = listOf(TargetFitness(20.0))
-              }.evolve()
-          println("Target fitness reached at generation ${result.generation}")
-          println("Best individual is ${result.best.genotype}")
-          println("with fitness ${result.best.fitness}")
-      }
-    \end{minted}
+  }{label=lst:app:keen_omp}{kotlin}
+    fun main() {
+        Core.random = Random(11)
+        val result = engine(
+            { gt: Genotype<Boolean, BoolGene> -> gt.flatten().count { it }.toDouble() },
+            genotype { chromosome { booleans { size = 20; truesProbability = 0.5 } } }) {
+            populationSize = 20
+            selector = TournamentSelector(sampleSize = 3)
+            alterers = listOf(
+              BitFlipMutator(probability = 0.03),
+              SinglePointCrossover(probability = 0.2)
+            )
+            limits = listOf(TargetFitness(20.0))
+            }.evolve()
+        println("Target fitness reached at generation ${result.generation}")
+        println("Best individual is ${result.best.genotype}")
+        println("with fitness ${result.best.fitness}")
+    }
+  \end{code}
 
-    \begin{listing}[H]
-      \caption{\textit{Room Scheduling} problem using the \textit{Keen} framework.}
-      \label{lst:app:keen_room_scheduling}
-    \end{listing}
-    \begin{minted}{kotlin}
-      data class Meeting(val start: Int, val end: Int)
 
-      private val meetings =
-          listOf(
-              Meeting(1, 3),
-              Meeting(2, 3),
-              Meeting(5, 6),
-              Meeting(7, 9),
-              Meeting(4, 7),
-              Meeting(8, 10),
-              Meeting(2, 7),
-              Meeting(3, 4),
-              Meeting(1, 5),
-              Meeting(3, 6),
-              Meeting(4, 5)
-          )
+  \begin{code}{
+    \textit{Room Scheduling} problem using the \textit{Keen} framework.
+  }{label=lst:app:keen_room_scheduling}{kotlin}
+    data class Meeting(val start: Int, val end: Int)
 
-      private fun fitnessFn(genotype: Genotype<Int, IntGene>): Double {
-          // Create a map to represent the rooms, where the key is the room number and the value is
-          // a list of meetings in that room.
-          val rooms = meetings.groupBy { genotype.chromosomes[meetings.indexOf(it)].genes[0].dna }
-          // Calculate the number of conflicts in each room.
-          val conflicts = rooms.values.sumOf { meetingList ->
-              val table = IntArray(10) // Create an array to represent the time slots in a day.
-              meetingList.forEach { meeting ->
-                  // Increment the time slots for each meeting.
-                  for (i in meeting.start until meeting.end) {
-                      table[i]++
-                  }
-              }
-              // Count the number of time slots with more than one meeting.
-              table.count { it > 1 }
-          }
-          // The fitness score is the number of rooms used plus the number of conflicts.
-          // We add 1 to the number of rooms used to avoid a fitness score of 0.
-          return rooms.size.toDouble() + conflicts
-      }
+    private val meetings =
+        listOf(
+            Meeting(1, 3),
+            Meeting(2, 3),
+            Meeting(5, 6),
+            Meeting(7, 9),
+            Meeting(4, 7),
+            Meeting(8, 10),
+            Meeting(2, 7),
+            Meeting(3, 4),
+            Meeting(1, 5),
+            Meeting(3, 6),
+            Meeting(4, 5)
+        )
 
-      fun main() {
-          // Create a genetic algorithm engine with the fitness function and genotype for the problem.
-          val engine = engine(::fitnessFn, genotype {
-              repeat(meetings.size) {
-                  chromosome {
-                      ints { size = 1; range = meetings.indices.first to meetings.indices.last }
-                  }
-              }
-          }) {
-              // Set the parameters for the genetic algorithm.
-              populationSize = 100
-              optimizer = FitnessMinimizer()
-              alterers = listOf(Mutator(0.06), SinglePointCrossover(0.2))
-              limits = listOf(SteadyGenerations(20), GenerationCount(100))
-              listeners = listOf(EvolutionSummary(), EvolutionPlotter())
-          }
-          // Evolve the population and get the best result.
-          val result = engine.evolve()
-          // Print the statistics of the genetic algorithm.
-          println(engine.listeners.first())
-          // Create a schedule based on the best genotype.
-          val schedule = MutableList(result.best.genotype.size) { mutableListOf<Meeting>() }
-          meetings.forEachIndexed { index, meeting ->
-              val room = result.best.genotype.chromosomes[index].genes[0].dna
-              schedule[room].add(meeting)
-          }
-          // Print the schedule for each room.
-          schedule.forEachIndexed { index, room ->
-              println("Room $index: $room")
-          }
-          // Display a plot of the fitness values over time.
-          (engine.listeners.last() as EvolutionPlotter).displayFitness()
-      }
-    \end{minted}
+    private fun fitnessFn(genotype: Genotype<Int, IntGene>): Double {
+        // Create a map to represent the rooms, where the key is the room number and the value 
+        // is a list of meetings in that room.
+        val rooms = meetings.groupBy { 
+            genotype.chromosomes[meetings.indexOf(it)].genes[0].dna 
+        }
+        // Calculate the number of conflicts in each room.
+        val conflicts = rooms.values.sumOf { meetingList ->
+            val table = IntArray(10) // Create an array to represent the time slots in a day.
+            meetingList.forEach { meeting ->
+                // Increment the time slots for each meeting.
+                for (i in meeting.start until meeting.end) {
+                    table[i]++
+                }
+            }
+            // Count the number of time slots with more than one meeting.
+            table.count { it > 1 }
+        }
+        // The fitness score is the number of rooms used plus the number of conflicts.
+        // We add 1 to the number of rooms used to avoid a fitness score of 0.
+        return rooms.size.toDouble() + conflicts
+    }
+
+    fun main() {
+        // Create a genetic algorithm engine with the fitness function and genotype for the 
+        // problem.
+        val engine = engine(::fitnessFn, genotype {
+            repeat(meetings.size) {
+                chromosome {
+                    ints { size = 1; range = meetings.indices.first to meetings.indices.last }
+                }
+            }
+        }) {
+            // Set the parameters for the genetic algorithm.
+            populationSize = 100
+            optimizer = FitnessMinimizer()
+            alterers = listOf(Mutator(0.06), SinglePointCrossover(0.2))
+            limits = listOf(SteadyGenerations(20), GenerationCount(100))
+            listeners = listOf(EvolutionSummary(), EvolutionPlotter())
+        }
+        // Evolve the population and get the best result.
+        val result = engine.evolve()
+        // Print the statistics of the genetic algorithm.
+        println(engine.listeners.first())
+        // Create a schedule based on the best genotype.
+        val schedule = MutableList(result.best.genotype.size) { mutableListOf<Meeting>() }
+        meetings.forEachIndexed { index, meeting ->
+            val room = result.best.genotype.chromosomes[index].genes[0].dna
+            schedule[room].add(meeting)
+        }
+        // Print the schedule for each room.
+        schedule.forEachIndexed { index, room ->
+            println("Room $index: $room")
+        }
+        // Display a plot of the fitness values over time.
+        (engine.listeners.last() as EvolutionPlotter).displayFitness()
+    }
+  \end{code}
