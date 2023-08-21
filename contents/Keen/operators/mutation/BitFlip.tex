@@ -1,0 +1,42 @@
+% Copyright (c) 2023 Ignacio Slater Muñoz All rights reserved.
+% Use of this source code is governed by a BSD-style
+% license that can be found in the LICENSE file.
+
+\subsubsection{Bit Flip Mutator}
+\label{sec:keen:operators:mutation:bit_flip}
+
+  The \texttt{BitFlipMutator} stands out as one of the quintessential mutation 
+  operators specifically tailored for binary chromosomes. As the name suggests, 
+  its operation revolves around inverting individual bits within a chromosome, 
+  providing a simple yet effective means of introducing variability in the 
+  genetic representation.
+
+  At its core, the \texttt{BitFlipMutator} iterates over each bit of a binary 
+  chromosome. With a predetermined mutation probability \( \mu \), it decides 
+  whether to flip a given bit from 0 to 1 or vice versa. Such a straightforward 
+  approach ensures that the fundamental structure of the chromosome remains 
+  intact, while still allowing for diverse offspring.
+
+  \begin{definition}[Bit Flip Mutator]
+    The \emph{bit flip mutator} is a mutation operator tailored for binary genetic representations. It can be mathematically formulated as:
+
+    \begin{equation}
+      M_{0/1} :\: \mathbb{P} \times [0,\, 1] \times [0,\, 1] \to \mathbb{P};\;
+      (P,\, \mu,\, \rho) \mapsto M_{0/1}(P,\, \mu,\, \rho)
+    \end{equation}
+
+    In this equation, \(P\) symbolizes the population, and \(\mu\) is the 
+    predefined probability determining the likelihood of a given individual
+    undergoing mutation.
+  \end{definition}
+
+  % Discussion or further analysis can be incorporated here if necessary.
+
+  % \begin{table}[H]
+  %     % Table content goes here
+  %     \caption{
+  %       Presented is an evaluation of the \texttt{BitFlipMutator}'s performance across different scenarios and mutation probabilities. This examination is facilitated by keeping other parameters consistent, ensuring the mutation's isolated impact is discernible.
+  %     }
+  %     \label{tab:keen:op:mut:bit_flip}
+  % \end{table}
+
