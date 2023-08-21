@@ -1,0 +1,46 @@
+\subsubsection{Random Mutator}
+\label{sec:keen:operators:mutation:simple}
+
+  The \texttt{RandomMutator} represents a fundamental mutation operator that
+  introduces random alterations to the genes within a chromosome. Its versatility 
+  lies in its capacity to function with any gene type, making it a universally 
+  adaptable mutation mechanism.
+
+  To underpin this mutator's generic nature, each gene is equipped with a
+  \texttt{mutate} function. This function, when invoked, produces a randomly 
+  mutated gene of the same type as the origin. By default, the function generates 
+  a new gene mirroring the initial gene's value. This design choice provides 
+  users with the flexibility to determine if a specific mutation operator should 
+  employ this function. As we'll observe, certain mutation operators opt not to 
+  utilize it.
+
+  \begin{definition}[Random Mutator]
+    The \emph{random mutator} serves as a rudimentary mutation operator, 
+    undertaking random alterations to the genes of a given chromosome. 
+    Formally, it is articulated as:
+
+    \begin{equation}
+      M_\mathrm{random} :\: \mathbb{P} \times [0,\, 1] \times [0,\, 1] \to 
+      \mathbb{P};\;
+      (P,\, \mu,\, \rho) \mapsto M_\mathrm{random}(P,\, \mu,\, \rho)
+    \end{equation}
+
+    Here, \(P\) symbolizes the population, \(\mu\) represents the likelihood of 
+    an individual undergoing mutation, and \(\rho\) defines the probability 
+    associated with gene mutation.
+  \end{definition}
+
+  % Insert discussion or analysis of the results here
+
+  \begin{table}[H]
+    % Insert table content here
+    \caption{
+      The table encapsulates an assessment of the \texttt{RandomMutator}'s 
+      performance within the WGP, traversing an array of word lengths and 
+      mutation probabilities. The experimental setup employed a single-point 
+      crossover characterized by a 0.2 crossover probability and was 
+      complemented by a tournament selection approach, configured with a 
+      tournament size of 3.
+    }
+    \label{tab:keen:op:mut:random}
+  \end{table}
