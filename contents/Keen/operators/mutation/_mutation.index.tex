@@ -1,67 +1,68 @@
 \subsection{Mutation}
 \label{sec:keen:operators:mutation}
-  Mutation, a cornerstone operator in evolutionary computation, plays a critical 
-  role in introducing genetic variance.
-  By sporadically modifying parts of a solution representation (often called a 
-  chromosome or individual), mutation ensures the presence of a rich and diverse
-  genetic material, which is essential for the robustness and adaptability of 
-  evolved solutions.
-  While mutation is commonly associated with genetic algorithms, its 
-  significance spans across a multitude of evolutionary computation techniques, 
-  from genetic programming to evolutionary strategies and beyond.
-  The method of introducing these mutations can vary significantly, tailored to 
-  the nature of the solution space and the specific requirements of the problem 
-  at hand.
-  This section delves into various mutation strategies, elucidating their 
-  characteristics and applications:
+  Mutation stands as a pivotal operator in the realm of evolutionary 
+  computation, serving as the primary catalyst for genetic variation.
+  This operation sporadically alters parts of a solution, commonly referred to 
+  as a chromosome or individual. Such alterations ensure that the genetic 
+  material remains diverse and rich—qualities vital for producing robust and 
+  adaptable solutions. Even though mutation is often linked with genetic 
+  algorithms, its importance is felt throughout various evolutionary 
+  computation methods, from genetic programming to evolutionary strategies.
 
-  Recalling what we saw in \vref{sec:bg:ga:var:mut}, a mutation operator can be
-  defined as a function \(M :\: \mathbb{P} \times \mathbb{R} \times \cdots \to 
-  \mathbb{P}\).
-  This operator picks individuals from the population with a probability, 
-  \(\mu\), and modifies part of its genetic material.
+  The methodology of mutation differs depending on the solution space's nature 
+  and the problem's unique demands. This section will explore the myriad 
+  mutation strategies, shedding light on their distinctive traits and use-cases.
 
-  \textit{Keen}'s approach is similar to the one used for the selection
-  operators.
-  The following interface is proposed:
+  From our previous discussion in \vref{sec:bg:ga:var:mut}, a mutation operator 
+  can be articulated as a function \(M :\: \mathbb{P} \times [0,\, 1] \times 
+  \cdots \to \mathbb{P}\). This operator selects individuals from a population 
+  based on a probability, \(\mu\), and then alters a portion of its genetic 
+  composition.
+
+  The approach adopted by \textit{Keen} mirrors that of selection operators. 
+  The proposed interface is as follows:
 
   \begin{code}{
-    Mutator interface (some segments of the code are omited for brevity.)
-   }{}{kotlin}
-    interface Mutator<DNA, G: Gene<DNA, G>> : Alterer<DNA, G> {
-        override fun invoke(
-            population: Population<DNA, G>,
-            generation: Int,
-        ): AltererResult<DNA, G> 
-        fun mutatePhenotype(
-            phenotype: Phenotype<DNA, G>,
-        )
-        fun mutateGenotype(
-            genotype: Genotype<DNA, G>,
-        ): MutatorResult<DNA, G, Genotype<DNA, G>>
-        fun mutateChromosome(
-            chromosome: Chromosome<DNA, G>,
-        ): MutatorResult<DNA, G, Chromosome<DNA, G>> 
-        fun mutateGene(
-            gene: G,
-        ): MutatorResult<DNA, G, G>
-    }
-  \end{code}
+      Mutator interface (Note: For clarity, certain parts of the code have been omitted.)
+    }{}{kotlin}
+      interface Mutator<DNA, G : Gene<DNA, G>> : Alterer<DNA, G> {
+          override fun invoke(
+              population: Population<DNA, G>,
+              generation: Int,
+          ): AltererResult<DNA, G>
+          fun mutatePhenotype(
+              phenotype: Phenotype<DNA, G>,
+          ): MutatorResult<DNA, G, Phenotype<DNA, G>>
+          fun mutateGenotype(
+              genotype: Genotype<DNA, G>,
+          ): MutatorResult<DNA, G, Genotype<DNA, G>>
+          fun mutateChromosome(
+              chromosome: Chromosome<DNA, G>,
+          ): MutatorResult<DNA, G, Chromosome<DNA, G>>
+      }
+    \end{code}
 
+  This design contemplates mutations at different stages of the solution 
+  blueprint, focusing primarily on the chromosome level. It provides default 
+  implementations for both the \texttt{mutatePhenotype} and 
+  \texttt{mutateGenotype} methods (omitted from the code for the sake of 
+  brevity), directing the mutation task to the \texttt{mutateChromosome} 
+  method. This design choice facilitates ease for users: they only need to 
+  implement the \texttt{mutateChromosome} method when devising a new mutator, 
+  but still retain the freedom to override other methods if necessary.
 
+  \subsubsection{Random Mutator}
+  \label{sec:keen:operators:mutation:simple}
+  \Blindtext
 
-\subsubsection{Random Mutator}
-\label{sec:keen:operators:mutation:simple}
-\Blindtext
+  \subsubsection{Bit Flip Mutator}
+  \label{sec:keen:operators:mutation:bit_flip}
+  \Blindtext
 
-\subsubsection{Bit Flip Mutator}
-\label{sec:keen:operators:mutation:bit_flip}
-\Blindtext
+  \subsubsection{Swap Mutator}
+  \label{sec:keen:operators:mutation:swap}
+  \Blindtext
 
-\subsubsection{Swap Mutator}
-\label{sec:keen:operators:mutation:swap}
-\Blindtext
-
-\subsubsection{Inversion Mutator}
-\label{sec:keen:operators:mutation:inversion}
-\Blindtext
+  \subsubsection{Inversion Mutator}
+  \label{sec:keen:operators:mutation:inversion}
+  \Blindtext
