@@ -9,12 +9,12 @@ def math(text: str) -> str:
     :return: A string with the input text wrapped within LaTeX inline math mode delimiters.
     """
     # Remove non-escaped $ and $$
-    text = re.sub(r'(?<!\\)\$', '', text)
-    text = re.sub(r'(?<!\\)\$\$', '', text)
+    text = re.sub(r"(?<!\\)\$", "", text)
+    text = re.sub(r"(?<!\\)\$\$", "", text)
 
     # Remove non-escaped \( and \)
-    text = re.sub(r'(?<!\\)\\[(]', '', text)
-    text = re.sub(r'(?<!\\)\\[)]', '', text)
+    text = re.sub(r"(?<!\\)\\[(]", "", text)
+    text = re.sub(r"(?<!\\)\\[)]", "", text)
 
     return r"\(" + text + r"\)"
 
@@ -41,3 +41,18 @@ def bold(text: str, math_mode: bool = False) -> str:
         return r"\mathbf{" + str(text) + r"}"
     else:
         return r"\textbf{" + str(text) + r"}"
+
+
+def mono(text: str, math_mode: bool = False) -> str:
+    """
+    Converts the input text into a LaTeX monospace string.
+
+    :param text: A string.
+    :param math_mode: A boolean indicating whether the text should be wrapped within LaTeX
+                      math mode delimiters.
+    :return: A string with the input text wrapped within LaTeX monospace delimiters.
+    """
+    if math_mode:
+        return r"\mathtt{" + str(text) + r"}"
+    else:
+        return r"\texttt{" + str(text) + r"}"

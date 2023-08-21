@@ -1,54 +1,59 @@
 \section{Other Libraries}
 \label{sec:sota:other}
-  The preceding sections elucidated a select set of leading frameworks in 
-  EC.
-  Yet, our research ambit encompassed a broader array of libraries.
-  This thorough examination was pivotal in sculpting our proposed
+  In the preceding sections, we detailed a select set of premier frameworks 
+  within EC.
+  However, the scope of our research extended beyond this list to a wider array 
+  of libraries.
+  This comprehensive survey was instrumental in shaping our proposed 
   \textit{Kotlin}-based EC framework.
-  By discerning the strengths and nuances of each library, we endeavored to 
-  assimilate their best features, circumventing common shortcomings.
+  Through understanding the strengths and peculiarities of each library, we 
+  aimed to incorporate their best features while sidestepping prevalent 
+  pitfalls.
 
-  Below is a succinct overview of additional frameworks:
+  Below, we provide a concise overview of some additional frameworks:
 
   \begin{itemize}
-    \item \textbf{EvolvingObjects} (EO)~\autocite{EvolvingObjectsWelcomeEvolving} - 
-      A template-based \textit{C++} framework, it encompasses a myriad of evolutionary algorithms and operators, such as GAs, ES, and PSO.
-      At present, certain features like GP are not supported.
-    \item \textbf{Inspyred}~\autocite{InspyredBioinspiredAlgorithms} - 
-      A Python-oriented framework, Inspyred, inspired by De Jong~\autocite{dejongEvolutionaryComputationUnified2006},
-      distinctly separates algorithm-specific computations from problem-centric 
-      ones.
-      It encompasses a diverse array of evolutionary algorithms, including GAs 
-      and ES.
-      Currently, it does not support GP.
-    \item \textbf{Pyevolve} - This Python-centric framework provides multiple 
-      evolutionary algorithms, inclusive of GAs and GP.
-      However, it's worth noting that it's no longer under active maintenance.
-    \item \textbf{PGAPack}~\autocite{SchlatterbeckPgapackParallel} - 
-      Crafted in \textit{C}, this parallel genetic algorithm library boasts of 
-      features like interoperability with \textit{Fortran}, \textit{C}, and 
-      \textit{C++}, compatibility across varied parallel architectures, and a 
-      \textit{Python} interface~\autocite{SchlatterbeckPgapyPythona}.
-    \item \textbf{pagmo}~\autocite{Pagmo2023} - 
-      A \textit{C++} library, pagmo prioritizes massively parallel optimization, 
-      offering a unified interface for diverse optimization algorithms, 
-      including evolutionary ones.
-      It also features a \textit{Python} interface~\autocite{Pygmo2023}.
-    \item \textbf{easy\_ga}~\autocite{EasyGaSrc} - 
-      Based in \textit{Rust}, easy\_ga facilitates swift GA prototyping, 
-      predominantly supporting traditional GAs.
-    \item \textbf{genevo}~\autocite{GenevoRust} -
-      Another \textit{Rust}-oriented framework, genevo also chiefly supports classic GAs.
-    \item \textbf{Evolutionary Computation Framework} (ECF)~\autocite{djakobovicECFEvolutionaryComputation2023} - 
-      ECF, written in \textit{C++}, offers a rich set of evolutionary 
-      algorithms, rivalling frameworks like DEAP and ECJ in terms of 
-      comprehensiveness.
-      However, it grapples with issues akin to ECJ, such as limited 
-      documentation and an inherent steep learning curve.
+    \item \textbf{EvolvingObjects} 
+      (EO)~\autocite{EvolvingObjectsWelcomeEvolving}: An object-oriented 
+      \textit{C++} framework.
+      It offers various evolutionary algorithms and operators, including GAs, 
+      ES, and Particle Swarm Optimization (PSO).
+      Notably, certain aspects, like GP, are not currently supported.
+    \item \textbf{Inspyred}~\autocite{InspyredBioinspiredAlgorithms}: A 
+      Python-focused framework inspired by 
+      De Jong~\autocite{dejongEvolutionaryComputationUnified2006}.
+      It clearly distinguishes between algorithmic computations and 
+      problem-specific ones.
+      While it supports a range of evolutionary algorithms, GP is not among 
+      them.
+    \item \textbf{Pyevolve}: A Python-based framework that provides a gamut of 
+      evolutionary algorithms, including GAs and GP.
+      However, it is currently inactive.
+    \item \textbf{PGAPack}~\autocite{SchlatterbeckPgapackParallel}: Crafted in 
+      \textit{C}, it is a parallel genetic algorithm library.
+      It offers compatibility with \textit{Fortran} and \textit{C++} and 
+      a myriad of parallel architectures, it also features a \textit{Python}
+      interface~\autocite{SchlatterbeckPgapyPythona}.
+    \item \textbf{pagmo}~\autocite{Pagmo2023}: A \textit{C++} library that 
+      prioritizes parallel optimization.
+      It delivers a cohesive interface for various optimization algorithms and 
+      provides a \textit{Python} interface~\autocite{Pygmo2023}.
+    \item \textbf{easy\_ga}~\autocite{EasyGaSrc}: Developed in \textit{Rust}, 
+      this framework simplifies GA prototyping, primarily focusing on 
+      traditional GAs.
+    \item \textbf{genevo}~\autocite{GenevoRust}: Another \textit{Rust} 
+      framework, it majorly supports classic GAs.
+    \item \textbf{Evolutionary Computation Framework} 
+      (ECF)~\autocite{djakobovicECFEvolutionaryComputation2023}: ECF is a 
+      \textit{C++} framework that provides a comprehensive set of evolutionary 
+      algorithms.
+      Its depth rivals that of DEAP and ECJ.
+      Nonetheless, it faces challenges like limited documentation and a 
+      challenging learning curve.
   \end{itemize}
 
-  The multifariousness and capabilities intrinsic to these libraries underscore 
-  the expansive potential within the realm of genetic algorithms.
-  Our deep dive into each has equipped us to craft a \textit{Kotlin}-based 
-  framework that endeavors to synergize the strengths of each while introducing 
-  innovative attributes.
+  The breadth and capabilities of these libraries highlight the vast potential 
+  within the domain of genetic algorithms.
+  Our exhaustive exploration empowers us to develop a \textit{Kotlin}-based 
+  framework that amalgamates the strengths of each while pioneering unique 
+  features.

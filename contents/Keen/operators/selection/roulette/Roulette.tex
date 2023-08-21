@@ -1,0 +1,48 @@
+\subsubsection{Roulette Wheel Selector}
+\label{sec:keen:op:select:roulette}
+  The \texttt{RouletteWheelSelector}, commonly known as \enquote{fitness 
+  proportionate selection}, is a widely-used selection method in GAs.
+  It allocates each individual in a population a segment of a roulette wheel, 
+  proportional to its fitness.
+  Thus, individuals with higher fitness have a greater chance of selection.
+
+  \begin{definition}[Roulette Wheel Selector]
+    The \emph{roulette wheel selector} ensures selection chances proportional to 
+    an individual's fitness.
+    It's defined as:
+
+    \begin{equation}
+      \Sigma_\mathrm{roulette} :\: 
+        \mathbb{P} \times \mathbb{N} \times \{0, 1\};\;
+      (P,\, n,\, b) \mapsto \Sigma_\mathrm{roulette}(P,\, n,\, b)
+    \end{equation}
+
+    where \(P\) represents the population, \(n\) is the individuals' count to 
+    select, and \(b\) is a boolean for preceding selection with a sort.
+
+    Let \(\phi_i\) be the fitness of the \(i^{th}\) individual and \(\phi_i' =  
+    \phi_i - \min\left\{\phi_\mathrm{min},\, 0\right\}\) its adjusted fitness. 
+    The selection probability \(p_i\) for the \(i^{th}\) individual is:
+
+    \begin{equation}
+      \rho_i = \frac{\phi_i'}{\sum_{j=1}^{|P|} \phi_j'}
+    \end{equation}
+
+    Selection is based on a random number between 0 and 1, selecting \(i\) if 
+    the summed probabilities up to \(i\) surpass this number.
+  \end{definition}
+
+  \begin{remark}
+    The fitness adjustment, \(\phi_i'\), ensures non-negative probabilities. 
+    However, it makes the least fit individual unselectable, with a zero 
+    probability.
+  \end{remark}
+
+  This approach, while ensuring a selection chance for almost every individual, 
+  can face challenges.
+  If few individuals have significantly higher fitness, they might dominate, 
+  reducing diversity over time.
+  In the WGP, it thrives with diverse fitness values but 
+  may struggle when they converge.
+  Experiments with WGP using this selector are summarized in 
+  \vref{tab:keen:operators:selection:roulette_wheel}.

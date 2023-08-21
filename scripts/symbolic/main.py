@@ -32,12 +32,6 @@ def log_improvement(old_value: float, new_value: float, measure: str) -> None:
         "symbolic")
 
 
-def setup_logging() -> None:
-    """Set up logging configurations."""
-    logging.getLogger("matplotlib").setLevel(logging.WARNING)
-    coloredlogs.install(level=logging.DEBUG)
-
-
 def main() -> None:
     """
     Manage the initialization, selection, and crossover for the population of Individuals.

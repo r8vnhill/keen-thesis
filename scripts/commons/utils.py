@@ -16,7 +16,7 @@ def surround(text: str, top: str, bottom: str) -> str:
     return f"{top}\n{text}\n{bottom}"
 
 
-def format_number(num: int_ | float_) -> str:
+def format_number(num: int_ | float_, precision: int = 6) -> str:
     """
     Formats a real number for display, grouping digits for readability.
 
@@ -39,8 +39,8 @@ def format_number(num: int_ | float_) -> str:
         case int(_):
             return f'{num:,}'.replace(",", "\\,")
         case _:
-            num = np.round(num, 7)  # type: ignore
-            int_part, frac_part = f"{num:.6f}".split(".")
+            num = np.round(num, precision + 1)  # type: ignore
+            int_part, frac_part = f"{num:.{precision}f}".split(".")
             int_part = f'{int(int_part):,}'
             frac_part = ",".join([frac_part[i:i + 3] for i in range(0, len(frac_part), 3)])
             return (int_part + "." + frac_part).replace(",", "\\,")

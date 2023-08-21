@@ -2,23 +2,17 @@
 %% Copyright (c) 2023, R8V.
 %% BSD Zero Clause License.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DOCUMENT CONFIGURATION
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Setting the paragraph indentation to 0
-% | setlength - Allows you to define various lengths in LaTeX
-% | parindent - Refers to the indentation of paragraphs
+% Remove paragraph indentation
 \setlength{\parindent}{0pt}
 
-% Adding a bibliography resource for BibLaTeX
-% | addbibresource - Command to add a .bib file as a resource for citations
+% Add bibliography resource
 \addbibresource{Keen.bib}
 
-% Configuring the main font for the document
-% | setmainfont - Defines the main font for the document using the fontspec package
-% | Path - Directory location of the font files
-% | BoldFont, ItalicFont, etc. - Different styles of the font
+% Configure main document font
 \setmainfont{MinionPro-Regular.otf}[
   Path = fonts/,
   BoldFont = MinionPro-Bold.otf,
@@ -26,9 +20,7 @@
   BoldItalicFont = MinionPro-BoldIt.otf,
 ]
 
-% Configuring the monospace font (often used for code or typewriter text)
-% | setmonofont - Defines the monospace font for the document
-% | Scale - Adjusts the size of the font relative to the main font
+% Configure monospace font (typically used for code)
 \setmonofont{DejaVuSansMNerdFontMono-Regular.ttf}[
   Path = fonts/,
   BoldFont = DejaVuSansMNerdFontMono-Bold.ttf,
@@ -36,11 +28,7 @@
   Scale = 0.85
 ]
 
-% Setting up hyperlink properties
-% | hypersetup - Command to set properties for hyperlinks in the document
-% | colorlinks - Colors the text of the links instead of surrounding it with colored boxes
-% | linkcolor, citecolor, etc. - Define the color for various types of links
-% | pdftitle - Specifies the title of the PDF when it's created
+% Define hyperlink properties
 \hypersetup{
     colorlinks=true,
     linkcolor=blue,
@@ -49,19 +37,13 @@
     pdftitle={Keen, Kotlin Genetic Algorithms Framework},
 }
 
-% Setting up floating environments for code listings
-% | SetupFloatingEnvironment - Command to set properties for floating environments like figures, tables, and listings
-% | name - Name of the floating environment
+% Customize floating environments for code listings
 \SetupFloatingEnvironment{listing}{name=Listing}
 
-% Setting the style for code highlighting using minted package
-% | usemintedstyle - Sets the style of the code highlighting
+% Define code highlighting style
 \usemintedstyle{vs}
 
-% Basic minted configuration
-% | setminted - Sets global options for minted code blocks
-% | autogobble - Automatically removes common leading whitespace
-% | escapeinside - Specifies delimiters to escape to LaTeX
+% Configure minted package
 \setminted{
   autogobble=true,
   escapeinside=~~,
@@ -70,22 +52,18 @@
   breakbytokenanywhere
 }
 
-% Setting the basic page style to plain
-% | pagestyle - Sets the overall page style (e.g., headers and footers)
-\pagestyle{plain} % this line is not necessary if previously no style has been set
+% Set the default page style to plain
+\pagestyle{plain}
 
-% Setting up custom headers and footers using the fancyhdr package
-% | fancyhead - Command to set the content of headers in the fancyhdr package
-% | [LO], [RO], etc. - Specify the position of the header/footer content (e.g., Left Odd pages, Right Odd pages)
-% | leftmark and rightmark - Commands that retrieve the current chapter and section names, respectively
-% | thepage - Command to retrieve the current page number
+% Define custom headers and footers
 \fancyhead[LO]{\leftmark}
 \fancyhead[RO]{\thepage}
 \fancyhead[RE]{\rightmark}
 \fancyhead[LE]{\thepage}
-% \fancyfoot[C]{\textit{\getvmeta{title}}}
 \fancyfoot{}
 
-% Override the plain page style with the customizations
-% | fancypagestyle - Allows for customization of a specific page style
-\fancypagestyle{plain}{} % this is necessary for the first page of the chapter
+% Apply customizations to the plain page style
+\fancypagestyle{plain}{}
+
+% Adjust depth of section numbering
+\setcounter{secnumdepth}{4}

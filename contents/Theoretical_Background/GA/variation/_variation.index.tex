@@ -1,14 +1,17 @@
-% TODO: Continue here
+%% Copyright information
+%% Copyright (c) 2023, Ignacio Slater M.
+%% BSD Zero Clause License.
+
 \subsection{Variation}
 \label{sec:genetic_algorithms:variation}
-  Variation is the process of creating new individuals from existing ones in the pursuit of 
-  exploring the solution space.
-  This is crucial in a Genetic Algorithm (GA) to avoid premature convergence to sub-optimal
-  solutions.
-  In a GA, variation is achieved by applying \emph{variation operators} to the individuals in the 
-  population.
-  The most common variation operators are \emph{crossover} and \emph{mutation}, which will be 
-  explored in this section.
+  Variation is the process of creating new individuals from existing ones in 
+  the pursuit of exploring the solution space.
+  This is crucial in a Genetic Algorithm (GA) to avoid premature convergence to 
+  sub-optimal solutions.
+  In a GA, variation is achieved by applying \emph{variation operators} to the 
+  individuals in the population.
+  The most common variation operators are \emph{crossover} and \emph{mutation}, 
+  which will be explored in this section.
 
   \begin{definition}[Variation operator]
     \label{def:variation_operator}
@@ -17,7 +20,7 @@
     
     \[
       \varphi : \mathbb{P} \times \mathbb{R} \times \cdots \to \mathbb{P};\; 
-      (P, \rho, \dots) \mapsto \varphi(P, \rho, \dots)
+      (P, \rho_\varphi, \dots) \mapsto \varphi(P, \rho_\varphi, \dots)
     \]
     
     where:
@@ -26,10 +29,12 @@
       \item \(\mathbb{P}\) is the set of all possible populations,
       \item \(\mathbb{R}\) is the set of real numbers,
       \item \(P\) is the population to be varied,
-      \item \(\rho\) is the probability of applying the operator to an individual in the population.
+      \item \(\rho_\varphi\) is the probability of applying the operator to an 
+        individual in the population.
     \end{itemize}
 
-    The additional arguments depend on the specific implementation of the variation operator.
+    The additional arguments depend on the specific implementation of the 
+    variation operator.
     The role of these arguments will be clarified in \vref{sec:keen:operators}.
   \end{definition}
 

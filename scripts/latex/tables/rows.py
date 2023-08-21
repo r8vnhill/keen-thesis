@@ -5,19 +5,59 @@ from latex.tables import Cell
 
 
 @dataclass
+class Rule:
+    r"""
+    Represents a LaTeX table horizontal rule (partial line) for specific columns.
+
+    Attributes:
+    -----------
+    start_column: int
+        The starting column for the horizontal rule in the LaTeX table.
+
+    end_column: int
+        The ending column for the horizontal rule in the LaTeX table.
+
+    Methods:
+    --------
+    __str__() -> str:
+        Returns the LaTeX representation of the horizontal rule for the specified columns.
+
+    Examples:
+    ---------
+    >>> rule = Rule(1, 3)
+    >>> print(rule)
+    \cline{1-3}
+    """
+
+    start_column: int
+    end_column: int
+
+    def __str__(self) -> str:
+        return f"\\cline{{{self.start_column}-{self.end_column}}}"
+
+
+@dataclass
 class Row:
     """
     Represents a row in a LaTeX table.
 
-    A Row object contains a list of Cell objects and defines the number of horizontal lines (rules) above (top) and
-    below (bottom) the row.
+    A Row object contains a list of Cell objects and defines the number of horizontal
+    lines (rules) above (top) and below (bottom) the row.
     """
+
     data: list[Cell]
     top_rules: int
     bottom_rules: int
     spacing: Optional[str]
 
-    def __init__(self, *content: object, top_rules: int = 0, bottom_rules: int = 0, spacing: Optional[str] = None):
+    def __init__(
+            self,
+            *content: object,
+            top_rules: int | Rule | list[Rule] = 0,
+            bottom_rules: int | Rule | list[Rule] = 0,
+            spacing: Optional[str] = None,
+            precision: int = 6,
+    ):
         """
         Construct a new Row object.
 
@@ -28,8 +68,15 @@ class Row:
         :param bottom_rules: The number of horizontal lines below the row, default is 0.
         :param spacing: The optional spacing for the first cell in the row. Default is None.
         """
-        if top_rules < 0 or bottom_rules < 0:
-            raise ValueError("Number of rules must be non-negative.")
+        match (top_rules, bottom_rules):
+            case (int(t), _) if t < 0:
+                raise ValueError("Number of rules must be non-negative.")
+            case (_, int(b)) if b < 0:
+                raise ValueError("Number of rules must be non-negative.")
+            case (Rule(a, b), _) if a < 1 or b < a:
+                raise ValueError("Rule start column must be greater than 0.")
+            case (_, Rule(a, b)) if a < 1 or b < a:
+                raise ValueError("Rule start column must be greater than 0.")
         match content:
             case (Row(d, t, b, s), ):
                 self.data = d
@@ -37,7 +84,7 @@ class Row:
                 self.bottom_rules = b
                 self.spacing = s
             case _:
-                self.data = [Cell(c) for c in content]
+                self.data = [Cell(c, precision=precision) for c in content]
                 self.top_rules = top_rules
                 self.bottom_rules = bottom_rules
                 self.spacing = spacing
@@ -58,12 +105,31 @@ class Row:
         if self.spacing:
             data_str[0] = f"\\Gape[{self.spacing}][{self.spacing}]{{{data_str[0]}}}"
 
-        return "\\hline\n" * self.top_rules \
-            + "\t& ".join(data_str) + "\t\\\\" \
-            + "\n\\hline" * self.bottom_rules
+        top_rules, bottom_rules = self._parse_rules()
+
+        return (
+                top_rules
+                + "\t& ".join(data_str)
+                + "\t\\\\"
+                + str(bottom_rules)
+        )
+
+    def _parse_rules(self) -> tuple[str, str]:
+        def match_rule(rule):
+            match rule:
+                case int(r):
+                    return "\\hline\n" * r
+                case Rule(_, _):
+                    return str(rule)
+                case list(_):
+                    return '\n'.join([match_rule(r) for r in rule])
+                case _:
+                    raise ValueError("Invalid rule type.")
+
+        return match_rule(self.top_rules), match_rule(self.bottom_rules)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(Row(1, 2, 3, top_rules=1, bottom_rules=2))
     print(Row(1, 2, 3))
     print(Row(Cell(1, length=2), 2))

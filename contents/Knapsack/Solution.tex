@@ -1,0 +1,46 @@
+\section{Solution Strategies for Knapsack Problems}
+\label{sec:knapsack:sol}
+
+  Given two distinct knapsack problem variants, our approach encompasses unique 
+  solutions tailored to each.
+  We employ the \textit{Keen} framework's built-in Genetic Algorithm (GA) 
+  capabilities for the \(\mathrm{K}_{0 / 1}\) problem and augment the
+  \textit{Keen} framework for the \( \mathrm{K}_{*} \) problem.
+
+  \subsection{0-1 Knapsack Problem}
+  \label{sec:knapsack:sol:01}
+
+  To solve the 0-1 Knapsack problem:
+
+  \begin{enumerate}
+    \item \textbf{Problem Representation:} We represent each item's inclusion in 
+      the knapsack as a binary string.
+      This string is facilitated by the \texttt{BoolGene} class, while the 
+      collection of these genes is managed by the \texttt{BoolChromosome} class, 
+      essentially acting as a wrapper for the \texttt{BoolGene}.
+    \item \textbf{Item Representation:} Each item is captured as a \texttt{Pair} 
+      of integers, with the first element indicating the item's value and the 
+      second indicating its weight.
+    \item \textbf{Fitness Function Definition:} The core objective of the 
+      fitness function is to maximize the total value, ensuring the aggregated 
+      weight does not breach the knapsack's weight limit.
+      Should the weight exceed the allowed capacity, a proportional penalty is 
+      applied to the fitness score. 
+  \end{enumerate}
+
+  The fitness function for this problem, implemented in Kotlin, is as follows:
+
+  \begin{code}{Fitness Function for the 0/1 Knapsack Problem via Keen}{
+    label={lst:knapsack:sol:01:fitness}
+  }{kotlin}
+    fun fitnessFn(genotype: Genotype<Boolean, BoolGene>): Double {
+        val profit = (genotype.flatten() zip items).sumOf { (isInBag, item) ->
+            if (isInBag) item.first else 0
+        }
+        val weight = (genotype.flatten() zip items).sumOf { (isInBag, item) ->
+            if (isInBag) item.second else 0
+        }
+        val penalty = if (weight > MAX_WEIGHT) abs(weight - MAX_WEIGHT) else 0
+        return (profit - penalty).toDouble()
+    }
+  \end{code}

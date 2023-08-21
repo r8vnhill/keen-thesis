@@ -1,27 +1,27 @@
 \subsection{Termination}
 \label{sec:genetic_algorithms:termination}
-  After each generation -- when a new population is fully created -- the
-  genetic algorithm verifies if the termination criteria have been met.
-  If so, the algorithm terminates and returns the best individual identified.
-  Otherwise, the process continues to the next generation.
+  The genetic algorithm assesses the termination criteria after generating each 
+  new population.
+  If met, the algorithm ends and outputs the best-found individual.
+  Otherwise, the generational cycle repeats.
 
-  Consider a scenario where the termination criterion is defined as the 
-  discovery of an individual possessing the maximum number of ones, represented 
-  as $1111$.
-  This would correspond to a condition where $\phi_\mathbf{G} = 4$.
+  Suppose our termination criterion is the identification of an individual with 
+  all ones, represented as 1111.
+  This would mean the fitness function, \(\phi_\mathbf{G}\), attains the value 
+  4.
 
-  Recall that we found the individual $1111$ after applying the variation 
-  operators to the population. 
-  As a result, the termination criterion is met and the genetic algorithm 
-  concludes its process.
+  During our exploration, after applying the variation operators, we indeed 
+  discovered the individual 1111.
+  This satisfies our termination criterion, prompting the algorithm to conclude 
+  its operation.
 
-  It's worth noting that not all search space has been explored, as demonstrated 
-  in \vref{tab:genetic_algorithms:termination:search_space}.
-  The algorithm's fitness-oriented search strategy means it performs a guided, 
-  rather than exhaustive, search. 
-  However, the increasing fitness of the population's individuals across 
-  generations indicates convergence towards an optimal solution.
-  
+  Yet, as illustrated in \vref{tab:bg:ga:termination:search_space}, the 
+  algorithm has not scoured the entire search space.
+  Instead, the genetic algorithm prioritizes a fitness-guided exploration over 
+  a complete one.
+  Still, witnessing the increasing fitness of individuals over generations 
+  signals a trend towards an optimal or near-optimal solution.
+
   \begin{table}[ht!]
     \centering
     \begin{tabular}{|c||c|c|c|c|}
@@ -43,43 +43,33 @@
       \hline
     \end{tabular}
     \caption{
-      Candidates from the search space that were explored by the genetic 
-      algorithm.
-      Cells that are coloured in dark gray represent candidates that were
-      explored by the genetic algorithm.
-      Each individual is defined by the row and column that it occupies in the
-      search space, where the row represents the first 2 bits of the individual
-      and the column represents the last 2 bits of the individual; e.g. the
-      individual $0001$ is located in the first row and second column of the
-      table.
+      A map of the search space explored by the genetic algorithm.
+      Dark gray cells denote the candidates the algorithm reviewed.
+      The position of each individual corresponds to its binary representation, 
+      using the row for the first two bits and the column for the last two.
     }
-    \label{tab:genetic_algorithms:termination:search_space}
+    \label{tab:bg:ga:termination:search_space}
   \end{table}
 
-  For small search spaces like in our example, the distinction between this 
-  algorithm and a purely random search may seem minimal.
-  But for larger search spaces, as explored later in this thesis, the difference
-  becomes highly significant.
+  In small search arenas, the distinction between a genetic algorithm and 
+  random searches might appear negligible.
+  However, as the search space expands, which we delve into later in this 
+  thesis, the difference becomes substantial.
 
-  It's important to underline that genetic algorithms, being stochastic in 
-  nature, do not guarantee discovery of the optimal solution.
-  Their effectiveness depends on various factors such as the fitness function, 
-  the representation scheme, the variation operators, and the selection 
-  strategy.
-  These components and their impact on performance across different problems
-  will be thoroughly examined in this thesis.
+  Despite their stochastic nature, genetic algorithms do not always promise 
+  optimal outcomes.
+  Their efficacy hinges on various components, including the fitness function, 
+  representation, variation operators, and selection techniques.
+  This thesis delves deeper into these elements and analyzes their performance 
+  across diverse problems.
 
-  In summary, the termination phase of the genetic algorithm represents a 
-  crucial step in determining the overall process outcome.
-  By utilizing a targeted termination criterion -- such as the discovery of an
-  individual with the highest possible fitness score -- the algorithm
-  effectively navigates the search space.
-  While not exhaustive in its exploration, the algorithm uses a fitness-oriented
-  strategy to guide its trajectory towards an optimal solution.
-  It's essential to recognize the inherent limitations of genetic algorithms due
-  to their stochastic nature.
-  Despite these, their potential to outperform random searches, especially in
-  large search spaces, is considerable.
-  However, success relies heavily on choosing appropriate parameters and
-  procedures, a topic to be explored in-depth in subsequent sections of this
-  thesis.
+  In essence, the termination phase is pivotal in dictating the final outcome 
+  of the genetic algorithm.
+  By setting a clear termination condition, like achieving the highest fitness 
+  score, the algorithm efficiently navigates the search terrain.
+  Although it might not exhaustively search, it employs a fitness-centric 
+  strategy to steer closer to optimal solutions.
+  It's vital to acknowledge the intrinsic limitations of genetic algorithms. 
+  Yet, when configured right, their capability to overshadow random searches, 
+  especially in vast spaces, is undeniable.
+  We'll further explore this subject in the subsequent segments of this thesis.

@@ -1,0 +1,62 @@
+\subsubsection{Tournament Selector}
+\label{sec:keen:operators:selection:tournament}
+  The \texttt{TournamentSelector} is a selection operator that employs the 
+  widely-recognized tournament selection strategy found in evolutionary 
+  computation.
+  At its core, this strategy involves randomly selecting a subset of 
+  individuals from the population and evaluating them based on their fitness. 
+  From this subset, the individual with the highest fitness is deemed the 
+  winner and becomes eligible for participation in the formation of the 
+  subsequent generation.
+  The \enquote{tournament} process is iteratively carried out until the 
+  required number of eligible individuals is chosen.
+
+  \begin{definition}[Tournament Selector]
+  \label{def:keen:op:select:tournament}
+    The \emph{tournament selector} embodies the tournament selection approach 
+    and is formally defined as:
+
+    \begin{equation}
+      \Sigma_\mathrm{tournament} :\: 
+        \mathbb{P} \times \mathbb{N} \times \mathbb{N};\;
+      (P,\, n,\, ka) \mapsto \Sigma_\mathrm{tournament}(P,\, n,\, k)
+    \end{equation}
+
+    Herein, \(P\) represents the population, \(n\) stands for the count of 
+    individuals to be deemed eligible, and \(k\) pertains to the tournament or 
+    sample size.
+
+    The methodological sequence for selection is as follows:
+
+    \begin{enumerate}
+      \item A random subset of \(k\) individuals is culled from the population.
+      \item From this subset, the individual bearing the most superior fitness 
+        score is singled out.
+      \item Steps 1 and 2 are reiterated until the set quota of eligible 
+        individuals is reached.
+    \end{enumerate}
+  \end{definition}
+
+  \begin{remark}
+    The selection dynamic is profoundly influenced by the tournament size, 
+    \(k\).
+    Opting for a larger \(k\) leans towards elitism, predominantly favoring 
+    individuals with superior fitness scores.
+    In contrast, a reduced \(k\) champions diversity, helping to deter the 
+    premature convergence of the genetic algorithm.
+  \end{remark}
+
+  \begin{table}[ht!]
+    % Table goes here
+    \caption{
+      Displayed above is an evaluation of the tournament selector's efficacy within the Word Generation Problem (WGP) spanning varied word lengths and tournament dimensions. The methodology involved the utilization of a single-point crossover with a fixed 0.2 crossover probability, coupled with a 0.06 mutation rate. The chosen population featured 500 members with an evolutionary epoch threshold set at 1000 generations. The results presented are an averaged outcome from three distinct experimental runs.
+    }
+    \label{tab:keen:op:select:tournament}
+  \end{table}
+
+  % Discussion or analysis of the results can be inserted here
+
+  For an exhaustive delve into the intricacies and theoretical frameworks 
+  surrounding the tournament selection modality, the reader is directed to 
+  Blickle et al.'s seminal 
+  paper~\autocite{blickleMathematicalAnalysisTournament1995}.

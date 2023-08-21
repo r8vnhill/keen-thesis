@@ -1,0 +1,54 @@
+\section*{G}
+\begin{definition}[Gene]
+  \label{def:gene}
+    Representation of a single component of a candidate solution to a given 
+    optimization problem.
+
+    Formally, for a multi-dimensional function \(f\), a gene is an element 
+    \(g\) in the domain of \(f\).
+  \end{definition}
+
+  \begin{definition}[Generation]
+  \label{def:generation}
+    Number of iterations performed by an evolutionary algorithm.
+  \end{definition}
+  
+  \begin{definition}[Genetic Diversity]
+  \label{def:diversity}
+    In evolutionary computation, diversity refers to the degree of variation or 
+    difference in the genetic representation of individuals within a 
+    population.
+    Maintaining diversity is essential for several reasons:
+
+    \begin{enumerate}
+      \item \textbf{Exploration vs. Exploitation:} A diverse population can 
+        explore various regions of the solution space, ensuring that the 
+        algorithm doesn't focus solely on one area.
+        This balance between exploration (searching new areas) and exploitation 
+        (optimizing known good areas) is fundamental in evolutionary 
+        computation.
+      \item \textbf{Preventing Premature Convergence:} Without adequate 
+        diversity, the population may converge too quickly to a suboptimal 
+        solution, known as a local optimum.
+        By maintaining diversity, the population has a better chance of 
+        discovering the global optimum.
+      \item \textbf{Adaptability:} A diverse population can better adapt to 
+        changing environments or requirements, making it more resilient against 
+        dynamic problems.
+    \end{enumerate}
+
+    Diversity can be measured in several ways, including genetic distance 
+    metrics, fitness-based measures, or phenotypic variance.
+    To maintain or introduce diversity, techniques like mutation, crossover 
+    variations, immigration, and diversity preservation strategies (like 
+    fitness sharing or crowding) are employed.
+  \end{definition}
+  
+  \begin{definition}[Genotype]
+  \label{def:genotype}
+    Representation of the full genetic information of a candidate solution to a given optimization
+    problem.
+
+    Formally, a genotype is a matrix \(\mathbf{G} = (\textbf{c}_1, \textbf{c}_2, \dots, 
+    \textbf{c}_n)\), where \(\textbf{c}_i\) is a chromosome (see \vref{def:chromosome}).
+  \end{definition}

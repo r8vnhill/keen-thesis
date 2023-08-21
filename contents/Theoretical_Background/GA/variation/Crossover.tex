@@ -1,59 +1,66 @@
+%% Copyright information
+%% Copyright (c) 2023, Ignacio Slater M.
+%% BSD Zero Clause License.
+
 \subsubsection{Crossover}
 \label{sec:bg:ga:var:cx}
-  The variation operator in genetic algorithms often involves a procedure known as \emph{crossover},
-  which emulates the process of genetic recombination observed in nature.\footnote{
-    This is referred to as \emph{crossing-over} 
+  In genetic algorithms, a prominent variation operator is the 
+  \emph{crossover}.
+  This operator mirrors the genetic recombination seen in nature.\footnote{
+    Also known as \emph{crossing-over} 
     in~\autocite{hollandAdaptationNaturalArtificial1992a}.
   }
-  This process involves the exchange of genetic material between two individuals to create a new 
-  generation.
+  It facilitates the exchange of genetic material between two individuals, 
+  spawning a new generation.
 
   \begin{definition}[Crossover operator]
   \label{def:crossover_operator}
-    A crossover operator is a variation operator that is used to create new individuals from 
-    existing ones by performing a recombination of their genetic material.
+    The crossover operator recombines genetic material from existing 
+    individuals to create new ones.
+    Formally, it is represented as:
 
-    Formally, it is a variadic function represented as 
-    
     \[
-      X : \mathbb{P} \times \mathbb{R} \times \cdots \to \mathbb{P};
-      (P, \rho, \dots) \mapsto X(P, \rho, \dots)
+      X :\: \mathbb{P} \times \mathbb{R} \times \cdots \to \mathbb{P};\;
+      (P,\, \rho_X,\, \dots) \mapsto X(P,\, \rho_X,\, \dots)
     \]
-    
-    where:
+
+    with the following parameters:
 
     \begin{itemize}
-      \item \(\mathbb{P}\) is the set of all possible populations,
-      \item \(\mathbb{R}\) is the set of real numbers,
-      \item \(P\) is the population to be varied,
-      \item \(\rho \in [0, 1]\) is the probability of applying the operator to an individual in the 
-        population.
+      \item \(\mathbb{P}\) -- the set of all possible populations,
+      \item \(\mathbb{R}\) -- the set of real numbers,
+      \item \(P\) -- the population under variation,
+      \item \(\rho_X\) -- probability of applying the operator to an individual.
     \end{itemize}
-
   \end{definition}
 
-  For the problem under consideration, we utilize a simplified form of the \emph{single-point 
-  crossover}\footnote{See \vref{sec:keen:operators:crossover:single_point}.} operator. 
-  This operator selects the first half of the genes from two parent individuals and generates two 
-  new offspring by interchanging these selected genes.
-  
-  For instance, consider two parent individuals selected via the \emph{roulette wheel} selector 
-  described earlier: \(I_1 = 1100\) and \(I_2 = 0001\).
-  The single-point crossover operator selects the first half of the genes from each parent, i.e., 11
-  from \(I_1\) and 00 from \(I_2\), and produces a pair of new chromosomes with the first half, and 
-  produces two new offspring by exchanging these selected parts: \(O_1 = 1101\) and \(O_2 = 0000\) 
-  (as illustrated in \vref{fig:genetic_algorithms:variation:crossover:single_point}).
+  In our analysis, we employ a condensed version of the \emph{single-point 
+  crossover} operator.\footnote{
+    Refer to \vref{sec:keen:operators:crossover:single_point}.
+  }
+  This operator picks the first half of the genes from two parental figures and 
+  births two new offspring by swapping these chosen genes. 
+
+  Take, for instance, two parent individuals, \(I_1 = 1100\) and \(I_2 = 
+  0001\).
+  Utilizing the \textit{single-point crossover} operator, we select the first 
+  half of the genes: 11 from \(I_1\) and 00 from \(I_2\).
+  This exchange produces the offspring \(O_1 = 1101\) and \(O_2 = 0000\), 
+  demonstrated in 
+  \vref{fig:bg:ga:var:cx:single_point}.
 
   \begin{figure}[ht!]
     \centering
-    \includegraphics[width=0.3\textwidth]{img/theoretical_framework/Single-Point Crossover.png}
+    \includegraphics[width=0.3\textwidth]
+      {img/theoretical_framework/Single-Point Crossover.png}
     \caption{Single-point crossover}
-    \label{fig:genetic_algorithms:variation:crossover:single_point}
+    \label{fig:bg:ga:var:cx:single_point}
   \end{figure}
 
-  Following another iteration of the single-point crossover operator, we can generate a result as 
-  shown in \vref{tab:genetic_algorithms:variation:crossover:single_point}, leading to a new 
-  population \(\textbf{O} = \{(0000,\, 0),\, (1101,\, 3),\, (0101,\, 2)\}\).
+  Following another iteration of the single-point crossover operator, we can 
+  generate a result as shown in 
+  \vref{tab:bg:ga:var:cx:single_point}, leading to a 
+  new population \(\textbf{O} = \{(0000,\, 0),\, (1101,\, 3),\, (0101,\, 2)\}\).
 
   \begin{table}[ht!]
     \centering
@@ -76,19 +83,21 @@
     \end{tabular}
     \caption{
       Illustration of the single-point crossover operation. 
-      In this procedure, two parent individuals are selected and a cut point is chosen. 
-      Each offspring is then formed by combining the genes from the parents: one gets the genes 
-      from the first part of the first parent and the second part of the second parent, while the 
-      other gets the genes from the first part of the second parent and the second part of the 
-      first parent. 
-      Here, \(\cdot\) represents a \enquote{discarded} value (since according to the survival 
-      rate, only three offspring need to be produced).
+      In this procedure, two parent individuals are selected and a cut point is 
+      chosen. 
+      Each offspring is then formed by combining the genes from the parents: 
+      one gets the genes from the first part of the first parent and the second 
+      part of the second parent, while the other gets the genes from the first 
+      part of the second parent and the second part of the first parent. 
+      Here, \(\cdot\) represents a \enquote{discarded} value (since according 
+      to the survival rate, only three offspring need to be produced).
     }
-    \label{tab:genetic_algorithms:variation:crossover:single_point}
+    \label{tab:bg:ga:var:cx:single_point}
   \end{table}
 
-  If we now use these offspring as-is to create the next generation, we would obtain the
-  population shown in \vref{tab:genetic_algorithms:variation:crossover:single_point:2}:
+  If we now use these offspring as-is to create the next generation, we would 
+  obtain the population shown in 
+  \vref{tab:bg:ga:var:cx:single_point:2}:
 
   \begin{table}[ht!]
     \centering
@@ -108,7 +117,7 @@
       Note that \(I_2\) is the survivor of the previous generation picked in 
       \vref{sec:bg:ga:select}.
     }
-    \label{tab:genetic_algorithms:variation:crossover:single_point:2}
+    \label{tab:bg:ga:var:cx:single_point:2}
   \end{table}
 
   \begin{table}[H]
@@ -127,22 +136,22 @@
       \hline
     \end{tabular}
     \caption{
-      Fitness of the population after applying the single-point crossover operator.
-      \enquote{Best} refers to the individual with the highest fitness, and \enquote{Worst} refers 
-      to the individual with the lowest fitness
+      Fitness of the population after applying the single-point crossover 
+      operator.
+      \enquote{Best} refers to the individual with the highest fitness, and 
+      \enquote{Worst} refers to the individual with the lowest fitness
     }
-    \label{tab:genetic_algorithms:variation:crossover:single_point:fitness}
+    \label{tab:bg:ga:var:cx:single_point:fitness}
   \end{table}
 
-  As observed from \vref{tab:genetic_algorithms:variation:crossover:single_point:fitness}, the 
-  average fitness of the population has increased from 1 to 1.25, and the fitness of the best 
-  individual has improved from 2 to 3. 
-  This improvement showcases how the crossover operator helps guide the search towards superior 
-  solutions.
+  By the metrics in \vref{tab:bg:ga:var:cx:single_point:fitness}, the 
+  population's average fitness rises from 1 to 1.25, with the fittest 
+  individual's score jumping from 2 to 3.
+  This uplift highlights the crossover operator's role in directing the search 
+  towards enhanced solutions.
 
-  While the crossover operation has indeed enhanced the average fitness of the population, to 
-  further augment genetic diversity within the population and prevent premature convergence to 
-  suboptimal solutions (local optima), the introduction of a \emph{mutation} operator is often 
-  beneficial. 
-  This operation will be discussed in the next section.
-
+  While the crossover operation elevates the average population fitness, 
+  incorporating a \emph{mutation} operator can further boost genetic 
+  diversity\footnote{See \vref{def:diversity}.} and sidestep early convergence
+  to inferior solutions.
+  The subsequent section delves into this operation.

@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from commons.draw import draw_lines, Line, LineStyle
-from commons.logs import debug, info
+from commons.logs import debug, info, setup_logging
 from commons.utils import format_number
 
 __all__ = [
@@ -9,6 +9,7 @@ __all__ = [
     "IMG_DIR",
     "debug",
     "info",
+    "setup_logging",
     "format_number",
     "draw_lines",
     "Line",

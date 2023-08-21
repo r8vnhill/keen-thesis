@@ -1,7 +1,6 @@
 import logging
 
-
-import logging
+import coloredlogs
 
 
 def debug(msg: str, context: object) -> None:
@@ -58,3 +57,8 @@ def critical(msg: str, context: object) -> None:
     """
     logging.getLogger(str(context)).critical(msg)
 
+
+def setup_logging() -> None:
+    """Set up logging configurations."""
+    logging.getLogger("matplotlib").setLevel(logging.WARNING)
+    coloredlogs.install(level=logging.DEBUG)

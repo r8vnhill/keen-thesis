@@ -4,12 +4,13 @@ from commons.utils import format_number
 from latex.tables.alignments import Alignment
 
 
-def format_data(data: object) -> str:
+def format_data(data: object, precision: int = 6) -> str:
     """
     Recursively format the data object for display.
 
     If data is a Cell object, it recursively formats the data field in the Cell.
-    If data is a float or an integer, it formats the number using the format_number function.
+    If data is a float or an integer, it formats the number using the format_number
+    function.
     Otherwise, it converts the data to a string using the built-in str function.
 
     :param data: The data object to be formatted.
@@ -19,7 +20,7 @@ def format_data(data: object) -> str:
         case Cell(d, _, _):
             return format_data(d)
         case float(n) | int(n):
-            return format_number(n)
+            return format_number(n, precision)
         case _:
             return str(data)
 
@@ -37,7 +38,8 @@ class Cell:
     alignment: Alignment
     length: int
 
-    def __init__(self, data: object, alignment: Alignment | str = 'c', length: int = 1):
+    def __init__(self, data: object, alignment: Alignment | str = 'c', length: int = 1,
+                 precision: int = 6):
         if length < 1:
             raise ValueError(f'Cell length [{length}] must be positive...')
         match data:
@@ -45,10 +47,12 @@ class Cell:
                 self.data = d
                 self.alignment = a
                 self.length = l
+                self.precision = precision
             case _:
                 self.data = data
                 self.alignment = Alignment(alignment)
                 self.length = length
+                self.precision = precision
 
     def __str__(self):
         """
@@ -61,9 +65,10 @@ class Cell:
 
         :return: A string representing the cell for use in a LaTeX table.
         """
-        d = format_data(self.data)
+        d = format_data(self.data, self.precision)
         if self.length > 1:
-            return r"\multicolumn{" + str(self.length) + "}{" + str(self.alignment) + "}{" + d + "}"
+            return r"\multicolumn{" + str(self.length) + "}{" + str(
+                self.alignment) + "}{" + d + "}"
         return d
 
 
