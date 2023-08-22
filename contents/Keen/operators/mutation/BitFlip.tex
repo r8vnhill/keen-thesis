@@ -3,7 +3,7 @@
 % license that can be found in the LICENSE file.
 
 \subsubsection{Bit Flip Mutator}
-\label{sec:keen:operators:mutation:bit_flip}
+\label{sec:keen:op:mut:bit_flip}
 
   The \texttt{BitFlipMutator} stands out as one of the quintessential mutation 
   operators specifically tailored for binary chromosomes. As the name suggests, 
@@ -18,18 +18,33 @@
   intact, while still allowing for diverse offspring.
 
   \begin{definition}[Bit Flip Mutator]
-    The \emph{bit flip mutator} is a mutation operator tailored for binary genetic representations. It can be mathematically formulated as:
+    The \emph{bit flip mutator} is a mutation operator tailored for binary 
+    genetic representations. It can be mathematically formulated as:
 
     \begin{equation}
       M_{0/1} :\: \mathbb{P} \times [0,\, 1] \times [0,\, 1] \to \mathbb{P};\;
-      (P,\, \mu,\, \rho) \mapsto M_{0/1}(P,\, \mu,\, \rho)
+      (P,\, \mu,\, \rho_\mathbf{c},\, \rho_g) 
+        \mapsto M_{0/1}(P,\, \mu,\, \rho_\mathbf{c},\, \rho_g)
     \end{equation}
 
     In this equation, \(P\) symbolizes the population, and \(\mu\) is the 
     predefined probability determining the likelihood of a given individual
-    undergoing mutation.
+    undergoing mutation, \(\rho_\mathbf{c}\) is the probability of a chromosome
+    being selected for mutation, and \(\rho_g\) is the probability of a gene
+    being selected for mutation.
   \end{definition}
 
+  Note that this operator is similar to applying a \texttt{RandomMutator} with 
+  on a binary chromosome with a probability of \(\mu\). However, when a given
+  gene is selected for mutation, the \texttt{BitFlipMutator} always flips the
+  gene's value, whereas the \texttt{RandomMutator} randomly assigns a new value
+  to the gene. Take for example a binary chromosome with the following genetic
+  representation: 011\textcolor{red}{0}1001. If the \texttt{BitFlipMutator}
+  selects the fourth gene for mutation (denoted by the red color), it will
+  always produce the following result: 011\textcolor{red}{1}1001. On the other
+  hand, the \texttt{RandomMutator} will randomly assign a new value to the
+  gene, which might result in the following: 011\textcolor{red}{1}1001 or
+  011\textcolor{red}{0}1001.
   % Discussion or further analysis can be incorporated here if necessary.
 
   % \begin{table}[H]

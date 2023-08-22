@@ -1,5 +1,5 @@
 \subsubsection{Random Mutator}
-\label{sec:keen:operators:mutation:simple}
+\label{sec:keen:op:mut:simple}
 
   The \texttt{RandomMutator} represents a fundamental mutation operator that
   introduces random alterations to the genes within a chromosome. Its versatility 
@@ -20,14 +20,16 @@
     Formally, it is articulated as:
 
     \begin{equation}
-      M_\mathrm{random} :\: \mathbb{P} \times [0,\, 1] \times [0,\, 1] \to 
-      \mathbb{P};\;
-      (P,\, \mu,\, \rho) \mapsto M_\mathrm{random}(P,\, \mu,\, \rho)
+      M_\mathrm{random} :\: \mathbb{P} \times [0,\, 1] \times [0,\, 1] 
+        \times [0,\, 1] \to \mathbb{P};\;
+      (P,\, \mu,\, \rho_\textbf{c}, \rho_g) 
+        \mapsto M_\mathrm{random}(P,\, \mu,\, \rho_\textbf{c}, \rho_g)
     \end{equation}
 
     Here, \(P\) symbolizes the population, \(\mu\) represents the likelihood of 
-    an individual undergoing mutation, and \(\rho\) defines the probability 
-    associated with gene mutation.
+    an individual undergoing mutation, \(\rho_\textbf{c}\) is the probability
+    of a chromosome being selected for mutation, and \(\rho_g\) is the
+    probability of a gene being selected for mutation.
   \end{definition}
 
   % Insert discussion or analysis of the results here
