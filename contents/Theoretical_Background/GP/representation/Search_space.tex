@@ -209,24 +209,23 @@
     \end{align*}
   \end{proof}
 
-  With this result, we can now calculate the cardinality of the search space of
-  the genetic programming algorithm for a given maximum height \(H\), since a
-  program can be seen as a \emph{labeled tree}.
-  Then, given the set \(\mathcal{T} = \{x,\, c\}\) and the set \(\mathcal{F} =
-  \{+,\, -,\, \times,\, /,\, \sin,\, \cos,\, \exp,\, \log\}\), where 
+  Given a program viewed as a \emph{labeled tree}, we can determine the 
+  cardinality of the genetic programming algorithm's search space for a 
+  specific maximum height \(H\). Considering the sets \(\mathcal{T} = \{x,\, 
+  c\}\) and \(\mathcal{F} = \{+,\, -,\, \times,\, /,\, \sin,\, \cos,\, \exp,\, 
+  \log\}\):
 
   \[
     A(f) = \begin{cases}
-      2 & \text{if } f \in \{+,\, -,\, \times,\, /,\, \mathrm{pow}\} \\
-      1 & \text{if } f \in \{\sin,\, \cos\}
+      2 & \text{for } f \in \{+,\, -,\, \times,\, /,\, \mathrm{pow}\} \\
+      1 & \text{for } f \in \{\sin,\, \cos\}
     \end{cases}
   \]
 
-  Given that the height of the AST of the target program is 4, we can use 5 as 
-  the maximum height of the programs in the search space (to allow a little of
-  \enquote{breathing room} to the generated programs).
-  Noting that, since \(c\) can be one of 7 possible values, \(|\mathcal{T}| = 
-  8\), we can calculate the cardinality of the search space as follows:
+  For an AST with a target program height of 4, we can set 5 as the maximum 
+  height for the programs in our search space, offering some flexibility to the 
+  generated programs. Given that \(c\) has 7 potential values, \(|\mathcal{T}| 
+  = 8\), the search space's cardinality can be calculated accordingly.
 
   \begin{align*}
     |\mathcal{S}| 
@@ -245,7 +244,9 @@
     \vref{lst:cardinality_of_T_leq_5}.
   }
   It should be easy to see that the size of the search space make it unfeasible
-  to perform an exhaustive search.
+  to perform an exhaustive search.\footnote{If we approximate the time to
+  evaluate a program to be 1 nanosecond, it would take approximately 3 sextillion years to evaluate all the programs in the search space.}
+
   This is why we need to use a heuristic search algorithm, such as genetic
   programming.
   In \vref{fig:bg:gp:repr_ev:leq_h_height_trees} we can see how the number of
