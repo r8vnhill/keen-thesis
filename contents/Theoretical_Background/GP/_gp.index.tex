@@ -2,33 +2,36 @@
 \label{sec:bg:gp}
 
   \emph{Genetic Programming} (GP)~\autocite{kozaGeneticProgrammingProgramming1992a,kozaGeneticProgrammingII1994,poliFieldGuideGenetic2008a,yuIntroductionEvolutionaryAlgorithms2010}
-  has been carved out as a specialized subfield of Evolutionary Algorithms (EAs) 
-  which emphasizes evolving a collection of computer programs tailored to address 
-  specific problems. While GP can be viewed as a natural evolution of Genetic 
-  Algorithms (GAs), it distinguishes itself by its primary goal: GAs streamline 
-  parameters to refine a preset function, whereas GP is geared towards program 
-  induction.\footnote{%
-    A deeper dive into the concept of program induction can be found in \vref{def:program_induction}.
+  has been carved out as a specialized subfield of EAs which emphasizes 
+  evolving a collection of computer programs tailored to address specific 
+  problems. While GP can be viewed as a natural evolution of 
+  GAs, it distinguishes itself by its primary goal: GAs fine-tunes parameters 
+  to optimize a given function, whereas GP is geared towards program induction.\footnote{%
+    A more detailed definition of program induction can be found in \vref{def:program_induction}.
   }
 
-  Beneath the surface, GP and GA exhibit shared principles. Both utilize a population-centric approach, implement a fitness function to gauge the efficacy of individual entities, and harness genetic operators to engender new individuals. However, the way GP represents these individuals, coupled with its distinct genetic operators, sets it apart.
+  At their core, both GP and GA operate on similar foundations. They use a 
+  population-based strategy, employ a fitness function to assess individual 
+  performance, and apply genetic operators to produce new individuals. Yet, the 
+  representation of individuals in GP, along with its unique genetic operators, 
+  differentiates it from GA.
 
   \begin{remark}
-  While GP primarily orbits around a fitness-centric search in the realm of computer programs, its foundational essence is rooted in optimization, echoing the core of GA.
+    While GP is primarily a fitness-centric search in the set of computer 
+    programs, its fundamental nature is optimization, echoing the core of GA.
   \end{remark}
 
-  Within the population of GP, every individual is symbolic of a computer 
-  program, built from a library of primitives, distinguished as \emph{functions} 
-  and \emph{terminals}. To grasp this nuanced structure, picture a composite
-  pattern: functions serve as the internal nodes, while terminals act as the leaves (further visual insights can be found in \vref{fig:composite_pattern}). The \emph{abstract syntax tree} (AST) emerges as a fitting representation, where functions are internal nodes and terminals are leaf nodes.
+  Within the population of GP, every individual represents a computer 
+  program, built from a library of primitives, distinguished as 
+  \emph{functions} and \emph{terminals}. One way to represent this is as a 
+  composite pattern where functions are internal nodes, and terminals are the leaves. This structure is commonly referred to as an abstract syntax tree (AST). For a visual representation, refer to \vref{fig:composite_pattern}.
 
   \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.4\textwidth]
       {img/theoretical_framework/GP Composite.png}
     \caption{
-      A layered visualization of a GP individual, accentuating the interplay
-      between functions and terminals.
+      Representation of GP individuals as a composite structure.
     }
     \label{fig:composite_pattern}
   \end{figure}
@@ -42,27 +45,26 @@
     architectural alignment with the Genetic Algorithm.
   }{label=lst:bg:gp:algorithm}{kotlin}
     var population = recursively construct random programs
-    population.forEach { evaluate and allocate a fitness score }
-    while (termination criteria remain unmet) {
-      val survivors = cherry-pick survivors(population)
-      val parents = select breeding candidates(population)
-      val offspring = induce modifications(parents)
-      offspring.forEach { evaluate and allocate a fitness score }
-      population = merge(survivors, offspring)
+    population.forEach { it -> execute it then evaluate it }
+    while (termination criteria is not met) {
+      val survivors = select survivors from population
+      val parents = select parents from population
+      val offspring = alter parents
+      offspring.forEach { it -> execute it then evaluate it }
+      population = survivors + offspring
     }
-    return the cream of the crop from the population
+    return fittest from population
   \end{code}
 
-  In the subsequent segments, we will embark on a meticulous exploration of the 
-  pivotal components that breathe life into the GP algorithm, further elucidating 
-these concepts with practical illustrations.
+  In the following sections, we will delve into the key components of the GP 
+  algorithm, clarifying these concepts with practical examples.
 
 \subimport{representation/}{_representation.index.tex}
 \subimport{initialization/}{Initialization.tex}
 \subimport{selection}{Selection.tex}
 \subimport{./variation/}{_variation.index.tex}
 
-\subsection{Deciphering Generalization in GP}
+\subsection{The Generalization Problem in GP}
 % Elaboration on the concept
 % Its significance in the realm of GP
 % The pitfalls of overfitting

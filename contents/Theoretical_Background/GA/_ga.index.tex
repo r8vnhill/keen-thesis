@@ -19,18 +19,16 @@
   The classical GA operates as follows:
 
   \begin{code}{Genetic algorithm}{label={src:bg:ga:ga}}{kotlin}
-    var population = initialize population // Creates a random population of individuals
-    evaluate(population) // Calculates the fitness of each individual
-    while (termination condition not met) { // Could be a pre-defined number of generations, a 
-                                            // desired fitness level, etc.
-      val survivors = select survivors(population) // Selects individuals for the next generation
-      val parents = select parents(population) // Selects a subset of individuals as parents
-      val offspring = alter(parents)  // Applies genetic operators to offspring, creating 
-                                      // variations
-      evaluate(offspring) // Calculates the fitness of each new individual
-      population = survivors + offspring // Creates the next generation
+    var population = initialize population  // Creates a random population of individuals
+    population.forEach { it -> evaluate it }  // Calculates the fitness of each individual
+    while (termination condition is not met) {  // Could be a pre-defined number of generations, a desired fitness level, etc.
+        val survivors = select survivors from population // Selects individuals for the next generation
+        val parents = select parents from population // Selects a subset of individuals as parents
+        val offspring = alter parents // Applies genetic operators to parents to create new individuals
+        offspring.forEach { it -> evaluate it } // Calculates the fitness of each new individual
+        population = survivors + offspring // Creates the next generation
     }
-    return population.fittest // Returns the most fit individual
+    return fittest from population  // Returns the most fit individual
   \end{code}
 
   The exact implementation of each of these steps depends on the specific 
