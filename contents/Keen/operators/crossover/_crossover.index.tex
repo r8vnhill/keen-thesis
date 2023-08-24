@@ -1,0 +1,52 @@
+\subsection{Crossover}
+\label{sec:keen:operators:crossover}
+  Crossover, also termed recombination, serves as an indispensable operator in 
+  a plethora of evolutionary computation algorithms. Its primary function is to 
+  generate novel candidate solutions by amalgamating attributes from multiple 
+  input solutions. This operation, inspired by genetic mechanisms observed in 
+  biological reproduction, is pivotal for striking a balance between 
+  exploration and exploitation within an algorithm's search space. By fostering 
+  a diverse set of solution structures and retaining beneficial traits, 
+  crossover steers the evolutionary process closer to optimal or near-optimal 
+  solutions.
+
+  Within the \textit{Keen} framework, a diverse array of crossover techniques 
+  has been conceptualized and developed, each epitomizing a distinctive 
+  recombination approach. This section endeavors to furnish an exhaustive 
+  overview of these methodologies, elucidating their mechanics, applications, 
+  and subtle intricacies.
+
+  What distinguishes \textit{Keen} is its adaptable approach to crossover. Many 
+  frameworks typically limit a crossover to two parents, but \textit{Keen} 
+  offers users the flexibility to determine the number of parents they wish to 
+  involve. This adaptability necessitated a reevaluation of terminology. In 
+  many contexts, the term \enquote{parents} is naturally associated with a 
+  pair, mirroring biological reproduction. To avoid potential confusion, 
+  especially in scenarios with more than two parents, we opted for the term 
+  \textit{inputs} to replace \enquote{parents} and \textit{outputs} for 
+  \enquote{offspring}. Research supports this broader view of crossover, with 
+  studies advocating for multi-parent crossover approaches, including those by 
+  Tsutsui and Yamamura~\autocite{tsutsuiMultiparentRecombinationSimplex1999}, 
+  Elsayed et al.\autocite{elsayedGANewMultiparent2011}, and Arram and 
+  Ayob\autocite{arramNovelMultiparentOrder2019}. Although \textit{Keen} does 
+  not feature multi-parent crossovers at present, its architecture paves the 
+  way for potential inclusion in the future.
+  
+  \subsubsection{Combine Crossover}
+  \label{sec:keen:operators:crossover:combine}
+    \Blindtext
+  \subsubsection{Mean Crossover}
+  \label{sec:keen:operators:crossover:mean}
+    \Blindtext
+  \subsubsection{Ordered Crossover (OX)}
+  \label{sec:keen:operators:crossover:ordered}
+    \Blindtext
+  \subsubsection{Partially Mapped Crossover (PMX)}
+  \label{sec:keen:operators:crossover:partially_mapped}
+    \Blindtext
+  \subsubsection{Position Based Crossover (PBX)}
+  \label{sec:keen:operators:crossover:position_based}
+    \Blindtext
+  \subsubsection{Single-Point Crossover}
+  \label{sec:keen:operators:crossover:single_point}
+    \Blindtext
