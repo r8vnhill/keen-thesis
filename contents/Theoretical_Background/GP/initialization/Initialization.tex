@@ -1,4 +1,3 @@
-% TODO(bg) Continue review here
 \subsection{Initialization}
 \label{sec:genetic_programming:initialization}
   As with other evolutionary algorithms, the algorithm starts by generating a
@@ -16,42 +15,35 @@
 
   The grow method then proceeds to recursively generate the trees with random
   nodes until a terminal node is selected or the maximum height is reached.
-  This method is shown in \vref{alg:genetic_programming:initialization:grow}.
+  This method is shown in \vref{lst:bg:gp:grow}.
 
-  \begin{algorithm}[ht!]
-    \begin{algorithmic}[1]
-      \Require \(l \in \mathbb{N}\), \(h \in \mathbb{N}\)
-      \Require \(l \leq h\)
-      \Require a random integer \(n\) such that \(l \leq n \leq h\)
-      \Require \(\mathbf{t}\) and \(\mathbf{f}\) are the sets of terminal and 
-        function nodes respectively, where \(\mathbf{t} \neq \emptyset\) and
-        \(\mathbf{f} \neq \emptyset\)
-      \Ensure a random tree with a height between \(l\) and \(h\)
-      \Function{\(\mathrm{grow}\)}{$\mathbf{t}$, $\mathbf{f}$, $d$}
-        \State \(c \gets \emptyset\)
-        \If{
-          \(d = n\ 
-            \lor\ \left(
-              d \geq l\ 
-              \land\ \mathrm{random}() 
-                < \mathlarger{\frac{|\mathrm{t}|}{|\mathrm{t}| + |\mathrm{f}|}}
-            \right)\)
+  \begin{code}{
+    The grow method for generating random trees.
+  }{
+    label=lst:bg:gp:grow
+  }{kotlin}
+    // Given:
+    val lo: ~$\mathbb{N}$~ // Minimum height
+    val hi: ~$\mathbb{N}$~ // Maximum height
+    require(lo ~$\leq$~ hi)
+    val n = random.nextInt(lo, hi + 1) // Random height, assuming that nextInt is exclusive of the upper bound
+    fun grow(ts: Set<Terminal>, fs: Set<Function>, depth: ~$\mathbb{N}$~) {
+      require(ts != ~$\emptyset$~ && fs != ~$\emptyset$~)
+      val c = ~$\emptyset$~
+      if (
+        depth == n || (depth ~$\geq$~ lo && random.probability() ~$\leq$~ ts.size / (ts.size + fs.size))
+      ) {
+      // $d = n \lor \left(d \geq l \land \mathrm{random}() < \mathlarger{\frac{|\mathcal{T}|}{|\mathcal{T}| + |\mathcal{F}|}}\right)$
+        return random node from ts
+      } else {
+        val f = random node from fs
+        for (i in 1..arity(f)) {
+          c += grow(t, f, d + 1)
         }
-          \State \Return a random node from \(\mathbf{t}\)
-        \Else
-          \State \(f \gets\) a random node from \(\mathbf{f}\)
-          \For{\(i\) \textbf{in} \(1 \dots \mathrm{arity}(f)\)}
-            \State \(c_i \gets 
-              \Call{\(\mathrm{grow}\)}{\mathbf{t},\, \mathbf{f},\, d + 1}\)
-            \State \(c \gets c \cup \{c_i\}\)
-          \EndFor
-          \State \Return a tree with root \(f\) and children \(c\)
-        \EndIf
-      \EndFunction
-    \end{algorithmic}
-    \caption{The grow method for generating random trees}
-    \label{alg:genetic_programming:initialization:grow}
-  \end{algorithm}
+        return a tree with f as root and c as children
+      }
+    }
+  \end{code}
 
   With this method, the algorithm can generate trees where the size of the 
   longest path from the root to a leaf is a number \(n \in [l, h]\).
@@ -158,20 +150,15 @@
     \label{fig:genetic_programming:initialization:population_graph}
   \end{figure}
 
-  
-  In summary, the initialization stage of the genetic programming algorithm, a 
-  population of random individuals, represented as trees, was generated using 
-  the \enquote{grow method}.
-  The height of these trees, signifying the length of the longest path from the
-  root to a leaf, is determined randomly within a specified range.
-  Each tree is recursively populated with random nodes until a terminal node is
-  chosen or the maximum height is reached.
-  Once a random population of trees is created, the fitness of each individual,
-  based on the Mean Squared Error (MSE) between the expected and actual output,
-  is calculated.
-  This results in the assignment of fitness scores to all individuals,
-  facilitating the evaluation and selection process in the succeeding stages of
-  the algorithm.
-  The output of this process is a random population of trees with fitness scores
-  and height measurements, ready for the next steps of selection, crossover, and
-  mutation.
+  In summary, the initialization phase plays a pivotal role in setting the 
+  foundational landscape for the Genetic Programming process. Through randomized 
+  generation methodologies, like the grow method, the algorithm nurtures a 
+  diverse pool of candidate solutions. This diverse initial population enhances 
+  the algorithm's probability of exploring different regions of the solution 
+  space, thereby increasing the odds of locating an optimal solution. Yet, these 
+  generated programs are merely starting points. Their evaluation, determined 
+  through metrics such as the MSE, provides an empirical compass to guide the 
+  evolution process. Once the fitness landscape has been charted out, the 
+  algorithm is primed for the next pivotal phase: selection. In the upcoming 
+  section, we delve into the mechanics of selection, a process crucial for 
+  ensuring the survival and propagation of the fittest candidates.

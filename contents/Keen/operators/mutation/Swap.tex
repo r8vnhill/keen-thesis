@@ -45,7 +45,7 @@
         }
     }
     for (gene in genesToSwap) {
-        chromosome.swap(gene.index, random.nextInt(chromosome.size))
+        chromosome.swap(gene.index, random.int(0..chromosome.size))
     }
   \end{code}
 
