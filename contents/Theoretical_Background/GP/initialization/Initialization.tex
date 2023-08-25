@@ -26,19 +26,19 @@
     val lo: ~$\mathbb{N}$~ // Minimum height
     val hi: ~$\mathbb{N}$~ // Maximum height
     require(lo ~$\leq$~ hi)
-    val n = random.nextInt(lo, hi + 1) // Random height, assuming that nextInt is exclusive of the upper bound
+    val n = random.int(lo..hi) // Random height
     fun grow(ts: Set<Terminal>, fs: Set<Function>, depth: ~$\mathbb{N}$~) {
       require(ts != ~$\emptyset$~ && fs != ~$\emptyset$~)
       val c = ~$\emptyset$~
       if (
-        depth == n || (depth ~$\geq$~ lo && random.probability() ~$\leq$~ ts.size / (ts.size + fs.size))
+        depth == n || (depth ~$\geq$~ lo && random.double(0..1) ~$\leq$~ ts.size / (ts.size + fs.size))
       ) {
       // $d = n \lor \left(d \geq l \land \mathrm{random}() < \mathlarger{\frac{|\mathcal{T}|}{|\mathcal{T}| + |\mathcal{F}|}}\right)$
         return random node from ts
       } else {
         val f = random node from fs
         for (i in 1..arity(f)) {
-          c += grow(t, f, d + 1)
+          c += grow(ts, fs, d + 1)
         }
         return a tree with f as root and c as children
       }

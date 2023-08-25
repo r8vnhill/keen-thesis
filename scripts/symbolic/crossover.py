@@ -20,7 +20,7 @@ def _create_population_table(crossed_population: Population[Function]) -> Table:
             alignment="c|c|r",
         ),
         caption=Caption("Population after applying the subtree crossover operator.",
-                        label="tab:bg:gp:variation:crossover:subtree:fitness"),
+                        label="tab:bg:gp:variation:cx:subtree:fitness"),
         position=[Position.HERE, Position.TOP, Position.STRICT]
     )
     debug(f"Crossed population:\n{tab}", __name__)
@@ -44,7 +44,7 @@ def _create_population_summary(crossed_population: Population[Function]) -> Tabl
         caption=Caption(
             "Fitness summary of the population after applying the subtree crossover "
             "operator.",
-            label="tab:bg:gp:variation:crossover:subtree:fitness:summary"),
+            label="tab:bg:gp:variation:cx:subtree:fitness:summary"),
         position=[Position.FORCE_HERE]
     )
     debug(f"Population summary:\n{tab}", __name__)

@@ -1,13 +1,13 @@
 \subsubsection{Crossover}
 \label{sec:bg:gp:var:cx}
-  Variation operators in Genetic Programming (GP) must maintain the syntactic 
-  correctness of the programs or individuals.
+  Variation operators in GP must maintain the syntactic correctness of the 
+  programs or individuals.
   For crossover, this implies that the resultant offspring must be syntactically
   correct programs.
 
-  The crossover operator used in Genetic Algorithms (GAs), described in 
-  \vref{sec:bg:ga:var:cx}, is not typically suitable for GP, as it does not 
-  guarantee the syntactic correctness of the resulting individuals.
+  The crossover operator used in GAs, described in \vref{sec:bg:ga:var:cx}, is
+  not typically suitable for GP, as it does not guarantee the syntactic 
+  correctness of the resulting individuals.
   Though there could be instances where the crossover operator used in GAs is
   applicable to GP, as depicted in \vref{chap:beacon}, these are not common
   scenarios.
@@ -15,7 +15,7 @@
   The choice of operator in GP depends on the representation of the individuals.
 
   For tree-based GP, the fundamental crossover operator is the \emph{subtree 
-  crossover}, referenced in \vref{sec:keen:operators:crossover:single_node}.
+  crossover}, referenced in \vref{sec:keen:gp:op:cx:subtree}.
 
   This operator selects a random node from each parent and exchanges the 
   subtrees rooted at these nodes.
@@ -47,7 +47,7 @@
   where \(\chi\) signifies the subtree crossover operator between two 
   individuals.
   The crossover of \(\mathbf{I}_1\) and \(\mathbf{I}_2\) is depicted in
-  \vref{fig:bg:gp:variation:crossover:subtree}.
+  \vref{fig:bg:gp:variation:cx:subtree}.
 
   \begin{figure}[ht!]
     \centering
@@ -58,15 +58,15 @@
       \(\mathbf{I}_4 = 5x^2\), producing \(\mathbf{O}_1 = x^2 - (5 + \sin(x))\) 
       and \(\mathbf{O}_2 = 5 \cdot 7\).
     }
-    \label{fig:bg:gp:variation:crossover:subtree}
+    \label{fig:bg:gp:variation:cx:subtree}
   \end{figure}
 
 
     Following the application of the subtree crossover operator, the fitness of 
     the individuals in the population is evaluated as shown in 
-    \vref{tab:bg:gp:variation:crossover:subtree:fitness}.
+    \vref{tab:bg:gp:variation:cx:subtree:fitness}.
     A summary of the population's fitness is given in 
-    \vref{tab:bg:gp:variation:crossover:subtree:fitness:summary}.
+    \vref{tab:bg:gp:variation:cx:subtree:fitness:summary}.
 
     \subimport{./}{tab-bg-gp-variation-crossover-subtree-fitness.tex}
     \subimport{./}{tab-bg-gp-variation-crossover-subtree-fitness-summary.tex}
@@ -100,11 +100,6 @@
   where \(\sigma_i\) is the standard deviation of the fitness of the population
   after initialization and \(\sigma_X\) is the standard deviation of the
   fitness of the population after applying the subtree crossover operator.
-  
-  Diversity here is a measure of population's dispersion, and a decline in 
-  diversity may signal that the population is not converging towards a solution 
-  (too much diversity) or is converging prematurely (too little diversity).
-
 
   In the following section, we discuss the mutation operator, which can be used 
   to introduce diversity into the population, thereby preventing premature 

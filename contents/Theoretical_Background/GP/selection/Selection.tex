@@ -1,11 +1,9 @@
 \subsection{Selection}
 \label{sec:background:genetic_programming:selection}
-
-  The selection process in Genetic Programming (GP) is similar to that of Genetic 
-  Algorithms (GA).
-  However, unique modifications have been proposed for the standard process in GP,
-  which consider the semantics, or the functional behavior, of the programs being
-  evolved~\autocite{liskowskiComparisonSemanticawareSelection2015}.
+  The selection process in GP is similar to that of GAs.
+  However, unique modifications have been proposed for the standard process in 
+  GP, which consider the semantics, or the functional behavior, of the programs 
+  being evolved~\autocite{liskowskiComparisonSemanticawareSelection2015}.
   This work will not delve into this topic, as it is beyond the scope of this
   document.
 
@@ -62,16 +60,14 @@
     \label{fig:bg:gp:sel:prob}
   \end{figure}
 
-  To conclude, this section discussed the selection process in Genetic 
-  Programming (GP), noting that it largely mirrors that of Genetic Algorithms 
-  (GA) with some differences.
-  These differences primarily focus on the semantics of the programs being
-  evolved.
-  The symbolic regression problem, necessitates a corrected fitness function and
-  an adjusted selection probability equation.
-  We outlined how these modifications are implemented and computed selection
-  probabilities for a hypothetical population.
-  A survival rate of 50\% resulted in two individuals being selected as
-  survivors and two being marked for replacement in the next generation.
-  This lays the groundwork for the next phase of the process, which is
-  variation.
+  Selection remains a cornerstone of evolutionary algorithms, ensuring that 
+  individuals possessing beneficial traits have a greater likelihood of 
+  transferring those traits to subsequent generations. While nuances 
+  distinguish the selection processes of Genetic Programming (GP) and Genetic 
+  Algorithms (GAs), the underlying principle remains: to direct the search 
+  towards more promising regions of the solution space. As we progress further, 
+  it's essential to recognize the interplay between selection and other 
+  operators, understanding that their combined effects mold the trajectory of 
+  the evolutionary process. The insights gleaned from this understanding will 
+  aid in fine-tuning algorithms and achieving better results in future 
+  endeavors.

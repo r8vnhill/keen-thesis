@@ -20,6 +20,12 @@
 % | new environment should be numbered, e.g., 'chapter'.
 
 \newtheorem{theorem}{Theorem}[chapter]
+\tcolorboxenvironment{theorem}{
+  enhanced jigsaw,
+  leftrule=1pt,
+  rightrule=1pt,
+  boxrule=0pt,
+}
 \newtheorem{lemma}{Lemma}[chapter]
 \tcolorboxenvironment{lemma}{
   enhanced jigsaw,
@@ -28,7 +34,12 @@
   boxrule=0pt,
 }
 \newtheorem{corollary}{Corollary}[theorem]
-
+\tcolorboxenvironment{corollary}{
+  enhanced jigsaw,
+  leftrule=1pt,
+  rightrule=1pt,
+  boxrule=0pt,
+}
 % | newtheorem* - Defines unnumbered theorem-like environments
 % |
 % | The 'newtheorem*' command, on the other hand, produces an unnumbered
@@ -86,3 +97,11 @@
 % | to end with the qed symbol.
 
 \RenewDocumentEnvironment{proof}{}{\emph{Proof.}}{\qed}
+\tcolorboxenvironment{proof}{% `proof' from `amsthm'
+  blanker,
+  breakable,
+  left=5mm,
+  before skip=10pt,
+  after skip=10pt,
+  borderline west={1mm}{0pt}{black}
+}
