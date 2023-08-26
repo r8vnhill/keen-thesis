@@ -1,0 +1,49 @@
+\subsection{The Generalization Problem in GP}
+\label{sec:bg:gp:generalization}
+
+  \subsubsection{Understanding Generalization}
+    Generalization in Genetic Programming (GP) relates to a program's 
+    proficiency in handling unseen data, not solely the data it evolved with. A 
+    truly generalized program goes beyond rote memorization of training data. It 
+    discerns underlying patterns, equipping it to make precise predictions or 
+    decisions on new, unencountered instances.
+
+  \subsubsection{Significance of Generalization in GP}
+    Generalization holds a paramount position in GP. The overarching objective 
+    of evolving programs is to address real-world challenges. A program's 
+    utility diminishes if it can't generalize, limiting its effectiveness to 
+    familiar data. Particularly in predictive modeling, the emphasis isn't on a 
+    model's ability to recall past data, but on its precision with upcoming, 
+    unpredictable data. Therefore, the act of generalizing surpasses basic 
+    accuracy measures on training datasets, signaling a model's resilience and 
+    practical relevance.
+
+  \subsubsection{The Overfitting Dilemma}
+    Overfitting stands as an adversary to generalization. A program succumbs to 
+    overfitting when it molds excessively to training data, picking up on its 
+    noise and irregularities rather than its broad trends. Such overfitted 
+    programs may boast of stellar accuracy on training datasets but falter with 
+    unseen data. Within the GP context, visualizing overfitting can be akin to 
+    observing a program that's evolved into a convoluted form, brimming with 
+    redundant branches or logic catering to the peculiarities of training data.
+
+  \subsubsection{Addressing the Generalization Problem}
+    The academic landscape has brought forth numerous techniques to counter the 
+    generalization conundrum in GP, some such works include:
+
+    \begin{itemize}
+      \item Chen et al.'s approach hinged on feature selection tailored for 
+        high-dimensional symbolic 
+        regression~\autocite{chenFeatureSelectionImprove2017}.
+      \item Kushchu advocated the adoption of multiple fitness functions, a 
+        measure aimed at bolstering 
+        generalization~\autocite{kushchuGeneticProgrammingEvolutionary2002}.
+      \item Enhancing generalization through the Rademacher distribution was a 
+        strategy put forth by Chen et 
+        al.~\autocite{chenRademacherComplexityEnhancing2022}.
+    \end{itemize}
+
+    While this thesis will sidestep an in-depth exploration of the 
+    generalization issue in GP, it's pivotal to acknowledge its profound 
+    implications in GP and its standing as a fervently pursued research 
+    frontier.

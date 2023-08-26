@@ -1,0 +1,53 @@
+\subsubsection{Single-Point Crossover}
+\label{sec:keen:op:cx:single_point}
+
+  Single-point crossover is one of the most foundational and widely utilized 
+  crossover methods in the domain of EC. Rooted in its simplicity and 
+  efficiency, this method selects a random \enquote{crossover point} on the 
+  input chromosomes and exchanges the subsequences of genes situated after this 
+  point between the two input chromosomes, producing two outputs.
+
+  \begin{definition}[Single-Point Crossover]
+    The \textit{single-point crossover} operator takes a pair of input 
+    chromosomes and randomly selects a crossover point on them. It then 
+    exchanges the subsequences of genes situated after this point between the 
+    two input chromosomes to produce two outputs. More formally, a single-point 
+    crossover is represented as:
+
+    \begin{equation}
+      X_\mathrm{sp} :\: 
+        \mathbb{P} \times [0,\, 1] \times [0,\, 1] \rightarrow \mathbb{P};\;
+        (P,\, \rho_i,\, \rho_\mathbf{c})
+          \mapsto X_\mathrm{sp}(P,\, \rho_i,\, \rho_\mathbf{c})
+    \end{equation}
+
+    where:
+
+    \begin{itemize}
+      \item \(P\) represents a population of binary chromosomes.
+      \item \(\rho_i\) symbolizes the likelihood of applying the crossover to 
+        an individual.
+      \item \(\rho_\mathbf{c}\) symbolizes the likelihood of applying the 
+        crossover to a chromosome.
+    \end{itemize}
+  \end{definition}
+
+  \begin{remark}
+    The simplicity of single-point crossover makes it a popular choice in many 
+    EC applications. However, it might not always ensure adequate exploration 
+    of the search space, especially in problems where gene positions have 
+    strong interactions. In these scenarios, permutation crossover methods like 
+    \textit{ordered crossover} and \textit{partially mapped crossover} might be 
+    more effective.
+  \end{remark}
+
+  For better clarity on the single-point crossover operation, see the graphical 
+  representation in \vref{fig:bg:ga:var:cx:single_point}, which showcases the 
+  random selection of a crossover point and the subsequent exchange of gene 
+  subsequences.
+
+  Note: There exists a generalized version of single-point crossover named 
+  \textit{multi-point crossover}. This method selects multiple crossover points 
+  on the input chromosomes and exchanges the subsequences of genes situated 
+  after these points between the two input chromosomes to produce two 
+  outputs. However, this method is currently not supported in \textit{Keen}.
