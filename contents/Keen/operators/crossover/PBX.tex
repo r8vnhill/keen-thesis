@@ -1,0 +1,71 @@
+% Copyright (c) 2023 Ignacio Slater Muñoz All rights reserved.
+% Use of this source code is governed by a BSD-style
+% license that can be found in the LICENSE file.
+
+\subsubsection{Position Based Crossover (PBX)}
+\label{sec:keen:op:cx:pbx}
+  Position Based Crossover, commonly known as PBX, is a unique permutation 
+  crossover strategy. In genetic algorithms, this technique is invaluable when 
+  dealing with problems where the solution is represented as a sequence or order 
+  of items. It's designed to preserve the absolute positions of certain genes 
+  while allowing for flexibility in others. This leads to its efficacy in tasks 
+  like job scheduling.
+
+  \begin{definition}[Position Based Crossover]
+    The \textit{position based crossover} operator works with two input 
+    chromosomes. It strategically copies certain positions from one input, while 
+    the rest of the genes are filled in from the other input without duplicating 
+    any genes. Formally, the position based crossover is illustrated as:
+
+    \begin{equation}
+      X_\mathrm{pbx} :\: 
+        \mathbb{P} \times [0,\, 1] \times [0,\, 1] \rightarrow \mathbb{P};\;
+        (P,\, \rho_\textbf{i},\, \rho_\mathbf{c})
+          \mapsto X_\mathrm{pbx}(P,\, \rho_\textbf{i},\, \rho_\mathbf{c})
+    \end{equation}
+
+    where:
+
+    \begin{itemize}
+      \item \(P\) signifies a population of ordered chromosomes.
+      \item \(\rho_\textbf{i}\) denotes the probability of utilizing the crossover for an individual.
+      \item \(\rho_\mathbf{c}\) signifies the likelihood of adopting the position based crossover for a chromosome.
+    \end{itemize}
+  \end{definition}
+
+  The way PBX is implemented in the \textit{Keen} framework is as follows:
+
+  \begin{code}{
+      PBX algorithm as executed in the \textit{Keen} framework.
+  }{
+      label={lst:keen:op:cx:pbx}
+  }{kotlin}
+    val positions = random.indices in input1
+    val output = input1
+    for (i in positions) {
+        output[i] = input1[i]
+    }
+    var j = 0
+    for (i in 0..input2.size) {
+        if (input2[i] not in output) {
+            output[positions[j++]] = input2[i]
+            if (j >= positions.size) {
+                break
+            }
+        }
+    }
+    return output
+  \end{code}
+
+  In the PBX method, select positions from the first input chromosome are 
+  directly copied to the output. The remaining genes from the second input 
+  chromosome are then filled in the order they appear, skipping any that are 
+  already present in the output. A visual representation of this process can be 
+  gleaned from \vref{fig:keen:op:cx:pbx}.
+
+  \begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.33\textwidth]{img/keen/PBX.png}
+    \caption{Position Based Crossover (PBX) operation.}
+    \label{fig:keen:op:cx:pbx}
+  \end{figure}

@@ -1,0 +1,110 @@
+% Copyright (c) 2023 Ignacio Slater Muñoz All rights reserved.
+% Use of this source code is governed by a BSD-style
+% license that can be found in the LICENSE file.
+
+\subsection{Primitive Set}
+\label{sec:keen:gp:primitives}
+  The quintessential component of any GP implementation is the set of
+  \textit{primitives} that define the language of the GP system. The
+  \textit{Keen} framework's GP implementation is no exception, and its
+  primitives are defined in the \texttt{prog} package.
+
+  The \texttt{prog} package exposes three main components: \emph{reduceable}
+  expressions, \emph{program} trees, and \emph{generator} functions.
+
+  \subsubsection{Reduceable Expressions}
+    Primitives in \textit{Keen} are represented by the \texttt{Reduceable}
+    interface, which defines a single method, \texttt{invoke}, that accepts a
+    list of arguments and returns a single value. The \texttt{invoke} method
+    is analogous to a function call, and the \texttt{Reduceable} interface
+    represents a function signature.
+
+    The proposed \texttt{Reduceable} interface can be seen in 
+    \vref{lst:sec:keen:gp:primitives:reduce}.
+
+    \begin{code}{
+      The \texttt{Reduceable} interface
+    }{
+      label=lst:sec:keen:gp:primitives:reduce
+    }{kotlin}
+      interface Reduceable<T> : Node<Reduceable<T>> {
+          operator fun invoke(args: List<T>): T
+      }      
+    \end{code}
+
+    Note that the \texttt{Reduceable} interface extends from 
+    \texttt{Node<Reduceable<T>>}.
+    This means that a \emph{reduceable} expression is also a node in an
+    expression tree. This is a key feature of the \textit{Keen} framework's
+    GP implementation, as it allows for the creation of arbitrarily complex
+    expressions.
+
+    \textit{Keen} then extends the \texttt{Reduceable} into two sets of
+    primitives: \emph{terminals} and \emph{functions}. Terminals are
+    reduceable expressions that represent leaf nodes in an expression tree.
+    Functions are reduceable expressions that represent intermediate nodes in
+    an expression tree.
+
+    For the implementation of the primitives, we propose the creation of a
+    \texttt{Terminal} interface, and the \texttt{Fun}\footnote{
+      Other names were considered, such as \texttt{Function} and \texttt{Op}.
+      However, these names were discarded to maintain consistency with the
+      function declaration syntax of the Kotlin programming language; 
+      \mintinline{kotlin}|fun name(args: List<T>): T|.
+    } open class.
+    The implementations could be as follows:
+
+    \begin{code}{Prototype of the \texttt{Terminal} interface}{
+      label=lst:sec:keen:gp:primitives:terminal
+    }{kotlin}
+      interface Terminal<T> : Reduceable<T>, Leaf<Reduceable<T>> {
+          fun create(): Terminal<T>
+          override val arity: Int
+              get() = 0
+      }
+    \end{code}
+
+    \begin{code}{Prototype of the \texttt{Fun} open class}{
+      label=lst:sec:keen:gp:primitives:fun
+    }{kotlin}
+      open class Fun<T>(
+          private val name: String,
+          override val arity: Int,
+          private val body: (List<T>) -> T
+      ) : Reduceable<T>, Intermediate<Reduceable<T>> {
+          override fun invoke(args: List<T>) = body(args)
+      }
+    \end{code}
+
+    Note that both the \texttt{Terminal} interface and the \texttt{Fun} class
+    are parameterized by a type \texttt{T}. This type represents the return
+    type of the \texttt{invoke} method, and is used to enforce type safety
+    when creating expressions.
+
+    We argue that the usage of an open class for the \texttt{Fun} class is
+    more appropriate than the usage of an interface. This is because a function
+    is an expression with arbitrary behavior, and thus, creating an interface
+    and extending it for each function would be unfeasible. Instead, we propose
+    the usage of an open class, which allows for generic functions, as well as
+    extending the class to provide more control over the behavior of the
+    function.
+    This will allow users to directly use the \texttt{Fun} class to create
+    functions, as well as extending it to create more complex functions.
+    For example, \vref{lst:sec:keen:gp:primitives:fun:add} shows how the
+    addition operation could be implemented by using the \texttt{Fun} class and
+    by extending it.
+    % Mover a apendice
+    \begin{code}{
+      Example of using the \texttt{Fun} class to implement the addition 
+      operation
+    }{
+      label=lst:sec:keen:gp:primitives:fun:add
+    }{kotlin}
+      // Using the Fun class
+      var add = Fun<Double>("+", 2) { it[0] + it[1] }
+      // Extending the Fun class
+      class Add : Fun<Double>("+", 2, { it[0] + it[1] })
+      var add = Add()
+      // As an anonymous object
+      var add = object : Fun<Double>("+", 2, { it[0] + it[1] }) {}
+    \end{code}
