@@ -133,3 +133,18 @@
         (engine.listeners.last() as EvolutionPlotter).displayFitness()
     }
   \end{code}
+
+  \begin{code}{
+    Example of using the \texttt{Fun} class to implement the addition 
+    operation
+  }{
+    label=lst:app:keen_fun_add
+  }{kotlin}
+    // Using the Fun class
+    var add = Fun<Double>("+", 2) { it[0] + it[1] }
+    // Extending the Fun class
+    class Add : Fun<Double>("+", 2, { it[0] + it[1] })
+    var add = Add()
+    // As an anonymous object
+    var add = object : Fun<Double>("+", 2, { it[0] + it[1] }) {}
+  \end{code}
