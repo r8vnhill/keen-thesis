@@ -1,0 +1,72 @@
+\subsubsection{Reduceable Expressions}
+  Within the \textit{Keen} framework, \enquote{reduceable expressions} serve as
+  the building blocks for creating more complex mathematical or logical 
+  constructs. Primitives in \textit{Keen} are captured using the 
+  \texttt{Reduceable} interface. This interface outlines a single method, 
+  \texttt{invoke}, which accepts a list of arguments and yields a single 
+  value. Drawing parallels, the \texttt{invoke} method resembles a function 
+  call, and the \texttt{Reduceable} interface stands as a function signature.
+
+  The architecture of the proposed \texttt{Reduceable} interface can be 
+  appreciated in \vref{lst:sec:keen:gp:primitives:reduce}.
+
+  \begin{code}{
+    The \texttt{Reduceable} interface
+  }{
+    label=lst:sec:keen:gp:primitives:reduce
+  }{kotlin}
+    interface Reduceable<T> : Node<Reduceable<T>> {
+        operator fun invoke(args: List<T>): T
+    }      
+  \end{code}
+
+  It's essential to underline that the \texttt{Reduceable} interface is an 
+  extension of \texttt{Node<Reduceable<T>>}. This inherently implies that any 
+  reduceable expression is also a node within an expression tree. Such an 
+  arrangement forms a cornerstone of \textit{Keen}'s Genetic Programming (GP) 
+  approach as it lays the foundation for generating expressions of arbitrary 
+  intricacy.
+
+  Venturing forward, \textit{Keen} subdivides the \texttt{Reduceable} into 
+  two primitive subsets: terminals and functions. The former, terminals, 
+  embody reduceable expressions that act as leaf nodes in an expression tree. 
+  Conversely, functions serve as reduceable expressions that denote 
+  intermediate nodes in said tree.
+
+  \begin{code}{Prototype of the \texttt{Terminal} interface}{
+    label=lst:sec:keen:gp:primitives:terminal
+  }{kotlin}
+    interface Terminal<T> : Reduceable<T>, Leaf<Reduceable<T>> {
+        fun create(): Terminal<T>
+        override val arity: Int
+            get() = 0
+    }
+  \end{code}
+
+  \begin{code}{Prototype of the \texttt{Fun} open class}{
+    label=lst:sec:keen:gp:primitives:fun
+  }{kotlin}
+    open class Fun<T>(
+        private val name: String,
+        override val arity: Int,
+        private val body: (List<T>) -> T
+    ) : Reduceable<T>, Intermediate<Reduceable<T>> {
+        override fun invoke(args: List<T>) = body(args)
+    }
+  \end{code}
+
+  Note that both the \texttt{Terminal} interface and the \texttt{Fun} class
+  are parameterized by a type \texttt{T}. This type represents the return
+  type of the \texttt{invoke} method, and is used to enforce type safety
+  when creating expressions.
+
+  A crucial aspect of our design strategy involves the employment of an open 
+  class for the \texttt{Fun} class, a decision we consider more fitting than 
+  resorting to an interface. Given that functions symbolize expressions with 
+  an innate arbitrary behavior, architecting an interface and extending it 
+  for each unique function emerges as an impractical venture. In contrast, an 
+  open class stands out as a versatile choice, facilitating the crafting of 
+  generic functions and paving the way for class extensions to enhance the 
+  behavior of the function. This structural framework empowers users to 
+  directly harness the \texttt{Fun} class for function creation or extend it 
+  for more intricate functions, as exemplified in \vref{lst:app:keen_fun_add}.
