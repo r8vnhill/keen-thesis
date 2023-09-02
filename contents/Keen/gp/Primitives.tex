@@ -13,14 +13,16 @@
   expressions, \emph{program} trees, and \emph{generator} functions.
 
   \subsubsection{Reduceable Expressions}
-    Primitives in \textit{Keen} are represented by the \texttt{Reduceable}
-    interface, which defines a single method, \texttt{invoke}, that accepts a
-    list of arguments and returns a single value. The \texttt{invoke} method
-    is analogous to a function call, and the \texttt{Reduceable} interface
-    represents a function signature.
-
-    The proposed \texttt{Reduceable} interface can be seen in 
-    \vref{lst:sec:keen:gp:primitives:reduce}.
+    Within the \textit{Keen} framework, "reduceable expressions" serve as the 
+    building blocks for creating more complex mathematical or logical 
+    constructs. Primitives in \textit{Keen} are captured using the 
+    \texttt{Reduceable} interface. This interface outlines a single method, 
+    \texttt{invoke}, which accepts a list of arguments and yields a single 
+    value. Drawing parallels, the \texttt{invoke} method resembles a function 
+    call, and the \texttt{Reduceable} interface stands as a function signature.
+  
+    The architecture of the proposed \texttt{Reduceable} interface can be 
+    appreciated in \vref{lst:sec:keen:gp:primitives:reduce}.
 
     \begin{code}{
       The \texttt{Reduceable} interface
@@ -32,27 +34,18 @@
       }      
     \end{code}
 
-    Note that the \texttt{Reduceable} interface extends from 
-    \texttt{Node<Reduceable<T>>}.
-    This means that a \emph{reduceable} expression is also a node in an
-    expression tree. This is a key feature of the \textit{Keen} framework's
-    GP implementation, as it allows for the creation of arbitrarily complex
-    expressions.
+    It's essential to underline that the \texttt{Reduceable} interface is an 
+    extension of \texttt{Node<Reduceable<T>>}. This inherently implies that any 
+    reduceable expression is also a node within an expression tree. Such an 
+    arrangement forms a cornerstone of \textit{Keen}'s Genetic Programming (GP) 
+    approach as it lays the foundation for generating expressions of arbitrary 
+    intricacy.
 
-    \textit{Keen} then extends the \texttt{Reduceable} into two sets of
-    primitives: \emph{terminals} and \emph{functions}. Terminals are
-    reduceable expressions that represent leaf nodes in an expression tree.
-    Functions are reduceable expressions that represent intermediate nodes in
-    an expression tree.
-
-    For the implementation of the primitives, we propose the creation of a
-    \texttt{Terminal} interface, and the \texttt{Fun}\footnote{
-      Other names were considered, such as \texttt{Function} and \texttt{Op}.
-      However, these names were discarded to maintain consistency with the
-      function declaration syntax of the Kotlin programming language; 
-      \mintinline{kotlin}|fun name(args: List<T>): T|.
-    } open class.
-    The implementations could be as follows:
+    Venturing forward, \textit{Keen} subdivides the \texttt{Reduceable} into 
+    two primitive subsets: terminals and functions. The former, terminals, 
+    embody reduceable expressions that act as leaf nodes in an expression tree. 
+    Conversely, functions serve as reduceable expressions that denote 
+    intermediate nodes in said tree.
 
     \begin{code}{Prototype of the \texttt{Terminal} interface}{
       label=lst:sec:keen:gp:primitives:terminal
@@ -81,30 +74,73 @@
     type of the \texttt{invoke} method, and is used to enforce type safety
     when creating expressions.
 
-    We argue that the usage of an open class for the \texttt{Fun} class is
-    more appropriate than the usage of an interface. This is because a function
-    is an expression with arbitrary behavior, and thus, creating an interface
-    and extending it for each function would be unfeasible. Instead, we propose
-    the usage of an open class, which allows for generic functions, as well as
-    extending the class to provide more control over the behavior of the
-    function.
-    This will allow users to directly use the \texttt{Fun} class to create
-    functions, as well as extending it to create more complex functions.
-    For example, \vref{lst:sec:keen:gp:primitives:fun:add} shows how the
-    addition operation could be implemented by using the \texttt{Fun} class and
-    by extending it.
-    % Mover a apendice
-    \begin{code}{
-      Example of using the \texttt{Fun} class to implement the addition 
-      operation
-    }{
-      label=lst:sec:keen:gp:primitives:fun:add
+    A crucial aspect of our design strategy involves the employment of an open 
+    class for the \texttt{Fun} class, a decision we consider more fitting than 
+    resorting to an interface. Given that functions symbolize expressions with 
+    an innate arbitrary behavior, architecting an interface and extending it 
+    for each unique function emerges as an impractical venture. In contrast, an 
+    open class stands out as a versatile choice, facilitating the crafting of 
+    generic functions and paving the way for class extensions to enhance the 
+    behavior of the function. This structural framework empowers users to 
+    directly harness the \texttt{Fun} class for function creation or extend it 
+    for more intricate functions, as exemplified in \vref{lst:app:keen_fun_add}.
+
+  \subsubsection{Program trees}
+    The \texttt{Reduceable} interface and its subsets—terminals and 
+    functions—are foundational components that aid in the construction of 
+    program trees in \textit{Keen}. The framework represents these program 
+    trees as immutable tree structures, a design decision rooted in advantages 
+    such as thread safety, predictability, and reduced chances of accidental 
+    data modification, in particular, making program trees immutable one can 
+    assure that the arity of a node is always correct.
+
+    In essence, a program tree is characterized by a reduceable expression 
+    situated at its root, which in turn references other programs as its 
+    descendants. This design is vividly portrayed in the blueprint provided in 
+    \vref{lst:sec:keen:gp:primitives:prog}.
+
+    \begin{code}{Prototype of the \texttt{Program} class}{
+      label=lst:sec:keen:gp:primitives:prog
     }{kotlin}
-      // Using the Fun class
-      var add = Fun<Double>("+", 2) { it[0] + it[1] }
-      // Extending the Fun class
-      class Add : Fun<Double>("+", 2, { it[0] + it[1] })
-      var add = Add()
-      // As an anonymous object
-      var add = object : Fun<Double>("+", 2, { it[0] + it[1] }) {}
+      class Program<V>(
+        val reduceable: Reduceable<V>,
+        override val children: List<Program<V>> = emptyList()
+      ) : Tree<Reduceable<V>, Program<V>>, Copyable<Program<V>> {
+        // ...
+        operator fun invoke(vararg args: V): V = reduceable(children.map { it(*args) })
+      }
     \end{code}
+
+    The \texttt{Program} class is parameterized by a type \texttt{V}, which
+    represents the return type of the \texttt{invoke} method of the
+    \texttt{Reduceable} interface. This type is used to enforce type safety
+    when creating program trees.
+    The \texttt{invoke} function operates recursively, invoking the
+    \texttt{invoke} method of the root reduceable expression, passing the
+    results of the recursive invocations of its children as arguments.
+
+    The creation of immutable trees can be tricky, especially when dealing with
+    recursive structures. To address this issue, the \texttt{Tree} interface
+    provides a method to create trees from a depth first traversal of a
+    list of nodes. The algorithm used to create trees from a list of nodes is 
+    presented in \vref{lst:sec:keen:gp:primitives:tree}.
+
+    \begin{code}{Algorithm to create a tree from a list of nodes}{
+      label=lst:sec:keen:gp:primitives:tree
+    }{kotlin}
+      val stack = mutableListOf<T>()
+      nodes.reversed().forEach {
+          val children = stack.take(it.arity)
+          stack.removeAll(children.toSet())
+          val node = createNode(it.value, children)
+          stack.add(node)
+      }
+      return stack.first()
+    \end{code}
+
+    This algorithm takes a list of nodes and creates a tree by traversing the
+    list in reverse order. For each node, it takes the required number of
+    children from the top of the stack, removes them from the stack, and
+    creates a new node with the given value and children. The algorithm
+    enforces that the arity of the tree matches the arity of the node. Finally,
+    it returns the top of the stack, which is the root of the tree.
