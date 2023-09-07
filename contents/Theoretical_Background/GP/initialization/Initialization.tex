@@ -1,5 +1,5 @@
 \subsection{Initialization}
-\label{sec:genetic_programming:initialization}
+\label{sec:bg:gp:init}
   As with other evolutionary algorithms, the algorithm starts by generating a
   population of random individuals.
   
@@ -62,7 +62,7 @@
         7 + 2,\,
         5x^2
       \right\}
-  \), as shown in \vref{fig:genetic_programming:initialization:population}.
+  \), as shown in \vref{fig:bg:gp:init:population}.
 
   \begin{figure}[ht!]
     \centering
@@ -70,28 +70,28 @@
       \centering
       \includegraphics[height=5.5cm]{img/theoretical_framework/GP Initial Population 1.png}
       \caption{\(\mathbf{I}_1 = \mathlarger{\frac{3}{\sin(2)}} \times 5^3\)}
-      \label{fig:genetic_programming:initialization:population:1}
+      \label{fig:bg:gp:init:population:1}
     \end{subfigure}
     \begin{subfigure}[t]{0.4\textwidth}
       \centering
       \includegraphics[height=5.5cm]{img/theoretical_framework/GP Initial Population 2.png}
       \caption{\(\mathbf{I}_2 = 7 - (5 + \sin(x))\)}
-      \label{fig:genetic_programming:initialization:population:2}
+      \label{fig:bg:gp:init:population:2}
     \end{subfigure}
     \begin{subfigure}[t]{0.4\textwidth}
       \centering
       \includegraphics[height=2.75cm]{img/theoretical_framework/GP Initial Population 3.png}
       \caption{\(\mathbf{I}_3 = 7 + 2\)}
-      \label{fig:genetic_programming:initialization:population:3}
+      \label{fig:bg:gp:init:population:3}
     \end{subfigure}
     \begin{subfigure}[t]{0.4\textwidth}
       \centering
       \includegraphics[height=4.125cm]{img/theoretical_framework/GP Initial Population 4.png}
       \caption{\(\mathbf{I}_4 = 5x^2\)}
-      \label{fig:genetic_programming:initialization:population:4}
+      \label{fig:bg:gp:init:population:4}
     \end{subfigure}
     \caption{A population of random trees.}
-    \label{fig:genetic_programming:initialization:population}
+    \label{fig:bg:gp:init:population}
   \end{figure}
 
   The next step is to calculate the fitness of each individual in the
@@ -136,7 +136,7 @@
   exponentially with the difference between the expected and actual output.  
 
   A graphical representation of the population is shown in
-  \vref{fig:genetic_programming:initialization:population_graph}.
+  \vref{fig:bg:gp:init:population_graph}.
   It is clear from the figure that the worst individual is \(\mathbf{I}_1\).
 
   \begin{figure}[ht!]
@@ -147,7 +147,7 @@
       Graphical representation of the population in generation 0 compared to the
       expected output.
     }
-    \label{fig:genetic_programming:initialization:population_graph}
+    \label{fig:bg:gp:init:population_graph}
   \end{figure}
 
   In summary, the initialization phase plays a pivotal role in setting the 
