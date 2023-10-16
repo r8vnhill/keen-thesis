@@ -1,8 +1,88 @@
 \section{Parallelism}
-\label{sec:parallelism}
+\label{sec:keen:parallel}
   Given \textit{Keen}'s focus on immutability, there is potential for
   parallelism. Given this, \textit{Keen} provides a number of constructs
   to allow for parallelism. 
 
-  Parallelism is achieved through the use of coroutines.
+  Parallelism is achieved through the use of coroutines. Coroutines are a 
+  \textit{Kotlin} feature that enables the development of asynchronous, 
+  non-blocking code in a more readable and maintainable, sequential style. 
+  Unlike traditional threads which are managed by the operating system and can 
+  be resource-intensive to start and switch between, coroutines are lightweight 
+  and managed at the application level. They employ "suspending functions" that 
+  can pause and resume execution without blocking, thus optimizing resource 
+  usage. This allows \textit{Keen} to efficiently tap into the capabilities of 
+  multi-core processors, simplifying parallel execution without the typical 
+  intricacies of multi-threaded programming.
   
+  To allow for an easy transition from sequential to parallel code, 
+  \textit{Keen}'s proposes the concept of \textit{executors}. Executors are
+  objects that manage the execution of a \enquote{single task} or a
+  \enquote{batch of tasks}. This is formalized in the \texttt{KeenExecutor}
+  interface, which is shown in \autoref{lst:keen:parallel:executor}. The
+  
+  \begin{code}{The \texttt{KeenExecutor} interface.}{label={lst:keen:parallel:executor}}{kotlin}
+    interface KeenExecutor {
+        interface Factory<I, R : KeenExecutor> {
+            var creator: (I) -> R
+        }
+    }
+  \end{code}
+
+  The \texttt{KeenExecutor} interface defines a \texttt{Factory} interface
+  that is used to create instances of the executor lazily. This is done to
+  allow for the executor to be instantiated with the correct parameters at
+  the time of execution.
+
+  Currently, \textit{Keen} provides two subtypes of \texttt{KeenExecutor}:
+  \texttt{EvaluationExecutor} and \texttt{ConstructorExecutor}. The former is
+  used to evaluate the fitness of a population of individuals, while the latter
+  is used to construct a population of individuals.
+  Additionally, \textit{Keen} provides two implementations for each of these
+  subtypes: \texttt{SequentialEvaluator} and \texttt{CoroutineEvaluator} for
+  \texttt{EvaluationExecutor}, and \texttt{SequentialConstructor} and
+  \texttt{CoroutineConstructor} for \texttt{ConstructorExecutor}. The
+  \texttt{SequentialEvaluator} and \texttt{SequentialConstructor} are
+  implementations that execute the tasks sequentially, while the
+  \texttt{CoroutineEvaluator} and \texttt{CoroutineConstructor} are
+  implementations that execute the tasks in parallel using coroutines.
+
+  The following snippet shows the implementations of the 
+  \texttt{ConstructorExecutor} interface:
+
+  \begin{code}{The \texttt{ConstructorExecutor} interface.}{
+    label={lst:keen:parallel:constructor}
+  }{kotlin}
+    interface ConstructorExecutor<T> : KeenExecutor {
+        operator fun invoke(size: Int, init: () -> T): List<T>
+
+        open class Factory<T> : KeenExecutor.Factory<Unit, ConstructorExecutor<T>> {
+            override var creator: (Unit) -> ConstructorExecutor<T> = { SequentialConstructor() }
+        }
+    }
+
+    class SequentialConstructor<T> : ConstructorExecutor<T> {
+        override fun invoke(size: Int, init: () -> T): List<T> {
+            return List(size) { init() }
+        }
+    }
+    class CoroutineConstructor<T>(
+        val dispatcher: CoroutineDispatcher = Dispatchers.Default
+    ) : ConstructorExecutor<T> {
+        override fun invoke(size: Int, init: () -> T): List<T> = runBlocking {
+            val deferredList = List(size) {
+                async(dispatcher) {
+                    init()
+                }
+            }
+            deferredList.awaitAll()
+        }
+
+        class Factory<T> : ConstructorExecutor.Factory<T>() {
+            var dispatcher: CoroutineDispatcher = Dispatchers.Default
+
+            override var creator: (Unit) -> ConstructorExecutor<T> =
+                { CoroutineConstructor(dispatcher) }
+        }
+    }
+  \end{code}
