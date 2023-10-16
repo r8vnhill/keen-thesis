@@ -1,0 +1,68 @@
+\subsubsection{Subtree Crossover}
+\label{sec:keen:gp:op:cx:subtree}
+  In the realm of Genetic Programming (GP), the subtree crossover operator
+  emerges as a pivotal tool to foster genetic diversity and probe the vast 
+  solution space. This operator is adept at melding genetic information from 
+  two parent program trees, paving the way for outputs that may exhibit 
+  enhanced fitness values.
+
+  \begin{definition}[Subtree Crossover]
+    The \textit{subtree crossover} is a genetic operator designed for 
+    tree-structured chromosomes. For two given trees, it randomly chooses a 
+    node or subtree in each. The subtrees anchored at these points are then 
+    interchanged, birthing two new outputs. The operator can be mathematically 
+    expressed as:
+
+    \begin{equation}
+      X_{subtree}: \mathbb{P} \times \{0,\, 1\} \times [0,\, 1] 
+        \times [0,\, 1] \times [0,\, 1] \to \mathbb{P};\; 
+        (P,\, e,\, \rho_\mathbf{i},\, \rho_\mathbf{c},\, \rho_\mathbf{g})
+    \end{equation}
+
+    Here's a brief rundown of the parameters:
+
+    \begin{itemize}
+      \item \(P\): A population of program trees.
+      \item \(e\): A flag indicating if an individual can participate in 
+        crossover more than once.
+      \item \(\rho_\mathbf{i}\): Probability of an individual undergoing 
+        crossover.
+      \item \(\rho_\mathbf{c}\): Chance of initiating the subtree crossover.
+      \item \(\rho_\mathbf{g}\): Likelihood of selecting a gene for the 
+        crossover process.
+    \end{itemize}
+  \end{definition}
+
+  \begin{remark}
+    \textit{Keen}'s rendition of the subtree crossover currently equips all 
+    tree nodes with equal selection probabilities. This strategy may evolve 
+    in subsequent versions to encompass a more sophisticated selection 
+    mechanism.
+  \end{remark}
+
+  To comprehend the subtree crossover's operation within \textit{Keen}, let's 
+  walk through the code snippet below:
+
+    \begin{code}{
+      Illustration of Subtree Crossover in \textit{Keen}
+    }{label=lst:keen:gp:cx:subtree}{kotlin}
+      val (node1, node2) = (random node from input1, random node from input2)
+      val slices = (gene1.dna.searchSubtree(node1), gene2.dna.searchSubtree(node2))
+      val newTree1 = gene1.dna.replaceSubtree(slices.first, node2)
+      val newTree2 = gene2.dna.replaceSubtree(slices.second, node1)
+    \end{code}
+
+  Delve deeper into this operator by consulting
+  \vref{sec:bg:gp:variation:mutation}, where a vivid example of the subtree 
+  crossover comes alive.
+
+  \textit{Keen} is judiciously engineered to address potential challenges posed 
+  by the subtree crossover, such as generating unmanageably large trees or 
+  producing trees devoid of semantic significance for a given problem. Such 
+  astute handling ensures the subtree crossover's unwavering contribution to 
+  steering the evolutionary journey towards excellence.
+
+  In summation, \textit{Keen}'s GP module masterfully executes the subtree 
+  crossover, striking a harmonious balance between bolstering genetic 
+  diversity, upholding program integrity, and channeling the evolutionary 
+  exploration towards promising horizons.
