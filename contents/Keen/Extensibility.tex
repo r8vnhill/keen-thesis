@@ -1,0 +1,76 @@
+\section{Extensibility}
+\label{sec:keen:extensibility}
+
+  \textit{Keen} is architected with adaptability at its core, catering to a 
+  wide array of genetic problems and computational scenarios. This adaptability 
+  is principally achieved through the combination of intuitive interfaces and 
+  the integration of the Factory Method Pattern.
+
+  \subsection{Structured Extensibility Through Interfaces}
+    \textit{Keen} employs well-defined interfaces to encapsulate essential 
+    functionalities. These interfaces act as templates, enabling developers to 
+    easily extend and modify the framework. The process is straightforward: to 
+    enhance or customize capabilities, one simply implements the provided 
+    interfaces.
+
+  \subsection{Factory Method Pattern in Genetic Construction}
+    The Factory Method Pattern plays a pivotal role in \textit{Keen}, 
+    facilitating the dynamic creation of genetic material. By decoupling the 
+    framework from specific implementations, this pattern provides the 
+    flexibility to introduce varied genetic construction techniques seamlessly.
+
+    Consider the \texttt{Chromosome.Factory} interface and the 
+    \texttt{Chromosome.AbstractFactory}. These provide a standardized mechanism 
+    for generating chromosome objects, ensuring easy adaptability to diverse 
+    problem domains such as the Knapsack problem (refer to 
+    \vref{chap:knapsack}).
+
+    For illustration, consider the \texttt{SimpleChromosome}:
+
+    \begin{code}{
+      Implementation of the \textit{SimpleChromosome} using the 
+      \texttt{Chromosome.Factory} interface.
+    }{label=lst:keen:factory}{kotlin}
+      class SimpleChromosome(override val genes: List<SimpleGene>) :
+          Chromosome<Int, SimpleGene> {
+          // ... Other implementations ...
+
+          class Factory(override var size: Int, private val geneFactory: () -> SimpleGene) :
+              Chromosome.AbstractFactory<Int, SimpleGene>() {
+              override fun make() = SimpleChromosome((0 until size).map { geneFactory() })
+          }
+      }
+    \end{code}
+
+    Using the \texttt{SimpleChromosome} is straightforward:
+
+    \begin{code}{
+      Utilization of the \textit{SimpleChromosome} within an evolutionary 
+      engine setup.
+    }{label=lst:keen:factory:usage}{kotlin}
+      data class SimpleGene(val dna: Int) : Gene<Int, SimpleGene> {
+          // ... Implementation details for SimpleGene ...
+      }
+            
+      fun main() {
+          val engine = engine(
+              ::fitnessFn,
+              genotype {
+                  chromosome {
+                      SimpleChromosome.Factory(10) { SimpleGene((0..100).random()) } // Random genes between 0 and 100
+                  }
+              }
+          ) {
+              // ... Other configurations ...
+          }
+          val result = engine.evolve()
+          // ... Use the result ...
+      }
+    \end{code}
+
+  \subsection{Sustaining Future Evolution}
+    Designed with a forward-looking perspective, \textit{Keen} leverages 
+    interfaces and the Factory Method Pattern to ensure its sustained 
+    evolution. This positions \textit{Keen} advantageously, ensuring it remains 
+    relevant and adaptable to emerging challenges in genetic algorithms and 
+    computations.
