@@ -4,7 +4,10 @@
   In the realm of Genetic Programming (GP), the concept of mutating program trees is pivotal for enhancing genetic diversity within a population. Point Mutation is one such operator, aiming to introduce slight perturbations in a program's structure, while ensuring its syntactic and semantic integrity.
 
   \begin{definition}[Point Mutation]
-    The \textit{point mutation} operator selects a random node from a program tree and seeks another node with the same arity (number of child nodes). Once found, the original node is replaced by the new node, generating a variant of the original program tree, yet retaining its overall structure.
+    The \textit{point mutation} operator selects a random node from a program 
+    tree and seeks another node with the same arity (number of child nodes). 
+    Once found, the original node is replaced by the new node, generating a 
+    variant of the original program tree, yet retaining its overall structure.
 
     Formally speaking, the operator can be expressed as:
 
@@ -19,7 +22,8 @@
     \begin{itemize}
       \item \(P\): A population of program trees.
       \item \(\mu_\textbf{c}\): Probability of a chromosome undergoing mutation.
-      \item \(\mu_\textbf{g}\): Likelihood of a gene being selected for mutation.
+      \item \(\mu_\textbf{g}\): Likelihood of a gene being selected for 
+        mutation.
     \end{itemize}
   \end{definition}
 
@@ -65,4 +69,3 @@
     }
     \label{fig:keen:gp:op:mutation:point}
   \end{figure}
-  
