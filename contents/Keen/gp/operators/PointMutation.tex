@@ -1,71 +1,78 @@
 \subsubsection{Point Mutation}
 \label{sec:keen:gp:op:mutation:point}
 
-  In the realm of Genetic Programming (GP), the concept of mutating program trees is pivotal for enhancing genetic diversity within a population. Point Mutation is one such operator, aiming to introduce slight perturbations in a program's structure, while ensuring its syntactic and semantic integrity.
+  In Genetic Programming (GP), the capability to mutate program trees is 
+  paramount for infusing genetic diversity within a population. Among various 
+  mutation operators, Point Mutation stands out. Its specialty lies in 
+  introducing delicate perturbations to a program's structure, all the while 
+  upholding its syntactic and semantic consistency.
 
   \begin{definition}[Point Mutation]
-    The \textit{point mutation} operator selects a random node from a program 
-    tree and seeks another node with the same arity (number of child nodes). 
-    Once found, the original node is replaced by the new node, generating a 
-    variant of the original program tree, yet retaining its overall structure.
+    The \textit{point mutation} operator intricately selects a random node from 
+    a program tree, then searches for another node boasting the same arity (i.
+    e., number of child nodes). The initial node is subsequently replaced by 
+    the latter, thus producing a variation of the original program while 
+    preserving the overarching tree structure.
 
-    Formally speaking, the operator can be expressed as:
+    Mathematically, the operation can be delineated as:
 
     \begin{equation}
-      X_{point}: \mathbb{P} \times [0,\, 1] \times [0,\, 1] \to \mathbb{P};\;
-        (P,\, \mu_\textbf{c},\, \mu_\textbf{g}) 
-        \mapsto X_{point}(P,\, \mu_\textbf{c},\, \mu_\textbf{g})
+      M_{point}: \mathbb{P} \times [0,\, 1] \times [0,\, 1] \to \mathbb{P};\;
+      (P,\, \mu_\textbf{c},\, \mu_\textbf{g}) 
+        \mapsto M_{point}(P,\, \mu_\textbf{c},\, \mu_\textbf{g})
     \end{equation}
 
-    where:
+    Explicating the parameters:
 
     \begin{itemize}
-      \item \(P\): A population of program trees.
-      \item \(\mu_\textbf{c}\): Probability of a chromosome undergoing mutation.
-      \item \(\mu_\textbf{g}\): Likelihood of a gene being selected for 
-        mutation.
+      \item \(P\): Represents a population of program trees.
+      \item \(\mu_\textbf{c}\): Denotes the probability of a chromosome 
+        experiencing mutation.
+      \item \(\mu_\textbf{g}\): Signifies the likelihood of a gene's selection 
+        for mutation.
     \end{itemize}
   \end{definition}
 
-  The Point Mutation operator's implementation in \textit{Keen} is straightforward. It follows a four-step process:
+  The \textit{Keen} framework houses a lucid implementation of the Point 
+  Mutation operator, encapsulated in a succinct four-step methodology:
 
   \begin{code}{
-    Illustration of Point Mutation in \textit{Keen}
+    Exemplification of Point Mutation in \textit{Keen}
   }{label=lst:keen:gp:op:mutation:point}{kotlin}
     val original = random node from program tree
-    val replacements = nodes with same arity as original
+    val replacements = nodes with identical arity as original
     val replacement = random node from replacements
-    val mutated = program tree with original replaced by replacement
+    val mutated = program tree substituting original with replacement
   \end{code}
 
-  The crux of the Point Mutation operator in the context of the \textit{Keen} 
-  framework is its ability to maintain the structural coherency of program 
-  trees while introducing genetic variance. 
+  The Point Mutation's cornerstone, especially in \textit{Keen}, is its knack 
+  for retaining the architectural coherence of program trees amidst the 
+  introduction of genetic variations.
 
   \begin{remark}
-    Ensuring that the replacement node has the same arity is crucial. This 
-    stipulation guarantees that the resulting mutated tree remains valid 
-    concerning its original structure. Such an approach aids in circumventing 
-    potential runtime errors or semantic misinterpretations, which could be 
-    detrimental to the evolutionary process.
+    The emphasis on matching arity during node replacement is non-trivial. This 
+    meticulous approach ensures the resultant mutated tree mirrors the 
+    structure of its predecessor. Such precision mitigates potential runtime 
+    anomalies or semantic ambiguities, both of which could impede the 
+    evolutionary trajectory.
   \end{remark}
 
-  The Point Mutation operator's inherent simplicity belies its effectiveness. By 
-  focusing on minute alterations, it provides a balance between maintaining the 
-  quality of well-performing solutions and exploring new areas of the solution 
-  space.
+  While Point Mutation might seem simplistic at a cursory glance, its potency 
+  shouldn't be underestimated. Its strategy of fine-tuned alterations forms a 
+  judicious equilibrium between retaining the essence of high-performing 
+  solutions and embarking on novel exploratory ventures.
 
-  An illustration of the Point Mutation operator's operation is presented in
-  \vref{fig:keen:gp:op:mutation:point}.
+  A visual representation of the Point Mutation operator's workings can be 
+  observed in \vref{fig:keen:gp:op:mutation:point}.
 
   \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.5\textwidth]{img/keen/Point mutation.png}
     \caption{
-      The figure depicts the Point Mutation operator's operation on a program 
-      tree. The operator selects a random node from the tree and replaces it 
-      with another node of the same arity. The resulting tree is a variant of 
-      the original, yet it retains its overall structure.
+      A graphical elucidation of the Point Mutation operator's effect on a 
+      program tree. A random node is selected and substituted with another of 
+      identical arity, resulting in a structurally-consistent variant of the 
+      original tree.
     }
     \label{fig:keen:gp:op:mutation:point}
   \end{figure}
