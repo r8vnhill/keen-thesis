@@ -1,7 +1,126 @@
 \section{Solution}
 \label{sec:fn_opt:sol}
-  To solve this problem, we can use a GA with a double-valued chromosome.
-  The chromosome's genes will represent the \(x_i\) values, and the fitness
-  function will be the function we're trying to optimize.
+  To solve this problem, we aim to optimize certain functions using a Genetic 
+  Algorithm (GA). This approach will leverage a double-valued chromosome where 
+  each gene represents the \(x_i\) values. The fitness function encapsulates 
+  the function we aim to optimize. Let's break down the process:
 
-  \blindtext
+  \subsection{Chromosome Structure}
+    Each gene in the chromosome will be a double-valued gene, with a specified 
+    range of valid values depending on the optimization function. For the Bukin 
+    function N.6 (\vref{sec:app:test:bukin}), valid values range between 
+    \([-15, -5]\) for the first gene, and \([-3, 3]\) for the second.
+
+  \subsection{Variation Operators}
+    Regardless of the specific function we're optimizing, we will consistently 
+    employ the following variation operators:
+
+    \begin{itemize}
+      \item Recombination: \textit{average crossover} (see 
+        \vref{sec:keen:op:cx:combine})
+      \item Mutation: \textit{random mutation} (see 
+        \vref{sec:keen:op:mut:simple})
+    \end{itemize}
+
+    For selection, we compare the performance of \textit{random selector}, 
+    \textit{tournament selector}, and \textit{roulette selector} (see 
+    \vref{sec:keen:operators:selection:random}, 
+    \vref{sec:keen:operators:selection:tournament}, and 
+    \vref{sec:keen:op:select:roulette}).
+
+  \subsection{Implementation}
+    For illustration purposes, we'll employ the Bukin function N.6. This 
+    function's definition is as follows:
+
+    \begin{code}{
+      Implementation of the Bukin function N.6 in the context of \textit{Keen}.
+    }{label=code:fn_opt:sol:bukin}{kotlin}
+      fun bukinN6(genotype: Genotype<Double, DoubleGene>) = genotype.flatten().let { (x, y) ->
+          100 * (y - 0.01 * x.pow(2) + 1).pow(2) + 0.01 * (x + 10).pow(2)
+      }
+    \end{code}
+
+    Here, the function receives a genotype and computes the fitness value. The genotype gets flattened into a pair of doubles, representing \(x\) and \(y\) values. We then calculate the fitness using the Bukin function N.6.
+
+    To reuse the evolution engine creation across different optimization functions, we'll abstract its definition:
+
+    \begin{code}{
+      Function that creates an evolution engine for a given function to optimize.
+    }{label=code:fn_opt:sol:engine}{kotlin}
+      fun createEngine(
+          fitnessFunc: (Genotype<Double, DoubleGene>) -> Double,
+          vararg ranges: ClosedFloatingPointRange<Double>,
+      ) = engine(
+          fitnessFunc,
+          genotype {
+              chromosome {
+                  doubles {
+                      this.size = 2
+                      this.ranges = ranges.toList()
+                  }
+              }
+          }
+      ) {
+          populationSize = 500
+          optimizer = FitnessMinimizer()
+          alterers = listOf(
+              RandomMutator(0.03),
+              MeanCrossover(0.3, geneRate = 0.5)
+          )
+          limits = listOf(SteadyGenerations(100))
+          listeners = listOf(
+              EvolutionPlotter(),
+              EvolutionSummary()
+          )
+      }
+    \end{code}
+
+    The preceding code snippet defines a function that receives a fitness
+    function and a list of ranges of valid values for each gene.\footnote{
+      The \mintinline{kotlin}|vararg| keyword allows us to pass a variable
+      number of arguments to a function. The arguments are then accessible
+      inside the function as an array.
+
+      This is equivalent to using \texttt{*args} in Python, or
+      \texttt{Object... args} in Java. 
+    } The function then creates an evolution engine that uses the received
+    fitness function and a genotype with two double-valued genes. The ranges
+    of valid values for each gene are defined by the received list of ranges.
+    
+    The constructed evolution engine uses the provided fitness function and a genotype with two double-valued genes, defined by the input list of valid value ranges.
+
+    The engine's configuration encompasses:
+
+    \begin{itemize}
+      \item A population size of 500 individuals.
+      \item A \textit{fitness minimizer} optimizer.
+      \item Alterers like \textit{random mutator} with a mutation rate of 0.03 
+        and \textit{mean crossover} with a crossover rate of 0.3 and a gene 
+        rate of 0.5. These values, chosen after some experimentation, may not 
+        necessarily be the best for this problem.
+      \item A \textit{steady generations} limit of 100 generations.
+      \item Listeners like \textit{evolution plotter} and \textit{evolution 
+        summary} that are activated for specific events. The listeners' 
+        functionalities are detailed in \vref{sec:keen:ga:listeners}.
+    \end{itemize}
+
+    With the evolution engine set up, you can now define a function to run the 
+    Genetic Algorithm (GA) for a designated optimization function:
+
+    \begin{code}{
+      Function that runs the GA for a given function to optimize.
+    }{label=code:fn_opt:sol:run}{kotlin}
+      fun main() {
+          val engine = createEngine(::bukinN6, -15.0..-5.0, -3.0..3.0)
+          val result = engine.evolve()
+          println("Result: $result")
+          (engine.listeners.first() as EvolutionPlotter).displayFitness()
+          engine.listeners.last().let { "$it" }.let(::println)
+      }
+    \end{code}
+
+    This function initializes an evolution engine for the Bukin function N.6 
+    and then executes the GA. Post-evolution, the resultant output is printed, 
+    followed by the display of the fitness plot and a summarized evolution 
+    report.
+    
