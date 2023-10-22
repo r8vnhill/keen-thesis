@@ -1,0 +1,161 @@
+\section{Results}
+\label{sec:fn_opt:results}
+
+  This section presents the optimization results of 20 classical functions 
+  using three different selectors: Random, Tournament, and Roulette. The tables 
+  detail the time spent in each phase of the evolutionary process, as well as 
+  the outcomes from the optimization procedures.
+
+  Each experiment was run 4 times, dropping the first iteration to avoid
+  JVM warmup effects. The results presented are the average of the remaining
+  3 iterations.
+
+  \subsection{Random Selector}
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{|l|r|r|r|r|r|}
+        \hline
+        Function  & Initialization  & Evaluation  & Selection & Alteration
+          & Total \\
+        \hline\hline
+        Ackley    & 0.98 ms         & 0.28 ms     & 0.04 ms   & 1.22 ms    
+          & 0.49 s  \\\hline
+        Beale     & 1.39 ms        & 0.21 ms     & 0.05 ms   & 1.35 ms    
+          & 0.82 s  \\\hline
+        Booth  & 2.69 ms & 0.67 ms & 0.06 ms & 5.63 ms & 2.54 s  \\\hline
+        Bukin N.6 & 1.85 ms & 0.4 ms & 0.06 ms & 3.81 ms & 2.73 s \\\hline
+        Cross-in-Tray & 1.58 ms & 0.32 ms & 0.06 ms & 1.27 ms & 0.68 s \\\hline
+        Easom & 6.14 ms & 0.59 ms & 0.11 ms & 1.24 ms & 0.64 s \\\hline
+        Egg Holder & 2.85 ms & 0.48 ms & 0.03 ms & 2.78 ms & 1.35 s \\\hline
+        Goldstein-Price & 1.45 ms & 0.26 ms & 0.1 ms & 1.46 ms & 2.12 s \\\hline
+        Himmeblau & 1.59 ms & 0.21 ms & 0.07 ms & 1.24 ms & 0.55 s \\\hline
+        \\\hline
+      \end{tabular}
+      \caption{
+        Time spent in each phase of the evolution process with a Random Selector.
+      }
+      \label{tab:fn_opt:results:time}
+    \end{table}
+
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{|l|r|r|r|}
+        \hline
+        Function  & Generations & Fittest 
+          & Error \\
+        \hline\hline
+        Ackley    & 142         & \((2.82 \times 10^-3,\, 12.24 \times 10^{-3})\) 
+          & \(39.74 \times 10^-3\) \\\hline
+        Beale     & 163         & \((2.97,\, 0.49)\)
+          & \(1.25 \times 10^{-4}\) \\\hline
+        Booth  & 160 & \((0.99,\, 3.01)\) & \(1.31 \times 10^{-4}\) \\\hline
+        Bukin N.6 & 310 & \((1.01,\, 2.99)\) & \(1.12 \times 10^{-4}\) \\\hline
+        Cross-in-Tray & 134 & \((-1.35,\, 1.35)\) & \(0.01\) \\\hline
+        Easom & 120 & \((3.14,\, 3.16)\) & \(0.01\) \\\hline
+        Egg Holder & 174 & \((483.53,\, 434.06)\) & \(2.99\) \\\hline
+        Goldstein-Price & 127 & \((9.4 \times 10^{-5},\, -0.99)\) & \(1.99 \times 10^{6}\) \\\hline
+        Himmeblau & 142 & \((3,\, 1.99)\) & \(1.06 \times 10^{-5}\) \\\hline
+        \\\hline
+      \end{tabular}
+      \caption{Results of the optimization process with a Random Selector.}
+    \end{table}
+
+  \subsection{Tournament Selector}
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{|l|r|r|r|r|r|}
+        \hline
+        Function  & Initialization  & Evaluation  & Selection & Alteration
+          & Total \\
+        \hline\hline
+        Ackley    & 0.26 ms         & 0.22 ms     & 0.04 ms    & 0.78 ms    
+          & 0.39 s  \\\hline
+        Beale     & 0.23 ms         & 0.11 ms     & 0.04 ms    & 0.65 ms    
+          & 0.26 s  \\\hline
+        Booth & 0.27 ms & 0.22 ms & 0.24 ms & 0.98 ms & 0.38 s \\\hline
+        Bukin N.6 & 0.23 ms & 0.26 ms & 0.04 ms & 1.19 ms & 1.32 s \\\hline
+        Cross-in-Tray & 0.23 ms & 0.21 ms & 0.04 ms & 0.78 ms & 0.54 s \\\hline
+        Easom & 0.21 ms & 0.59 ms & 0.08 ms & 1.29 ms & 0.85 s \\\hline
+        Egg Holder & 0.37 ms & 0.27 ms & 0.11 ms & 1.22 ms & 0.87 s \\\hline
+        Goldstein-Price & 0.49 ms & 0.14 ms & 0.05 ms & 3.1 ms & 0.86 s \\\hline
+        Himmeblau & 0.2 ms & 0.14 ms & 0.05 ms & 1.02 ms & 1.44 s \\\hline
+      \end{tabular}
+      \caption{
+        Time spent in each phase of the evolution process with a Tournament Selector.
+      }
+      \label{tab:fn_opt:results:time}
+    \end{table}
+
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{|l|r|r|r|}
+        \hline
+        Function  & Generations & Fittest 
+          & Error \\
+        \hline\hline
+        Ackley    & 117         & \((5.78 \times 10^{-5},\, -6.26 \times 10^{-5})\) 
+          & \(1.83 \times 10^{-3}\) \\\hline
+        Beale     & 123         & \((3.00,\, 0.50)\) 
+          & \(4.41 \times 10^{-8}\) \\\hline
+        Booth & 195 & \((1.00,\, 3.00)\) & \(5.49 \times 10^{-8}\) \\\hline
+        Bukin N.6 & 193 & \((1.01,\, 2.99)\) & \(2.67 \times 10^{-4}\) \
+        \\\hline
+        Cross-in-Tray & 175 & \((1.35,\, -1.35)\) & \(0.01\) \\\hline
+        Easom & 166 & \((3.14,\, 3.14)\) & \(0.01\) \\\hline
+        Egg Holder & 198 & \((481.599,\, 432.16)\) & \(2.87\) \\\hline
+        Goldstein-Price & 108 & \((-7.42 \times 10^{-4},\, -1.0)\) & \(2.12^{-4}\) \\\hline
+        Himmeblau & 390 & \((3.0,\, 1.99)\) & \(1.91 \times 10^{-6}\) \\\hline
+      \end{tabular}
+      \caption{Results of the optimization process with a Tournament Selector.}
+    \end{table}
+
+  \subsection{Roulette Selector}
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{|l|r|r|r|r|r|}
+        \hline
+        Function  & Initialization  & Evaluation  & Selection & Alteration
+          & Total \\
+        \hline\hline
+        Ackley    & 0.24 ms         & 0.32 ms     & 0.07 ms   & 1.14 ms    
+          & 0.27 s
+        \\\hline
+        Beale     & 0.18 ms         & 0.13 ms     & 0.07 ms   & 0.67 ms    
+          & 0.27 s  \\\hline
+        Booth & 0.27 ms & 0.22 ms & 0.07 ms & 1.14 ms & 0.89 s \\\hline
+        Bukin N.6 & 0.32 ms & 0.16 ms & 0.08 ms & 0.9 ms & 0.36 s \\\hline
+        Cross-in-Tray & 0.19 ms & 0.25 ms & 0.03 ms & 0.59 ms & 0.28 s \\\hline
+        Easom & 0.2 ms & 0.56 ms & 0.08 ms & 1.29 ms & 0.47 s \\\hline
+        Egg Holder & 0.23 ms & 0.28 ms & 0.04 ms & 0.87 ms & 1.84 s \\\hline
+        Goldstein-Price & 0.26 ms & 0.25 ms & 0.04 ms & 0.88 ms & 0.34 s \\\hline
+        Himmeblau & 0.13 ms & 0.09 ms & 0.04 ms & 0.77 ms & 0.55 s \\\hline
+      \end{tabular}
+      \caption{
+        Time spent in each phase of the evolution process with a Roulette Selector.
+      }
+      \label{tab:fn_opt:results:time}
+    \end{table}
+
+    \begin{table}[H]
+      \centering
+      \begin{tabular}{|l|r|r|r|}
+        \hline
+        Function  & Generations & Fittest 
+          & Error \\
+        \hline\hline
+        Ackley    & 84         & \((-8.55 \times 10^{-3},\, 15.6 \times 10^{-3})\) 
+          & \(5.87 \times 10^{-4}\) \\\hline
+        Beale     & 117         & \((2.92,\, 0.47)\) 
+          & \(1.83 \times 10^{-3}\) \\\hline
+        Booth & 114 & \((1.14,\, 2.79)\) & \(8.32 \times 10^{-3}\) \\\hline
+        Bukin N.6 & 123 & \((1.01,\, 3)\) & \(3.93 \times 10^{-4}\) \\\hline
+        Cross-in-Tray & 117 & \((1.35,\, -1.35)\) & \(-2.06\) \\\hline
+        Easom & 105 & \((3.15,\, 3.14)\) & \(0.01\) \\\hline
+        Egg Holder & 548 & \((511.68,\, 403.95)\) & \(1.09\) \\\hline
+        Goldstein-Price & 121 & \((-3.33 \times 10^{-5},\, -0.99)\) & \(3.14 \times 10^{-7}\) \\\hline
+        Himmeblau & 181 & \((2.99,\, 2)\) & \(2.08 \times 10^{-11}\) \
+        \\\hline
+      \end{tabular}
+      \caption{Results of the optimization process with a Roulette Selector.}
+      \label{tab:fn_opt:results:roulette}
+    \end{table}
