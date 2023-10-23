@@ -49,14 +49,14 @@
     }{label=code:fn_opt:sol:engine}{kotlin}
       fun createEngine(
           fitnessFunc: (Genotype<Double, DoubleGene>) -> Double,
-          vararg ranges: ClosedFloatingPointRange<Double>,
+          vararg ranges: DoubleRange,
       ) = engine(
           fitnessFunc,
           genotype {
               chromosome {
                   doubles {
                       this.size = 2
-                      this.ranges = ranges.toList()
+                      this.ranges += ranges
                   }
               }
           }
@@ -64,14 +64,10 @@
           populationSize = 500
           optimizer = FitnessMinimizer()
           alterers = listOf(
-              RandomMutator(0.03),
-              MeanCrossover(0.3, geneRate = 0.5)
+              RandomMutator(0.06),
+              AverageCrossover(0.3)
           )
-          limits = listOf(SteadyGenerations(100))
-          listeners = listOf(
-              EvolutionPlotter(),
-              EvolutionSummary()
-          )
+          limits = listOf(SteadyGenerations(50))
       }
     \end{code}
 
@@ -94,14 +90,13 @@
     \begin{itemize}
       \item A population size of 500 individuals.
       \item A \textit{fitness minimizer} optimizer.
-      \item Alterers like \textit{random mutator} with a mutation rate of 0.03 
-        and \textit{mean crossover} with a crossover rate of 0.3 and a gene 
-        rate of 0.5. These values, chosen after some experimentation, may not 
+      \item Alterers like \textit{random mutator} with a mutation rate of 0.06 
+        and \textit{average crossover} with a crossover rate of 0.3. These
+        values, chosen after some experimentation, may not 
         necessarily be the best for this problem.
-      \item A \textit{steady generations} limit of 100 generations.
-      \item Listeners like \textit{evolution plotter} and \textit{evolution 
-        summary} that are activated for specific events. The listeners' 
-        functionalities are detailed in \vref{sec:keen:ga:listeners}.
+      \item A \textit{steady generations} limit of 50 generations, meaning
+        that the evolution will stop after 50 generations without any
+        improvement.
     \end{itemize}
 
     With the evolution engine set up, you can now define a function to run the 
@@ -114,13 +109,9 @@
           val engine = createEngine(::bukinN6, -15.0..-5.0, -3.0..3.0)
           val result = engine.evolve()
           println("Result: $result")
-          (engine.listeners.first() as EvolutionPlotter).displayFitness()
-          engine.listeners.last().let { "$it" }.let(::println)
       }
     \end{code}
 
     This function initializes an evolution engine for the Bukin function N.6 
-    and then executes the GA. Post-evolution, the resultant output is printed, 
-    followed by the display of the fitness plot and a summarized evolution 
-    report.
+    and then executes the GA. Post-evolution, the resultant output is printed.
     
