@@ -38,7 +38,7 @@
 
     \begin{code}{Gene interface}{label={lst:keen:ga:gene}}{kotlin}
       interface Gene<DNA, G: Gene<DNA, G>> : GeneticMaterial<DNA, G>,
-                                              SelfReferential<G> {
+                                             SelfReferential<G> {
           val dna: DNA
           fun mutate(): G
           fun withDna(dna: DNA): G
@@ -100,23 +100,23 @@
     Embedded within is the \texttt{Factory} class, designated for the 
     generation of new genotypes.
 
-  \paragraph{Phenotype}
-    The phenotype epitomizes the expression of the genetic material.
+  \paragraph{Individual}
+    The individual epitomizes the expression of the genetic material.
     Serving as the evaluated manifestation of the genotype, it embodies the 
     candidate solution.
-    Fundamentally, the phenotype hinges on:
+    Fundamentally, the individual hinges on:
     \begin{enumerate}
         \item A \textit{fitness} value, and
         \item The associated \textit{genotype}.
     \end{enumerate}
     
     In representing individual entities within a population, it's imperative 
-    that a phenotype can be compared with its peers. 
-    In light of this, the structure for the phenotype is delineated as:
+    that a individual can be compared with its peers. 
+    In light of this, the structure for the individual is delineated as:
     
-    \begin{code}{Phenotype class}{label={lst:keen:ga:phenotype}}{kotlin}
-      class Phenotype<DNA, G : Gene<DNA, G>>(
+    \begin{code}{Individual class}{label={lst:keen:ga:individual}}{kotlin}
+      class Individual<DNA, G : Gene<DNA, G>>(
           val genotype: Genotype<DNA, G>,
           val fitness: Double = Double.NaN
-      ) : GeneticMaterial<DNA, G>, Comparable<Phenotype<DNA, G>> { ... }
+      ) : GeneticMaterial<DNA, G>, Comparable<Individual<DNA, G>> { ... }
     \end{code}

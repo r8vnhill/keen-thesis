@@ -4,7 +4,7 @@
   \emph{selector operator} is mathematically represented as \(\Sigma : \mathbb
   {P} \times \mathbb{N} \times \cdots \to \mathbb{P}\).
   At its core, the selector operator processes a given population 
-  \(\mathbb{P}\), selects \(n\) individuals based on specific criteria, and 
+  \(P\), selects \(n\) individuals based on specific criteria, and 
   outputs a subset of the initial population.
   To ensure adaptability, the design challenge centers around establishing a 
   versatile interface to cater to diverse selection strategies.
@@ -23,7 +23,7 @@
       operator fun invoke(
           population: Population<DNA, G>,
           count: Int,
-          optimizer: PhenotypeOptimizer<DNA, G>
+          optimizer: IndividualOptimizer<DNA, G>
       ): Population<DNA, G>
     }
   \end{code}
@@ -31,18 +31,18 @@
   In this model, the \texttt{Selector} interface gets parameterized according 
   to the \texttt{DNA} and \texttt{Gene} types.
   The incorporated \texttt{invoke} method explicitly mentions the population, 
-  the individual count, and an instance of the \texttt{PhenotypeOptimizer} 
+  the individual count, and an instance of the \texttt{IndividualOptimizer} 
   class.
   Thanks to Kotlin's capacity for operator overloading, this framework allows 
   direct function invocation through the selector object, depicted as \texttt
   {selector(...)}.\footnote{Syntactic sugar for \texttt{selector.invoke(...)}.}
 
-  We introduce an additional parameter, \texttt{PhenotypeOptimizer}, which 
+  We introduce an additional parameter, \texttt{IndividualOptimizer}, which 
   signifies the optimization strategy employed to facilitate selection, be it 
   maximization or minimization.\footnote{
     Both these strategies - maximization and minimization - are integral 
     components of the \textit{Utility} module in \textit{Keen}.
-    Additionally, the \texttt{PhenotypeOptimizer} interface can be modified to 
+    Additionally, the \texttt{IndividualOptimizer} interface can be modified to 
     support bespoke optimization techniques.
   }
 

@@ -148,3 +148,28 @@
     // As an anonymous object
     var add = object : Fun<Double>("+", 2, { it[0] + it[1] }) {}
   \end{code}
+
+  \begin{code}{
+    Demonstration of the use of \textit{Strait-Jakt}'s \texttt{constraint} DSL
+    to validate preconditions inside a \textit{Probability Selector}.
+  }{
+    label=lst:app:strait-jakt
+  }{kotlin}
+    private fun selectByProbabilities(
+      population: Population<T, G>,
+      probabilities: List<Double>,
+      count: Int,
+    ): List<Individual<T, G>> {
+      constraints {
+        "The cumulative probabilities list must have the same size as the population" {
+          probabilities must HaveSize(population.size)
+        }
+        "The last cumulative probability must be 1.0" {
+          probabilities.last() must BeEqualTo(1.0)
+        }
+      }
+      return List(count) {
+        population[probabilities.indexOfFirst { Domain.random.nextDouble() <= it }]
+      }
+    }
+  \end{code}
