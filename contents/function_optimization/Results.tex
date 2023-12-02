@@ -15,32 +15,32 @@
   \subsection{Random Selector}
     \begin{table}[H]
       \centering
-      \begin{tabular}{|l|r|r|r|r|r|}
+      \begin{tabular}{|l|r|r|}
         \hline
-        Function  & Initialization  & Evaluation  & Selection & Alteration
-          & Total \\
+        Function  & Selection & Total \\
         \hline\hline
-        Ackley	& 0.74 ms	& 0.24 ms	& 0.04 ms	& 1.04 ms	& 0.36 s\\\hline
-        Beale	& 0.15 ms	& 0.11 ms	& 0.02 ms	& 0.85 ms	& 0.27 s\\\hline
-        Booth	& 0.12 ms	& 0.06 ms	& 0.02 ms	& 0.52 ms	& 0.07 s\\\hline
-        Bukin N.6	& 0.18 ms	& 0.06 ms	& 0.02 ms	& 1.16 ms	& 0.21 s\\\hline
-        Cross-in-tray	& 0.09 ms	& 0.21 ms	& 0.02 ms	& 0.54 ms	& 0.18 s\\\hline
-        Easom	& 0.06 ms	& 0.26 ms	& 0.02 ms	& 0.55 ms	& 0.29 s\\\hline
-        Egg holder	& 0.08 ms	& 0.2 ms	& 0.02 ms	& 0.63 ms	& 0.12 s\\\hline
-        Goldstein-Price	& 0.07 ms	& 0.06 ms	& 0.02 ms	& 0.56 ms	& 0.16 s\\\hline
-        Himmelblau	& 0.07 ms	& 0.06 ms	& 0.02 ms	& 0.56 ms	& 0.1 s\\\hline
-        Holder table	& 0.06 ms	& 0.18 ms	& 0.01 ms	& 0.49 ms	& 0.15 s\\\hline
-        Levi	& 0.06 ms	& 0.24 ms	& 0.01 ms	& 0.5 ms	& 0.14 s\\\hline
-        Matyas	& 0.06 ms	& 0.05 ms	& 0.01 ms	& 0.49 ms	& 0.17 s\\\hline
-        McCormick	& 0.07 ms	& 0.1 ms	& 0.01 ms	& 0.54 ms	& 0.16 s\\\hline
-        Rastrigin	& 0.09 ms	& 0.16 ms	& 0.01 ms	& 0.51 ms	& 0.23 s\\\hline
-        Rosenbrock	& 0.07 ms	& 0.05 ms	& 0.01 ms	& 0.52 ms	& 0.14 s\\\hline
-        Schaffer N.2	& 0.07 ms	& 0.11 ms	& 0.01 ms	& 0.52 ms	& 0.12 s\\\hline
-        Schaffer N.4	& 0.07 ms	& 0.16 ms	& 0.01 ms	& 0.5 ms	& 0.16 s\\\hline
-        Styblinski-Tang	& 0.06 ms	& 0.09 ms	& 0.01 ms	& 0.48 ms	& 0.12 s\\\hline
-        Sphere	& 0.06 ms	& 0.05 ms	& 0.01 ms	& 0.48 ms	& 0.1 s\\\hline
-        Three-hump camel	& 0.06 ms	& 0.09 ms	& 0.01 ms	& 0.5 ms	& 0.17 s
-        \\\hline
+        Ackley ms	& 0.22476124444444412	& 1.1540964333333334 s\\\hline
+        Beale ms	& 0.12055760000000007	& 1.0416774 s\\\hline
+        Booth ms	& 0.12132855555555554	& 1.0239565333333334 s\\\hline
+        Bukin N.6 ms	& 0.12815200000000032	& 0.9967993333333333 s\\\hline
+        Cross-in-tray ms	& 0.1255048666666665	& 1.033344 s\\\hline
+        Easom ms	& 0.12431473333333315	& 1.0729220333333334 s\\\hline
+        Egg holder ms	& 0.11789182222222216	& 0.9910291999999999 s\\\hline
+        Goldstein-Price ms	& 0.1326573999999999	& 0.9626545333333333 s\\\hline
+        Himmelblau ms	& 0.1347557777777776	& 1.0103663999999999 s\\\hline
+        Holder table ms	& 0.1274720666666666	& 1.0294960666666666 s\\\hline
+        Levi ms	& 0.11814286666666658	& 1.0163812333333333 s\\\hline
+        Matyas ms	& 0.1249572444444447	& 1.0444310666666665 s\\\hline
+        McCormick ms	& 0.12041624444444456	& 0.9626910666666667 s\\\hline
+        Rastrigin ms	& 0.12152482222222223	& 1.0027034333333333 s\\\hline
+        Rosenbrock ms	& 0.13104388888888885	& 1.1014783333333333 s\\\hline
+        Schaffer N.2 ms	& 0.11766186666666661	& 1.0315578666666665 s\\\hline
+        Schaffer N.4 ms	& 0.11708942222222206	& 1.043442266666667 s\\\hline
+        Styblinski-Tang ms	& 0.12369702222222217	& 1.0122185666666665 s\\\hline
+        Sphere ms	& 0.1254926888888888	& 1.0411549333333334 s\\\hline
+        Three-hump camel ms	& 0.12985848888888882	& 1.0756696333333333 s\\\hline\hline 
+        
+        Average	& 0.1293640311111111	& 1.0324035166666667 \\\hline
       \end{tabular}
       \caption{
         Time spent in each phase of the evolution process with a Random Selector.
@@ -55,27 +55,27 @@
         Function  & Generations & Fittest 
           & Error \\
         \hline\hline
-        Ackley	& 152	& \((0,\, 0)\)	& \(0.03\)\\\hline
-        Beale	& 146.66	& \((3.04,\, 0.51)\)	& \(6.52 \times 10^{-4}\)\\\hline
-        Booth	& 66.33	& \((1,\, 3.01)\)	& \(0\)\\\hline
-        Bukin N.6	& 117.66	& \((-10,\, 9.72 \times 10^{-4})\)	& \(1.21 \times 10^{-4}\)\\\hline
-        Cross-in-tray	& 134.66	& \((-0.44,\, 1.34)\)	& \(5.32 \times 10^{-5}\)\\\hline
-        Easom	& 184	& \((3.2,\, 2.96)\)	& \(0.11\)\\\hline
-        Egg holder	& 83.33	& \((171.32,\, 416.98)\)	& \(56.78\)\\\hline
-        Goldstein-Price	& 128.66	& \((0,\, -0.99)\)	& \(0.01\)\\\hline
-        Himmelblau	& 84	& \((3.39,\, -0.55)\)	& \(0.01\)\\\hline
-        Holder table	& 127	& \((8.12,\, -9.54)\)	& \(0.34\)\\\hline
-        Levi	& 107	& \((0.99,\, 1.04)\)	& \(0.01\)\\\hline
-        Matyas	& 154.66	& \((0.01,\, 0.01)\)	& \(7.10 \times 10^{-5}\)\\\hline
-        McCormick	& 138.66	& \((-0.53,\, -1.54)\)	& \(2.27 \times 10^{-4}\)\\\hline
-        Rastrigin	& 179	& \((0,\, 0)\)	& \(0.01\)\\\hline
-        Rosenbrock	& 121.33	& \((0.98,\, 0.97)\)	& \(7.58 \times 10^{-4}\)\\\hline
-        Schaffer N.2	& 105	& \((0.13,\, 0.19)\)	& \(0\)\\\hline
-        Schaffer N.4	& 126.66	& \((0.81,\, 2.66)\)	& \(0.29\)\\\hline
-        Styblinski-Tang	& 109.66	& \((-2.91,\, -2.92)\)	& \(39.15\)\\\hline
-        Sphere	& 86.66	& \((0,\, 0)\)	& \(6.72 \times 10^{-4}\)\\\hline
-        Three-hump camel	& 147.33	& \((0,\, 0)\)	& \(3.89 \times 10^{-4}\)
-        \\\hline
+        Ackley	& 500.0	& (-0.13394883451482661, 0.10179317814216116)	& 3.943728441167162\\\hline
+        Beale	& 500.0	& (0.07823776218960378, 0.11955346519294004)	& 13.42706286558303\\\hline
+        Booth	& 500.0	& (-2.1850854919936555, -1.0199912893706677)	& 254.06273318409762\\\hline
+        Bukin N.6	& 500.0	& (-10.80479985228797, -0.2151680192633476)	& 125.27612990733026\\\hline
+        Cross-in-tray	& 500.0	& (1.5328646464195066, -0.16240602749885066)	& 0.1554508011743374\\\hline
+        Easom	& 500.0	& (17.787362052439622, 19.413945222290803)	& 1.0\\\hline
+        Egg holder	& 500.0	& (-33.73042665354185, 66.13578937508247)	& 898.8723913876921\\\hline
+        Goldstein-Price	& 500.0	& (0.13236613718684337, 0.13254815514598114)	& 1084.6647893162292\\\hline
+        Himmelblau	& 500.0	& (1.1508780026445862, -0.8755824864740784)	& 129.3648232523963\\\hline
+        Holder table	& 500.0	& (0.5196152859095905, 0.5585089785935319)	& 18.68846675464214\\\hline
+        Levi	& 500.0	& (-0.42322048197184964, 0.12505388160608266)	& 9.131079684541946\\\hline
+        Matyas	& 500.0	& (-1.0695391039455038, 0.49496763044637054)	& 0.8715086285046144\\\hline
+        McCormick	& 500.0	& (1.1064923222718617, 0.918660628954033)	& 4.594145921707965\\\hline
+        Rastrigin	& 500.0	& (0.4106889277736023, -0.2661147890304942)	& 7.975168917614923\\\hline
+        Rosenbrock	& 500.0	& (-0.02408663355305204, -0.07775339200797114)	& 12.246229264836906\\\hline
+        Schaffer N.2	& 500.0	& (-2.728183302602101, 4.711117086548835)	& 0.4658580287979734\\\hline
+        Schaffer N.4	& 500.0	& (-18.217116384258492, 12.447576482522038)	& 0.49559481620297513\\\hline
+        Styblinski-Tang	& 500.0	& (-0.40060119125064036, -0.26453235448743)	& 24.213652024305162\\\hline
+        Sphere	& 500.0	& (0.02831845956873839, 0.957533075380755)	& 2.9049027371863825\\\hline
+        Three-hump camel	& 500.0	& (-0.04249951382806109, -0.07015804752693917)	& 0.7408489164696809\\\hline
+       \hline Average	& 500.0	& ---	& 129.65472824252404\\\hline
       \end{tabular}
       \caption{Results of the optimization process with a Random Selector.}
     \end{table}
@@ -83,31 +83,31 @@
   \subsection{Tournament Selector}
     \begin{table}[H]
       \centering
-      \begin{tabular}{|l|r|r|r|r|r|}
+      \begin{tabular}{|l|r|r|}
         \hline
-        Function  & Initialization  & Evaluation  & Selection & Alteration
-          & Total \\
+        Function  & Selection & Total \\
         \hline\hline
-        Ackley	& 0.08 ms	& 0.19 ms	& 0.02 ms	& 0.54 ms	& 0.16 s\\\hline
-        Beale	& 0.06 ms	& 0.07 ms	& 0.02 ms	& 0.47 ms	& 0.2 s\\\hline
-        Booth	& 0.09 ms	& 0.05 ms	& 0.02 ms	& 0.49 ms	& 0.14 s\\\hline
-        Bukin N.6	& 0.09 ms	& 0.05 ms	& 0.02 ms	& 0.5 ms	& 0.13 s\\\hline
-        Cross-in-tray	& 0.06 ms	& 0.2 ms	& 0.02 ms	& 0.49 ms	& 0.15 s\\\hline
-        Easom	& 0.06 ms	& 0.25 ms	& 0.02 ms	& 0.51 ms	& 0.21 s\\\hline
-        Egg holder	& 0.06 ms	& 0.18 ms	& 0.02 ms	& 0.57 ms	& 0.31 s\\\hline
-        Goldstein-Price	& 0.06 ms	& 0.05 ms	& 0.02 ms	& 0.49 ms	& 0.14 s\\\hline
-        Himmelblau	& 0.07 ms	& 0.06 ms	& 0.02 ms	& 0.53 ms	& 0.28 s\\\hline
-        Holder table	& 0.07 ms	& 0.19 ms	& 0.02 ms	& 0.51 ms	& 0.34 s\\\hline
-        Levi	& 0.07 ms	& 0.24 ms	& 0.03 ms	& 0.51 ms	& 0.22 s\\\hline
-        Matyas	& 0.07 ms	& 0.07 ms	& 0.02 ms	& 0.49 ms	& 0.14 s\\\hline
-        McCormick	& 0.07 ms	& 0.13 ms	& 0.02 ms	& 0.52 ms	& 0.17 s\\\hline
-        Rastrigin	& 0.06 ms	& 0.15 ms	& 0.02 ms	& 0.5 ms	& 0.16 s\\\hline
-        Rosenbrock	& 0.07 ms	& 0.06 ms	& 0.02 ms	& 0.54 ms	& 0.25 s\\\hline
-        Schaffer N.2	& 0.07 ms	& 0.12 ms	& 0.03 ms	& 0.55 ms	& 0.18 s\\\hline
-        Schaffer N.4	& 0.06 ms	& 0.16 ms	& 0.02 ms	& 0.5 ms	& 0.18 s\\\hline
-        Styblinski-Tang	& 0.06 ms	& 0.09 ms	& 0.02 ms	& 0.47 ms	& 0.2 s\\\hline
-        Sphere	& 0.07 ms	& 0.06 ms	& 0.02 ms	& 0.53 ms	& 0.15 s\\\hline
-        Three-hump camel	& 0.07 ms	& 0.1 ms	& 0.02 ms	& 0.53 ms	& 0.23 s\\\hline
+        Ackley ms	& 0.1722495107632091	& 0.3283717666666666 s\\\hline
+        Beale ms	& 0.08278604882909812	& 0.3957252666666667 s\\\hline
+        Booth ms	& 0.05777837582625109	& 0.34720913333333336 s\\\hline
+        Bukin N.6 ms	& 0.055187279151943464	& 0.3456149333333333 s\\\hline
+        Cross-in-tray ms	& 0.05710198598130846	& 0.30195846666666665 s\\\hline
+        Easom ms	& 0.05908053927315363	& 0.2919613666666667 s\\\hline
+        Egg holder ms	& 0.05792807017543866	& 0.4810475 s\\\hline
+        Goldstein-Price ms	& 0.05974518686296707	& 0.2916315 s\\\hline
+        Himmelblau ms	& 0.05722125256673511	& 0.37256146666666673 s\\\hline
+        Holder table ms	& 0.05875948553054657	& 0.3632463666666667 s\\\hline
+        Levi ms	& 0.07155889164598853	& 0.3182966 s\\\hline
+        Matyas ms	& 0.06000960302457464	& 0.6332080666666666 s\\\hline
+        McCormick ms	& 0.0552641059602649	& 0.2722128666666666 s\\\hline
+        Rastrigin ms	& 0.05857562500000002	& 0.27712773333333335 s\\\hline
+        Rosenbrock ms	& 0.053423104265402824	& 0.5166973333333333 s\\\hline
+        Schaffer N.2 ms	& 0.057860843373494036	& 0.2961707666666667 s\\\hline
+        Schaffer N.4 ms	& 0.0553688748685595	& 0.30088173333333335 s\\\hline
+        Styblinski-Tang ms	& 0.059943333333333314	& 0.2566216 s\\\hline
+        Sphere ms	& 0.061840923694779164	& 0.5332526666666667 s\\\hline
+        Three-hump camel ms	& 0.08042557681485646	& 0.6974308666666666 s\\\hline
+       \hline Average	& 0.06660543084709522	& 0.3810614 \\\hline
       \end{tabular}
       \caption{
         Time spent in each phase of the evolution process with a Tournament Selector.
@@ -122,26 +122,27 @@
         Function  & Generations & Fittest 
           & Error \\
         \hline\hline
-        Ackley	& 116.33	& \((0,\, -2.5 \times 10^{-4})\)	& \(0\)\\\hline
-        Beale	& 162.33	& \((3,\, 0.49)\)	& \(4.75 \times 10^{-5}\)\\\hline
-        Booth	& 125	& \((0.99,\, 3)\)	& \(3.91 \times 10^{-5}\)\\\hline
-        Bukin N.6	& 116.33	& \((-9.98,\, 0)\)	& \(2.41 \times 10^{-5}\)\\\hline
-        Cross-in-tray	& 119.33	& \((-0.44,\, -0.44)\)	& \(8.08 \times 10^{-7}\)\\\hline
-        Easom	& 153.33	& \((3.14,\, 3.17)\)	& \(0\)\\\hline
-        Egg holder	& 240.66	& \((462.16,\, 436.18)\)	& \(19.71\)\\\hline
-        Goldstein-Price	& 130.33	& \((1.32 \times 10^{-4},\, -0.99)\)	& \(8.45 \times 10^{-5}\)\\\hline
-        Himmelblau	& 237	& \((1.26,\, 1.09)\)	& \(9.66 \times 10^{-4}\)\\\hline
-        Holder table	& 256.66	& \((2.68,\, -3.22)\)	& \(1.59 \times 10^{-4}\)\\\hline
-        Levi	& 166.33	& \((1,\, 0.99)\)	& \(1.67\times 10^{-4}\)\\\hline
-        Matyas	& 121	& \((0,\, 0)\)	& \(2.86\times 10^{-6}\)\\\hline
-        McCormick	& 145.66	& \((-0.54,\, -1.54)\)	& \(8.51 \times 10^{-5}\)\\\hline
-        Rastrigin	& 129.66	& \((-2 \times 10^{-4},\, 0)\)	& \(0\)\\\hline
-        Rosenbrock	& 203.33	& \((0.99,\, 0.99)\)	& \(8.19 \times 10^{-5}\)\\\hline
-        Schaffer N.2	& 137	& \((-0.18,\, -0.12)\)	& \(0\)\\\hline
-        Schaffer N.4	& 148.66	& \((1.15,\, 0.18)\)	& \(0.29\)\\\hline
-        Styblinski-Tang	& 170.66	& \((-2.9,\, -2.9)\)	& \(39.16\)\\\hline
-        Sphere	& 118.33	& \((1.36 \times 10^{-4},\, -7.5 \times 10^{-4})\)	& \(6.31 \times 10^{-6}\)\\\hline
-        Three-hump camel	& 179.33	& \((-8.74 \times 10^{-5},\, 7.57 \times 10^{-5})\)	& \(3.59 \times 10^{-7}\)\\\hline
+        Ackley	& 113.55555555555554	& (2.714557171913187E-10, 8.338312829559817E-10)	& 2.5008522660148933E-9\\\hline
+        Beale	& 223.0	& (2.9756742560022995, 0.4930758899822217)	& 2.443501094058878E-4\\\hline
+        Booth	& 117.66666666666667	& (1.0, 3.0)	& 0.0\\\hline
+        Bukin N.6	& 125.77777777777779	& (-9.999920778058002, -1.4585757385130478E-5)	& 6.633869150552885E-10\\\hline
+        Cross-in-tray	& 95.11111111111113	& (-1.349406597635503, -1.3493998085716579)	& 1.8706670414185094E-6\\\hline
+        Easom	& 94.77777777777777	& (3.1415926539169874, 3.141592653689459)	& 0.0\\\hline
+        Egg holder	& 202.66666666666666	& (149.46897626232973, 421.6346724107953)	& 32.705629617656314\\\hline
+        Goldstein-Price	& 98.1111111111111	& (2.0276310494922466E-9, -0.9999999992683337)	& 7.71234927772942E-14\\\hline
+        Himmelblau	& 108.22222222222221	& (3.1948094467768304, 0.7172911576785322)	& 0.0\\\hline
+        Holder table	& 172.7777777777778	& (-2.6844266114600797, 9.665720249842868)	& 5.754373661659429E-5\\\hline
+        Levi	& 134.33333333333334	& (1.0, 1.0)	& 1.3497838043956716E-31\\\hline
+        Matyas	& 293.8888888888889	& (-3.9676961981915714E-20, -4.041678369961017E-20)	& 1.9286074504938834E-40\\\hline
+        McCormick	& 83.88888888888889	& (-0.36998949140111453, -1.5470317233766142)	& 0.0874615740477706\\\hline
+        Rastrigin	& 88.8888888888889	& (-1.8951401788104123E-11, 6.84897169857076E-11)	& 0.0\\\hline
+        Rosenbrock	& 187.55555555555554	& (0.9726960167315691, 0.9464774700495662)	& 0.0010178373288836763\\\hline
+        Schaffer N.2	& 92.22222222222223	& (-2.000697449624541E-8, -4.434497313163789E-9)	& 0.0\\\hline
+        Schaffer N.4	& 105.66666666666667	& (-0.0069024657494170345, 0.49954418513095655)	& 0.29258768921744405\\\hline
+        Styblinski-Tang	& 90.0	& (-2.9035340261657274, -2.9035340275650756)	& 39.16634140754285\\\hline
+        Sphere	& 276.6666666666667	& (7.549263436563391E-9, 1.4287115935043707E-8)	& 7.833391805280381E-16\\\hline
+        Three-hump camel	& 394.8888888888889	& (2.0969751991550495E-10, -2.0932706061327837E-10)	& 2.6360565768184573E-19\\\hline
+       \hline Average	& 154.9833333333333	& ---	& 3.6126670946735318\\\hline
       \end{tabular}
       \caption{Results of the optimization process with a Tournament Selector.}
     \end{table}
@@ -149,31 +150,31 @@
   \subsection{Roulette Selector}
     \begin{table}[H]
       \centering
-      \begin{tabular}{|l|r|r|r|r|r|}
+      \begin{tabular}{|l|r|r|}
         \hline
-        Function  & Initialization  & Evaluation  & Selection & Alteration
-          & Total \\
+        Function  & Selection & Total \\
         \hline\hline
-        Ackley	& 0.07 ms	& 0.21 ms	& 0.03 ms	& 0.61 ms	& 0.13 s\\\hline
-        Beale	& 0.07 ms	& 0.14 ms	& 0.02 ms	& 0.69 ms	& 0.13 s\\\hline
-        Booth	& 0.06 ms	& 0.07 ms	& 0.02 ms	& 0.51 ms	& 0.14 s\\\hline
-        Bukin N.6	& 0.08 ms	& 0.06 ms	& 0.02 ms	& 0.52 ms	& 0.12 s\\\hline
-        Cross-in-tray	& 0.06 ms	& 0.21 ms	& 0.02 ms	& 0.49 ms	& 0.13 s\\\hline
-        Easom	& 0.07 ms	& 0.26 ms	& 0.02 ms	& 0.51 ms	& 0.13 s\\\hline
-        Egg holder	& 0.06 ms	& 0.18 ms	& 0.02 ms	& 0.49 ms	& 0.08 s\\\hline
-        Goldstein-Price	& 0.07 ms	& 0.06 ms	& 0.02 ms	& 0.5 ms	& 0.13 s\\\hline
-        Himmelblau	& 0.06 ms	& 0.06 ms	& 0.02 ms	& 0.5 ms	& 0.14 s\\\hline
-        Holder table	& 0.06 ms	& 0.18 ms	& 0.02 ms	& 0.5 ms	& 0.06 s\\\hline
-        Levi	& 0.07 ms	& 0.24 ms	& 0.02 ms	& 0.52 ms	& 0.31 s\\\hline
-        Matyas	& 0.06 ms	& 0.05 ms	& 0.02 ms	& 0.5 ms	& 0.24 s\\\hline
-        McCormick	& 0.07 ms	& 0.1 ms	& 0.02 ms	& 0.53 ms	& 0.13 s\\\hline
-        Rastrigin	& 0.06 ms	& 0.15 ms	& 0.02 ms	& 0.51 ms	& 0.18 s\\\hline
-        Rosenbrock	& 0.07 ms	& 0.05 ms	& 0.02 ms	& 0.5 ms	& 0.11 s\\\hline
-        Schaffer N.2	& 0.06 ms	& 0.11 ms	& 0.02 ms	& 0.51 ms	& 0.1 s\\\hline
-        Schaffer N.4	& 0.07 ms	& 0.16 ms	& 0.02 ms	& 0.5 ms	& 0.12 s\\\hline
-        Styblinski-Tang	& 0.06 ms	& 0.09 ms	& 0.02 ms	& 0.51 ms	& 0.11 s\\\hline
-        Sphere	& 0.06 ms	& 0.05 ms	& 0.02 ms	& 0.49 ms	& 0.08 s\\\hline
-        Three-hump camel	& 0.07 ms	& 0.09 ms	& 0.02 ms	& 0.52 ms	& 0.1 s\\\hline
+        Ackley ms	& 0.17056164444444416	& 1.0807452 s\\\hline
+        Beale ms	& 0.15100291111111053	& 1.0999544333333333 s\\\hline
+        Booth ms	& 0.13605653333333298	& 1.0591936333333332 s\\\hline
+        Bukin N.6 ms	& 0.14861524444444424	& 1.1450094000000002 s\\\hline
+        Cross-in-tray ms	& 0.1362319333333331	& 1.0848857333333333 s\\\hline
+        Easom ms	& 0.20113288888888917	& 1.0845391999999998 s\\\hline
+        Egg holder ms	& 0.1496153777777776	& 1.202205 s\\\hline
+        Goldstein-Price ms	& 0.14033877777777787	& 1.0740913 s\\\hline
+        Himmelblau ms	& 0.1547297111111113	& 1.150074466666667 s\\\hline
+        Holder table ms	& 0.13423242222222231	& 1.0950766333333333 s\\\hline
+        Levi ms	& 0.14451297777777808	& 1.0559435666666666 s\\\hline
+        Matyas ms	& 0.15002555555555597	& 1.1181167 s\\\hline
+        McCormick ms	& 0.1396376666666672	& 1.0885313666666667 s\\\hline
+        Rastrigin ms	& 0.15620186666666616	& 1.1324616333333333 s\\\hline
+        Rosenbrock ms	& 0.16064142222222247	& 1.0342551666666668 s\\\hline
+        Schaffer N.2 ms	& 0.1498355555555554	& 1.0825938333333334 s\\\hline
+        Schaffer N.4 ms	& 0.14426979999999978	& 1.0626771999999998 s\\\hline
+        Styblinski-Tang ms	& 0.150212288888889	& 1.1550819666666667 s\\\hline
+        Sphere ms	& 0.14043651111111116	& 1.0473681666666665 s\\\hline
+        Three-hump camel ms	& 0.13449742222222233	& 1.0629636 s\\\hline
+       \hline Average	& 0.1496394255555555	& 1.09578841 \\\hline
       \end{tabular}
       \caption{
         Time spent in each phase of the evolution process with a Roulette Selector.
@@ -188,26 +189,27 @@
         Function  & Generations & Fittest 
           & Error \\
         \hline\hline
-        Ackley	& 93.66	& \((-0.01,\, 0)\)	& \(0.11\)\\\hline
-        Beale	& 81.33	& \((2.84,\, 0.46)\)	& \(0.01\)\\\hline
-        Booth	& 121.33	& \((1.06,\, 2.9)\)	& \(0.06\)\\\hline
-        Bukin N.6	& 112.33	& \((-10.01,\, 0)\)	& \(5.11 \times 10^{-5}\)\\\hline
-        Cross-in-tray	& 105	& \((0.44,\, 0.44)\)	& \(6.57 \times 10^{-5}\)\\\hline
-        Easom	& 96.33	& \((3.28,\, 3.14)\)	& \(0.26\)\\\hline
-        Egg holder	& 70.66	& \((-353.8,\, 211.46)\)	& \(184.43\)\\\hline
-        Goldstein-Price	& 125.33	& \((0,\, -0.99)\)	& \(0.12\)\\\hline
-        Himmelblau	& 129	& \((3.2,\, 0.74)\)	& \(0.07\)\\\hline
-        Holder table	& 53.33	& \((8.1,\, 9.5)\)	& \(1.41\)\\\hline
-        Levi	& 229 & \((0.98,\, 1)\)	& \(0.03\)\\\hline
-        Matyas	& 207.66	& \((-0.04,\, -0.04)\)	& \(3.3 \times 10^{-4}\)\\\hline
-        McCormick	& 110.66	& \((-0.52,\, -1.54)\)	& \(0\)\\\hline
-        Rastrigin	& 146	& \((0.01,\, 0)\)	& \(0.16\)\\\hline
-        Rosenbrock	& 96	& \((1,\, 1.01)\)	& \(0\)\\\hline
-        Schaffer N.2	& 90.66	& \((-1.11,\, 0.39)\)	& \(0\)\\\hline
-        Schaffer N.4	& 101.33	& \((1.04,\, 0.77)\)	& \(0.29\)\\\hline
-        Styblinski-Tang	& 93.66	& \((-2.92,\, -2.88)\)	& \(39.07\)\\\hline
-        Sphere	& 79.33	& \((0.01,\, -0.02)\)	& \(0\)\\\hline
-        Three-hump camel	& 90	& \((-0.01,\, 0)\)	& \(7.3 \times 10^{-4}\)\\\hline
+        Ackley	& 500.0	& (1.0488541629733732, 0.8957445383336756)	& 6.839668782944339\\\hline
+        Beale	& 500.0	& (0.3081505517495053, -0.17484593986456695)	& 10.591099547320836\\\hline
+        Booth	& 500.0	& (0.9228224735100191, 0.11791814539701513)	& 58.19770979283484\\\hline
+        Bukin N.6	& 500.0	& (-10.672766796668993, 0.45742007821650027)	& 15.66706099917838\\\hline
+        Cross-in-tray	& 500.0	& (0.552029931564722, 0.4361050357937735)	& 0.242671640561385\\\hline
+        Easom	& 500.0	& (3.1327776189248646, 3.1245350565779546)	& 0.02929707999400148\\\hline
+        Egg holder	& 500.0	& (96.87188731616186, 93.90325777549764)	& 925.2665967126995\\\hline
+        Goldstein-Price	& 500.0	& (0.15323069574941106, -0.12414246714202803)	& 1960.71891810742\\\hline
+        Himmelblau	& 500.0	& (1.23650088121654, 1.099883428818093)	& 245.76742587320123\\\hline
+        Holder table	& 500.0	& (2.662324487653543, -9.255820683804545)	& 1.8446389200179343\\\hline
+        Levi	& 500.0	& (0.2608301637487597, 0.03800459994074693)	& 17.770157848017817\\\hline
+        Matyas	& 500.0	& (-0.9471069479231572, -0.19434283656504645)	& 1.0775276439400463\\\hline
+        McCormick	& 500.0	& (1.8138819876395145, -0.09418393411948285)	& 4.3745193757530565\\\hline
+        Rastrigin	& 500.0	& (0.220516897122612, 1.3071386843051218)	& 17.28431729816618\\\hline
+        Rosenbrock	& 500.0	& (-0.09011204721660471, -0.14523942448830085)	& 12.91514333522403\\\hline
+        Schaffer N.2	& 500.0	& (-6.823689518504916, 3.796492519126597)	& 0.4026344237361048\\\hline
+        Schaffer N.4	& 500.0	& (5.0805888642370105, -2.525877929661206)	& 0.5373324019814119\\\hline
+        Styblinski-Tang	& 500.0	& (-2.1216420971940946, -2.4435406767197017)	& 27.991493859541265\\\hline
+        Sphere	& 500.0	& (-0.3796898245556603, 0.1057702219749745)	& 0.9625662569996849\\\hline
+        Three-hump camel	& 500.0	& (0.8603201794580596, -0.02766857565810721)	& 1.1328783825638105\\\hline
+       \hline Average	& 500.0	& ---	& 165.4806829141048\\\hline
       \end{tabular}
       \caption{Results of the optimization process with a Roulette Selector.}
       \label{tab:fn_opt:results:roulette}
