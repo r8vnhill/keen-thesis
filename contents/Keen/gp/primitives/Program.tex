@@ -3,7 +3,7 @@
 % license that can be found in the LICENSE file.
 
 \subsubsection{Program trees}
-  The \texttt{Reduceable} interface and its subsets--terminals and 
+  The \texttt{Reducible} interface and its subsets--terminals and 
   functions--are foundational components that aid in the construction of 
   program trees in \textit{Keen}. The framework represents these program 
   trees as immutable tree structures, a design decision rooted in advantages 
@@ -11,7 +11,7 @@
   data modification, in particular, making program trees immutable one can 
   assure that the arity of a node is always correct.
 
-  In essence, a program tree is characterized by a reduceable expression 
+  In essence, a program tree is characterized by a reducible expression 
   situated at its root, which in turn references other programs as its 
   descendants. This design is vividly portrayed in the blueprint provided in 
   \vref{lst:sec:keen:gp:primitives:prog}.
@@ -20,20 +20,20 @@
     label=lst:sec:keen:gp:primitives:prog
   }{kotlin}
     class Program<V>(
-      val reduceable: Reduceable<V>,
+      val reducible: Reducible<V>,
       override val children: List<Program<V>> = emptyList()
-    ) : Tree<Reduceable<V>, Program<V>>, Copyable<Program<V>> {
+    ) : Tree<Reducible<V>, Program<V>>, Copyable<Program<V>> {
       // ...
-      operator fun invoke(vararg args: V): V = reduceable(children.map { it(*args) })
+      operator fun invoke(vararg args: V): V = reducible(children.map { it(*args) })
     }
   \end{code}
 
   The \texttt{Program} class employs a type \texttt{V} as a parameter, 
   symbolizing the return type of the \texttt{invoke} method intrinsic to the 
-  \texttt{Reduceable} interface. Such an approach ensures type-safety during the 
+  \texttt{Reducible} interface. Such an approach ensures type-safety during the 
   construction of program trees. Notably, the \texttt{invoke} function adopts a 
   recursive mechanism. It calls upon the \texttt{invoke} method of the root 
-  reduceable expression, subsequently passing the results derived from the 
+  reducible expression, subsequently passing the results derived from the 
   recursive invocations of its children.
 
   Forming immutable trees, particularly in recursive architectures, can be a 

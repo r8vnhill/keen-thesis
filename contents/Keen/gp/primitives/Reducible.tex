@@ -1,45 +1,51 @@
-\subsubsection{Reduceable Expressions}
-  Within the \textit{Keen} framework, \enquote{reduceable expressions} serve as
+\subsubsection{Reducible Expressions}
+  Within the \textit{Keen} framework, \enquote{reducible expressions} serve as
   the building blocks for creating more complex mathematical or logical 
   constructs. Primitives in \textit{Keen} are captured using the 
-  \texttt{Reduceable} interface. This interface outlines a single method, 
+  \texttt{Reducible} interface. This interface outlines a single method, 
   \texttt{invoke}, which accepts a list of arguments and yields a single 
   value. Drawing parallels, the \texttt{invoke} method resembles a function 
-  call, and the \texttt{Reduceable} interface stands as a function signature.
+  call, and the \texttt{Reducible} interface stands as a function signature.
 
-  The architecture of the proposed \texttt{Reduceable} interface can be 
+  The architecture of the proposed \texttt{Reducible} interface can be 
   appreciated in \vref{lst:sec:keen:gp:primitives:reduce}.
 
   \begin{code}{
-    The \texttt{Reduceable} interface
+    The \texttt{Reducible} interface
   }{
     label=lst:sec:keen:gp:primitives:reduce
   }{kotlin}
-    interface Reduceable<T> : Node<Reduceable<T>> {
-        operator fun invoke(args: List<T>): T
-    }      
+    interface Reducible<T> : Node<Reducible<T>>, SelfReferential<Reducible<T>> {
+        override val contents: Reducible<T> get() = this
+        operator fun invoke(environment: Environment<T>, args: List<T>): T
+        operator fun <T> Reducible<T>.invoke(environment: Environment<T>, vararg args: T): T =
+            invoke(environment, args.toList())
+    }
   \end{code}
 
-  It's essential to underline that the \texttt{Reduceable} interface is an 
-  extension of \texttt{Node<Reduceable<T>>}. This inherently implies that any 
-  reduceable expression is also a node within an expression tree. Such an 
+  An important aspect of the \texttt{Reducible} interface is the 
+  \emph{environment}; a data structure that stores the values of the
+  variables used in the expression.
+  
+  It's essential to underline that the \texttt{Reducible} interface is an 
+  extension of \texttt{Node<Reducible<T>>}. This inherently implies that any 
+  reducible expression is also a node within an expression tree. Such an 
   arrangement forms a cornerstone of \textit{Keen}'s Genetic Programming (GP) 
   approach as it lays the foundation for generating expressions of arbitrary 
   intricacy.
 
-  Venturing forward, \textit{Keen} subdivides the \texttt{Reduceable} into 
-  two primitive subsets: terminals and functions. The former, terminals, 
-  embody reduceable expressions that act as leaf nodes in an expression tree. 
-  Conversely, functions serve as reduceable expressions that denote 
+  Venturing forward, \textit{Keen} subdivides the \texttt{Reducible} into 
+  two primitive subsets: \emph{terminals} and \emph{functions}. The former, 
+  terminals, embody reducible expressions that act as leaf nodes in an 
+  expression tree. 
+  Conversely, functions serve as reducible expressions that denote 
   intermediate nodes in said tree.
 
   \begin{code}{Prototype of the \texttt{Terminal} interface}{
     label=lst:sec:keen:gp:primitives:terminal
   }{kotlin}
-    interface Terminal<T> : Reduceable<T>, Leaf<Reduceable<T>> {
+    interface Terminal<T> : Reducible<T>, Leaf<Reducible<T>> {
         fun create(): Terminal<T>
-        override val arity: Int
-            get() = 0
     }
   \end{code}
 
@@ -47,11 +53,9 @@
     label=lst:sec:keen:gp:primitives:fun
   }{kotlin}
     open class Fun<T>(
-        private val name: String,
-        override val arity: Int,
-        private val body: (List<T>) -> T
-    ) : Reduceable<T>, Intermediate<Reduceable<T>> {
-        override fun invoke(args: List<T>) = body(args)
+        val name: String, override val arity: Int, val body: (List<T>) -> T
+    ) : Reducible<T>, Intermediate<Reducible<T>> {
+        override fun invoke(environment: Environment<T>, args: List<T>): T { /* ... */ }
     }
   \end{code}
 
