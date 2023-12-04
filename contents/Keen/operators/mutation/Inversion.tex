@@ -19,8 +19,8 @@
       M_\mathrm{inv} :\: 
         \mathbb{P} \times [0,\, 1] \times [0,\, 1] \times [0,\, 1] 
           \to \mathbb{P};\;
-      (P,\, \mu,\, \rho_\mathbf{c},\, \rho_g) 
-        \mapsto M_\mathrm{inv}(P,\, \mu,\, \rho_\mathbf{c},\, \rho_g)
+      (P,\, \mu,\, \rho_\mathbf{c},\, \rho_{ib}) 
+        \mapsto M_\mathrm{inv}(P,\, \mu,\, \rho_\mathbf{c},\, \rho_{ib})
     \end{equation}
 
     Where:
@@ -28,27 +28,31 @@
         \item \(P\) represents the population.
         \item \(\mu\) denotes the mutation probability.
         \item \(\rho_\mathbf{c}\) is the chromosome-wise mutation rate.
-        \item \(\rho_g\) is the gene-wise mutation rate.
+        \item \(\rho_{ib}\) is the \textit{inversion boundary} probability. 
+          This probability is used to determine the starting and ending index 
+          of the inversion.
     \end{itemize}
   \end{definition}
 
   The operator's function can be outlined as follows:
 
   \begin{code}{
-      Pseudo-code depicting the inversion mutation process. For illustrative purposes, we consider the chromosome as mutable, even if it isn't in the \textit{Keen} framework.
+      Pseudo-code depicting the inversion mutation process. For illustrative
+      purposes, we consider the chromosome as mutable, even if it isn't in the
+      \textit{Keen} framework.
     }{
       label=code:keen:op:mut:inversion
     }{kotlin}
       var start = 0
       var end = chromosome.size - 1
       for (i in chromosome.indices) {
-          if (random.double(0..1) < ~$\rho_g$~) {
+          if (random.double(0..1) < ~$\rho_{ib}$~) {
               start = i
               break
           }
       }
       for (i in chromosome.indices) {
-          if (random.double(0..1) > ~$\rho_g$~) {
+          if (random.double(0..1) > ~$\rho_{ib}$~) {
               end = i
               break
           }
@@ -79,7 +83,7 @@
   \begin{remark}
     A vital consideration must be made when interpreting the inversion operator 
     within the \textit{Keen} framework. Specifically, the gene-wise mutation 
-    rate, \(\rho_g\), signifies the probability of selecting a particular gene 
+    rate, \(\rho_{ib}\), signifies the probability of selecting a particular gene 
     for the starting or ending index. It should not be misconstrued as a metric 
     indicating the percentage of genes selected for inversion.
   \end{remark}

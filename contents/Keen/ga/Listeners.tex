@@ -20,22 +20,21 @@
     Evolution Listener Interface (some variables and functions omitted for 
     brevity)
   }{label=lst:keen:ga:listeners:interface}{kotlin}
-    interface EvolutionListener<DNA, G : Gene<DNA, G>> {
-        fun onEvolutionEnded() = Unit
-        fun onGenerationStarted(generation: Int, population: Population<DNA, G>) = Unit
-        fun onGenerationFinished(population: Population<DNA, G>) = Unit
-        fun onInitializationStarted() = Unit
-        fun onInitializationFinished() = Unit
-        fun onEvaluationStarted() = Unit
-        fun onEvaluationFinished() = Unit
-        fun onOffspringSelectionStarted() = Unit
-        fun onOffspringSelectionFinished() = Unit
-        fun onSurvivorSelectionStarted() = Unit
-        fun onSurvivorSelectionFinished() = Unit
-        fun onAlterationStarted() = Unit
-        fun onAlterationFinished() = Unit
-        fun onEvolutionStart() = Unit
-        fun onEvolutionFinished() = Unit
+    interface EvolutionListener<T, G> where G : Gene<T, G> {
+        fun onGenerationStarted(state: EvolutionState<T, G>) = Unit
+        fun onGenerationEnded(state: EvolutionState<T, G>) = Unit
+        fun onInitializationStarted(state: EvolutionState<T, G>) = Unit
+        fun onInitializationEnded(state: EvolutionState<T, G>) = Unit
+        fun onEvaluationStarted(state: EvolutionState<T, G>) = Unit
+        fun onEvaluationEnded(state: EvolutionState<T, G>) = Unit
+        fun onParentSelectionStarted(state: EvolutionState<T, G>) = Unit
+        fun onParentSelectionEnded(state: EvolutionState<T, G>) = Unit
+        fun onSurvivorSelectionStarted(state: EvolutionState<T, G>) = Unit
+        fun onSurvivorSelectionEnded(state: EvolutionState<T, G>) = Unit
+        fun onAlterationStarted(state: EvolutionState<T, G>) = Unit
+        fun onAlterationEnded(state: EvolutionState<T, G>) = Unit
+        fun onEvolutionStarted(state: EvolutionState<T, G>) = Unit
+        fun onEvolutionEnded(state: EvolutionState<T, G>) = Unit
     }
   \end{code}
 
@@ -52,10 +51,14 @@
       post-evolution, encapsulating fitness statistics, leading individuals, 
       generation count, time metrics for each evolution phase, and the 
       evolution's total duration.
-    \item \texttt{JsonSerializer}: Serializes and saves the population data of 
-      every generation as a JSON file, complemented by pertinent evolution 
-      details.
   \end{itemize}
+
+  \begin{remark}
+    The \emph{Evolution plotter} uses \textit{Lets-Plot Skia Frontend} to render
+    the plots, which is a multi-platform plotting library for Kotlin, meaning
+    that the plots can be rendered in any platform supported by Kotlin 
+    Multi-Platform.
+  \end{remark}
 
   The implementation of this interface is a novel feature of the \textit{Keen}
   framework, and it is not present in the frameworks that were used as a
@@ -70,35 +73,8 @@
       generation, encapsulating each phase of the evolutionary journey within a 
       generation record.
 
-      \begin{code}{
-        Generation Record Class (some variables and functions omitted for 
-        brevity)
-      }{label=lst:keen:ga:listeners:generation-record}{kotlin}
-        @Serializable
-        data class GenerationRecord(val generation: Int) : AbstractTimedRecord() {
-            val alteration = AlterationRecord()
-            val evaluation = EvaluationRecord()
-            val offspringSelection = SelectionRecord()
-            val survivorSelection = SelectionRecord()
-            val population = PopulationRecord()
-            var steady: Int = ...
-        }
-      \end{code}
-      
     \paragraph{Evolution Record}
       The \texttt{EvolutionRecord} class, while centered on the entire 
       evolutionary process, primarily delegates data storage responsibilities 
       to the \texttt{GenerationRecord} class.
-
-      \begin{code}{
-        Evolution Record Class (some variables and functions omitted for 
-        brevity)
-      }{label=lst:keen:ga:listeners:evolution-record}{kotlin}
-        @Serializable
-        data class EvolutionRecord<DNA, G : Gene<DNA, G>>(
-            val generations: MutableList<GenerationRecord> = mutableListOf(),
-        ) : AbstractTimedRecord() {
-            val initialization = InitializationRecord()
-        }
-      \end{code}
       

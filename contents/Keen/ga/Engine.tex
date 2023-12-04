@@ -29,91 +29,74 @@
   The engine's architecture is depicted in \vref{lst:keen:ga:engine}.
 
   \begin{code}*{Evolution engine structure}{label={lst:keen:ga:engine}}{kotlin}
-    class Engine<DNA, G : Gene<DNA, G>>(...) : Evolver<DNA, G> {
-        override fun evolve(): EvolutionResult<DNA, G> {
-            var evolution = EvolutionState.empty<DNA, G>()
-            var result = EvolutionResult(optimizer, evolution.population, generation)
-            while (limits.none { it(this) }) {
-                result = evolve(evolution)
-                evolution = result.next()
-            }
-            return result
+    class EvolutionEngine<T, G>(
+        populationConfig: PopulationConfig<T, G>,
+        selectionConfig: SelectionConfig<T, G>,
+        alterationConfig: AlterationConfig<T, G>,
+        evolutionConfig: EvolutionConfig<T, G>,
+    ) : Evolver<T, G> where G : Gene<T, G> {
+    
+        private var state: EvolutionState<T, G> = EvolutionState.empty(ranker)
+    
+        override fun evolve(): EvolutionState<T, G> {
+            do {
+                state = iterateGeneration(state)
+            } while (limits.none { it(state) })
+            return state
         }
-        fun evolve(start: EvolutionState<DNA, G>) = runBlocking {
-            val interceptedStart = interceptor.before(start)
-            val evolution = startEvolution(interceptedStart)
-            val evaluatedPopulation = evaluate(evolution)
-            val offspring = selectOffspring(evaluatedPopulation)
+    
+        fun iterateGeneration(state: EvolutionState<T, G>): EvolutionState<T, G> {
+            val interceptedStart = interceptor.before(state)
+            val initialPopulation = startEvolution(interceptedStart)
+            val evaluatedPopulation = evaluatePopulation(initialPopulation)
+            val parents = selectParents(evaluatedPopulation)
             val survivors = selectSurvivors(evaluatedPopulation)
-            val alteredOffspring = alter(offspring, evolution)
-            val nextPopulation = survivors + alteredOffspring.population
-            val pop = evaluate(EvolutionState(nextPopulation, generation), true)
-            evolutionResult = EvolutionResult(optimizer, pop, ++generation)
-            val afterResult = interceptor.after(evolutionResult)
-            afterResult
+            val offspring = alterOffspring(parents)
+            val nextPopulation = survivors.copy(population = survivors.population + offspring.population)
+            val nextGeneration = evaluatePopulation(nextPopulation)
+            val interceptedEnd = interceptor.after(nextGeneration)
+            return interceptedEnd.copy(generation = interceptedEnd.generation + 1)
         }
+        ...
 
-        class Builder<DNA, G : Gene<DNA, G>>(
-            private val fitnessFunction: (Genotype<DNA, G>) -> Double,
-            private val genotype: Genotype.Factory<DNA, G>,
-        ) {
-            fun build() = Engine(...)
+        class Factory<T, G>(...) where G : Gene<T, G> {
             ...
+            fun make() = EvolutionEngine(
+                populationConfig = PopulationConfig(genotypeFactory, populationSize),
+                selectionConfig = SelectionConfig(survivalRate, parentSelector, survivorSelector),
+                alterationConfig = AlterationConfig(alterers),
+                evolutionConfig = EvolutionConfig(
+                    limits, ranker, listeners, evaluator.creator(fitnessFunction), interceptor
+                )
+            )
         }
     }
+  
   \end{code}
 
-  In the provided code, the function \texttt{runBlocking} harnesses 
-  \textit{coroutines} to allow parallel computation.
+  One of the key design decisions of the engine is to make it store as little
+  information as possible.
+  This decision is motivated by the fact that the engine is the most complex
+  component of the framework, and thus, it should be as lightweight as possible
+  to reduce its reasons for change and increase its maintainability.
 
-  It's worth noting that two distinct \texttt{evolve} functions exist: 
-  
-  \begin{itemize}
-    \item \texttt{evolve()} oversees the entire evolutionary procedure.
-    \item \texttt{evolve(start: EvolutionState<DNA, G>)} orchestrates a singular
-      iteration of the evolutionary process, commencing from a specified
-      \texttt{EvolutionState}.
-  \end{itemize}
+  The only information stored by the engine is it's current state, which is
+  composed of the current generation, the population, and the ranker used to
+  evaluate the population.
+  This state is passed as a parameter to all the functions that need it, and
+  the result of these functions is a new state.
 
-  The supplementary \texttt{Builder} class streamlines the engine configuration 
+  Instead of depending on the engine to maintain information about the evolution
+  process, the framework relies on the \emph{evolution listeners} to store
+  information about the evolution process.
+
+  The supplementary \texttt{Factory} class streamlines the engine configuration 
   process.
   Although its utilization is recommended for engine instantiation, it remains 
   optional, ensuring flexibility for users.
 
   Finally, the \texttt{Evolver} interface is designed to accommodate varying 
-  engine implementations, with the \texttt{Engine} class being the exclusive 
-  existing implementation to date.
+  engine implementations, with the \texttt{EvolutionEngine} class being the 
+  exclusive existing implementation to date.
 
-  \paragraph{Termination Criteria}
-    The algorithm employs a set of \texttt{Limit} objects to define its 
-    termination criteria.
-    These objects contain the logic to determine when the algorithm should halt, 
-    thus permitting multiple criteria definitions without requiring 
-    engine-specific awareness of their details.
-
-    The structure of the \texttt{Limit} interface is shown in 
-    \vref{lst:keen:ga:limit}.
-
-    \begin{code}{Limit interface}{label={lst:keen:ga:limit}}{kotlin}      interface Limit {
-          operator fun invoke(engine: Engine<*, *>): Boolean
-      }
-    \end{code}
-
-    Within this interface, the exclusive function is the \texttt{invoke} 
-    operator.
-    This design lets the \texttt{Limit} object function as an invocable entity, 
-    as demonstrated in line 5 of \vref{lst:keen:ga:engine}.
-
-    Currently, the framework incorporates four predefined termination criteria:
-    \begin{enumerate*}
-      \item \texttt{GenerationCount}: halts after a designated number of 
-        generations.
-      \item \texttt{SteadyGenerations}: halts after a certain count of 
-        non-improving generations.
-      \item \texttt{TargetFitness}: ceases once a defined fitness value is 
-        attained.
-      \item \texttt{Matcher}: stops when a predetermined predicate is 
-        met.\footnote{
-          Note that all criteria fundamentally use the \texttt{Matcher} class.
-        }
-    \end{enumerate*}
+  

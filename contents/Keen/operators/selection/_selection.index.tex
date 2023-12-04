@@ -19,40 +19,20 @@
   \begin{code}{Selector interface}{
     label=lst:keen:operators:selection:interface
   }{kotlin}
-    interface Selector<DNA, G : Gene<DNA, G>> {
-      operator fun invoke(
-          population: Population<DNA, G>,
-          count: Int,
-          optimizer: IndividualOptimizer<DNA, G>
-      ): Population<DNA, G>
+    interface Selector<T, G> where G : Gene<T, G> {
+        fun invoke(
+            state: EvolutionState<T, G>, outputSize: Int
+        ): EvolutionState<T, G>
     }
   \end{code}
 
   In this model, the \texttt{Selector} interface gets parameterized according 
-  to the \texttt{DNA} and \texttt{Gene} types.
-  The incorporated \texttt{invoke} method explicitly mentions the population, 
-  the individual count, and an instance of the \texttt{IndividualOptimizer} 
-  class.
+  to the \textit{value} and \textit{gene} types.
+  The incorporated \texttt{invoke} method explicitly mentions the state and 
+  output size parameters, which are essential for the selection process.
   Thanks to Kotlin's capacity for operator overloading, this framework allows 
   direct function invocation through the selector object, depicted as \texttt
   {selector(...)}.\footnote{Syntactic sugar for \texttt{selector.invoke(...)}.}
-
-  We introduce an additional parameter, \texttt{IndividualOptimizer}, which 
-  signifies the optimization strategy employed to facilitate selection, be it 
-  maximization or minimization.\footnote{
-    Both these strategies - maximization and minimization - are integral 
-    components of the \textit{Utility} module in \textit{Keen}.
-    Additionally, the \texttt{IndividualOptimizer} interface can be modified to 
-    support bespoke optimization techniques.
-  }
-
-  \begin{remark}
-    To add depth to our architecture, the \texttt{Selector} interface 
-    seamlessly integrates with the \texttt{AbstractSelector} abstract class.
-    This integration ensures foundational functionalities for all selector 
-    types, while also allowing developers to design specialized selectors by 
-    extending this class.
-  \end{remark}
 
   \subimport{./random/}{Random.tex}
   \subimport{./roulette/}{Roulette.tex}

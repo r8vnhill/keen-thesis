@@ -34,8 +34,8 @@
     being selected for mutation.
   \end{definition}
 
-  Note that this operator is similar to applying a \texttt{RandomMutator} with 
-  on a binary chromosome with a probability of \(\mu\). However, when a given
+  Note that this operator is similar to applying a \texttt{RandomMutator} to a 
+  binary chromosome with a probability of \(\mu\). However, when a given
   gene is selected for mutation, the \texttt{BitFlipMutator} always flips the
   gene's value, whereas the \texttt{RandomMutator} randomly assigns a new value
   to the gene. Take for example a binary chromosome with the following genetic
@@ -45,13 +45,3 @@
   hand, the \texttt{RandomMutator} will randomly assign a new value to the
   gene, which might result in the following: 011\textcolor{red}{1}1001 or
   011\textcolor{red}{0}1001.
-  % Discussion or further analysis can be incorporated here if necessary.
-
-  % \begin{table}[H]
-  %     % Table content goes here
-  %     \caption{
-  %       Presented is an evaluation of the \texttt{BitFlipMutator}'s performance across different scenarios and mutation probabilities. This examination is facilitated by keeping other parameters consistent, ensuring the mutation's isolated impact is discernible.
-  %     }
-  %     \label{tab:keen:op:mut:bit_flip}
-  % \end{table}
-

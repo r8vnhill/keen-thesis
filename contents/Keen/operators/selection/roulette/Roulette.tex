@@ -12,16 +12,25 @@
     It's defined as:
 
     \begin{equation}
-      \Sigma_\mathrm{roulette} :\: 
-        \mathbb{P} \times \mathbb{N} \times \{0, 1\} \to \mathbb{P};\;
+      \Sigma_\mathrm{roulette} :\:
+        \mathbb{P} \times \mathbb{N} \times \{0, 1\};\;
       (P,\, n,\, b) \mapsto \Sigma_\mathrm{roulette}(P,\, n,\, b)
     \end{equation}
 
     where \(P\) represents the population, \(n\) is the individuals' count to 
     select, and \(b\) is a boolean for preceding selection with a sort.
 
-    Let \(\phi_i\) be the fitness of the \(i^{th}\) individual and \(\phi_i' =  
-    \phi_i - \min\left\{\phi_\mathrm{min},\, 0\right\}\) its adjusted fitness. 
+    Let \(\phi_i\) be the fitness of the \(i^{th}\) individual.
+    Suppose we have a function \(t : \mathbb{R}^n \to \mathbb{R}^n\) that 
+    transforms the fitness into a value that assigns greater probabilities to 
+    the fittest individuals according to the ranking strategy.
+
+    The \textit{transformed fitness}, meaning the fitness adjusted to the
+    current ranking strategy, is defined as: \(\Phi' = t(\Phi)\).
+    Consider \(\Phi'_\mathrm{min} = \min\left\{\Phi_i,\, 0\right\}\) the minimum
+    fitness in the population, and \(\phi_i' =  
+    \Phi'_i - \min\left\{\Phi'_\mathrm{min},\, 0\right\}\) its \textit{adjusted 
+    fitness}.
     The selection probability \(p_i\) for the \(i^{th}\) individual is:
 
     \begin{equation}
@@ -42,3 +51,5 @@
   can face challenges.
   If few individuals have significantly higher fitness, they might dominate, 
   reducing diversity over time.
+  A more in depth discussion on this topic can be found in 
+  \vref{sec:fn_opt:conclusion}.

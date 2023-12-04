@@ -2,23 +2,24 @@
 \label{sec:keen:op:cx:combine}
 
   One of the straightforward strategies for executing crossover in genetic 
-  algorithms is to utilize a function that transforms numerical inputs into numerical outputs. Termed the \textit{combine crossover}, this approach 
+  algorithms is to utilize a function that transforms numerical inputs into
+  numerical outputs. Termed the \textit{combine crossover}, this approach 
   processes multiple inputs through a designated function to generate outputs. 
   In \textit{Keen}, this is realized through the \texttt{CombineCrossover} 
   class.
 
-  \begin{definition}[Combine Crossover]
-    The \textit{combine crossover} operator ingests a set of numerical inputs 
-    and employs a specific function to them, producing combined offspring. More 
-    formally, a combine crossover is represented as:
+  \begin{definition}[\(n\)-Combine Crossover]
+    The \textit{\(n\)-combine crossover} operator ingests a set of \(n\)
+    numerical inputs and employs a specific function to them, producing combined
+    offspring. More formally, a combine crossover is represented as:
 
     \begin{equation}
-      X_\mathrm{combine} :\: 
+      X_{n\text{-comb}} :\: 
         \mathbb{P}_\mathbb{R} \times (\mathbb{R}^n \rightarrow \mathbb{R})
           \times [0,\, 1] \times [0,\, 1] \times [0,\, 1] 
             \rightarrow \mathbb{P}_\mathbb{R};\;
         (P,\, f,\, \rho_i,\, \rho_\mathbf{c},\, \rho_g)
-          \mapsto X_\mathrm{combine}(P,\, f,\, \rho_i,\, \rho_\mathbf{c},\, 
+          \mapsto X_{n\text{-comb}}(P,\, f,\, \rho_i,\, \rho_\mathbf{c},\, 
             \rho_g)
     \end{equation}
 
@@ -43,7 +44,7 @@
     employed combiner function.
   \end{remark}
 
-  Significantly, the \texttt{CombineCrossover} operator in \textit{Keen} is 
+  Significantly, the \textit{Combine crossover} operator in \textit{Keen} is 
   architected as an \textbf{open class}, empowering developers to extend it and 
   craft bespoke combiner operators. A case in point is the 
   \texttt{AverageCrossover} operator, which computes the arithmetic mean of the 

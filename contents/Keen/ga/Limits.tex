@@ -1,0 +1,48 @@
+\subsubsection{Termination Criteria}
+  The algorithm employs a set of \texttt{Limit} objects to define its 
+  termination criteria.
+  These objects contain the logic to determine when the algorithm should halt, 
+  thus permitting multiple criteria definitions without requiring 
+  engine-specific awareness of their details.
+
+  The structure of the \texttt{Limit} interface is shown in 
+  \vref{lst:keen:ga:limit}.
+  \begin{code}{Limit interface}{label={lst:keen:ga:limit}}{kotlin}      interface Limit {
+    interface Limit<T, G> where G : Gene<T, G> {
+        var engine: Evolver<T, G>?
+        operator fun invoke(state: EvolutionState<T, G>): Boolean
+    }
+  \end{code}
+
+  This interface is composed of two elements:
+  \begin{enumerate*}
+    \item The \texttt{engine} property, which is used to provide the limit with
+      access to the engine's state, and
+    \item The \texttt{invoke} operator, which is used to determine whether the
+      algorithm should halt.
+  \end{enumerate*}
+
+  This design lets the \texttt{Limit} object function as an invocable entity, 
+  as demonstrated in line 13 of \vref{lst:keen:ga:engine}.
+
+  Furthermore, since the engine was defined in a way that does not store
+  information about the evolution process, a novel approach is proposed, in
+  which the \textit{Limit} registers itself as a listener of the engine.
+  This way, the \textit{Limit} can store any information and perform any
+  computation it requires, without the need for the engine to be aware of it.
+  We claim this approach is more flexible and extensible than the traditional
+  approach of having the engine store the information and perform the
+  computation itself.
+
+  Currently, the framework incorporates four predefined termination criteria:
+  \begin{enumerate*}
+  \item \emph{Generation limit}: halts after a designated number of generations.
+  \item \emph{Steady generations}: halts after a certain count of 
+  non-improving generations.
+  \item \emph{Target fitness}: ceases once a defined fitness value is 
+  attained.
+  \item \emph{Listener limit}: halts when a given listener signals the
+    termination of the algorithm. This class is open and thus can be extended 
+    to incorporate any custom termination criteria.
+  \end{enumerate*}
+  

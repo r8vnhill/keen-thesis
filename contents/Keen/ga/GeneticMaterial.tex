@@ -37,11 +37,10 @@
     Thus, we suggest the following interface for gene implementation:
 
     \begin{code}{Gene interface}{label={lst:keen:ga:gene}}{kotlin}
-      interface Gene<DNA, G: Gene<DNA, G>> : GeneticMaterial<DNA, G>,
-                                             SelfReferential<G> {
-          val dna: DNA
+      interface Gene<T, G> where G : Gene<T, G> {
+          val value: T
           fun mutate(): G
-          fun withDna(dna: DNA): G
+          fun duplicateWithValue(value: T): G
       }
     \end{code}
 
@@ -55,13 +54,11 @@
     To this end, we suggest the following interface for each chromosome:
     
     \begin{code}{Chromosome interface}{label={lst:keen:ga:chromosome}}{kotlin}
-      interface Chromosome<DNA, G : Gene<DNA, G>> : GeneticMaterial<DNA, G>, 
-                                                    Iterable<G> {
+      interface Chromosome<T, G> : Collection<G> where G : Gene<T, G> {
           val genes: List<G>
-          fun withGenes(genes: List<G>): Chromosome<DNA, G>
-    
-          interface Factory<DNA, G : Gene<DNA, G>> {
-              fun make(): Chromosome<DNA, G>
+          fun duplicateWithGenes(genes: List<G>): Chromosome<T, G>
+          interface Factory<T, G> where G : Gene<T, G> {
+              fun make(): Chromosome<T, G>
           }
       }
     \end{code}
@@ -88,8 +85,8 @@
     demonstrated below:
     
     \begin{code}{Genotype class}{label={lst:keen:ga:genotype}}{kotlin}
-      class Genotype<DNA, G : Gene<DNA, G>>(val chromosomes: List<Chromosome<DNA, G>>) :
-          GeneticMaterial<DNA, G>, Iterable<Chromosome<DNA, G>> {
+      data class Genotype<T, G>(val chromosomes: List<Chromosome<T, G>>) :
+          Collection<Chromosome<T, G>> where G : Gene<T, G> {
     
           class Factory<DNA, G : Gene<DNA, G>> {
               fun make(): Genotype<DNA, G> { ... }
@@ -99,6 +96,25 @@
     
     Embedded within is the \texttt{Factory} class, designated for the 
     generation of new genotypes.
+
+    Note this implementation does not depend on the \texttt{Chromosome} type,
+    thus allowing for the use of any chromosome implementation that adheres to
+    the \textit{Gene} type. For example, one could have:
+
+    \begin{code}{Genotype class with custom chromosome}{label={lst:keen:ga:genotype-custom}}{kotlin}
+      genotype {
+          chromosomeOf {
+              intImpl1 { ... }
+          }
+          chromosomeOf {
+              intImpl2 { ... }
+          }
+      }
+    \end{code}
+
+    \noindent where \texttt{intImpl1} and \texttt{intImpl2} are custom 
+    implementations of the \texttt{Chromosome} interface.
+    Thus allowing more flexibility in the design of the genetic material.
 
   \paragraph{Individual}
     The individual epitomizes the expression of the genetic material.
@@ -115,8 +131,9 @@
     In light of this, the structure for the individual is delineated as:
     
     \begin{code}{Individual class}{label={lst:keen:ga:individual}}{kotlin}
-      class Individual<DNA, G : Gene<DNA, G>>(
-          val genotype: Genotype<DNA, G>,
-          val fitness: Double = Double.NaN
-      ) : GeneticMaterial<DNA, G>, Comparable<Individual<DNA, G>> { ... }
+      data class Individual<T, G>(
+        val genotype: Genotype<T, G>,
+        val fitness: Double = Double.NaN
+      ) where G : Gene<T, G> { ... }
     \end{code}
+

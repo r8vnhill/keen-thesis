@@ -1,6 +1,6 @@
 \subsubsection{Tournament Selector}
 \label{sec:keen:operators:selection:tournament}
-  The \texttt{TournamentSelector} is a selection operator that employs the 
+  The \emph{Tournament Selector} is a selection operator that employs the 
   widely-recognized tournament selection strategy found in evolutionary 
   computation.
   At its core, this strategy involves randomly selecting a subset of 
@@ -19,7 +19,7 @@
     \begin{equation}
       \Sigma_\mathrm{tournament} :\: 
         \mathbb{P} \times \mathbb{N} \times \mathbb{N} \to \mathbb{P};\;
-      (P,\, n,\, ka) \mapsto \Sigma_\mathrm{tournament}(P,\, n,\, k)
+      (P,\, n,\, k) \mapsto \Sigma_\mathrm{tournament}(P,\, n,\, k)
     \end{equation}
 
     Herein, \(P\) represents the population, \(n\) stands for the count of 
@@ -45,16 +45,6 @@
     In contrast, a reduced \(k\) champions diversity, helping to deter the 
     premature convergence of the genetic algorithm.
   \end{remark}
-
-  % \begin{table}[ht!]
-  %   % Table goes here
-  %   \caption{
-  %     Displayed above is an evaluation of the tournament selector's efficacy within the Word Generation Problem (WGP) spanning varied word lengths and tournament dimensions. The methodology involved the utilization of a single-point crossover with a fixed 0.2 crossover probability, coupled with a 0.06 mutation rate. The chosen population featured 500 members with an evolutionary epoch threshold set at 1000 generations. The results presented are an averaged outcome from three distinct experimental runs.
-  %   }
-  %   \label{tab:keen:op:select:tournament}
-  % \end{table}
-
-  % Discussion or analysis of the results can be inserted here
 
   For an exhaustive delve into the intricacies and theoretical frameworks 
   surrounding the tournament selection modality, the reader is directed to 
