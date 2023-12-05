@@ -20,11 +20,12 @@
     label=lst:sec:keen:gp:primitives:prog
   }{kotlin}
     class Program<V>(
-      val reducible: Reducible<V>,
-      override val children: List<Program<V>> = emptyList()
-    ) : Tree<Reducible<V>, Program<V>>, Copyable<Program<V>> {
-      // ...
-      operator fun invoke(vararg args: V): V = reducible(children.map { it(*args) })
+        override val value: Reducible<V>,
+        override val children: List<Program<V>>,
+    ) : Tree<Reducible<V>, Program<V>> {
+        /* ... */
+        operator fun invoke(environment: Environment<V>, vararg args: V): V =
+            value(environment, children.map { it(environment, *args) })
     }
   \end{code}
 
@@ -38,10 +39,9 @@
 
   Forming immutable trees, particularly in recursive architectures, can be a 
   challenging endeavor. To counteract this complexity, the \texttt{Tree} 
-  interface introduces a method to instantiate trees by conducting a depth-first 
-  traversal across a list of nodes. The underlying algorithm, designed to 
-  transform a list of nodes into trees, is presented in 
-  \vref{lst:sec:keen:gp:primitives:tree}.
+  interface introduces a method to instantiate trees by conducting a top down
+  tree construction. The underlying algorithm, designed to transform a list of 
+  nodes into trees, is presented in \vref{lst:sec:keen:gp:primitives:tree}.
 
   \begin{code}{Algorithm to create a tree from a list of nodes}{
     label=lst:sec:keen:gp:primitives:tree

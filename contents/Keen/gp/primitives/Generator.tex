@@ -94,33 +94,21 @@
         functions: List<Fun<T>>,
         min: Int,
         max: Int,
-    ): Program<T> {
-        val condition = { h: Int, d: Int ->
-            d == h || 
-              d >= min && random.double() < terminals.size / (terminals.size + functions.size)
-        }
-        return generateProgram(functions, terminals, min, max, condition)
+    ) = generateProgram(terminals, functions, min, max) { h, d ->
+        d == h || d >= min && random.nextDouble() < terminals.size / (terminals.size + functions.size)
     }
 
     fun <T> generateProgramFull(
-        terminals: List<Terminal<T>>,
-        functions: List<Fun<T>>,
-        min: Int,
-        max: Int,
-    ): Program<T> {
-        val condition = { height: Int, depth: Int ->
-            depth == height
-        }
-        return generateProgram(functions, terminals, min, max, condition)
-    }
+        terminals: List<Terminal<T>>, functions: List<Fun<T>>, min: Int, max: Int,
+    ) = generateProgram(terminals, functions, min, max) { h, d -> h == d }
     
     fun <T> generateProgram(
-        functions: List<Fun<T>>,
         terminals: List<Terminal<T>>,
+        functions: List<Fun<T>>,
         min: Int,
         max: Int,
         condition: (Int, Int) -> Boolean,
-    ) = Tree.generate(terminals, functions, min, max, condition, ::Program) { f, c ->
+    ) = Tree.generate(terminals to functions, min, max, condition, ::Program) { f, c ->
         Program(f, c)
     }
   \end{code}
