@@ -20,10 +20,10 @@
     flexibility to introduce varied genetic construction techniques seamlessly.
 
     Consider the \texttt{Chromosome.Factory} interface and the 
-    \texttt{Chromosome.AbstractFactory}. These provide a standardized mechanism 
-    for generating chromosome objects, ensuring easy adaptability to diverse 
-    problem domains such as the Knapsack problem (refer to 
-    \vref{chap:knapsack}).
+    \texttt{Chromosome.AbstractFactory} abstract class that extends it.These 
+    provide a standardized mechanism for generating chromosome objects, ensuring
+    easy adaptability to diverse and complex problem domains such as crash
+    reproduction (refer to \vref{chap:beacon})
 
     For illustration, consider the \texttt{SimpleChromosome}:
 
@@ -31,7 +31,7 @@
       Implementation of the \textit{SimpleChromosome} using the 
       \texttt{Chromosome.Factory} interface.
     }{label=lst:keen:factory}{kotlin}
-      class SimpleChromosome(override val genes: List<SimpleGene>) :
+      data class SimpleChromosome(override val genes: List<SimpleGene>) :
           Chromosome<Int, SimpleGene> {
           // ... Other implementations ...
 
@@ -67,6 +67,36 @@
           // ... Use the result ...
       }
     \end{code}
+
+  \subsection{Observer Pattern for Evolution Monitoring}
+    A key design pattern employed in \textit{Keen} is the Observer Pattern. This
+    pattern is fundamental for tracking the status of the evolutionary process.
+    Its primary advantage lies in decoupling the core evolutionary engine from
+    the monitoring components. This separation facilitates the extension and
+    customization of monitoring functionalities without affecting the underlying
+    evolutionary mechanisms.
+
+    As discussed in \vref{sec:keen:ga:engine}, the \texttt{EvolutionListener}
+    interface acts as a cornerstone for this pattern. It offers a standardized
+    approach to observe and respond to the evolutionary process. Developers can
+    implement this interface to devise custom listeners, which can then be
+    seamlessly integrated with the evolutionary engine, enhancing the
+    flexibility and adaptability of the monitoring process.
+
+  \subsection{Modularity in Design}
+    The architecture of \textit{Keen} is inherently modular, offering developers
+    the flexibility to craft and integrate new algorithms with ease. This
+    modularity is exemplified in the way genetic algorithms can be customized.
+    Developers can, for instance, design a genetic algorithm that iteratively
+    modifies the population until certain criteria are met, utilizing the
+    existing functions that define the genetic algorithm's stages.
+
+    This modular approach extends to the enhancement of evolutionary process
+    notifications. For example, developers can augment the
+    \texttt{EvolutionListener} to trigger alerts when the population achieves a
+    predefined fitness level. This ability to modify and extend the notification
+    system underscores the framework's versatility in adapting to varied
+    evolutionary scenarios.
 
   \subsection{Sustaining Future Evolution}
     Designed with a forward-looking perspective, \textit{Keen} leverages 
