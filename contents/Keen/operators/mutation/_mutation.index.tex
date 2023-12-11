@@ -25,7 +25,7 @@
   \begin{code}{
     Mutator interface (Note: For clarity, certain parts of the code have been omitted.)
   }{}{kotlin}
-    Mutator<T, G> where G : Gene<T, G> {
+    interface Mutator<T, G> where G : Gene<T, G> {
         val individualRate: Double
         val chromosomeRate: Double
         operator fun invoke(

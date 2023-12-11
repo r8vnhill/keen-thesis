@@ -1,0 +1,36 @@
+\section{Introduction}
+\label{sec:beacon:intro}
+
+    The realm of automatic test case generation in software engineering has seen significant advancements, particularly 
+    with the integration of Generative Pre-trained Transformer (GPT) models. Tools like \textit{ChatGPT}, 
+    \textit{GitHub Copilot}, and \textit{JetBrain's AI Assistant} exemplify the progress in this field. A notable 
+    development in this area is \textit{ChatUniTest} by Xie et al.~\autocite{xieChatUniTestChatGPTbasedAutomated2023}, 
+    a GPT-based tool for automated Java test case generation. It has shown promise when compared to established 
+    tools like \textit{Evosuite}~\autocite{fraserEvoSuiteAutomaticTest2011} and 
+    \textit{Randoop}~\autocite{pachecoRandoopFeedbackdirectedRandom2007}. Despite these advancements, concerns about 
+    the environmental impact of large-scale language models, such as significant water and electricity consumption, 
+    cannot be overlooked~\autocite{georgeEnvironmentalImpactAI2023, UWResearcherDiscusses}.
+
+    Parallel to general test case generation, crash reproduction—a niche yet critical area in software engineering—focuses 
+    on generating test cases to replicate specific crashes for debugging purposes. This task involves navigating extensive 
+    search spaces and understanding intricate codebase semantics. Bergel \& Slater's 
+    \textit{Beacon}~\autocite{bergelBeaconAutomatedTest2021}, an automated tool for Python, leverages a genetic 
+    algorithm to create Minimal Crash Reproduction (MCR) test cases. 
+    Their work demonstrates the efficacy of this approach across various exceptions and program types. However, a 
+    detailed performance analysis and comparison with other state-of-the-art tools are absent in their study.
+
+    A promising avenue within this domain is Linear Genetic Programming (LGP), characterized by representing individuals 
+    as linear instruction sequences. The output of the final instruction in this sequence defines the individual's output. 
+    Building upon the concept introduced by Bergel \& Slater, this chapter presents a novel LGP-based approach for 
+    generating MCR test cases in Kotlin. We aim to conduct an exhaustive performance analysis of our methodology. 
+    Due to the nascent stage of Kotlin-specific crash reproduction tools, direct performance comparisons with other 
+    established tools will not be pursued. Instead, our focus will be on assessing our approach's effectiveness in 
+    replicating crashes induced by diverse exceptions in various program types.
+
+    In this chapter we will explore the effectiveness of the \textit{Keen} framework in addressing the complex problem
+    of crash reproduction by extending the framework's base functionality to incorporate an LGP algorithm, as well as
+    the performance of different alteration operators in the context of this algorithm. The remainder of this chapter is
+    structured as follows: Section~\ref{sec:beacon:problem} presents the problem description, followed by the solution
+    in Section~\ref{sec:beacon:solution}. Section~\ref{sec:beacon:results} presents the results and analysis, and
+    Section~\ref{sec:beacon:conclusion} concludes the chapter.
+    

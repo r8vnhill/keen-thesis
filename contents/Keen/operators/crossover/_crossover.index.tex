@@ -1,33 +1,93 @@
 \subsection{Crossover}
 \label{sec:keen:op:cx}
-  Crossover, also termed recombination, serves as an indispensable operator in 
-  a plethora of evolutionary computation algorithms. Its primary function is to 
-  generate novel candidate solutions by amalgamating attributes from multiple 
-  input solutions. This operation, inspired by genetic mechanisms observed in 
-  biological reproduction, is pivotal for striking a balance between 
-  exploration and exploitation within an algorithm's search space. By fostering 
-  a diverse set of solution structures and retaining beneficial traits, 
-  crossover steers the evolutionary process closer to optimal or near-optimal 
-  solutions.
+    Crossover, also termed recombination, serves as an indispensable operator in 
+    a plethora of evolutionary computation algorithms. Its primary function is to 
+    generate novel candidate solutions by amalgamating attributes from multiple 
+    input solutions. This operation, inspired by genetic mechanisms observed in 
+    biological reproduction, is pivotal for striking a balance between 
+    exploration and exploitation within an algorithm's search space. By fostering 
+    a diverse set of solution structures and retaining beneficial traits, 
+    crossover steers the evolutionary process closer to optimal or near-optimal 
+    solutions.
 
-  Within the \textit{Keen} framework, a diverse array of crossover techniques 
-  has been conceptualized and developed, each epitomizing a distinctive 
-  recombination approach. This section endeavors to furnish an exhaustive 
-  overview of these methodologies, elucidating their mechanics, applications, 
-  and subtle intricacies.
+    Within the \textit{Keen} framework, a diverse array of crossover techniques 
+    has been conceptualized and developed, each epitomizing a distinctive 
+    recombination approach. This section endeavors to furnish an exhaustive 
+    overview of these methodologies, elucidating their mechanics, applications, 
+    and subtle intricacies.
 
-  What distinguishes \textit{Keen} is its adaptable approach to crossover. Many 
-  frameworks typically limit a crossover to two parents, but \textit{Keen} 
-  offers users the flexibility to determine the number of parents they wish to 
-  involve. Research supports this broader view of crossover, with 
-  studies advocating for multi-parent crossover approaches, including those by 
-  Tsutsui and Yamamura~\autocite{tsutsuiMultiparentRecombinationSimplex1999}, 
-  Elsayed et al.\autocite{elsayedGANewMultiparent2011}, and Arram and 
-  Ayob\autocite{arramNovelMultiparentOrder2019}.
-  
-  \subimport{./}{Combine.tex}
-  \subimport{./}{SinglePoint.tex}
-  \subimport{./}{OX.tex}
-  \subimport{./}{PMX.tex}
-  \subimport{./}{PBX.tex}
+    
+    \subsubsection{Generalized Crossover Algorithm}
+        A standout feature of \textit{Keen} is its innovative approach to crossover. Diverging from conventional 
+        frameworks that typically restrict crossover to two-parent models, \textit{Keen} provides users the flexibility 
+        to engage multiple parents in the crossover process. This multi-parent crossover approach aligns with 
+        contemporary research findings~\autocite{tsutsuiMultiparentRecombinationSimplex1999,elsayedGANewMultiparent2011,arramNovelMultiparentOrder2019}, 
+        which advocate for the benefits of such strategies.
+
+        To facilitate this advanced methodology, \textit{Keen} introduces a \textit{generalized crossover} algorithm. 
+        This algorithm forms the basis for multi-parent crossover operations, offering a template for users to develop 
+        custom crossover strategies.
+
+        \begin{code}{
+            Generalized crossover algorithm in \textit{Keen}, serving as a foundation for multi-parent crossover.
+        }{
+            label=code:keen:op:cx:generalized
+        }{kotlin}
+            val parents = Random.subsets(population, numParents, exclusivity)
+            val recombined = []
+            while (|recombined| < outputSize) {
+                recombined += crossover(parents.random())
+            }
+        \end{code}
+
+        This algorithm initiates by selecting parent groups from the population, governed by the \texttt{numParents} 
+        parameter. The \texttt{exclusivity} parameter dictates whether parents can be chosen multiple times. 
+        Subsequently, these selected parents are recombined to generate offspring, until the desired number of offspring 
+        (\texttt{outputSize}) is reached. This algorithm is deliberately designed to be agnostic to the number of 
+        parents, thus allowing for versatile implementation of various multi-parent crossover methods.
+
+        The subset selection algorithm, an integral part of the generalized crossover process, is detailed in 
+        \vref{code:keen:op:cx:subset}.
+
+        \begin{code}{
+            Subset selection algorithm utilized in the generalized crossover process.
+        }{
+            label=code:keen:op:cx:subset
+        }{kotlin}
+            fun <T> Random.subsets(
+                elements: List<T>,
+                size: Int,
+                exclusive: Boolean,
+            ): List<List<T>> {
+                val subsets = []
+                var remainingElements = elements.shuffled
+                while (remainingElements is not empty) {
+                    val subset = if (exclusive) {
+                        remainingElements.take(size)
+                    } else {
+                        List(size) {
+                            if (it == 0) remainingElements.removeFirst()
+                            else remainingElements.random().also { 
+                                element -> remainingElements.remove(element) 
+                            }
+                        }
+                    }
+                    subsets += subset
+                    remainingElements = remainingElements.drop(size)
+                }
+                return subsets
+            }
+        \end{code}
+
+        In this algorithm, the elements are first shuffled to ensure randomness. Subsets of elements are then formed 
+        based on the specified size. If \texttt{exclusive} is \texttt{true}, unique elements are chosen for each subset. 
+        Otherwise, the first element of each subset is unique, while the rest are randomly selected and removed from the 
+        remaining pool to avoid repetition. This approach guarantees that every element is included in at least one 
+        subset, thereby ensuring comprehensive coverage and variety in the crossover process.
+
+    \subimport{./}{Combine.tex}
+    \subimport{./}{SinglePoint.tex}
+    \subimport{./}{OX.tex}
+    \subimport{./}{PMX.tex}
+    \subimport{./}{PBX.tex}
   

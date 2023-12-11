@@ -1,0 +1,122 @@
+\begin{code}{%
+    Functions utilized as the search space for the \textit{Tracer} tool.
+}{label=lst:app:beacon:fun}{kotlin}
+    fun one(): Int = 1
+    fun two(): Int = 2
+    fun zero(): Int = 0
+    fun negativeInt(): Int = -1
+    fun throwException0(): Nothing = throw IllegalArgumentException("This function always throws an exception!")
+    fun compareWithOneHundred(x: Int): Nothing = if (x < 100) {
+        if (x > 50) throwIAE("The number is greater than 50")
+        else throw AssertionError("The number is less than 50")
+    } else {
+        throw IllegalArgumentException("The number is greater than 100")
+    }
+    private fun throwIAE(s: String): Nothing {
+        throw IllegalArgumentException(s)
+    }
+    fun addNumbers(x: Int, y: Int) = x + y
+    fun multiplyNumbers(x: Int, y: Int) = x * y
+\end{code}
+
+\begin{code}{%
+    The \texttt{Tracer} tool implementation.
+}{label=lst:app:beacon:main}{kotlin}
+    class Tracer<T : Throwable>(
+        private val functions: List<KFunction<*>>,
+        private val targetException: KClass<T>,
+        private val targetMessage: String,
+        private val targetFunction: String,
+        private val listeners: List<EvolutionListener<KFunction<*>, KFunctionGene>>,
+    ) {
+        val engine = evolutionEngine(
+            ::fitnessFunction,
+            genotype {
+                chromosomeOf {
+                    KFunctionChromosome.Factory(10) {
+                        KFunctionGene(functions.random(Domain.random), functions)
+                    }
+                }
+            }
+        ) {
+            this.populationSize = 1000
+            this.alterers += listOf(RandomMutator(0.2), SinglePointCrossover(0.3))
+            this.limits += listOf(TargetFitness(5.0), GenerationLimit(1000))
+            this.listeners += this@Tracer.listeners
+        }
+
+        fun run(): MinimalCrashReproduction {
+            val result = engine.evolve()
+            val program = minimize(result).population
+                .groupBy { it.fitness }
+                .maxByOrNull { it.key }?.value
+                ?.minByOrNull { it.flatMap().size }
+            return MinimalCrashReproduction(program!!)
+        }
+
+        private fun minimize(result: EvolutionState<KFunction<*>, KFunctionGene>) = 
+            result.trimStart().trimEnd()
+
+        private fun EvolutionState<KFunction<*>, KFunctionGene>.trimEnd() = map {
+            // Iteratively remove the last instruction from the genotype
+            for (i in 1..it.genotype.first().size) {
+                val candidate = Genotype(KFunctionChromosome(it.genotype.first().take(i)))
+                val candidateFitness = fitnessFunction(candidate)
+                // If fitness is maintained or improved, replace the genotype with the new minimized one
+                if (candidateFitness >= it.fitness) {
+                    return@map it.copy(genotype = candidate, fitness = candidateFitness)
+                }
+            }
+            it
+        }
+
+
+        private fun EvolutionState<KFunction<*>, KFunctionGene>.trimStart() = map {
+            // Iteratively remove the first instruction from the genotype
+            for (i in it.genotype.first().size downTo 1) {
+                val candidate = Genotype(KFunctionChromosome(it.genotype.first().drop(i)))
+                val candidateFitness = fitnessFunction(candidate)
+                // If fitness is maintained or improved, replace the genotype with the new minimized one
+                if (candidateFitness >= it.fitness) {
+                    return@map it.copy(genotype = candidate, fitness = candidateFitness)
+                }
+            }
+            it
+        }
+
+        private fun fitnessFunction(genotype: Genotype<KFunction<*>, KFunctionGene>) = genotype.first().let { statements ->
+            try {
+                val variables = mutableListOf<Any?>()
+                statements.forEach {
+                    variables += it(variables.takeLast(it.arity))
+                }
+                0.0
+            } catch (invocationTargetException: InvocationTargetException) {
+                var fitness = 0.0
+                val ex = invocationTargetException.targetException
+                val stack = ex.stackTrace
+                if (targetException == ex::class) {
+                    fitness += 2.0
+                    if (targetMessage.isEmpty() || targetMessage == ex.message) {
+                        fitness++
+                    }
+                }
+                if (targetFunction.isEmpty() || stack.any { it.methodName == targetFunction }) {
+                    fitness += 2.0
+                }
+                fitness
+            } catch (e: Exception) {
+                0.0
+            }
+        }
+
+        companion object {
+            inline fun <reified E : Throwable> create(
+                functions: List<KFunction<*>>,
+                targetMessage: String = "",
+                targetFunction: String = "",
+                listeners: List<EvolutionListener<KFunction<*>, KFunctionGene>> = emptyList()
+            ) = Tracer(functions, E::class, targetMessage, targetFunction, listeners)
+        }
+    }
+\end{code}

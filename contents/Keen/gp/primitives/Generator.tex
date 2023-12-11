@@ -95,7 +95,8 @@
         min: Int,
         max: Int,
     ) = generateProgram(terminals, functions, min, max) { h, d ->
-        d == h || d >= min && random.nextDouble() < terminals.size / (terminals.size + functions.size)
+        d == h || d >= min 
+            && random.double() < terminals.size / (terminals.size + functions.size)
     }
 
     fun <T> generateProgramFull(

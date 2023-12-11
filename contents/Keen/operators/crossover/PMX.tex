@@ -17,9 +17,8 @@
 
     \begin{equation}
       X_\mathrm{pmx} :\: 
-        \mathbb{P} \times [0,\, 1] \times [0,\, 1] \rightarrow \mathbb{P};\;
-        (P,\, \rho_\mathbf{i},\, \rho_\mathbf{c})
-          \mapsto X_\mathrm{pmx}(P,\, \rho_\mathbf{i},\, \rho_\mathbf{c})
+        \mathbb{P} \times [0,\, 1] \times [0,\, 1] \times \{0,\, 1\} \rightarrow \mathbb{P};\;
+        (P,\, \rho_\mathbf{i},\, \rho_\mathbf{c}, e) \mapsto X_\mathrm{pmx}(P,\, \rho_\mathbf{i},\, \rho_\mathbf{c}, e)
     \end{equation}
 
     where:
@@ -28,6 +27,7 @@
       \item \(P\) denotes a population of sequenced chromosomes.
       \item \(\rho_\mathbf{i}\) stands for the likelihood of the crossover being applied to an individual.
       \item \(\rho_\mathbf{c}\) signifies the probability of triggering the PMX operation on a chromosome.
+      \item \(e\) is a boolean value that determines whether the same individual can be used more than once as a parent.
     \end{itemize}
   \end{definition}
 

@@ -47,7 +47,6 @@
 
     \newpage
     \begin{center}
-
         \subsection{Random Selector}
             \subimport{results/}{Random.tex}
         \subsection{Tournament Selector}
@@ -55,3 +54,34 @@
         \subsection{Roulette Selector}
             \subimport{results/}{Roulette.tex}
     \end{center}
+
+    A primary observation from the analysis is the minimal standard deviation in selection times across all selectors, 
+    suggesting remarkable stability and consistency in the selection phase. Notably, the Random Selector exhibits the 
+    lowest average selection time, attributed to its lack of computational requirements for individual selection. In 
+    contrast, both the Tournament and Roulette selectors show comparable average selection times, with the Roulette 
+    selector marginally slower. This slight increase in time for the Roulette selector stems from its necessity to 
+    calculate fitness weights for each individual - a more computationally demanding task than the Tournament selector's 
+    simple fitness comparison.
+
+    When examining average evolution times, we find that they are relatively similar across all selectors, approximately 
+    in the order of \(10^{-1}\) seconds. The Tournament selector, however, demonstrates a marginal speed advantage. This 
+    efficiency is linked to its ability to avoid iterating through all generations to find an adequate solution, as it 
+    effectively maintains the optimal solution once discovered. The Roulette selector, in comparison, is slightly slower 
+    than the Random selector due to the additional computational load of fitness weight calculations.
+
+    Focusing on the evolution outcomes, a distinct advantage of the Tournament selector emerges. It uniquely halts the 
+    evolutionary process before reaching the maximum generation limit, achieving 50 steady generations earlier. This 
+    efficiency is rooted in its capability to sustain an optimal solution once it is identified, unlike the other 
+    selectors.
+
+    Further analysis reveals that the Tournament selector consistently yields the lowest average error, indicating its 
+    superiority in finding the most optimal solutions. The Roulette and Random selectors exhibit similar average errors, 
+    with the Roulette selector slightly outperforming the Random one. This observation is reinforced by the lower 
+    standard deviation in error for the Roulette selector, implying greater consistency in its results.
+
+    Notable exceptions to the Tournament selector's low error performance are observed with the Rastrigin, Egg Holder, 
+    and Schaffer functions. These functions are characterized by multiple, evenly distributed local optima, posing a 
+    significant challenge for the algorithm to escape once convergence is achieved. Consequently, this leads to the 
+    Tournament selector's inability to locate the global optimum in these cases. In contrast, functions like Booth, with 
+    a single global optimum and a limited set of local optima, present a less complex landscape, enabling easier escape 
+    and convergence to the global optimum.

@@ -43,7 +43,7 @@
       val plotter = EvolutionPlotter<Int, IntGene>()
       val engine = evolutionEngine(
           ::fitnessFunction,
-          genotype {
+          genotypeOf {
               repeat(meetings.size) {
                   chromosomeOf {
                       ints {
@@ -55,8 +55,12 @@
           }) {
           populationSize = POPULATION_SIZE
           ranker = FitnessMinRanker()
-          alterers += listOf(RandomMutator(individualRate = 0.06), SinglePointCrossover(chromosomeRate = 0.2))
-          limits += listOf(SteadyGenerations(generations = 20), GenerationLimit(generations = 100))
+          alterers += listOf(
+            RandomMutator(individualRate = 0.06), SinglePointCrossover(chromosomeRate = 0.2)
+          )
+          limits += listOf(
+            SteadyGenerations(generations = 20), GenerationLimit(generations = 100)
+          )
           listeners += plotter + summary  // Add both listeners to the engine
       }
       engine.evolve()
@@ -115,7 +119,6 @@ The above code will produce the following output:
   Room 8: []
   Room 9: []
   Room 10: [Meeting(start=5, end=6), Meeting(start=1, end=5)]
-
 \end{minted}
 
 \begin{figure}[ht!]

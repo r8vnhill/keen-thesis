@@ -52,7 +52,9 @@
             val parents = selectParents(evaluatedPopulation)
             val survivors = selectSurvivors(evaluatedPopulation)
             val offspring = alterOffspring(parents)
-            val nextPopulation = survivors.copy(population = survivors.population + offspring.population)
+            val nextPopulation = survivors.copy(
+                population = survivors.population + offspring.population
+            )
             val nextGeneration = evaluatePopulation(nextPopulation)
             val interceptedEnd = interceptor.after(nextGeneration)
             return interceptedEnd.copy(generation = interceptedEnd.generation + 1)
@@ -63,7 +65,9 @@
             ...
             fun make() = EvolutionEngine(
                 populationConfig = PopulationConfig(genotypeFactory, populationSize),
-                selectionConfig = SelectionConfig(survivalRate, parentSelector, survivorSelector),
+                selectionConfig = SelectionConfig(
+                    survivalRate, parentSelector, survivorSelector
+                ),
                 alterationConfig = AlterationConfig(alterers),
                 evolutionConfig = EvolutionConfig(
                     limits, ranker, listeners, evaluator.creator(fitnessFunction), interceptor
@@ -98,5 +102,3 @@
   Finally, the \texttt{Evolver} interface is designed to accommodate varying 
   engine implementations, with the \texttt{EvolutionEngine} class being the 
   exclusive existing implementation to date.
-
-  

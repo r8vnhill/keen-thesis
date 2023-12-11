@@ -102,7 +102,7 @@
     the \textit{Gene} type. For example, one could have:
 
     \begin{code}{Genotype class with custom chromosome}{label={lst:keen:ga:genotype-custom}}{kotlin}
-      genotype {
+      genotypeOf {
           chromosomeOf {
               intImpl1 { ... }
           }
@@ -126,8 +126,6 @@
         \item The associated \textit{genotype}.
     \end{enumerate}
     
-    In representing individual entities within a population, it's imperative 
-    that a individual can be compared with its peers. 
     In light of this, the structure for the individual is delineated as:
     
     \begin{code}{Individual class}{label={lst:keen:ga:individual}}{kotlin}

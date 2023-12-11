@@ -15,20 +15,19 @@
     ordered crossover is represented as:
 
     \begin{equation}
-      X_\mathrm{ox} :\: 
-        \mathbb{P} \times [0,\, 1] \times [0,\, 1] \rightarrow \mathbb{P};\;
-        (P,\, \rho_\textbf{i},\, \rho_\mathbf{c})
-          \mapsto X_\mathrm{ox}(P,\, \rho_\textbf{i},\, \rho_\mathbf{c})
+        X_\mathrm{ox} :\: 
+            \mathbb{P} \times [0,\, 1] \times [0,\, 1] \times \{0,\, 1\} \rightarrow \mathbb{P};\;
+            (P,\, \rho_\textbf{i},\, \rho_\mathbf{c}, e)
+              \mapsto X_\mathrm{ox}(P,\, \rho_\textbf{i},\, \rho_\mathbf{c}, e)
     \end{equation}
 
     where:
 
     \begin{itemize}
       \item \(P\) denotes a population of ordered chromosomes.
-      \item \(\rho_\textbf{i}\) is the probability of applying the crossover to an 
-        individual.
-      \item \(\rho_\mathbf{c}\) represents the chance of employing the 
-        ordered crossover on a chromosome.
+      \item \(\rho_\textbf{i}\) is the probability of applying the crossover to an individual.
+      \item \(\rho_\mathbf{c}\) represents the chance of employing the ordered crossover on a chromosome.
+      \item \(e\) is a boolean value that determines whether the same individual can be used more than once as a parent.
     \end{itemize}
   \end{definition}
 

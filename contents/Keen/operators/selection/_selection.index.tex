@@ -20,7 +20,7 @@
     label=lst:keen:operators:selection:interface
   }{kotlin}
     interface Selector<T, G> where G : Gene<T, G> {
-        fun invoke(
+        operator fun invoke(
             state: EvolutionState<T, G>, outputSize: Int
         ): EvolutionState<T, G>
     }

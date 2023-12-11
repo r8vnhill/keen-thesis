@@ -15,20 +15,20 @@
     crossover is represented as:
 
     \begin{equation}
-      X_\mathrm{sp} :\: 
-        \mathbb{P} \times [0,\, 1] \times [0,\, 1] \rightarrow \mathbb{P};\;
-        (P,\, \rho_i,\, \rho_\mathbf{c})
-          \mapsto X_\mathrm{sp}(P,\, \rho_i,\, \rho_\mathbf{c})
+        X_\mathrm{sp} :\: 
+            \mathbb{P} \times [0,\, 1] \times [0,\, 1] \times \{0,\, 1\} \rightarrow \mathbb{P};\;
+            (P,\, \rho_i,\, \rho_\mathbf{c}, e) \mapsto X_\mathrm{sp}(P,\, \rho_i,\, \rho_\mathbf{c}, e)
     \end{equation}
 
     where:
 
     \begin{itemize}
-      \item \(P\) represents a population of binary chromosomes.
-      \item \(\rho_i\) symbolizes the likelihood of applying the crossover to 
-        an individual.
-      \item \(\rho_\mathbf{c}\) symbolizes the likelihood of applying the 
-        crossover to a chromosome.
+        \item \(P\) represents a population of binary chromosomes.
+        \item \(\rho_i\) symbolizes the likelihood of applying the crossover to 
+            an individual.
+        \item \(\rho_\mathbf{c}\) symbolizes the likelihood of applying the 
+            crossover to a chromosome.
+        \item \(e\) is a boolean value that determines whether the same individual can be used as both parents.
     \end{itemize}
   \end{definition}
 

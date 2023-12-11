@@ -66,11 +66,10 @@
   in \vref{lst:app:keen_room_scheduling}.
 
   \begin{code}{
-      Usage of the \textit{Keen} Domain Specific Configuration Language 
-      (KDSCL) to create a \texttt{Genotype} for the \textit{Room
-      Scheduling} problem.
+      Usage of the \textit{Keen} Domain Specific Configuration Language to create a \texttt{Genotype} for the 
+      \textit{Room Scheduling} problem.
   }{label={lst:keen:arch:scheduling}}{kotlin}
-    genotype {                  // Create a genotype
+    genotypeOf {                // Create a genotype
         repeat(meetings.size) { // Create a chromosome for each meeting
             chromosomeOf {      // Create a chromosome
                 ints {          // Containing an integer gene

@@ -1,0 +1,35 @@
+\section{Problem Description}
+\label{sec:beacon:problem}
+
+    The primary goal of this study is to demonstrate a complex application of the \textit{Keen} framework, focusing on 
+    the challenging domain of crash reproduction in Kotlin programs. Specifically, our objective is to replicate stack 
+    traces accurately while ensuring that the resultant Kotlin programs are not only syntactically correct but also 
+    concise, ideally minimized in terms of code length.
+
+    This task presents itself as a maximization problem, where the aim is to maximize the similarity between the 
+    original program's stack trace and that of the generated program. The inherent complexity lies in producing a Kotlin
+    program that not only triggers a stack trace akin to the original but does so with the minimal number of code lines.
+
+    Given the vastness of the search space, encompassing all conceivable Kotlin programs, practical constraints are 
+    necessary to render this problem solvable. To this end, we confine our search to Kotlin programs with a maximum 
+    length of 10 lines, comprising a predefined set of functions capable of handling up to three arguments.
+
+    It is important to note, however, that even this \enquote{constrained} search space remains infinitely large. This 
+    infinity is evident when considering a function with a single real number argument (\(\mathbb{R}\)), representing 
+    an uncountably infinite set. 
+
+    Similar to our previous case studies, the effectiveness of the \textit{Keen} framework in navigating this 
+    immensely large search space will be evaluated. This will be accomplished by comparing the results achieved 
+    through the framework against those obtained from a random search algorithm, highlighting \textit{Keen}'s 
+    capabilities in efficiently addressing complex problems in the realm of crash reproduction.
+
+    Specifically, we will try to reproduce two test cases:
+
+    \begin{enumerate}
+        \item \textbf{TC1}: A program that throws an \texttt{IllegalArgumentException} with the message \enquote{The 
+            number is greater than 100}; and
+        \item \textbf{TC2}: A program that throws an \texttt{IllegalArgumentException} that has been thrown by a 
+            function with the name \texttt{throwIAE}.
+    \end{enumerate}
+    
+    The concrete functions used in this study are presented in \vref{lst:app:beacon:fun}.

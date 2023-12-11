@@ -1,0 +1,33 @@
+\chapter{Case Study: Crash Reproduction}
+\label{chap:beacon}
+    \subimport{./beacon/}{Intro.tex}
+    \subimport{beacon/}{Problem.tex}
+    \subimport{beacon/}{Solution.tex}
+    \subimport{beacon/}{Results.tex}
+    \newpage
+    \section{Conclusion}
+    \label{sec:bea  con:conclusion}
+
+        Our comprehensive evaluation of various genetic operators in the context of crash reproduction reveals key 
+        insights into their effectiveness. The experiments, conducted across different test cases (\texttt{TC1} and 
+        \texttt{TC2}), demonstrate that the performance of these genetic operators is highly contingent on the specific 
+        characteristics of the test case. Notably, for \texttt{TC1}, inversion and swap mutation operators combined with 
+        single-point crossover successfully achieved the target  fitness value, whereas the random mutation operator did 
+        not. Conversely, with the uniform crossover, none of the operator combinations met the fitness goal. In the case 
+        of \texttt{TC2}, a different pattern emerged, indicating a distinct response of the genetic operators to varying 
+        test conditions.
+
+        The absence of a clear trend in average fitness improvement over time suggests potential misalignment of the 
+        fitness function with the nuances of crash reproduction. This lack of convergence towards a solution hints at 
+        the fitness function's limitations in distinguishing near-optimal solutions. Furthermore, the results may 
+        reflect the constraints of the simplified LGP implementation employed in this study. A more sophisticated LGP 
+        framework or a Multi-Objective Genetic Programming approach, which balances the optimization of the target 
+        fitness value and instruction count, could potentially enhance performance. Such a strategy might yield 
+        solutions that are not only proximal to the target fitness value but also characterized by fewer instructions, 
+        aligning more closely with practical crash reproduction scenarios.
+
+        Considering these findings, we deem a statistical analysis of the results unnecessary. The current data, while 
+        insightful, does not provide a definitive foundation for such an analysis. Moving forward, the exploration of 
+        more advanced genetic programming techniques and the refinement of fitness functions tailored to crash 
+        reproduction may unlock further advancements in this field.
+        
