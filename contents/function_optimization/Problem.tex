@@ -1,102 +1,80 @@
 \section{Problem Description}
 \label{sec:fn_opt:problem}
-  The primary task in this chapter revolves around the optimization of
-  several real functions.
-  These functions, which can be found in \vref{app:test_functions}, are
-  selected based on their complexity and their widespread use in the field of
-  optimization.
-  We aim to find the \textbf{global minimum} for each of these functions, a
-  problem known as global optimization.
+    The primary task in this chapter revolves around the optimization of several real functions. These functions, which 
+    can be found in \vref{app:test_functions}, are selected based on their complexity and their widespread use in the 
+    field of optimization. We aim to find the \textbf{global minimum} for each of these functions, a problem known as 
+    global optimization.
 
-  In the context of this case study, the search space is defined as the set of
-  all possible solutions to the optimization problem.
-  Since we are dealing with real-valued functions, the search space will be a
-  subset of the set of real numbers, \(\mathbb{R}\).
-  The exact subset that forms the search space can vary depending on the
-  function we are optimizing.
-  For example, the \textit{Cross-in-Tray} function has a search space of
-  \([-10,\,10]^2\), whereas the \textit{Easom} function has a search space of
-  \([-100,\,100]^2\).
-  
-  Given the nature of our functions and their respective search spaces, it is
-  vital to understand some fundamental concepts related to sets,
-  cardinalities, and functions.
-  These concepts will not only help us better comprehend the vastness and
-  complexity of the search space but will also lay the groundwork for the use
-  of \textit{Keen} in this context.
-  
-  The following definitions, theorems, and corollaries will elucidate the
-  necessary background.
-
-  \begin{definition}[Set cardinality inequality]
-  \label{def:fn_opt:cardinality_inequality}
-    For any two sets \(A\) and \(B\), if there exists an injective function
-    \(f : A \to B\), then \(|A| \leq |B|\).
-  \end{definition}
-
-  \begin{theorem}[Schröder--Bernstein theorem]
-  \label{thm:fn_opt:schroder_bernstein}
-    Given two sets \(A\) and \(B\), if there exist two injective functions
-    \(f : A \to B\) and \(g : B \to A\), then there exists a bijective
-    function \(h : A \to B\).
-  \end{theorem}
-
-  The proof for \vref{thm:fn_opt:schroder_bernstein} is attributed to J.
-  König~\autocite{konigTheorieEnsembles1906}.
-
-  \begin{corollary}
-  \label{cor:fn_opt:cardinality}
-    For any two sets \(A\) and \(B\), if \(|A| \leq |B|\) and \(|B| \leq 
-    |A|\), then \(|A| = |B|\).
-  \end{corollary}
-
-  \begin{proof}
-    The conditions \(|A| \leq |B|\) and \(|B| \leq |A|\) imply that there
-    exist injective functions \(f: A \rightarrow B\) and \(g: B
-    \rightarrow A\), respectively.
-    By the Schröder--Bernstein Theorem (\vref{thm:fn_opt:schroder_bernstein}),
-    the existence of these injective functions guarantees a bijective function
-    \(h: A \rightarrow B\).
-
-    A bijective function is one that is both injective and surjective.
-    This means that every element of \(A\) is mapped to a unique element in
-    \(B\) and every element of \(B\) is the image of some element in \(A\).
-
-    Therefore, there can't be more elements in \(A\) than in \(B\) (or vice
-    versa), as this would contradict the surjectivity or the injectivity of
-    the function \(h\).
-    Thus, by the definition of set cardinality
-    (\vref{def:fn_opt:cardinality_inequality}), we conclude that \(|A| =
-    |B|\).
-  \end{proof}
-
-  \begin{theorem}
-  \label{thm:fn_opt:cardinality}
-    Let $(x,\,y) \in \mathbb{R}^2$ with $x \neq y$.
-    Then, the cardinality of the interval $[x,\,y]$, denoted as $|[x,\,y]|$,
-    is the same as the cardinality of \(\mathbb{R}\).
-    Thus, $|[x,\,y]|$ is uncountable.
-  \end{theorem}
-
-  \begin{proof}
-    Let us define a function \(f: [x,\,y] \rightarrow \mathbb{R}\) defined 
-    as \(f(z) = \tan\left(\frac{\pi(z-x)}{y-x} - \frac{\pi}{2}\right)\) 
-    which maps the interval \([x, y]\) bijectively onto \(\mathbb{R}\).
+    In the context of this case study, the search space is defined as the set of all possible solutions to the 
+    optimization problem. Since we are dealing with real-valued functions, the search space will be a subset of the set 
+    of real numbers, \(\mathbb{R}\). The exact subset that forms the search space can vary depending on the function we 
+    are optimizing. For example, the \textit{Cross-in-Tray} function has a search space of \([-10,\,10]^2\), whereas the 
+    \textit{Easom} function has a search space of \([-100,\,100]^2\).
     
-    This means that there is an injective function \(f: [x,\,y] \rightarrow
-    \mathbb{R}\) and an injective function \(g: \mathbb{R} \rightarrow
-    [x,\,y]\).
+    Given the nature of our functions and their respective search spaces, it is vital to understand some fundamental 
+    concepts related to sets, cardinalities, and functions. These concepts will not only help us better comprehend the 
+    vastness and complexity of the search space but will also lay the groundwork for the use of \textit{Keen} in this 
+    context.
+    
+    The following definitions, theorems, and corollaries will elucidate the necessary background.
 
-    By the definition of cardinality inequality
-    (\vref{def:fn_opt:cardinality_inequality}), we conclude that
-    \(|[x,\,y]| \leq |\mathbb{R}|\) and \(|\mathbb{R}| \leq |[x,\,y]|\).
+    \begin{definition}[Set cardinality inequality]
+    \label{def:fn_opt:cardinality_inequality}
+        For any two sets \(A\) and \(B\), if there exists an injective function \(f : A \to B\), then \(|A| \leq |B|\).
+    \end{definition}
 
-    By \vref{thm:fn_opt:schroder_bernstein}, we conclude that
-    \(|[x,\,y]| = |\mathbb{R}|\).
-  \end{proof}    
+    \begin{theorem}[Schröder--Bernstein theorem]
+    \label{thm:fn_opt:schroder_bernstein}
+        Given two sets \(A\) and \(B\), if there exist two injective functions \(f : A \to B\) and \(g : B \to A\), then 
+        there exists a bijective function \(h : A \to B\).
+    \end{theorem}
 
-  These results make it clear that, in most cases, the search space for our
-  real function optimization problems will have an uncountable number of
-  potential solutions.
-  This vastness and complexity underline the necessity for robust and
-  efficient optimization methods like those provided by \textit{Keen}.
+    \begin{corollary}
+    \label{cor:fn_opt:cardinality}
+        For any two sets \(A\) and \(B\), if \(|A| \leq |B|\) and \(|B| \leq |A|\), then \(|A| = |B|\).
+    \end{corollary}
+
+    \begin{proof}
+        The conditions \(|A| \leq |B|\) and \(|B| \leq |A|\) imply that there exist injective functions 
+        \(f: A \rightarrow B\) and \(g: B \rightarrow A\), respectively. By the Schröder--Bernstein Theorem 
+        (\vref{thm:fn_opt:schroder_bernstein}), the existence of these injective functions guarantees a bijective 
+        function \(h: A \rightarrow B\).
+
+        A bijective function is one that is both injective and surjective. This means that every element of \(A\) is 
+        mapped to a unique element in \(B\) and every element of \(B\) is the image of some element in \(A\).
+
+        Therefore, there can't be more elements in \(A\) than in \(B\) (or vice versa), as this would contradict the 
+        surjectivity or the injectivity of the function \(h\). Thus, by the definition of set cardinality 
+        (\vref{def:fn_opt:cardinality_inequality}), we conclude that \(|A| = |B|\).
+    \end{proof}
+
+    \begin{theorem}
+    \label{thm:fn_opt:cardinality}
+        Let $(x,\,y) \in \mathbb{R}^2$ with $x \neq y$.
+        Then, the cardinality of the interval $[x,\,y]$, denoted as $|[x,\,y]|$,
+        is the same as the cardinality of \(\mathbb{R}\).
+        Thus, $|[x,\,y]|$ is uncountable.
+    \end{theorem}
+
+    \begin{proof}
+        Let us define a function \(f: [x,\,y] \rightarrow \mathbb{R}\) defined 
+        as \(f(z) = \tan\left(\frac{\pi(z-x)}{y-x} - \frac{\pi}{2}\right)\) 
+        which maps the interval \([x, y]\) bijectively onto \(\mathbb{R}\).
+        
+        This means that there is an injective function \(f: [x,\,y] \rightarrow
+        \mathbb{R}\) and an injective function \(g: \mathbb{R} \rightarrow
+        [x,\,y]\).
+
+        By the definition of cardinality inequality
+        (\vref{def:fn_opt:cardinality_inequality}), we conclude that
+        \(|[x,\,y]| \leq |\mathbb{R}|\) and \(|\mathbb{R}| \leq |[x,\,y]|\).
+
+        By \vref{thm:fn_opt:schroder_bernstein}, we conclude that
+        \(|[x,\,y]| = |\mathbb{R}|\).
+    \end{proof}    
+
+    These results make it clear that, in most cases, the search space for our
+    real function optimization problems will have an uncountable number of
+    potential solutions.
+    This vastness and complexity underline the necessity for robust and
+    efficient optimization methods like those provided by \textit{Keen}.

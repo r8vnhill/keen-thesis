@@ -5,7 +5,8 @@
     fun two(): Int = 2
     fun zero(): Int = 0
     fun negativeInt(): Int = -1
-    fun throwException0(): Nothing = throw IllegalArgumentException("This function always throws an exception!")
+    fun throwException0(): Nothing = 
+        throw IllegalArgumentException("This function always throws an exception!")
     fun compareWithOneHundred(x: Int): Nothing = if (x < 100) {
         if (x > 50) throwIAE("The number is greater than 50")
         else throw AssertionError("The number is less than 50")
@@ -18,6 +19,9 @@
     fun addNumbers(x: Int, y: Int) = x + y
     fun multiplyNumbers(x: Int, y: Int) = x * y
 \end{code}
+
+The code snippet presents a collection of functions utilized in the \textit{Tracer} tool's genetic algorithm as the 
+search space.
 
 \begin{code}{%
     The \texttt{Tracer} tool implementation.
@@ -62,7 +66,7 @@
             for (i in 1..it.genotype.first().size) {
                 val candidate = Genotype(KFunctionChromosome(it.genotype.first().take(i)))
                 val candidateFitness = fitnessFunction(candidate)
-                // If fitness is maintained or improved, replace the genotype with the new minimized one
+                // Replace genotype with the minimized one if fitness is maintained or improved
                 if (candidateFitness >= it.fitness) {
                     return@map it.copy(genotype = candidate, fitness = candidateFitness)
                 }
@@ -76,7 +80,7 @@
             for (i in it.genotype.first().size downTo 1) {
                 val candidate = Genotype(KFunctionChromosome(it.genotype.first().drop(i)))
                 val candidateFitness = fitnessFunction(candidate)
-                // If fitness is maintained or improved, replace the genotype with the new minimized one
+                // Replace genotype with the minimized one if fitness is maintained or improved
                 if (candidateFitness >= it.fitness) {
                     return@map it.copy(genotype = candidate, fitness = candidateFitness)
                 }
@@ -84,31 +88,33 @@
             it
         }
 
-        private fun fitnessFunction(genotype: Genotype<KFunction<*>, KFunctionGene>) = genotype.first().let { statements ->
-            try {
-                val variables = mutableListOf<Any?>()
-                statements.forEach {
-                    variables += it(variables.takeLast(it.arity))
-                }
-                0.0
-            } catch (invocationTargetException: InvocationTargetException) {
-                var fitness = 0.0
-                val ex = invocationTargetException.targetException
-                val stack = ex.stackTrace
-                if (targetException == ex::class) {
-                    fitness += 2.0
-                    if (targetMessage.isEmpty() || targetMessage == ex.message) {
-                        fitness++
+        private fun fitnessFunction(genotype: Genotype<KFunction<*>, KFunctionGene>) = 
+            genotype.first().let { functions ->
+                try {
+                    val variables = mutableListOf<Any?>()
+                    functions.forEach { f ->
+                        variables += f(variables.takeLast(f.arity))
                     }
+                    0.0
+                } catch (invocationTargetException: InvocationTargetException) {
+                    var fitness = 0.0
+                    val ex = invocationTargetException.targetException
+                    val stack = ex.stackTrace
+                    if (targetException == ex::class) {
+                        fitness += 2.0
+                        if (targetMessage.isEmpty() || targetMessage == ex.message) {
+                            fitness++
+                        }
+                    }
+                    if (targetFunction.isEmpty() 
+                        || stack.any { it.methodName == targetFunction }) {
+                        fitness += 2.0
+                    }
+                    fitness
+                } catch (e: Exception) {
+                    0.0
                 }
-                if (targetFunction.isEmpty() || stack.any { it.methodName == targetFunction }) {
-                    fitness += 2.0
-                }
-                fitness
-            } catch (e: Exception) {
-                0.0
             }
-        }
 
         companion object {
             inline fun <reified E : Throwable> create(

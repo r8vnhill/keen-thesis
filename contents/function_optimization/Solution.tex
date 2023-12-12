@@ -1,139 +1,135 @@
 \section{Solution}
 \label{sec:fn_opt:sol}
-  To solve this problem, we aim to optimize certain functions using a Genetic 
-  Algorithm (GA). This approach will leverage a double-valued chromosome where 
-  each gene represents the \(x_i\) values. The fitness function encapsulates 
-  the function we aim to optimize. Let's break down the process:
+    To solve this problem, we aim to optimize certain functions using a GA. This approach will leverage a double-valued 
+    chromosome where each gene represents the \(x_i\) values. The fitness function encapsulates the function we aim to 
+    optimize. Let's break down the process:
 
-  \subsection{Chromosome Structure}
-    Each gene in the chromosome will be a double-valued gene, with a specified 
-    range of valid values depending on the optimization function. For the Bukin 
-    function N.6 (\vref{sec:app:test:bukin}), valid values range between 
-    \([-15, -5]\) for the first gene, and \([-3, 3]\) for the second.
+    \subsection{Chromosome Structure}
+        Each gene in the chromosome will be a double-valued gene, with a specified 
+        range of valid values depending on the optimization function. For the Bukin 
+        function N.6 (\vref{sec:app:test:bukin}), valid values range between 
+        \([-15, -5]\) for the first gene, and \([-3, 3]\) for the second.
 
-  \subsection{Variation Operators}
-    Regardless of the specific function we're optimizing, we will consistently 
-    employ the following variation operators:
+    \subsection{Variation Operators}
+        Regardless of the specific function we're optimizing, we will consistently 
+        employ the following variation operators:
 
-    \begin{itemize}
-      \item Recombination: \textit{average crossover} (see 
-        \vref{sec:keen:op:cx:combine})
-      \item Mutation: \textit{random mutation} (see 
-        \vref{sec:keen:op:mut:simple})
-    \end{itemize}
+        \begin{itemize}
+        \item Recombination: \textit{average crossover} (see 
+            \vref{sec:keen:op:cx:combine})
+        \item Mutation: \textit{random mutation} (see 
+            \vref{sec:keen:op:mut:simple})
+        \end{itemize}
 
-    For selection, we compare the performance of \textit{random selector}, 
-    \textit{tournament selector}, and \textit{roulette selector} (see 
-    \vref{sec:keen:operators:selection:random}, 
-    \vref{sec:keen:operators:selection:tournament}, and 
-    \vref{sec:keen:op:select:roulette}).
+        For selection, we compare the performance of \textit{random selector}, 
+        \textit{tournament selector}, and \textit{roulette selector} (see 
+        \vref{sec:keen:operators:selection:random}, 
+        \vref{sec:keen:operators:selection:tournament}, and 
+        \vref{sec:keen:op:select:roulette}).
 
-  \subsection{Implementation of the Optimization Process}
-    To demonstrate the implementation within the \textit{Keen} framework, we 
-    utilize the \textit{Bukin function N.6} as an example. \textit{The Bukin 
-    function N.6} is defined and implemented in the context of \textit{Keen} as 
-    follows:
+    \subsection{Implementation of the Optimization Process}
+        To demonstrate the implementation within the \textit{Keen} framework, we utilize the \textit{Bukin function N.6} 
+        as an example. \textit{The Bukin function N.6} is defined and implemented in the context of \textit{Keen} as 
+        follows:
 
-    \begin{code}{
-      Implementation of the \textit{Bukin function N.6} in Kotlin for the 
-      \textit{Keen} framework.
-    }{label=code:fn_opt:sol:bukin}{kotlin}
-      fun bukinN6(genotype: Genotype<Double, DoubleGene>) = genotype.flatMap().let { (x, y) ->
-          100 * (y - 0.01 * x.pow(2) + 1).pow(2) + 0.01 * (x + 10).pow(2)
-      }
-    \end{code}
+        \begin{code}{
+        Implementation of the \textit{Bukin function N.6} in Kotlin for the 
+        \textit{Keen} framework.
+        }{label=code:fn_opt:sol:bukin}{kotlin}
+        fun bukinN6(genotype: Genotype<Double, DoubleGene>) = genotype.flatten().let { (x, y) ->
+            100 * (y - 0.01 * x.pow(2) + 1).pow(2) + 0.01 * (x + 10).pow(2)
+        }
+        \end{code}
 
-    In this implementation, the Bukin function takes a genotype as an input, 
-    which is then transformed into a pair of \(x\) and \(y\) values. The fitness 
-    value is calculated using the defined \textit{Bukin function N.6} formula.
+        In this implementation, the Bukin function takes a genotype as an input, which is then transformed into a pair 
+        of \(x\) and \(y\) values. The fitness value is calculated using the defined \textit{Bukin function N.6} 
+        formula.
 
-    To streamline the creation of the evolution engine across various 
-    optimization functions, we abstract its definition:
+        To streamline the creation of the evolution engine across various optimization functions, we abstract its 
+        definition:
 
-    \begin{code}{
-      Kotlin function for creating an evolution engine tailored to a specific optimization function in \textit{Keen}.
-    }{label=code:fn_opt:sol:engine}{kotlin}
-      fun createEngine(
-          function: (Genotype<Double, DoubleGene>) -> Double,
-          selectOp: Selector<Double, DoubleGene>,
-          summary: EvolutionSummary<Double, DoubleGene>,
-          vararg ranges: ClosedRange<Double>
-      ) = evolutionEngine(function, genotype {
-          chromosomeOf {
-              doubles {
-                  this.ranges += ranges
-                  this.size = 2
-              }
-          }
-      }) {
-          ranker = FitnessMinRanker()
-          populationSize = 500
-          parentSelector = selectOp
-          survivorSelector = selectOp
-          alterers += listOf(
-              RandomMutator(individualRate = 0.1), 
-              AverageCrossover(chromosomeRate = 0.3)
-          )
-          listeners += summary
-          limits += listOf(
-              SteadyGenerations(generations = 50), 
-              GenerationLimit(generations = 500)
-          )
-      }
-    \end{code}
+        \begin{code}{
+            Kotlin function for creating an evolution engine tailored to a specific optimization function in
+            \textit{Keen}.
+        }{label=code:fn_opt:sol:engine}{kotlin}
+            fun createEngine(
+                function: (Genotype<Double, DoubleGene>) -> Double,
+                selectOp: Selector<Double, DoubleGene>,
+                summary: EvolutionSummary<Double, DoubleGene>,
+                vararg ranges: ClosedRange<Double>
+            ) = evolutionEngine(function, genotypeOf {
+                chromosomeOf {
+                    doubles {
+                        this.ranges += ranges
+                        this.size = 2
+                    }
+                }
+            }) {
+                ranker = FitnessMinRanker()
+                populationSize = 500
+                parentSelector = selectOp
+                survivorSelector = selectOp
+                alterers += listOf(
+                    RandomMutator(individualRate = 0.1), 
+                    AverageCrossover(chromosomeRate = 0.3)
+                )
+                listeners += summary
+                limits += listOf(
+                    SteadyGenerations(generations = 50), 
+                    GenerationLimit(generations = 500)
+                )
+            }
+        \end{code}
 
-    The above code snippet outlines a function for initializing an evolution 
-    engine. This engine is configured to optimize a given fitness function, 
-    employing a genotype composed of two double-valued genes, as specified by 
-    the provided value ranges.
+        The above code snippet outlines a function for initializing an evolution 
+        engine. This engine is configured to optimize a given fitness function, 
+        employing a genotype composed of two double-valued genes, as specified by 
+        the provided value ranges.
 
-    The key configurations of the engine include:
+        The key configurations of the engine include:
 
-    \begin{itemize}
-      \item Setting the population size to 500 individuals.
-      \item Employing a \textit{Fitness Minimum} ranker to prioritize optimal 
-        fitness values.
-      \item Utilizing alterers such as \textit{Random Mutator} (mutation rate: 
-        0.1) and \textit{Average Crossover} (crossover rate: 0.3), chosen based 
-        on experimental tuning.
-      \item Implementing a \textit{Steady Generations} limit, halting the 
-        evolution process after 50 consecutive generations without improvement.
-      \item Applying a \textit{Generation Limit} of 500 to prevent infinite 
-        loops in the evolutionary cycle.
-    \end{itemize}
+        \begin{itemize}
+        \item Setting the population size to 500 individuals.
+        \item Employing a \textit{Fitness Minimum} ranker to prioritize optimal 
+            fitness values.
+        \item Utilizing alterers such as \textit{Random Mutator} (mutation rate: 
+            0.1) and \textit{Average Crossover} (crossover rate: 0.3), chosen based 
+            on experimental tuning.
+        \item Implementing a \textit{Steady Generations} limit, halting the 
+            evolution process after 50 consecutive generations without improvement.
+        \item Applying a \textit{Generation Limit} of 500 to prevent infinite 
+            loops in the evolutionary cycle.
+        \end{itemize}
 
-    With the evolution engine established, the next step involves defining a 
-    function to execute the Genetic Algorithm (GA) for the intended optimization 
-    function:
+        With the evolution engine established, the next step involves defining a function to execute the GA for the 
+        intended optimization function:
 
-    \begin{code}{
-      Kotlin function for running the GA using the Bukin function N.6 in the \textit{Keen} framework.
-    }{label=code:fn_opt:sol:run}{kotlin}
-      fun main() {
-          val summary = EvolutionSummary<Double, DoubleGene>(Duration::inWholeMicroseconds)
-          val engine = createEngine(
-              ::bukinN6, 
-              TournamentSelector(), 
-              summary, 
-              -15.0..-5.0, 
-              -3.0..3.0
-          )
-          engine.evolve()
-          summary.display()
-      }
-    \end{code}
+        \begin{code}{
+            Kotlin function for running the GA using the Bukin function N.6 in the \textit{Keen} framework.
+        }{label=code:fn_opt:sol:run}{kotlin}
+            fun main() {
+                val summary = EvolutionSummary<Double, DoubleGene>(Duration::inWholeMicroseconds)
+                val engine = createEngine(
+                    ::bukinN6, 
+                    TournamentSelector(), 
+                    summary, 
+                    -15.0..-5.0, 
+                    -3.0..3.0
+                )
+                engine.evolve()
+                summary.display()
+            }
+        \end{code}
 
-    This function sets up the evolution engine for the Bukin function N.6. Upon 
-    completion of the GA process, it displays the results, with the summary 
-    including elapsed time measurements in microseconds. This precision is 
-    particularly relevant as some durations may be as short as \(10^{-3}\) 
-    milliseconds.
+        This function sets up the evolution engine for the Bukin function N.6. Upon completion of the GA process, it 
+        displays the results, with the summary including elapsed time measurements in microseconds. This precision is 
+        particularly relevant as some durations may be as short as \(10^{-3}\) milliseconds.
 
-    If reproducibility is desired, the following line can be added to the
-    beginning of the \texttt{main} function:
+        If reproducibility is desired, the following line can be added to the
+        beginning of the \texttt{main} function:
 
-    \begin{code}{
-      Setting the seed for the random number generator in \textit{Keen}.
-    }{label=code:fn_opt:sol:seed}{kotlin}
-      Domain.random = Random(420)
-    \end{code}
+        \begin{code}{
+            Setting the seed for the random number generator in \textit{Keen}.
+        }{label=code:fn_opt:sol:seed}{kotlin}
+            Domain.random = Random(420)
+        \end{code}

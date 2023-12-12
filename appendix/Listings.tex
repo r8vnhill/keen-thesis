@@ -1,100 +1,109 @@
 \chapter{Additional Listings}
 \label{app:Listings}
-  This appendix contains additional listings of the source code used in this
-  thesis that are not essential to the understanding of the thesis.
-  The listings are included here for completeness.
-  
-  \begin{code}{
-    Calculation of \(|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|\) for 
-    \(\mathcal{T} = \{x,\, c\}\) and the set \(\mathcal{F} = \{+,\, -,\, 
-    \times,\, /,\, \sin,\, \cos,\, \mathrm{pow}\}\) using the \textit{Julia}
-    programming language.
-  }{label={lst:cardinality_of_T_leq_5}}{julia}
-    arities = [2, 2, 2, 2, 1, 1, 2] # $A\left(\{+,\,-,\,\times,\,/,\,\sin,\,\cos,\,\mathrm{pow}\}\right) = \{2,\,2,\,2,\,2,\,1,\,1,\,2\}$
-    terminals_size = 8  # $|\mathcal{T}| = |\{x,\,1,\,2,\,3,\,4,\,5,\,6,\,7\}| = 8$
-    # $|\mathbb{T}_{\leq \mathtt{h}}|$
-    t_leq(h::Int)::Int128 = if h == 0 # $|\mathcal{T}|$ if $\mathtt{h} = 0$
-      terminals_size
-    else  # $\left(\sum_{h = 0}^{\mathtt{h} - 1}\,\sum_{f \in \mathcal{F}} |\mathbb{T}_h|^{A(f)}\right)+ |\mathcal{T}|$ if $\mathtt{h} > 0$
-      c_sum = terminals_size
-      for i = 0:h - 1
-        c_sum = c_sum + sum(t(i) .^ arities)
-      end
-      c_sum
-    end
-    # $|\mathbb{T}_\mathbf{h}|$
-    t(h::Int)::Int128 = if h == 0 # $|\mathcal{T}|$ if $\mathtt{h} = 0$
-      terminals_size
-    else  # $\sum_{f \in \mathcal{F}} |\mathbb{T}_{\mathtt{h} - 1}|^{A(f)}$ if $\mathtt{h} > 0$
-      sum(t(h - 1) .^ arities) 
-    end
-    res = t_leq(5)  # $|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|$
-  \end{code}
-  
-  \begin{code}{
-    Minimal implementation of the \textit{One Max} problem using the 
-    \textit{Keen} framework.
-  }{label=lst:app:keen_omp}{kotlin}
-    fun main() {
-        Core.random = Random(11)
-        val result = engine(
-            { gt: Genotype<Boolean, BoolGene> -> gt.flatten().count { it }.toDouble() },
-            genotype { chromosome { booleans { size = 20; truesProbability = 0.5 } } }) {
-            populationSize = 20
-            selector = TournamentSelector(sampleSize = 3)
-            alterers = listOf(
-              BitFlipMutator(probability = 0.03),
-              SinglePointCrossover(probability = 0.2)
-            )
-            limits = listOf(TargetFitness(20.0))
-            }.evolve()
-        println("Target fitness reached at generation ${result.generation}")
-        println("Best individual is ${result.best.genotype}")
-        println("with fitness ${result.best.fitness}")
-    }
-  \end{code}
+    This appendix contains additional listings of the source code used in this
+    thesis that are not essential to the understanding of the thesis.
+    The listings are included here for completeness.
+    
+    \section{Keen}
+        \begin{code}{
+            Minimal implementation of the \textit{One Max} problem using the 
+            \textit{Keen} framework.
+        }{label=lst:app:keen_omp}{kotlin}
+            fun main() {
+                Core.random = Random(11)
+                val result = engine(
+                    { gt: Genotype<Boolean, BoolGene> -> gt.flatten().count { it }.toDouble() },
+                    genotype { chromosome { booleans { size = 20; truesProbability = 0.5 } } }) {
+                    populationSize = 20
+                    selector = TournamentSelector(sampleSize = 3)
+                    alterers = listOf(
+                    BitFlipMutator(probability = 0.03),
+                    SinglePointCrossover(probability = 0.2)
+                    )
+                    limits = listOf(TargetFitness(20.0))
+                    }.evolve()
+                println("Target fitness reached at generation ${result.generation}")
+                println("Best individual is ${result.best.genotype}")
+                println("with fitness ${result.best.fitness}")
+            }
+        \end{code}
 
+        \subimport{listings/}{RoomScheduling.tex}
 
-  \subimport{listings/}{RoomScheduling.tex}
+        \begin{code}{
+            Example of using the \texttt{Fun} class to implement the addition 
+            operation
+        }{
+            label=lst:app:keen_fun_add
+        }{kotlin}
+            // Using the Fun class
+            var add = Fun<Double>("+", 2) { it[0] + it[1] }
+            // Extending the Fun class
+            class Add : Fun<Double>("+", 2, { it[0] + it[1] })
+            var add = Add()
+            // As an anonymous object
+            var add = object : Fun<Double>("+", 2, { it[0] + it[1] }) {}
+        \end{code}
 
-  \begin{code}{
-    Example of using the \texttt{Fun} class to implement the addition 
-    operation
-  }{
-    label=lst:app:keen_fun_add
-  }{kotlin}
-    // Using the Fun class
-    var add = Fun<Double>("+", 2) { it[0] + it[1] }
-    // Extending the Fun class
-    class Add : Fun<Double>("+", 2, { it[0] + it[1] })
-    var add = Add()
-    // As an anonymous object
-    var add = object : Fun<Double>("+", 2, { it[0] + it[1] }) {}
-  \end{code}
+    \section{Crash Reproduction}
+        \subimport{listings/}{Beacon.tex}
 
-  \begin{code}{
-    Demonstration of the use of \textit{Strait-Jakt}'s \texttt{constraint} DSL
-    to validate preconditions inside a \textit{Probability Selector}.
-  }{
-    label=lst:app:strait-jakt
-  }{kotlin}
-    private fun selectByProbabilities(
-      population: Population<T, G>,
-      probabilities: List<Double>,
-      count: Int,
-    ): List<Individual<T, G>> {
-      constraints {
-        "The cumulative probabilities list must have the same size as the population" {
-          probabilities must HaveSize(population.size)
-        }
-        "The last cumulative probability must be 1.0" {
-          probabilities.last() must BeEqualTo(1.0)
-        }
-      }
-      return List(count) {
-        population[probabilities.indexOfFirst { Domain.random.nextDouble() <= it }]
-      }
-    }
-  \end{code}
+    \section{Others}
+        \begin{code}{
+            Calculation of \(|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|\) for 
+            \(\mathcal{T} = \{x,\, c\}\) and the set \(\mathcal{F} = \{+,\, -,\, 
+            \times,\, /,\, \sin,\, \cos,\, \mathrm{pow}\}\) using the \textit{Julia}
+            programming language.
+        }{label={lst:cardinality_of_T_leq_5}}{julia}
+            arities = [2, 2, 2, 2, 1, 1, 2] # $A\left(\{+,\,-,\,\times,\,/,\,\sin,\,\cos,\,\mathrm{pow}\}\right) = \{2,\,2,\,2,\,2,\,1,\,1,\,2\}$
+            terminals_size = 8  # $|\mathcal{T}| = |\{x,\,1,\,2,\,3,\,4,\,5,\,6,\,7\}| = 8$
+            # $|\mathbb{T}_{\leq \mathtt{h}}|$
+            t_leq(h::Int)::Int128 = if h == 0 # $|\mathcal{T}|$ if $\mathtt{h} = 0$
+            terminals_size
+            else  # $\left(\sum_{h = 0}^{\mathtt{h} - 1}\,\sum_{f \in \mathcal{F}} |\mathbb{T}_h|^{A(f)}\right)+ |\mathcal{T}|$ if $\mathtt{h} > 0$
+            c_sum = terminals_size
+            for i = 0:h - 1
+                c_sum = c_sum + sum(t(i) .^ arities)
+            end
+            c_sum
+            end
+            # $|\mathbb{T}_\mathbf{h}|$
+            t(h::Int)::Int128 = if h == 0 # $|\mathcal{T}|$ if $\mathtt{h} = 0$
+            terminals_size
+            else  # $\sum_{f \in \mathcal{F}} |\mathbb{T}_{\mathtt{h} - 1}|^{A(f)}$ if $\mathtt{h} > 0$
+            sum(t(h - 1) .^ arities) 
+            end
+            res = t_leq(5)  # $|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|$
+        \end{code}
 
-  \subimport{listings/}{Beacon.tex}
+        
+        \begin{code}{
+            Demonstration of the use of \textit{Strait-Jakt}'s \texttt{constraint} DSL to validate preconditions inside the 
+            \textit{Subtree Crossover} operator.
+        }{
+            label=lst:app:strait-jakt
+        }{kotlin}
+            private fun enforcePreconditions(chromosomes: List<Chromosome<T, G>>) = constraints {
+                "The crossover operator requires two chromosomes." { chromosomes must HaveSize(2) }
+                chromosomes.forEach { chromosome ->
+                    "The parents must have the same size" { 
+                        chromosome must HaveSize(chromosomes[0].size) 
+                    }
+                    chromosome.forEach { gene ->
+                        ("The gene's arity (${gene.value.arity}) must match "
+                            + "the gene's children (${gene.value.children.size})") {
+                            gene.value.children must HaveSize(gene.value.arity)
+                        }
+                    }
+                }
+            }
+        \end{code}
+
+        In \vref{lst:app:strait-jakt} we can see an example of the use of the \textit{StraitJakt} library to validate 
+        the preconditions of the \textit{Subtree Crossover} operator. The \texttt{constraints} DSL allows us to define a 
+        set of constraints that must be satisfied for the operation to be executed. In this case, we are validating that 
+        the operator receives two chromosomes with the same size and that each gene's arity matches the number of 
+        children it has. If any of these constraints is not satisfied, the \textit{StraitJakt} library will throw a 
+        \textit{composite exception} containing all the errors found. This is done by accumulating the exceptions
+        instead of throwing them immediately. This approach allows us to validate all the constraints at once, instead
+        of throwing an exception for each error found.

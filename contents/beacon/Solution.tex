@@ -31,7 +31,8 @@
         }{label=lst:beacon:chromosome}{kotlin}
             class KFunctionChromosome(override val genes: List<KFunctionGene>) 
                 : Chromosome<KFunction<*>, KFunctionGene> {
-                override fun duplicateWithGenes(genes: List<KFunctionGene>) = KFunctionChromosome(genes)
+                override fun duplicateWithGenes(genes: List<KFunctionGene>) = 
+                    KFunctionChromosome(genes)
                 class Factory(override var size: Int, val geneFactory: () -> KFunctionGene) :
                     Chromosome.AbstractFactory<KFunction<*>, KFunctionGene>() {
                     override fun make() = KFunctionChromosome((0..<size).map { geneFactory() })
@@ -84,17 +85,17 @@
         \begin{code}{%caption
             Implementation of the fitness function.
         }{label=lst:beacon:fitness}{kotlin}
-            fun fitness(genotype) = genotype.first().let { functions ->
+            fun fitness(genotype) = genotype.let { functions ->
                 try {
-                    val variables = []
-                    statements.forEach { f ->
+                    variables = []
+                    functions.forEach { f ->
                         variables += f(variables.takeLast(f.arity))
                     }
                     0.0
                 } catch (E) {
-                    val deltaC = E::class == exception::class
-                    val deltaM = E.message == exception.message
-                    val DeltaF = E.stackTrace.count { it.function in functions } / E.stackTrace.size
+                    deltaC = classOf(E) == classOf(exception)
+                    deltaM = E.message == exception.message
+                    DeltaF = E.stackTrace.count { it.function in functions } / E.stackTrace.size
                     2 * deltaC + deltaM + 2 * DeltaF
                 }
             }
@@ -123,9 +124,23 @@
         \textbf{Selection Operator:} We use a \textit{Tournament Selector} with a tournament size of 3. This selector 
         picks three individuals randomly and selects the best among them, based on their fitness scores.
     
-        \textbf{Crossover Operator:} The \textit{Single Point Crossover} is employed with an individual pick probability
-        of 0.3. This operator combines two parent chromosomes at a randomly selected point to produce offspring,
-        inheriting genetic material from both parents.
+        \textbf{Crossover Operators:} To test the effectiveness of different crossover strategies, we examine two
+        distinct crossover operators:
+
+        \begin{itemize}
+            \item \textbf{Single-Point Crossover:} This operator selects a random point within the chromosome and 
+                swaps the genes between the two parents at that point. It is useful for exchanging genetic material 
+                between the parents.
+            \item \textbf{Uniform Crossover:} This operator iterates through the chromosome and returns a gene from 
+                either parent with equal probability. This operator is not natively supported by the \textit{Keen}
+                framework. However, we can implement it succinctly using a Combine Crossover like so:
+        \end{itemize}
+
+        \begin{code}{%
+            Implementation of the uniform crossover operator using the \textit{Keen} framework.
+        }{label=lst:beacon:uniform}{kotlin}
+            val crossover = CombineCrossover({ it.random(Domain.random) })
+        \end{code}
     
         \textbf{Mutation Operators:} To investigate the effectiveness of different mutation strategies, we examine three
         distinct mutation operators:
@@ -140,9 +155,8 @@
                 variations in the resultant program behavior.
         \end{itemize}
         
-        Through the comparison of these genetic operators against the random search baseline, we aim to evaluate their
-        respective contributions to the overall effectiveness of the genetic algorithm in reproducing crash scenarios
-        accurately.
+        Through the comparison of these genetic operators, we aim to evaluate their respective contributions to the 
+        overall effectiveness of the genetic algorithm in reproducing crash scenarios accurately.
     
     \subsection{Program Minimization}
         The genetic algorithm aims to produce a program that closely replicates the target program's exception and stack 
@@ -182,8 +196,8 @@
             Caption: Implementation of the genetic algorithm using the \textit{Keen} framework.
         }{label=lst:beacon:algorithm}{kotlin}
             evolutionEngine(
-                fitnessFunction = ::fitnessFunction, // Defines the fitness function
-                genotype = { // Constructs the genotype
+                ::fitnessFunction, // Defines the fitness function
+                genotypeOf { // Constructs the genotype
                     chromosomeOf {
                         KFunctionChromosome.Factory(10) { // Sets the chromosome size
                             KFunctionGene(functions.random(Domain.random), functions) // Creates a gene
@@ -192,14 +206,8 @@
                 }
             ) {
                 populationSize = 1000 // Specifies the size of the population
-                alterers += listOf(
-                    mutator, // Adds a mutation operator
-                    SinglePointCrossover(0.3) // Adds a Single Point Crossover with a crossover rate of 0.3
-                )
-                limits += listOf(
-                    TargetFitness(5.0), // Sets a target fitness for the algorithm
-                    GenerationLimit(1000) // Sets a limit on the number of generations
-                )
+                alterers += listOf(mutator, SinglePointCrossover(0.3))
+                limits += listOf(TargetFitness(5.0), GenerationLimit(1000))
                 listeners += this@Tracer.listeners // Adds event listeners for monitoring the algorithm
             }
         \end{code}
@@ -207,14 +215,14 @@
         This implementation highlights several key components:
 
         \begin{itemize}
-            \item \textbf{Fitness Function:} The \(\text{::fitnessFunction}\) evaluates the proximity of the generated 
+            \item \textbf{Fitness Function:} The \(\texttt{::fitnessFunction}\) evaluates the proximity of the generated 
                 program's behavior to the target.
             \item \textbf{Genotype and Chromosome Structure:} The algorithm creates chromosomes composed of function
                 genes, reflecting the potential solution structure.
             \item \textbf{Population Size:} A larger population size of 1000 individuals is set to provide a diverse
                 genetic pool.
-            \item \textbf{Alterers:} Both mutation (Random Mutator) and crossover (Single Point Crossover) strategies
-                are employed to introduce genetic variations.
+            \item \textbf{Alterers:} Both mutation and crossover strategies are employed to introduce genetic 
+                variations.
             \item \textbf{Termination Criteria:} The algorithm terminates upon achieving a target fitness or reaching
                 the maximum number of generations.
             \item \textbf{Listeners:} Event listeners are integrated for tracking the algorithm's progress.
