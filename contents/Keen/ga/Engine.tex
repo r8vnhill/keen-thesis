@@ -1,104 +1,99 @@
 \subsection{Evolution Engine}
 \label{sec:keen:ga:engine}
 
-  The \emph{evolution engine} serves as the framework's nucleus, orchestrating the
-  evolution of the population.
-  It encapsulates all functions essential for the evolutionary process.
-  This engine integrates the fundamental structure of the evolutionary algorithms,
-  invoking relevant functions from associated entities like the 
-  \emph{genetic material} and \emph{genetic operators}.
+    The \emph{evolution engine} is the core of our framework, managing the population's evolution. It includes all necessary functions for the evolutionary process. This engine combines the basic structure of the evolutionary algorithms and uses functions from related parts like the \emph{genetic material} and \emph{genetic operators}.
 
-  Specifically, the engine manages:
+    Specifically, the engine manages:
 
-  \begin{enumerate}
-    \item Population initialization;
-    \item Population evaluation;
-    \item Selection of individuals for the forthcoming generation;
-    \item Genetic operator application on chosen individuals;
-    \item Evaluation of the newly formed individuals;
-    \item Supplanting the old population with the new;
-    \item Iteration from step 3 until meeting termination criteria.
-  \end{enumerate}
+    \begin{enumerate}
+        \item Population initialization;
+        \item Population evaluation;
+        \item Selection of individuals for the forthcoming generation;
+        \item Genetic operator application on chosen individuals;
+        \item Evaluation of the newly formed individuals;
+        \item Supplanting the old population with the new;
+        \item Iteration from step 3 until meeting termination criteria.
+    \end{enumerate}
 
-  Furthermore, the engine offers hooks for both pre and post-processing steps
-  related to the population and individuals.
-  These hooks facilitate user-driven customization of the evolution trajectory.
-  Although this feature remains outside this work's scope, its availability merits
-  acknowledgment.
+    Furthermore, the engine offers hooks for both pre and post-processing steps
+    related to the population and individuals.
+    These hooks facilitate user-driven customization of the evolution trajectory.
+    Although this feature remains outside this work's scope, its availability merits
+    acknowledgment.
 
-  The engine's architecture is depicted in \vref{lst:keen:ga:engine}.
+    The engine's architecture is depicted in \vref{lst:keen:ga:engine}.
 
-  \begin{code}*{Evolution engine structure}{label={lst:keen:ga:engine}}{kotlin}
-    class EvolutionEngine<T, G>(
-        populationConfig: PopulationConfig<T, G>,
-        selectionConfig: SelectionConfig<T, G>,
-        alterationConfig: AlterationConfig<T, G>,
-        evolutionConfig: EvolutionConfig<T, G>,
-    ) : Evolver<T, G> where G : Gene<T, G> {
-    
-        private var state: EvolutionState<T, G> = EvolutionState.empty(ranker)
-    
-        override fun evolve(): EvolutionState<T, G> {
-            do {
-                state = iterateGeneration(state)
-            } while (limits.none { it(state) })
-            return state
-        }
-    
-        fun iterateGeneration(state: EvolutionState<T, G>): EvolutionState<T, G> {
-            val interceptedStart = interceptor.before(state)
-            val initialPopulation = startEvolution(interceptedStart)
-            val evaluatedPopulation = evaluatePopulation(initialPopulation)
-            val parents = selectParents(evaluatedPopulation)
-            val survivors = selectSurvivors(evaluatedPopulation)
-            val offspring = alterOffspring(parents)
-            val nextPopulation = survivors.copy(
-                population = survivors.population + offspring.population
-            )
-            val nextGeneration = evaluatePopulation(nextPopulation)
-            val interceptedEnd = interceptor.after(nextGeneration)
-            return interceptedEnd.copy(generation = interceptedEnd.generation + 1)
-        }
-        ...
-
-        class Factory<T, G>(...) where G : Gene<T, G> {
-            ...
-            fun make() = EvolutionEngine(
-                populationConfig = PopulationConfig(genotypeFactory, populationSize),
-                selectionConfig = SelectionConfig(
-                    survivalRate, parentSelector, survivorSelector
-                ),
-                alterationConfig = AlterationConfig(alterers),
-                evolutionConfig = EvolutionConfig(
-                    limits, ranker, listeners, evaluator.creator(fitnessFunction), interceptor
+    \begin{code}*{Evolution engine structure}{label={lst:keen:ga:engine}}{kotlin}
+        class EvolutionEngine<T, G>(
+            populationConfig: PopulationConfig<T, G>,
+            selectionConfig: SelectionConfig<T, G>,
+            alterationConfig: AlterationConfig<T, G>,
+            evolutionConfig: EvolutionConfig<T, G>,
+        ) : Evolver<T, G> where G : Gene<T, G> {
+        
+            private var state: EvolutionState<T, G> = EvolutionState.empty(ranker)
+        
+            override fun evolve(): EvolutionState<T, G> {
+                do {
+                    state = iterateGeneration(state)
+                } while (limits.none { it(state) })
+                return state
+            }
+        
+            fun iterateGeneration(state: EvolutionState<T, G>): EvolutionState<T, G> {
+                val interceptedStart = interceptor.before(state)
+                val initialPopulation = startEvolution(interceptedStart)
+                val evaluatedPopulation = evaluatePopulation(initialPopulation)
+                val parents = selectParents(evaluatedPopulation)
+                val survivors = selectSurvivors(evaluatedPopulation)
+                val offspring = alterOffspring(parents)
+                val nextPopulation = survivors.copy(
+                    population = survivors.population + offspring.population
                 )
-            )
+                val nextGeneration = evaluatePopulation(nextPopulation)
+                val interceptedEnd = interceptor.after(nextGeneration)
+                return interceptedEnd.copy(generation = interceptedEnd.generation + 1)
+            }
+            ...
+
+            class Factory<T, G>(...) where G : Gene<T, G> {
+                ...
+                fun make() = EvolutionEngine(
+                    populationConfig = PopulationConfig(genotypeFactory, populationSize),
+                    selectionConfig = SelectionConfig(
+                        survivalRate, parentSelector, survivorSelector
+                    ),
+                    alterationConfig = AlterationConfig(alterers),
+                    evolutionConfig = EvolutionConfig(
+                        limits, ranker, listeners, evaluator.creator(fitnessFunction), interceptor
+                    )
+                )
+            }
         }
-    }
-  
-  \end{code}
+    
+    \end{code}
 
-  One of the key design decisions of the engine is to make it store as little
-  information as possible.
-  This decision is motivated by the fact that the engine is the most complex
-  component of the framework, and thus, it should be as lightweight as possible
-  to reduce its reasons for change and increase its maintainability.
+    One of the key design decisions of the engine is to make it store as little
+    information as possible.
+    This decision is motivated by the fact that the engine is the most complex
+    component of the framework, and thus, it should be as lightweight as possible
+    to reduce its reasons for change and increase its maintainability.
 
-  The only information stored by the engine is it's current state, which is
-  composed of the current generation, the population, and the ranker used to
-  evaluate the population.
-  This state is passed as a parameter to all the functions that need it, and
-  the result of these functions is a new state.
+    The only information stored by the engine is it's current state, which is
+    composed of the current generation, the population, and the ranker used to
+    evaluate the population.
+    This state is passed as a parameter to all the functions that need it, and
+    the result of these functions is a new state.
 
-  Instead of depending on the engine to maintain information about the evolution
-  process, the framework relies on the \emph{evolution listeners} to store
-  information about the evolution process.
+    Instead of depending on the engine to maintain information about the evolution
+    process, the framework relies on the \emph{evolution listeners} to store
+    information about the evolution process.
 
-  The supplementary \texttt{Factory} class streamlines the engine configuration 
-  process.
-  Although its utilization is recommended for engine instantiation, it remains 
-  optional, ensuring flexibility for users.
+    The supplementary \texttt{Factory} class streamlines the engine configuration 
+    process.
+    Although its utilization is recommended for engine instantiation, it remains 
+    optional, ensuring flexibility for users.
 
-  Finally, the \texttt{Evolver} interface is designed to accommodate varying 
-  engine implementations, with the \texttt{EvolutionEngine} class being the 
-  exclusive existing implementation to date.
+    Finally, the \texttt{Evolver} interface is designed to accommodate varying 
+    engine implementations, with the \texttt{EvolutionEngine} class being the 
+    exclusive existing implementation to date.

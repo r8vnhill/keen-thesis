@@ -12,38 +12,32 @@
   required number of eligible individuals is chosen.
 
   \begin{definition}[Tournament Selector]
-  \label{def:keen:op:select:tournament}
-    The \emph{tournament selector} embodies the tournament selection approach 
-    and is formally defined as:
-
-    \begin{equation}
-      \Sigma_\mathrm{tournament} :\: 
-        \mathbb{P} \times \mathbb{N} \times \mathbb{N} \to \mathbb{P};\;
-      (P,\, n,\, k) \mapsto \Sigma_\mathrm{tournament}(P,\, n,\, k)
-    \end{equation}
-
-    Herein, \(P\) represents the population, \(n\) stands for the count of 
-    individuals to be deemed eligible, and \(k\) pertains to the tournament or 
-    sample size.
-
-    The methodological sequence for selection is as follows:
-
-    \begin{enumerate}
-      \item A random subset of \(k\) individuals is culled from the population.
-      \item From this subset, the individual bearing the most superior fitness 
-        score is singled out.
-      \item Steps 1 and 2 are reiterated until the set quota of eligible 
-        individuals is reached.
-    \end{enumerate}
-  \end{definition}
+    \label{def:keen:op:select:tournament}
+      The \emph{tournament selector} uses a tournament selection method and is defined as:
+  
+      \begin{equation}
+        \Sigma_\mathrm{tournament} :\: 
+          \mathbb{P} \times \mathbb{N} \times \mathbb{N} \to \mathbb{P};\;
+        (P,\, n,\, k) \mapsto \Sigma_\mathrm{tournament}(P,\, n,\, k)
+      \end{equation}
+  
+      In this definition, \(P\) is the population, \(n\) is the number of individuals to be selected, and \(k\) is the size of each tournament.
+  
+      The selection process works as follows:
+  
+      \begin{enumerate}
+        \item Select a random group of \(k\) individuals from the population.
+        \item Choose the individual with the highest fitness score from this group.
+        \item Repeat steps 1 and 2 until \(n\) individuals have been selected.
+      \end{enumerate}
+    \end{definition}
 
   \begin{remark}
     The selection dynamic is profoundly influenced by the tournament size, 
     \(k\).
     Opting for a larger \(k\) leans towards elitism, predominantly favoring 
     individuals with superior fitness scores.
-    In contrast, a reduced \(k\) champions diversity, helping to deter the 
-    premature convergence of the genetic algorithm.
+    In contrast, a smaller \(k\) value promotes diversity, which helps prevent the genetic algorithm from converging too early.
   \end{remark}
 
   For an exhaustive delve into the intricacies and theoretical frameworks 

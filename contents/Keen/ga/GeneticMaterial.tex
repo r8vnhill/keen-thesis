@@ -1,22 +1,16 @@
 \subsection{Genetic Material}
 \label{sec:keen:ga:material}
-  The genetic material stands at the heart of GAs, representing the problem 
-  domain's primary aspect.
-  Consequently, it's essential to structure this material efficiently and 
-  flexibly.
+  The genetic material stands at the heart of GAs, representing the problem domain's primary aspect.
+  Consequently, it's essential to structure this material efficiently and flexibly.
 
   Our approach is \enquote{gene-centric}.
   Rather than relying on indirect representations, the genetic material is 
   depicted as a collection of genes.
-  Such a representation bolsters the flexibility of the API design.
-  For instance, the genetic material can manifest as a single gene, a 
-  collection of genes (referred to as a chromosome), or even as multiple 
-  collections of genes (genotype).
+  This approach makes our API design more flexible. For example, the genetic material can be a single gene, a group of genes (known as a chromosome), or multiple groups of genes (a genotype).
 
   Furthermore, the genetic material is immutable.
   This immutability ensures thread safety and adheres to the 
-  \enquote{copy-on-write} principle, both of which are indispensable for 
-  crafting robust GAs.
+  \enquote{copy-on-write} principle, both of which are indispensable in providing a robust framework.
 
   \paragraph{Gene}
     The gene stands as the fundamental unit of genetic material within our 
@@ -69,15 +63,7 @@
     new chromosomes.
 
   \paragraph{Genotype}
-    Similar to the chromosome, the genotype serves as an iterable collection 
-    of chromosomes.
-    Though they share analogous responsibilities, the genotype operates on a 
-    broader spectrum.
-    While many frameworks tend to merge the definitions of chromosomes and 
-    genotypes, distinguishing between them is paramount to our framework's 
-    adaptability.
-    This distinction facilitates the simultaneous manipulation of multiple 
-    chromosomes, paving the way for more intricate genetic materials.
+    Like a chromosome, the genotype in our system is an iterable collection of chromosomes. While chromosomes and genotypes have similar functions, the genotype has a wider scope. In our framework, it's important to differentiate between the two, as this allows for handling multiple chromosomes at once. This separation enhances our framework's flexibility and supports the use of more complex genetic materials.
     
     Utilizing parametric polymorphism, we negate the necessity for a 
     hierarchical type relationship between genotypes and chromosomes.
@@ -117,21 +103,18 @@
     Thus allowing more flexibility in the design of the genetic material.
 
   \paragraph{Individual}
-    The individual epitomizes the expression of the genetic material.
-    Serving as the evaluated manifestation of the genotype, it embodies the 
-    candidate solution.
-    Fundamentally, the individual hinges on:
+    An individual in our framework represents the actual expression of the genetic material. It acts as the practical form of the genotype and symbolizes a potential solution. Essentially, an individual is defined by two key elements:
     \begin{enumerate}
-        \item A \textit{fitness} value, and
-        \item The associated \textit{genotype}.
+        \item A \textit{fitness} value,
+        \item The corresponding \textit{genotype}.
     \end{enumerate}
     
     In light of this, the structure for the individual is delineated as:
     
     \begin{code}{Individual class}{label={lst:keen:ga:individual}}{kotlin}
       data class Individual<T, G>(
-        val genotype: Genotype<T, G>,
-        val fitness: Double = Double.NaN
+          val genotype: Genotype<T, G>,
+          val fitness: Double = Double.NaN
       ) where G : Gene<T, G> { ... }
     \end{code}
 
