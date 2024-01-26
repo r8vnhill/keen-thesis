@@ -1,33 +1,21 @@
 
 \section{Genetic Operators}
 \label{sec:keen:operators}
-  Genetic operators are the driving force behind the evolution process in any
-  genetic algorithm or genetic programming paradigm.
-  These operators stimulate change in the population and guide the search
-  towards optimal solutions.
+  Genetic operators are the driving force behind the evolution process in any genetic algorithm or genetic programming 
+  paradigm. These operators stimulate change in the population and guide the search towards optimal solutions.
   
 
-  This section explains the basic genetic operators in \textit{Keen}, including \textit{Selection}, \textit{Mutation}, and \textit{Crossover}.
+  This section explains the basic genetic operators in \textit{Keen}, including \textit{Selection}, \textit{Mutation}, 
+  and \textit{Crossover}.
 
-  \textit{Selection} operators guide the evolutionary process by determining
-  which individuals from the population will contribute to the next generation.
-  These mechanisms often favor individuals that exhibit superior fitness, 
-  thereby promoting the inheritance of advantageous traits.
-
-  \textit{Mutation} operators introduce randomness into the population by 
-  modifying individual genes or gene sequences.
-  This mechanism ensures genetic diversity, aiding the population to explore a 
-  broader search space and escape local optima.
-
-  \textit{Crossover}, also known as recombination, is another crucial genetic 
-  operator.
-  It combines the genetic material from a set of parent individuals to generate
-  offspring, simulating the biological process of sexual reproduction.
-
-  Each of these categories encompasses several techniques, providing
-  \textit{Keen} with a versatile repertoire of genetic operators.
-  The subsequent subsections provide a comprehensive discussion on each of these
-  operators, elucidating their working principles and application contexts.
+  Each of these categories encompasses several techniques, providing \textit{Keen} with a versatile repertoire of
+  genetic operators. The subsequent subsections provide a comprehensive discussion on each of these operators, 
+  elucidating their working principles and application contexts.
+    
+  Before delving into the various genetic operators, we must take into consideration the special case where individuals
+  are programs (specifically trees). Keen represents this individuals in a way that each gene is a program tree, this
+  means that operators that work on the chromosome level will not affect the individuals. For this reason, Keen provides
+  special operators for this case, which are described in \vref{sec:keen:gp:op}.
 
   \subimport{selection/}{_selection.index.tex}
   \subimport{mutation/}{_mutation.index.tex}

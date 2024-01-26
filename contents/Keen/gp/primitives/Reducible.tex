@@ -1,75 +1,69 @@
 \subsubsection{Reducible Expressions}
-  Within the \textit{Keen} framework, \enquote{reducible expressions} serve as
-  the building blocks for creating more complex mathematical or logical 
-  constructs. Primitives in \textit{Keen} are captured using the 
-  \texttt{Reducible} interface. This interface outlines a single method, 
-  \texttt{invoke}, which accepts a list of arguments and yields a single 
-  value. Drawing parallels, the \texttt{invoke} method resembles a function 
-  call, and the \texttt{Reducible} interface stands as a function signature.
+    Within the \textit{Keen} framework, \enquote{reducible expressions} serve as the building blocks for creating more
+    complex mathematical or logical constructs. Primitives in \textit{Keen} are captured using the \texttt{Reducible}
+    interface. This interface outlines a single method, \texttt{invoke}, which accepts a list of arguments and yields a 
+    single value. Drawing parallels, the \texttt{invoke} method resembles a function call, and the \texttt{Reducible} 
+    interface stands as a function signature.
 
-  The architecture of the proposed \texttt{Reducible} interface can be 
-  appreciated in \vref{lst:sec:keen:gp:primitives:reduce}.
+    The architecture of the proposed \texttt{Reducible} interface can be appreciated in
+    \vref{lst:sec:keen:gp:primitives:reduce}.
 
-  \begin{code}{
-    The \texttt{Reducible} interface
-  }{
-    label=lst:sec:keen:gp:primitives:reduce
-  }{kotlin}
-    interface Reducible<T> : Node<Reducible<T>>, SelfReferential<Reducible<T>> {
-        override val contents: Reducible<T> get() = this
-        operator fun invoke(environment: Environment<T>, args: List<T>): T
-        operator fun <T> Reducible<T>.invoke(environment: Environment<T>, vararg args: T): T =
-            invoke(environment, args.toList())
-    }
-  \end{code}
+    \begin{code}{
+        The \texttt{Reducible} interface
+    }{
+        label=lst:sec:keen:gp:primitives:reduce
+    }{kotlin}
+        interface Reducible<T> : Node<Reducible<T>> {
+            operator fun invoke(environment: Environment<T>, args: List<T>): T
+        }
+    \end{code}
+    
+    \begin{remark}
+        A crucial feature of the \texttt{Reducible} interface in \textit{Keen} is its handling of the 
+        \emph{environment}, a structure that holds variable values for expressions. Initially, \textit{Keen} used a 
+        global environment for storing variable values, but this method lacked the desired flexibility. The framework 
+        has since shifted to using a local environment for each expression, enabling variable scopes to be defined 
+        differently for each case. This adjustment enhances the capability to construct more complex expressions and 
+        solve intricate problems, aligning more closely with how variables operate in programming languages, where they 
+        are confined to their defined scopes.
 
-  An important aspect of the \texttt{Reducible} interface is the 
-  \emph{environment}; a data structure that stores the values of the
-  variables used in the expression.
-  
-  It's essential to underline that the \texttt{Reducible} interface is an extension of \texttt{Node<Reducible<T>>}. This 
-  inherently implies that any reducible expression is also a node within an expression tree. Such an arrangement forms a 
-  cornerstone of \textit{Keen}'s GP approach as it lays the foundation for generating expressions of arbitrary 
-  intricacy.
+        It's important to note that this modification is still under development, and as such, the current variable 
+        implementation in \textit{Keen} is not yet fully operational. Addressing and refining this aspect of the 
+        framework is a priority for upcoming versions.
+    \end{remark}
+    
+    The \texttt{Reducible} interface extends \texttt{Node<Reducible<T>>}, meaning every reducible expression also acts 
+    as a node in an expression tree. This setup is a key part of \textit{Keen}'s GP method, as it allows for the 
+    creation of expressions with various levels of complexity.
 
-  Venturing forward, \textit{Keen} subdivides the \texttt{Reducible} into 
-  two primitive subsets: \emph{terminals} and \emph{functions}. The former, 
-  terminals, embody reducible expressions that act as leaf nodes in an 
-  expression tree. 
-  Conversely, functions serve as reducible expressions that denote 
-  intermediate nodes in said tree.
+    Moving ahead, \textit{Keen} divides reducible expressions into two basic categories: \emph{terminals} and 
+    \emph{functions}. Terminals are reducible expressions that function as leaf nodes in an expression tree, while 
+    functions represent reducible expressions that correspond to intermediate nodes in the tree.
 
-  \begin{code}{Prototype of the \texttt{Terminal} interface}{
-    label=lst:sec:keen:gp:primitives:terminal
-  }{kotlin}
-    interface Terminal<T> : Reducible<T>, Leaf<Reducible<T>> {
-        fun create(): Terminal<T>
-    }
-  \end{code}
+    \begin{code}{Prototype of the \texttt{Terminal} interface}{
+        label=lst:sec:keen:gp:primitives:terminal
+    }{kotlin}
+        interface Terminal<T> : Reducible<T>, Leaf<Reducible<T>> {
+            fun create(): Terminal<T>
+        }
+    \end{code}
 
-  \begin{code}{Prototype of the \texttt{Fun} open class}{
-    label=lst:sec:keen:gp:primitives:fun
-  }{kotlin}
-    open class Fun<T>(
-        val name: String, override val arity: Int, val body: (List<T>) -> T
-    ) : Reducible<T>, Intermediate<Reducible<T>> {
-        override fun invoke(environment: Environment<T>, args: List<T>): T { /* ... */ }
-    }
-  \end{code}
+    \begin{code}{Prototype of the \texttt{Fun} open class}{
+        label=lst:sec:keen:gp:primitives:fun
+    }{kotlin}
+        open class Fun<T>(
+            val name: String, override val arity: Int, val body: (List<T>) -> T
+        ) : Reducible<T>, Intermediate<Reducible<T>> {
+            override fun invoke(environment: Environment<T>, args: List<T>): T { /* ... */ }
+        }
+    \end{code}
 
-  Note that both the \texttt{Terminal} interface and the \texttt{Fun} class
-  are parameterized by a type \texttt{T}. This type represents the return
-  type of the \texttt{invoke} method, and is used to enforce type safety
-  when creating expressions.
+    Note that both the \texttt{Terminal} interface and the \texttt{Fun} class are parameterized by a type \texttt{T}. 
+    This type represents the return type of the \texttt{invoke} method, and is used to enforce type safety when 
+    creating expressions.
 
-  A crucial aspect of our design strategy involves the employment of an open 
-  class for the \texttt{Fun} class, a decision we consider more fitting than 
-  resorting to an interface. Given that functions symbolize expressions with 
-  an innate arbitrary behavior, architecting an interface and extending it 
-  for each unique function emerges as an impractical venture. In contrast, an 
-  open class stands out as a versatile choice, facilitating the crafting of 
-  generic functions and paving the way for class extensions to enhance the 
-  behavior of the function. This structural framework empowers users to 
-  directly harness the \texttt{Fun} class for function creation or extend it 
-  for more intricate functions, as exemplified in \vref{lst:app:keen_fun_add}.
-  
+    The \texttt{Fun} class is introduced to associate a function with a name and an arity. This is important as the
+    genetic operators tailored for GP require this information to function correctly. An important part of our design
+    approach is using an open class for the \texttt{Fun} class, this allows for the creation of functions with a generic
+    nature via instantiation, while also allowing for the creation of more specific functions via inheritance, as shown
+    in \vref{lst:app:keen_fun_add}.

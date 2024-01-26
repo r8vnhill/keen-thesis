@@ -10,21 +10,19 @@
     A more detailed definition of program induction can be found in \vref{def:program_induction}.
   }
 
-  At their core, both GP and GA operate on similar foundations. They use a 
-  population-based strategy, employ a fitness function to assess individual 
-  performance, and apply genetic operators to produce new individuals. Yet, the 
-  representation of individuals in GP, along with its unique genetic operators, 
-  differentiates it from GA.
+  
+  At their core, both GP and GA operate on similar foundations. They use a population-based strategy, employ a fitness 
+  function to assess individual performance, and apply genetic operators to produce new individuals.
 
   \begin{remark}
-    While GP is primarily a fitness-centric search in the set of computer 
-    programs, its fundamental nature is optimization, echoing the core of GA.
+    GP can be seen as a specific type of GA, where individuals are not just a matrix of genes but are represented as 
+    computer programs. These programs are usually structured as abstract syntax trees (ASTs).
   \end{remark}
 
-  Within the population of GP, every individual represents a computer 
-  program, built from a library of primitives, distinguished as 
-  \emph{functions} and \emph{terminals}. One way to represent this is as a 
-  composite pattern where functions are internal nodes, and terminals are the leaves. This structure is commonly referred to as an abstract syntax tree (AST). For a visual representation, refer to \vref{fig:composite_pattern}.
+  Within the population of GP, every individual represents a computer program, built from a library of primitives, 
+  distinguished as \emph{functions} and \emph{terminals}. One way to represent this is as a composite pattern where 
+  functions are internal nodes, and terminals are the leaves. This structure is commonly referred to as an abstract 
+  syntax tree (AST). For a visual representation, refer to \vref{fig:composite_pattern}.
 
   \begin{figure}[ht!]
     \centering

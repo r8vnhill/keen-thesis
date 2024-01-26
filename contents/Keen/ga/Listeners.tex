@@ -14,30 +14,6 @@
   evolution process, generate comprehensive reports based on its results, or 
   persistently store the best-performing individual of each generation.
 
-  To facilitate these functions, the interface features the following methods:
-
-  \begin{code}{
-    Evolution Listener Interface (some variables and functions omitted for 
-    brevity)
-  }{label=lst:keen:ga:listeners:interface}{kotlin}
-    interface EvolutionListener<T, G> where G : Gene<T, G> {
-        fun onGenerationStarted(state: EvolutionState<T, G>) = Unit
-        fun onGenerationEnded(state: EvolutionState<T, G>) = Unit
-        fun onInitializationStarted(state: EvolutionState<T, G>) = Unit
-        fun onInitializationEnded(state: EvolutionState<T, G>) = Unit
-        fun onEvaluationStarted(state: EvolutionState<T, G>) = Unit
-        fun onEvaluationEnded(state: EvolutionState<T, G>) = Unit
-        fun onParentSelectionStarted(state: EvolutionState<T, G>) = Unit
-        fun onParentSelectionEnded(state: EvolutionState<T, G>) = Unit
-        fun onSurvivorSelectionStarted(state: EvolutionState<T, G>) = Unit
-        fun onSurvivorSelectionEnded(state: EvolutionState<T, G>) = Unit
-        fun onAlterationStarted(state: EvolutionState<T, G>) = Unit
-        fun onAlterationEnded(state: EvolutionState<T, G>) = Unit
-        fun onEvolutionStarted(state: EvolutionState<T, G>) = Unit
-        fun onEvolutionEnded(state: EvolutionState<T, G>) = Unit
-    }
-  \end{code}
-
   Within the \textit{Keen} framework, several concrete implementations of this 
   interface are available:
 
@@ -62,17 +38,3 @@
   The implementation of this interface is a novel feature of the \textit{Keen}
   framework, and it is not present in the frameworks that were used as a
   reference for this work.
-
-  \subsubsection{Records}
-    The framework uses records to track details about the evolution process.
-
-    \paragraph{Generation Record}
-      The \texttt{GenerationRecord} class embodies data of an individual 
-      generation, encapsulating each phase of the evolutionary journey within a 
-      generation record.
-
-    \paragraph{Evolution Record}
-      The \texttt{EvolutionRecord} class, while centered on the entire 
-      evolutionary process, primarily delegates data storage responsibilities 
-      to the \texttt{GenerationRecord} class.
-      

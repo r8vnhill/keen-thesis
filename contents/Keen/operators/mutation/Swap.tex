@@ -2,23 +2,12 @@
 % Use of this source code is governed by a BSD-style
 % license that can be found in the LICENSE file.
 
-\subsubsection{Swap Mutator}
-\label{sec:keen:op:mut:swap}
-  The \texttt{SwapMutator} is a mutation operator designed to enhance 
-  population diversity by interchanging the positions of two genes in a 
-  chromosome. Unlike conventional mutation techniques that modify the intrinsic 
-  value of a gene, the \texttt{SwapMutator} focuses on the positional 
-  rearrangement of genes within a chromosome.
-
   \begin{definition}[Swap Mutator]
   \label{def:keen:op:mut:swap}
     The \emph{swap mutator}, denoted by
 
     \begin{equation}
-      M_\mathrm{swap} :\: \mathbb{P} \times [0,\, 1] \times [0,\, 1] 
-        \times [0,\, 1] \to \mathbb{P};\;
-      (P,\, \mu,\, \rho_\mathbf{c},\, \rho_g) 
-        \mapsto M_\mathrm{swap}(P,\, \mu,\, \rho_\mathbf{c},\, \rho_g)
+      M_\mathrm{swap}(P: \mathbb{P},\, \mu: [0,\, 1],\, \rho_\mathbf{c}: [0,\, 1],\, \rho_g: [0,\, 1]) \to \mathbb{P}
     \end{equation}
 
     is an operator that, with given probabilities, chooses a chromosome from a 
@@ -30,41 +19,3 @@
     Its versatility lies in its applicability to any chromosome, regardless of 
     its specific genetic representation.
   \end{definition}
-
-  The mechanism of the \texttt{SwapMutator} is elucidated below:
-
-  \begin{code}{
-    Schematic representation of the \texttt{SwapMutator}. This representation simplifies the mutator's workings, particularly considering the assumption of chromosome mutability. In contrast, \textit{Keen} adopts an immutable approach.
-  }{
-    label=lst:keen:op:mut:swap
-  }{kotlin}
-    var genesToSwap = []
-    for (gene in chromosome) {
-        if (random.nextDouble() < ~\(\rho_g\)~) {
-            genesToSwap += gene
-        }
-    }
-    for (gene in genesToSwap) {
-        chromosome.swap(gene.index, random.int(0..chromosome.size))
-    }
-  \end{code}
-
-  \begin{remark}
-    This swap mutator implementation permits the possibility of selecting the 
-    same gene multiple times, leading to potential multiple swaps involving the 
-    same gene. While increasing the population's diversity, this approach also 
-    reflects \textit{Keen's} design choice. Implementers seeking to negate this 
-    behavior can design a tailored mutator.
-  \end{remark}
-
-  One of the prominent use-cases of the swap mutator is in combinatorial 
-  optimization tasks, where gene positioning holds significance. An exemplar 
-  problem is the \textit{Travelling Salesman Problem} (TSP), aiming to 
-  ascertain the shortest possible route that visits each city precisely once, 
-  subsequently returning to the starting city. Given that both the order of 
-  visiting and the distances between cities matter, the swap mutator becomes 
-  invaluable in exploring potential solutions without altering the cities' 
-  identity. Comprehensive studies elucidating the swap mutator's efficacy in 
-  TSP are beyond the scope of this thesis. However, interested readers can 
-  refer to Bergel's work~\autocite{bergelAgileArtificialIntelligence2020} and 
-  Abdoun et al.~\autocite{abdounAnalyzingPerformanceMutation2012}.

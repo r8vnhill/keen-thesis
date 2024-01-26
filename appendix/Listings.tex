@@ -6,26 +6,28 @@
     
     \section{Keen}
         \begin{code}{
-            Minimal implementation of the \textit{One Max} problem using the 
-            \textit{Keen} framework.
+            Minimal implementation of the \textit{One Max} problem using the \textit{Keen} framework.
         }{label=lst:app:keen_omp}{kotlin}
-            fun main() {
-                Core.random = Random(11)
-                val result = engine(
-                    { gt: Genotype<Boolean, BoolGene> -> gt.flatten().count { it }.toDouble() },
-                    genotype { chromosome { booleans { size = 20; truesProbability = 0.5 } } }) {
+            Domain.random = Random(11)
+            val engine =
+                evolutionEngine(
+                    { genotype: Genotype<Boolean, BooleanGene> -> genotype.flatten().count { it }.toDouble() },
+                    genotypeOf {
+                        chromosomeOf {
+                            booleans {
+                                size = 20
+                                trueRate = 0.15
+                            }
+                        }
+                    }) {
                     populationSize = 20
-                    selector = TournamentSelector(sampleSize = 3)
-                    alterers = listOf(
-                    BitFlipMutator(probability = 0.03),
-                    SinglePointCrossover(probability = 0.2)
+                    alterers += listOf(
+                        BitFlipMutator(individualRate = 0.5), SinglePointCrossover(chromosomeRate = 0.6)
                     )
-                    limits = listOf(TargetFitness(20.0))
-                    }.evolve()
-                println("Target fitness reached at generation ${result.generation}")
-                println("Best individual is ${result.best.genotype}")
-                println("with fitness ${result.best.fitness}")
-            }
+                    limits += TargetFitness(TARGET_FITNESS)
+                }
+            engine.evolve()
+            engine.listeners.forEach { it.display() }
         \end{code}
 
         \subimport{listings/}{RoomScheduling.tex}

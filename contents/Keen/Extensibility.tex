@@ -1,26 +1,17 @@
 \section{Extensibility}
 \label{sec:keen:extensibility}
 
-    \textit{Keen} is architected with adaptability at its core, catering to a 
-    wide array of genetic problems and computational scenarios. This adaptability 
-    is principally achieved through the combination of intuitive interfaces and 
-    the integration of the Factory Method Pattern.
-
     \subsection{Structured Extensibility Through Interfaces}
-        \textit{Keen} employs well-defined interfaces to encapsulate essential 
-        functionalities. These interfaces act as templates, enabling developers to 
-        easily extend and modify the framework. The process is straightforward: to 
-        enhance or customize capabilities, one simply implements the provided 
-        interfaces.
+        \textit{Keen} employs well-defined interfaces to encapsulate essential functionalities. These interfaces act as 
+        templates, enabling developers to easily extend and modify the framework. The process is straightforward: to 
+        enhance or customize capabilities, one simply implements the provided interfaces.
 
     \subsection{Factory Method Pattern in Genetic Construction}
-        The Factory Method Pattern plays a pivotal role in \textit{Keen}, 
-        facilitating the dynamic creation of genetic material. By decoupling the 
-        framework from specific implementations, this pattern provides the 
-        flexibility to introduce varied genetic construction techniques seamlessly.
+        The Factory Method Pattern plays a pivotal role in \textit{Keen}, facilitating the dynamic creation of genetic 
+        material. By decoupling the framework from specific implementations, this pattern provides the flexibility to 
+        introduce varied genetic construction techniques seamlessly.
 
-        Consider the \texttt{Chromosome.Factory} interface and the 
-        \texttt{Chromosome.AbstractFactory} abstract class that extends it.These 
+        Consider the \texttt{Chromosome.Factory} interface and the \texttt{Chromosome.AbstractFactory} abstract class that extends it.These 
         provide a standardized mechanism for generating chromosome objects, ensuring
         easy adaptability to diverse and complex problem domains such as crash
         reproduction (refer to \vref{chap:beacon})
@@ -37,7 +28,7 @@
 
             class Factory(override var size: Int, private val geneFactory: () -> SimpleGene) :
                 Chromosome.AbstractFactory<Int, SimpleGene>() {
-                override fun make() = SimpleChromosome((0 until size).map { geneFactory() })
+                override fun make() = SimpleChromosome((0..<size).map { geneFactory() })
             }
         }
         \end{code}
@@ -70,19 +61,14 @@
         \end{code}
 
     \subsection{Observer Pattern for Evolution Monitoring}
-        A key design pattern employed in \textit{Keen} is the Observer Pattern. This
-        pattern is fundamental for tracking the status of the evolutionary process.
-        Its primary advantage lies in decoupling the core evolutionary engine from
-        the monitoring components. This separation facilitates the extension and
-        customization of monitoring functionalities without affecting the underlying
-        evolutionary mechanisms.
+        A key design pattern employed in \textit{Keen} is the Observer Pattern. This pattern is fundamental for tracking the status of the evolutionary process. Its primary advantage lies in decoupling the core evolutionary engine 
+        from the monitoring components. This separation facilitates the extension and customization of monitoring 
+        functionalities without affecting the underlying evolutionary mechanisms.
 
-        As discussed in \vref{sec:keen:ga:engine}, the \texttt{EvolutionListener}
-        interface acts as a cornerstone for this pattern. It offers a standardized
-        approach to observe and respond to the evolutionary process. Developers can
-        implement this interface to devise custom listeners, which can then be
-        seamlessly integrated with the evolutionary engine, enhancing the
-        flexibility and adaptability of the monitoring process.
+        As discussed in \vref{sec:keen:ga:engine}, the \texttt{EvolutionListener} interface acts as a cornerstone for 
+        this pattern. It offers a standardized approach to observe and respond to the evolutionary process. Developers 
+        can implement this interface to devise custom listeners, which can then be integrated with the evolutionary 
+        engine, enhancing the flexibility and adaptability of the monitoring process.
 
     \subsection{Modularity in Design}
         The architecture of \textit{Keen} is inherently modular, offering developers
@@ -92,16 +78,7 @@
         modifies the population until certain criteria are met, utilizing the
         existing functions that define the genetic algorithm's stages.
 
-    This modular approach extends to the enhancement of evolutionary process
-    notifications. For example, developers can augment the
-    \texttt{EvolutionListener} to trigger alerts when the population achieves a
-    predefined fitness level. This ability to modify and extend the notification
-    system underscores the framework's versatility in adapting to varied
-    evolutionary scenarios.
-
-  \subsection{Sustaining Future Evolution}
-    Designed with a forward-looking perspective, \textit{Keen} leverages 
-    interfaces and the Factory Method Pattern to ensure its sustained 
-    evolution. This positions \textit{Keen} advantageously, ensuring it remains 
-    relevant and adaptable to emerging challenges in genetic algorithms and 
-    computations.
+        This modular approach extends to the enhancement of evolutionary process notifications. For example, developers 
+        can design a custom listener with a hook to receive an alert when the population achieves a predefined fitness 
+        level. This ability to modify and extend the notification system underscores the framework's versatility in 
+        adapting to varied evolutionary scenarios.

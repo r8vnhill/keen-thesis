@@ -1,24 +1,19 @@
 \subsection{Mutation}
 \label{sec:keen:op:mut}
   Mutation is a crucial operator in evolutionary computation, acting as the main source of genetic variation.
-  This operation sporadically alters parts of a solution, commonly referred to 
-  as a chromosome or individual. Such alterations ensure that the genetic 
-  material remains diverse and rich—qualities vital for producing robust and 
-  adaptable solutions. Even though mutation is often linked with genetic 
-  algorithms, its importance is felt throughout various evolutionary 
-  computation methods, from genetic programming to evolutionary strategies.
+  This operation sporadically alters parts of a solution, commonly referred to as a chromosome or individual. Such 
+  alterations ensure that the genetic material remains diverse and rich—qualities vital for producing robust and 
+  adaptable solutions. Even though mutation is often linked with genetic algorithms, its importance is felt throughout 
+  various evolutionary computation methods, from genetic programming to evolutionary strategies.
 
-  The methodology of mutation differs depending on the solution space's nature 
-  and the problem's unique demands. This section will examine various mutation strategies, highlighting their unique characteristics and applications.
+  The methodology of mutation differs depending on the solution space's nature and the problem's unique demands. This 
+  section will examine various mutation strategies, highlighting their unique characteristics and applications.
 
-  From our previous discussion in \vref{sec:bg:ga:var:mut}, a mutation operator 
-  can be articulated as a function \(M :\: \mathbb{P} \times [0,\, 1] \times 
-  \cdots \to \mathbb{P}\). This operator selects individuals from a population 
-  based on a probability, \(\mu\), and then alters a portion of its genetic 
-  composition.
+  From our previous discussion in \vref{sec:bg:ga:var:mut}, a mutation operator can be articulated as a function 
+  \(M :\: \mathbb{P} \times [0,\, 1] \times \cdots \to \mathbb{P}\). This operator selects individuals from a 
+  population based on a probability, \(\mu\), and then alters a portion of its genetic composition.
 
-  The approach adopted by \textit{Keen} mirrors that of selection operators. 
-  The proposed interface is as follows:
+  The approach adopted by \textit{Keen} mirrors that of selection operators. The proposed interface is as follows:
 
   \begin{code}{
     Mutator interface (Note: For clarity, certain parts of the code have been omitted.)
@@ -34,16 +29,26 @@
     }
   \end{code}
 
-  This design contemplates mutations at different stages of the solution 
-  blueprint, focusing primarily on the chromosome level. It provides default
-  \texttt{inkove} and \texttt{mutateIndividual} methods (omitted from the code 
-  for the sake of brevity), directing the mutation task to the 
-  \texttt{mutateChromosome} method. This design choice facilitates ease for
-  users: they only need to implement the \texttt{mutateChromosome} method when
-  devising a new mutator, but still retain the freedom to override other methods 
-  if necessary.
+  This design contemplates mutations at different stages of the solution blueprint, focusing primarily on the 
+  chromosome level. It provides default \texttt{inkove} and \texttt{mutateIndividual} methods (omitted from the code 
+  for the sake of brevity), directing the mutation task to the \texttt{mutateChromosome} method. This design choice 
+  facilitates ease for users: they only need to implement the \texttt{mutateChromosome} method when devising a new 
+  mutator, but still retain the freedom to override other methods if necessary.
 
   \subimport{./}{Random.tex}
   \subimport{./}{BitFlip.tex}
+
+  Consider the following problem: given a set of cities and the distances between them, find the shortest possible
+  route that visits each city precisely once, subsequently returning to the starting city. This problem is known as the
+  \textit{Travelling Salesman Problem} (TSP), and it is a well-known combinatorial optimization problem. The TSP is
+  NP-hard, meaning that no known algorithm can solve it in polynomial time. However, evolutionary algorithms have
+  demonstrated their efficacy in solving this 
+  problem~\autocite{goldbergAllelesLociTraveling1985,bergelAgileArtificialIntelligence2020}.
+
+  However, the TSP's nature poses a challenge for mutation operators. The order of visiting cities is crucial, and
+  altering the order of cities can lead to invalid solutions. For this reason, mutation operators for TSP must generate
+  valid permutations (without repeating cities). Keen provides two mutation operators for problems of this nature:
+  \texttt{SwapMutator} and \texttt{InversionMutator}.
+
   \subimport{./}{Swap.tex}
   \subimport{./}{Inversion.tex}

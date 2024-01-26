@@ -1,20 +1,14 @@
 \subsection{Selection}
 \label{sec:keen:operators:selection}
-  Building upon the concepts presented in \vref{def:selection_operator}, the 
-  \emph{selector operator} is mathematically represented as \(\Sigma : \mathbb
-  {P} \times \mathbb{N} \times \cdots \to \mathbb{P}\).
-  At its core, the selector operator processes a given population 
-  \(P\), selects \(n\) individuals based on specific criteria, and 
-  outputs a subset of the initial population.
-  To ensure adaptability, the design challenge centers around establishing a 
-  versatile interface to cater to diverse selection strategies.
+  Building upon the concepts presented in \vref{def:selection_operator}, the \emph{selector operator} is mathematically 
+  represented as \(\Sigma : \mathbb{P} \times \mathbb{N} \times \cdots \to \mathbb{P}\).
+  At its core, the selector operator processes a given population \(P\), selects \(n\) individuals based on specific 
+  criteria, and outputs a subset of the initial population. To ensure adaptability, the design challenge centers around 
+  establishing a versatile interface to cater to diverse selection strategies.
 
-  A promising approach consists of introducing an interface encompassing a 
-  method that requires the population and desired number of individuals as 
-  inputs.
-  We can incorporate any supplementary parameters as properties of a specific 
-  selector object.
-  This conceptualization can be defined as:
+  A promising approach consists of introducing an interface encompassing a method that requires the population and 
+  desired number of individuals as inputs. We can incorporate any supplementary parameters as properties of a specific 
+  selector object. This conceptualization can be defined as:
 
   \begin{code}{Selector interface}{
     label=lst:keen:operators:selection:interface
@@ -26,13 +20,11 @@
     }
   \end{code}
 
-  In this model, the \texttt{Selector} interface gets parameterized according 
-  to the \textit{value} and \textit{gene} types.
-  The incorporated \texttt{invoke} method explicitly mentions the state and 
-  output size parameters, which are essential for the selection process.
-  Thanks to Kotlin's capacity for operator overloading, this framework allows 
-  direct function invocation through the selector object, depicted as \texttt
-  {selector(...)}.\footnote{Syntactic sugar for \texttt{selector.invoke(...)}.}
+  In this model, the \texttt{Selector} interface gets parameterized according to the \textit{value} and \textit{gene} 
+  types. The incorporated \texttt{invoke} method explicitly mentions the state and output size parameters, which are 
+  essential for the selection process. Thanks to operator overloading, this framework allows direct function invocation 
+  through the selector object, depicted as \texttt{selector(...)}.\footnote{Syntactic sugar for 
+  \texttt{selector.invoke(...)}.}
 
   \subimport{./random/}{Random.tex}
   \subimport{./roulette/}{Roulette.tex}

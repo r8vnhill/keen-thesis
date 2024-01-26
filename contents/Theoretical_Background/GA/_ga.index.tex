@@ -1,16 +1,17 @@
 \section{Genetic Algorithms}
 \label{sec:bg:ga}
   Genetic Algorithms (GA)\footnote{
-    Also known as Simple Genetic Algorithms (SGA) 
-    \autocite{yuIntroductionEvolutionaryAlgorithms2010}, or Traditional 
+    Also known as Simple Genetic Algorithms (SGA) \autocite{yuIntroductionEvolutionaryAlgorithms2010}, or Traditional 
     Genetic Algorithms (TGA)~\autocite{shiffmanNatureCode2012}.
   }~\autocite{hollandAdaptationNaturalArtificial1992a,kozaGeneticProgrammingProgramming1992a,yuIntroductionEvolutionaryAlgorithms2010,shiffmanNatureCode2012}
   are a type of EA where a \emph{population} of \emph{individuals}\footnote{
-    See \vref{def:individual}.
-  } representing candidate solutions to an optimization problem evolves towards 
-  better solutions.
-  Each individual is defined by its location in the search space, known as its
-  \emph{genotype}\footnote{See \vref{def:genotype}}, and its fitness value, 
+    \emph{Individual:} A candidate solution to a given optimization problem. Formally, an individual is a pair \((\mathbf{G}, 
+    \mathbf{f})\), where \(\mathbf{G}\) is the genotype and \(\mathbf{f}\) is the fitness value of the individual.
+  } representing candidate solutions to an optimization problem evolves towards better solutions.
+  Each individual is defined by its location in the search space, known as its \emph{genotype}\footnote{
+    \emph{Genotype:} Representation of the full genetic information of a candidate solution to a given optimization problem. Formally, a 
+    genotype is a matrix \(\mathbf{G} = (\textbf{c}_1, \textbf{c}_2, \dots, \textbf{c}_n)\), where \(\textbf{c}_i\) is a chromosome.
+  }, and its fitness value, 
   computed by a \emph{fitness function}.
   At a high level, GA is an automatic method for problem-solving, starting from
   a \textit{high-level statement} of the desired outcome, without needing the
@@ -31,12 +32,9 @@
     return fittest from population  // Returns the most fit individual
   \end{code}
 
-  The exact implementation of each of these steps depends on the specific 
-  problem at hand.
-  Factors such as the problem's complexity, the representation of individuals,
-  or even the computational resources available, can greatly influence the
-  choice of methods used for initialization, selection, alteration, and survivor
-  selection.
+  The exact implementation of each of these steps depends on the specific problem at hand. Factors such as the 
+  problem's complexity, the representation of individuals, or even the computational resources available, can greatly 
+  influence the choice of methods used for initialization, selection, alteration, and survivor selection.
 
   \subimport{./}{Representation.tex}
   \subimport{./}{Initialization.tex}

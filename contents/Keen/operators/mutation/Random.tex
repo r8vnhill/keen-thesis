@@ -1,48 +1,19 @@
-\subsubsection{Random Mutator}
-\label{sec:keen:op:mut:simple}
+\begin{definition}[Random Mutator]
+  The \emph{random mutator} serves as a rudimentary mutation operator, undertaking random alterations to the genes of a 
+  given chromosome. Formally, it is articulated as:
 
-  The \texttt{RandomMutator} represents a fundamental mutation operator that
-  introduces random alterations to the genes within a chromosome. Its versatility 
-  lies in its capacity to function with any gene type, making it a universally 
-  adaptable mutation mechanism.
+  \begin{equation}
+    M_\mathrm{random}(P: \mathbb{P},\, \mu: [0,\, 1],\, \rho_\textbf{c}: [0,\, 1],\, \rho_g: [0,\, 1]) \to \mathbb{P}
+  \end{equation}
 
-  To underpin this mutator's generic nature, each gene is equipped with a
-  \texttt{mutate} function. This function, when invoked, produces a randomly 
-  mutated gene of the same type as the original. By default, the function 
-  generates a new gene mirroring the initial gene's value. This design choice 
-  provides users with the flexibility to determine if a specific mutation 
-  operator should employ this function. As we'll observe, certain mutation 
-  operators opt not to utilize it.
+  Here, \(P\) symbolizes the population, \(\mu\) represents the likelihood of an individual undergoing mutation, 
+  \(\rho_\textbf{c}\) is the probability of a chromosome being selected for mutation, and \(\rho_g\) is the probability 
+  of a gene being selected for mutation.
+\end{definition}
 
-  \begin{definition}[Random Mutator]
-    The \emph{random mutator} serves as a rudimentary mutation operator, 
-    undertaking random alterations to the genes of a given chromosome. 
-    Formally, it is articulated as:
-
-    \begin{equation}
-      M_\mathrm{random} :\: \mathbb{P} \times [0,\, 1] \times [0,\, 1] 
-        \times [0,\, 1] \to \mathbb{P};\;
-      (P,\, \mu,\, \rho_\textbf{c}, \rho_g) 
-        \mapsto M_\mathrm{random}(P,\, \mu,\, \rho_\textbf{c}, \rho_g)
-    \end{equation}
-
-    Here, \(P\) symbolizes the population, \(\mu\) represents the likelihood of 
-    an individual undergoing mutation, \(\rho_\textbf{c}\) is the probability
-    of a chromosome being selected for mutation, and \(\rho_g\) is the
-    probability of a gene being selected for mutation.
-  \end{definition}
-
-  % Insert discussion or analysis of the results here
-
-  % \begin{table}[H]
-  %   % Insert table content here
-  %   \caption{
-  %     The table encapsulates an assessment of the \texttt{RandomMutator}'s 
-  %     performance within the WGP, traversing an array of word lengths and 
-  %     mutation probabilities. The experimental setup employed a single-point 
-  %     crossover characterized by a 0.2 crossover probability and was 
-  %     complemented by a tournament selection approach, configured with a 
-  %     tournament size of 3.
-  %   }
-  %   \label{tab:keen:op:mut:random}
-  % \end{table}
+\begin{remark}
+  To underpin this mutator's generic nature, each gene is equipped with a \texttt{mutate} function. This function, when invoked, produces a randomly mutated gene of the same type as the original. By default, the function generates a new 
+  gene mirroring the initial gene's value. This design choice provides users with the flexibility to determine if a 
+  specific mutation operator should employ this function. As we'll observe, certain mutation operators opt not to 
+  utilize it.
+\end{remark}

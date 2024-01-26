@@ -1,71 +1,54 @@
 \section{Motivation}
 \label{sec:motivation}
-  The inception of artificial intelligence (AI) as we perceive it today is 
-  deeply rooted in the mid-20th century when Alan Turing proposed the intriguing 
-  question, \enquote{Can machines think?}~\autocite{turingCOMPUTINGMACHINERYINTELLIGENCE1950a}.
-  This seminal query catalyzed a remarkable evolution in the field, leading to the emergence of a diverse spectrum of AI applications that persistently extend and advance.
+  The inception of artificial intelligence (AI) as we perceive it today is deeply rooted in the mid-20th century when 
+  Alan Turing proposed the intriguing question, \enquote{Can machines 
+  think?}~\autocite{turingCOMPUTINGMACHINERYINTELLIGENCE1950a}. This seminal query catalyzed a remarkable evolution in 
+  the field, leading to the emergence of a diverse spectrum of AI applications that persistently extend and advance.
 
-  Among the early endeavors to emulate evolution artificially, Nills Aall 
-  Barricelli's initiative in 1954 stands out.
-  Barricelli construed evolution as a purely statistical process, setting a 
-  novel precedent for the field of evolutionary computation 
-  (EC)~\autocite{barricelliNumericalTestingEvolution1962}.
-  This groundbreaking exploration established the parameters for an evolutionary 
-  system, which necessitated the system's components to exhibit capabilities of 
-  reproduction and mutation, thereby facilitating evolution through natural 
-  selection or the survival of the fittest.
+  Among the early endeavors to emulate evolution artificially, Nills Aall Barricelli's initiative in 1954 stands out.
+  Barricelli construed evolution as a purely statistical process, setting a novel precedent for the field of 
+  evolutionary computation (EC)~\autocite{barricelliNumericalTestingEvolution1962}. This groundbreaking exploration 
+  established the parameters for an evolutionary system, which necessitated the system's components to exhibit 
+  capabilities of reproduction and mutation, thereby facilitating evolution through natural selection or the survival 
+  of the fittest.
 
-  Expanding upon these foundational principles, John Holland's influential book, 
-  \emph{Adaptation in Natural and Artificial 
-  Systems}~\autocite{hollandAdaptationNaturalArtificial1992a}, unveiled genetic 
-  algorithms (GA).
-  This innovative methodology for addressing optimization problems drew 
-  inspiration from natural selection and genetic mechanisms.
-  Holland's work solidified the field of evolutionary algorithms (EA), igniting 
-  the development of a plethora of techniques and algorithms, including but not 
-  limited to, genetic algorithms, genetic programming, and evolutionary 
-  strategies.
+  Expanding upon these foundational principles, John Holland's influential book, \emph{Adaptation in Natural and 
+  Artificial Systems}~\autocite{hollandAdaptationNaturalArtificial1992a}, unveiled genetic algorithms (GA). This 
+  innovative methodology for addressing optimization problems drew inspiration from natural selection and genetic 
+  mechanisms. Holland's work solidified the field of evolutionary algorithms (EA), igniting the development of a 
+  plethora of techniques and algorithms, including but not limited to, genetic algorithms, genetic programming, and 
+  evolutionary strategies.
 
-  Despite the proven efficacy of evolutionary algorithms in resolving intricate 
-  optimization problems ranging from scheduling and data mining to machine 
-  learning and beyond, their execution can be challenging, frequently demanding 
-  extensive, repetitive coding.
-  As the uptake of AI continues to soar, the requirement for streamlined, 
-  intuitive libraries and frameworks that empower efficient experimentation and 
-  application of these potent algorithms grows concomitantly.
+  Despite the proven efficacy of evolutionary algorithms in resolving intricate optimization problems ranging from 
+  scheduling and data mining to machine learning and beyond, their execution can be challenging, frequently demanding 
+  extensive, repetitive coding. As the uptake of AI continues to soar, the requirement for streamlined,  intuitive 
+  libraries and frameworks that empower efficient experimentation and application of these potent algorithms grows 
+  concomitantly.
 
-  The \textit{Kotlin} programming language emerges as a promising platform for 
-  developing such a framework~\autocite{KotlinProgrammingLanguagea}.
-  \textit{Kotlin} distinguishes itself with its lucid syntax, static typing, and 
-  flawless interoperability with Java, making it an attractive choice for AI and
-  EC enthusiasts~\autocite{CallingJavaKotlin,CallingKotlinJava,KotlinJavaInteropGuide}.
-  The significance of \textit{Kotlin} has been formally acknowledged in 
-  \textit{Android} app development~\autocite{AndroidKotlinfirstApproach}, and it
-  continues to gain popularity among developers, with over 60\% of 
-  \textit{Android} developers now using it~\autocite{LatestProgrammingLanguages2023}.
-  Furthermore, according to a \textit{GitHub} study, \textit{Kotlin} emerged as 
-  the ninth fastest-growing language worldwide from 2021 to 2023, overtaking 
-  \textit{Python} by 0.4\%~\autocite{TopProgrammingLanguages}.
+  The \textit{Kotlin} programming language emerges as a promising platform for developing such a 
+  framework~\autocite{KotlinProgrammingLanguagea}. \textit{Kotlin} distinguishes itself with its lucid syntax, static 
+  typing, and flawless interoperability with Java, making it an attractive choice for AI and EC 
+  enthusiasts~\autocite{CallingJavaKotlin,CallingKotlinJava,KotlinJavaInteropGuide}. The significance of 
+  \textit{Kotlin} has been formally acknowledged in \textit{Android} app 
+  development~\autocite{AndroidKotlinfirstApproach}, and it continues to gain popularity among developers, with over 
+  60\% of \textit{Android} developers now using it~\autocite{LatestProgrammingLanguages2023}. Furthermore, according to 
+  a \textit{GitHub} study, \textit{Kotlin} emerged as the ninth fastest-growing language worldwide from 2021 to 2023, 
+  overtaking \textit{Python} by 0.4\%~\autocite{TopProgrammingLanguages}.
 
-  The allure of \textit{Kotlin} is further amplified by its multiplatform 
-  feature, which permits code sharing across a wide range of platforms, 
-  including JVM, \textit{JavaScript}, \textit{Android}, \textit{iOS}, and native 
-  desktop applications.
-  This cross-platform compatibility promotes enhanced productivity and 
-  consistency in software development.
+  The allure of \textit{Kotlin} is further amplified by its multiplatform feature, which permits code sharing across a 
+  wide range of platforms, including JVM, \textit{JavaScript}, \textit{Android}, \textit{iOS}, and native desktop 
+  applications. This cross-platform compatibility promotes enhanced productivity and consistency in software 
+  development.
 
-  \textit{Kotlin} also supports functional programming (FP) and coroutines, 
-  which simplify the development of asynchronous and concurrent applications.
-  This functionality proves particularly beneficial in the realm of evolutionary 
-  algorithms that often necessitate the execution of numerous concurrent 
-  processes.
-  Moreover, \textit{Kotlin}'s capabilities align well with the design of 
-  \textit{Domain Specific Languages} (DSLs)~\autocite{TypesafeBuildersKotlin}, 
-  which can be used to concisely and intuitively define the problem domain.
+  \textit{Kotlin} offers support for functional programming (FP) and coroutines, significantly easing the development 
+  of asynchronous and concurrent applications. This feature is particularly advantageous in the context of evolutionary 
+  algorithms, which frequently require the parallel execution of multiple processes. While Kotlin currently lacks 
+  certain FP features like pattern matching, plans are in place to introduce these enhancements in future versions, 
+  further bolstering its capabilities for evolutionary computation. Moreover, \textit{Kotlin}'s capabilities align well 
+  with the design of \textit{Domain Specific Languages} (DSLs)~\autocite{TypesafeBuildersKotlin}, which can be used to 
+  concisely and intuitively define the problem domain.
 
-  Given these compelling features, this thesis aims to exploit the prowess of 
-  \textit{Kotlin} to architect and implement a pioneering genetic algorithms 
-  framework, thereby augmenting the ever-growing application of \textit{Kotlin} 
-  within the AI community.
-  We expect this framework to stimulate research and applications in the field, 
-  hastening the creation of novel algorithms and techniques.
+  Given these compelling features, this thesis aims to exploit the prowess of \textit{Kotlin} to architect and 
+  implement a pioneering genetic algorithms framework, thereby augmenting the ever-growing application of
+  \textit{Kotlin} within the AI community. We expect this framework to stimulate research and applications in the 
+  field, hastening the creation of novel algorithms and techniques.

@@ -154,52 +154,17 @@
       There is a delicate balance between the framework's flexibility and its 
       usability. \textit{Jenetics}' notable adaptability leans heavily on 
       builders and factories, which can occasionally obfuscate the code.
-    \item \textbf{Verbose Type Inference:} Java's type inference limitations 
-      can lead to verbose code, especially with classes like \texttt{Phenotype}.
-      Java's lack of robust type inference can lead to verbosity, particularly 
-      evident when using classes like \texttt{Phenotype} requiring multiple 
-      type parameters.
-    \item \textbf{Parallelization Approach:} \textit{Jenetics} uses the Java 
-      \textit{Stream API} for parallelization, a non-standard approach in 
-      evolutionary computation that may be tricky for novices.
-      \textit{Jenetics} relies on the Java Stream API for parallelization to 
-      maintain efficiency. However, this approach is not typical in the field 
-      of evolutionary computation, making it challenging for beginners. 
-      Furthermore, the use of the Stream API can result in difficult-to-debug 
-      code due to the execution mainly handled by Java's standard library.
-    
-    \item \textbf{Default Parallelization:} The library's default parallel  
-      operation can hamper performance on smaller tasks due to overhead.
-      By default, \textit{Jenetics} operates in parallel.
-      This can detrimentally affect program performance when working on small 
-      populations or problems with fewer variables due to parallelization's 
-      overhead.
     \item \textbf{Complex Problem Handling:} Addressing intricate problems in 
       \textit{Jenetics} introduces multiple complexities in the code.
       Complex problem-solving with \textit{Jenetics} can quickly complicate the 
       code, introducing \textit{codecs}, \textit{proxies}, and the 
       \texttt{Problem} interface.
-    \item \textbf{Non-standard Features:} \textit{Jenetics} relies heavily on 
-      features outside Java's standard library, posing challenges for beginners.
-      \textit{Jenetics} extensively employs features not found in Java's 
-      standard library, particularly immutable data, thereby steepening the 
-      learning curve for beginners.
-    \item \textbf{Java Version Compatibility:} Compatibility with only newer 
-      Java versions restricts its usability, especially for many Android 
-      devices.
-      \textit{Jenetics} is compatible with newer versions of Java, potentially 
-      problematic for users unable to update their Java version. This issue is 
-      especially relevant for most Android devices, which do not support newer 
-      Java versions.
     \item \textbf{Visualization Gap:} The library lacks a comprehensive   
       mechanism for visualizing the evolutionary process.
       There's a lack of a robust mechanism for visualizing the evolution 
-      process, a feature commonly found in other evolutionary computation 
-      libraries.
-    \item \textbf{Type Safety:} \textit{Jenetics} sometimes requires explicit 
-      type casting, hinting at a lack of full type safety.
-      \textit{Jenetics} isn't entirely type-safe, necessitating explicit casts 
-      via the \texttt{as} method.
+      process.
+    \item \textbf{Well typed Jenetics programs can raise errors on runtime:} 
+      \textit{Jenetics} sometimes requires explicit type casting, which introduces errors at runtime.
   \end{itemize}
 
   Despite these shortcomings, \textit{Jenetics} is a powerful and flexible

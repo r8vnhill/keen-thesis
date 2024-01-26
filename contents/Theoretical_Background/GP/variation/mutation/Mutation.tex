@@ -104,9 +104,17 @@
     \centering
     \includegraphics[width=0.8\textwidth]
       {img/theoretical_framework/gp_pop_mutated.png}
-    \caption{Population after applying the node mutation operator}
+    \caption{
+        Population after applying the node mutation operator on the individuals obtained from the crossover operation 
+        (refer to \vref{tab:bg:gp:variation:cx:subtree:fitness}).
+    }
     \label{fig:bg:gp:var:mut:pop}
   \end{figure}
+
+  Since GP is still in a prototypal stage in Keen, it cannot produce reliable results on the symbolic regression problem, but
+  the potential of this approach can be seen in DEAP's\footnote{DEAP will be formally introduced on \vref{chap:sota}} 
+  documentation,\footnote{\url{https://github.com/DEAP/deap/blob/60913c5543abf8318ddce0492e8ffcdf37974d86/examples/gp/symbreg.py}}
+  where an error of the order of \(10^{-33}\) is achieved on 40 generations.
 
   In summary, mutation plays a pivotal role in the genetic programming process.
   It injects fresh genetic material into the population, thereby promoting 

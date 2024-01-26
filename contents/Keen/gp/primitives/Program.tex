@@ -3,61 +3,53 @@
 % license that can be found in the LICENSE file.
 
 \subsubsection{Program trees}
-  The \texttt{Reducible} interface and its subsets--terminals and 
-  functions--are foundational components that aid in the construction of 
-  program trees in \textit{Keen}. The framework represents these program 
-  trees as immutable tree structures, a design decision rooted in advantages 
-  such as thread safety, predictability, and reduced chances of accidental 
-  data modification, in particular, making program trees immutable one can 
-  assure that the arity of a node is always correct.
+    The \texttt{Reducible} interface and its subsets--terminals and functions--are foundational components that aid in 
+    the construction of program trees in \textit{Keen}. The framework represents these program trees as immutable tree 
+    structures, a design decision rooted in advantages such as thread safety, predictability, and reduced chances of 
+    accidental data modification, in particular, making program trees immutable one can assure that the arity of a node 
+    is always correct.
 
-  In essence, a program tree is characterized by a reducible expression 
-  situated at its root, which in turn references other programs as its 
-  descendants. This design is vividly portrayed in the blueprint provided in 
-  \vref{lst:sec:keen:gp:primitives:prog}.
+    In essence, a program tree is characterized by a reducible expression situated at its root, which in turn references 
+    other programs as its descendants. This design is portrayed in the blueprint provided in 
+    \vref{lst:sec:keen:gp:primitives:prog}.
 
-  \begin{code}{Prototype of the \texttt{Program} class}{
-    label=lst:sec:keen:gp:primitives:prog
-  }{kotlin}
-    class Program<V>(
-        override val value: Reducible<V>,
-        override val children: List<Program<V>>,
-    ) : Tree<Reducible<V>, Program<V>> {
-        /* ... */
-        operator fun invoke(environment: Environment<V>, vararg args: V): V =
-            value(environment, children.map { it(environment, *args) })
-    }
-  \end{code}
+    \begin{code}{Prototype of the \texttt{Program} class}{
+        label=lst:sec:keen:gp:primitives:prog
+    }{kotlin}
+        class Program<V>(
+            override val value: Reducible<V>,
+            override val children: List<Program<V>>,
+        ) : Tree<Reducible<V>, Program<V>> {
+            /* ... */
+            operator fun invoke(environment: Environment<V>, vararg args: V): V =
+                value(environment, children.map { it(environment, *args) })
+        }
+    \end{code}
 
-  The \texttt{Program} class employs a type \texttt{V} as a parameter, 
-  symbolizing the return type of the \texttt{invoke} method intrinsic to the 
-  \texttt{Reducible} interface. Such an approach ensures type-safety during the 
-  construction of program trees. Notably, the \texttt{invoke} function adopts a 
-  recursive mechanism. It calls upon the \texttt{invoke} method of the root 
-  reducible expression, subsequently passing the results derived from the 
-  recursive invocations of its children.
+    The \texttt{Program} class employs a type \texttt{V} as a parameter, symbolizing the return type of the 
+    \texttt{invoke} method intrinsic to the \texttt{Reducible} interface. Such an approach ensures the types of the
+    are consistent throughout the program tree. Notably, the \texttt{invoke} function adopts a recursive mechanism. It 
+    calls upon the \texttt{invoke} method of the root reducible expression, subsequently passing the results derived 
+    from the recursive invocations of its children.
 
-  Forming immutable trees, particularly in recursive architectures, can be a 
-  challenging endeavor. To counteract this complexity, the \texttt{Tree} 
-  interface introduces a method to instantiate trees by conducting a top down
-  tree construction. The underlying algorithm, designed to transform a list of 
-  nodes into trees, is presented in \vref{lst:sec:keen:gp:primitives:tree}.
+    Forming immutable trees, particularly in recursive architectures, can be a challenging endeavor. To counteract this 
+    complexity, the \texttt{Tree} interface introduces a method to instantiate trees by conducting a top down tree 
+    construction. The underlying algorithm, designed to transform a list of nodes into trees, is presented in 
+    \vref{lst:sec:keen:gp:primitives:tree}.
 
-  \begin{code}{Algorithm to create a tree from a list of nodes}{
-    label=lst:sec:keen:gp:primitives:tree
-  }{kotlin}
-    val stack = []
-    nodes.reversed().forEach { node ->
-        val children = stack.take(node.arity)
-        stack.removeAll(children)
-        val node = createNode(node.value, children)
-        stack += node
-    }
-    return stack.first()
-  \end{code}
+    \begin{code}{Algorithm to create a tree from a list of nodes}{
+        label=lst:sec:keen:gp:primitives:tree
+    }{kotlin}
+        val stack = []
+        nodes.reversed.forEach { node ->
+            val children = stack.take(node.arity)
+            stack.removeAll(children)
+            val node = createNode(node.value, children)
+            stack += node
+        }
+        return stack.first
+    \end{code}
 
-  This algorithm takes a list of nodes and creates a tree by traversing the
-  list in reverse order. For each node, it takes the required number of
-  children from the top of the stack, removes them from the stack, and
-  creates a new node with the given value and children. Finally,
-  it returns the top of the stack, which is the root of the tree.
+    This algorithm takes a list of nodes and creates a tree by traversing the list in reverse order. For each node, it 
+    takes the required number of children from the top of the stack, removes them from the stack, and creates a new 
+    node with the given value and children. Finally, it returns the top of the stack, which is the root of the tree.

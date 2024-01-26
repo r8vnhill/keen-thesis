@@ -4,24 +4,19 @@
 
 \subsubsection{Crossover}
 \label{sec:bg:ga:var:cx}
-  In genetic algorithms, a prominent variation operator is the 
-  \emph{crossover}.
-  This operator mirrors the genetic recombination seen in nature.\footnote{
-    Also known as \emph{crossing-over} 
-    in~\autocite{hollandAdaptationNaturalArtificial1992a}.
+  In genetic algorithms, a prominent variation operator is the \emph{crossover}. This operator mirrors the genetic 
+  recombination seen in nature.\footnote{
+    Also known as \emph{crossing-over} in~\autocite{hollandAdaptationNaturalArtificial1992a}.
   }
-  It facilitates the exchange of genetic material between two individuals, 
-  spawning a new generation.
+  It facilitates the exchange of genetic material between two individuals, spawning a new generation.
 
   \begin{definition}[Crossover operator]
   \label{def:crossover_operator}
-    The crossover operator recombines genetic material from existing 
-    individuals to create new ones.
-    Formally, it is represented as:
+    The crossover operator recombines genetic material from existing individuals to create new ones. Formally, it is 
+    represented as:
 
     \[
-      X :\: \mathbb{P} \times \mathbb{R} \times \cdots \to \mathbb{P};\;
-      (P,\, \rho_X,\, \dots) \mapsto X(P,\, \rho_X,\, \dots)
+      X(P: \mathbb{P}, \rho_X: \mathbb{R}, \dots) \to \mathbb{P}
     \]
 
     with the following parameters:
@@ -34,20 +29,14 @@
     \end{itemize}
   \end{definition}
 
-  In our analysis, we employ a condensed version of the \emph{single-point 
-  crossover} operator.\footnote{
+  In our analysis, we employ a condensed version of the \emph{single-point crossover} operator.\footnote{
     Refer to \vref{sec:keen:op:cx:single_point}.
-  }
-  This operator picks the first half of the genes from two parental figures and 
-  births two new offspring by swapping these chosen genes. 
+  } This operator picks the first half of the genes from two parental figures and births two new offspring by swapping 
+  these chosen genes. 
 
-  Take, for instance, two parent individuals, \(I_1 = 1100\) and \(I_2 = 
-  0001\).
-  Utilizing the \textit{single-point crossover} operator, we select the first 
-  half of the genes: 11 from \(I_1\) and 00 from \(I_2\).
-  This exchange produces the offspring \(O_1 = 1101\) and \(O_2 = 0000\), 
-  demonstrated in 
-  \vref{fig:bg:ga:var:cx:single_point}.
+  Take, for instance, two parent individuals, \(I_1 = 1100\) and \(I_2 = 0001\). Utilizing the \textit{single-point 
+  crossover} operator, we select the first half of the genes: 11 from \(I_1\) and 00 from \(I_2\). This exchange 
+  may produce the offspring \(O_1 = 1101\) and \(O_2 = 0000\), demonstrated in \vref{fig:bg:ga:var:cx:single_point}.
 
   \begin{figure}[ht!]
     \centering
@@ -57,46 +46,11 @@
     \label{fig:bg:ga:var:cx:single_point}
   \end{figure}
 
-  Following another iteration of the single-point crossover operator, we can 
-  generate a result as shown in 
-  \vref{tab:bg:ga:var:cx:single_point}, leading to a 
-  new population \(\textbf{O} = \{(0000,\, 0),\, (1101,\, 3),\, (0101,\, 2)\}\).
+  Following another iteration of the single-point crossover operator, we can generate a result as shown in 
+  \vref{tab:bg:ga:var:cx:single_point}, leading to a new population \(\textbf{O} = \{(0000,\, 0),\, (1101,\, 3),\, 
+  (0101,\, 2)\}\).
 
-  \begin{table}[ht!]
-    \centering
-    \begin{tabular}{|c|c|c|c|}
-      \multicolumn{4}{c}{\textbf{Generation 0} \(\to\) \textbf{Generation 1}} \\
-      \hline
-      \hline
-      \(\mathbf{I}\) & \(\Phi_\mathbf{I}\) & \(\mathbf{O}\) & \(\Phi_\mathbf{O}\) \\
-      \hline
-      \Gape[2pt][2pt]{\(\begin{bmatrix} 1100 \\ 0001 \end{bmatrix}\)}
-      & \(\begin{bmatrix} 2 \\ 1 \end{bmatrix}\) 
-      & \(\begin{bmatrix} 0000 \\ 1101 \end{bmatrix}\) 
-      & \( \begin{bmatrix} 0 \\ 3 \end{bmatrix}\) \\
-    \hline
-    \(\begin{bmatrix} 0001 \\ 0100 \end{bmatrix}\) 
-      & \Gape[2pt][2pt]{\(\begin{bmatrix} 1 \\ 1 \end{bmatrix}\)}
-      & \(\begin{bmatrix} 0101 \\ \cdot \end{bmatrix}\)
-      & \(\begin{bmatrix} 2 \\ \cdot \end{bmatrix}\) \\[0.5em]
-      \hline
-    \end{tabular}
-    \caption{
-      Illustration of the single-point crossover operation. 
-      In this procedure, two parent individuals are selected and a cut point is 
-      chosen. 
-      Each offspring is then formed by combining the genes from the parents: 
-      one gets the genes from the first part of the first parent and the second 
-      part of the second parent, while the other gets the genes from the first 
-      part of the second parent and the second part of the first parent. 
-      Here, \(\cdot\) represents a \enquote{discarded} value (since according 
-      to the survival rate, only three offspring need to be produced).
-    }
-    \label{tab:bg:ga:var:cx:single_point}
-  \end{table}
-
-  If we now use these offspring as-is to create the next generation, we would 
-  obtain the population shown in 
+  If we now use these offspring as-is to create the next generation, we would obtain the population shown in 
   \vref{tab:bg:ga:var:cx:single_point:2}:
 
   \begin{table}[ht!]
@@ -144,11 +98,42 @@
     \label{tab:bg:ga:var:cx:single_point:fitness}
   \end{table}
 
-  By the metrics in \vref{tab:bg:ga:var:cx:single_point:fitness}, the 
-  population's average fitness rises from 1 to 1.25, with the fittest 
-  individual's score jumping from 2 to 3.
-  This uplift highlights the crossover operator's role in directing the search 
-  towards enhanced solutions.
+  
+  \begin{table}[ht!]
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+      \multicolumn{4}{c}{\textbf{Generation 0} \(\to\) \textbf{Generation 1}} \\
+      \hline
+      \hline
+      \(\mathbf{I}\) & \(\Phi_\mathbf{I}\) & \(\mathbf{O}\) & \(\Phi_\mathbf{O}\) \\
+      \hline
+      \Gape[2pt][2pt]{\(\begin{bmatrix} 1100 \\ 0001 \end{bmatrix}\)}
+      & \(\begin{bmatrix} 2 \\ 1 \end{bmatrix}\) 
+      & \(\begin{bmatrix} 0000 \\ 1101 \end{bmatrix}\) 
+      & \( \begin{bmatrix} 0 \\ 3 \end{bmatrix}\) \\
+    \hline
+    \(\begin{bmatrix} 0001 \\ 0100 \end{bmatrix}\) 
+      & \Gape[2pt][2pt]{\(\begin{bmatrix} 1 \\ 1 \end{bmatrix}\)}
+      & \(\begin{bmatrix} 0101 \\ \cdot \end{bmatrix}\)
+      & \(\begin{bmatrix} 2 \\ \cdot \end{bmatrix}\) \\[0.5em]
+      \hline
+    \end{tabular}
+    \caption{
+      Illustration of the single-point crossover operation. In this procedure, two parent individuals are selected and 
+      a cut point is chosen. Each offspring is then formed by combining the genes from the parents: one gets the genes 
+      from the first part of the first parent and the second part of the second parent, while the other gets the genes 
+      from the first part of the second parent and the second part of the first parent. Here, \(\cdot\) represents a 
+      \enquote{discarded} value (since according to the survival rate, only three offspring need to be produced).
+      The discarded elements are usually selected using a selection operator alike to the one described in 
+      \vref{sec:bg:ga:select}, but in this case, we selected them by hand since this is meant to be an illustrative
+      example.
+    }
+    \label{tab:bg:ga:var:cx:single_point}
+  \end{table}
+
+  By the metrics in \vref{tab:bg:ga:var:cx:single_point:fitness}, the population's average fitness rises from 1 to 1.25,
+  with the fittest individual's score jumping from 2 to 3. This uplift highlights the crossover operator's role in 
+  directing the search towards enhanced solutions.
 
   While the crossover operation elevates the average population fitness, 
   incorporating a \emph{mutation} operator can further boost genetic 

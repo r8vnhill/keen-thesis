@@ -1,7 +1,7 @@
 \subsubsection{Mutation}
 \label{sec:bg:ga:var:mut}
-  While the crossover operator effectively recombines existing genetic 
-  material, it is limited by the genetic diversity already present in the 
+  While the crossover operator effectively recombines existing genetic material, it is limited by the genetic diversity 
+  already present in the 
   population.
   This can sometimes lead to premature convergence, especially for complex 
   problems characterized by numerous local optima, like the \emph{Rastrigin function}.\footnote{Refer to \vref{sec:test_functions:rastrigin}.}
@@ -18,8 +18,7 @@
     Formally, a mutation operator can be represented as:
 
     \[ 
-      M :\: \mathbb{P} \times [0,\, 1] \times \cdots \to \mathbb{P};\; 
-      (P,\, \mu,\, \dots) \mapsto M(P,\, \mu,\, \dots) 
+      M(P: \mathbb{P}, \mu: \mathbb{R}, \dots) \to \mathbb{P}
     \]
 
     Where:

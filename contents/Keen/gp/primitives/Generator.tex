@@ -5,146 +5,141 @@
 \subsubsection{Generation Methods}
 \label{sec:keen:gp:primitives:gen}
 
-  Every individual within the population should consistently be a valid program 
-  throughout the evolution process. To guarantee the syntactic correctness of 
-  all newly created or varied individuals, the GP algorithm must generate an 
-  initial population of syntactically accurate individuals. The designated 
-  algorithm for producing this initial population is termed the 
-  \textit{generation method} or \textit{generator function}.
+    Every individual within the population should consistently be a valid program throughout the evolution process. To 
+    guarantee the syntactic correctness of 
+    all newly created or varied individuals, the GP algorithm must generate an 
+    initial population of syntactically accurate individuals. The designated 
+    algorithm for producing this initial population is termed the 
+    \textit{generation method} or \textit{generator function}.
 
-  Koza's influential work~\autocite{kozaGeneticProgrammingProgramming1992a} 
-  introduced two pivotal algorithms for generating the initial population: the 
-  \textit{full} and \textit{grow} methods.
+    Koza's influential work~\autocite{kozaGeneticProgrammingProgramming1992a} 
+    introduced two pivotal algorithms for generating the initial population: the 
+    \textit{full} and \textit{grow} methods.
 
-  The \emph{full} method creates a tree with a specified maximum depth \(D\), 
-  ensuring that all terminal nodes are located at depth \(D\).
+    The \emph{full} method creates a tree with a specified maximum depth \(D\), 
+    ensuring that all terminal nodes are located at depth \(D\).
 
-  Contrastingly, the \emph{grow} method crafts a tree with a maximum depth of 
-  \(D\) and a minimum depth of \(d\), positioning all terminal nodes at depths 
-  ranging between \(d\) and \(D\). This method was elaborated upon in 
-  \vref{sec:bg:gp:init}.
+    Contrastingly, the \emph{grow} method crafts a tree with a maximum depth of 
+    \(D\) and a minimum depth of \(d\), positioning all terminal nodes at depths 
+    ranging between \(d\) and \(D\). This method was elaborated upon in 
+    \vref{sec:bg:gp:init}.
 
-  It's noteworthy that the \emph{full} method can be viewed as a specific 
-  instance of the \emph{grow} method when \(d = D\). Given this perspective, we 
-  can further conceptualize the \emph{grow} method as a
-  \enquote{depth-conditional tree generation} strategy. The detailed algorithm 
-  for this is presented in \vref{lst:keen:gp:primitives:gen}.
+    It's noteworthy that the \emph{full} method can be viewed as a specific 
+    instance of the \emph{grow} method when \(d = D\). Given this perspective, we 
+    can further conceptualize the \emph{grow} method as a
+    \enquote{depth-conditional tree generation} strategy. The detailed algorithm 
+    for this is presented in \vref{lst:keen:gp:primitives:gen}.
 
-  \begin{code}{Depth-conditional tree generation}{
-    label=lst:keen:gp:primitives:gen
-  }{kotlin}
-    fun generateRecursive(
-        intermediates: List<Intermediate>,
-        leafs: List<Leaf>,
-        depth: Int,
-        maxHeight: Int,
-        condition: (maxHeight: Int, depth: Int) -> Boolean,
-        leafFactory: (Leaf) -> Tree,
-        intermediateFactory: (Intermediate, List<Tree>) -> Tree,
-    ) {
-        val children = []
-        val node = if (condition(maxHeight, depth)) {
-            leafFactory(random node from leafs)
-        } else {
-            val intermediate = random node from intermediates
-            repeat intermediate.arity times {
-                children += generateRecursive(
-                    intermediates,
-                    leafs,
-                    depth + 1,
-                    maxHeight,
-                    condition,
-                    leafFactory,
-                    intermediateFactory
-                )
+    \begin{code}{Depth-conditional tree generation}{
+        label=lst:keen:gp:primitives:gen
+    }{kotlin}
+        fun generateRecursive(
+            intermediates: List<Intermediate>,
+            leafs: List<Leaf>,
+            depth: Int,
+            maxHeight: Int,
+            condition: (maxHeight: Int, depth: Int) -> Boolean,
+            leafFactory: (Leaf) -> Tree,
+            intermediateFactory: (Intermediate, List<Tree>) -> Tree,
+        ) {
+            val children = []
+            val node = if (condition(maxHeight, depth)) {
+                leafFactory(random node from leafs)
+            } else {
+                val intermediate = random node from intermediates
+                repeat intermediate.arity times {
+                    children += generateRecursive(
+                        intermediates,
+                        leafs,
+                        depth + 1,
+                        maxHeight,
+                        condition,
+                        leafFactory,
+                        intermediateFactory
+                    )
+                }
+                intermediateFactory(intermediate, children)
             }
-            intermediateFactory(intermediate, children)
+            return node
         }
-        return node
-    }
-  \end{code}
+    \end{code}
 
-  The \texttt{generateRecursive} function accepts a list of intermediate nodes, 
-  a list of leaf nodes, a maximum height, a current depth, and a condition 
-  function. The condition function receives the maximum height and the current 
-  depth of a node, returning a boolean value. If the condition is met (true), a 
-  leaf node is formed; if not (false), an intermediate node is created. This 
-  function is invoked recursively to form the descendants of the current node, 
-  halting the recursion when the condition is true or when the maximum height is 
-  attained. Additionally, the \texttt{generateRecursive} function takes in two 
-  other functions dedicated to the creation of both leaf and intermediate nodes, 
-  enabling its adaptability for any tree type, including program trees.
+    The \texttt{generateRecursive} function accepts a list of intermediate nodes, 
+    a list of leaf nodes, a maximum height, a current depth, and a condition 
+    function. The condition function receives the maximum height and the current 
+    depth of a node, returning a boolean value. If the condition is met (true), a 
+    leaf node is formed; if not (false), an intermediate node is created. This 
+    function is invoked recursively to form the descendants of the current node, 
+    halting the recursion when the condition is true or when the maximum height is 
+    attained. Additionally, the \texttt{generateRecursive} function takes in two 
+    other functions dedicated to the creation of both leaf and intermediate nodes, 
+    enabling its adaptability for any tree type, including program trees.
 
-  A salient feature of this algorithm is its bottom-up tree generation approach, 
-  commencing with terminal nodes and culminating with the root node. This 
-  strategy facilitates the production of immutable trees, obviating the 
-  necessity for crafting temporary trees.
+    A key characteristic of this algorithm is its bottom-up approach to tree generation, starting from terminal nodes and 
+    finishing at the root node. This method allows for the creation of immutable trees, eliminating the need to make 
+    temporary trees.
 
-  The \texttt{generateRecursive} function underpins the \texttt{generate} 
-  function, which simply invokes the recursive function, setting a maximum 
-  height chosen randomly between \(d\) and \(D\).
+    The \texttt{generate} function operates by calling the \texttt{generateRecursive} function, with a maximum height randomly determined between \(d\) and \(D\).
 
-  Using this method, the grow and full techniques can be illustrated as:
+    Using this method, the grow and full techniques can be illustrated as:
 
-  \begin{code}{Grow and full methods}{
-    label=lst:keen:gp:primitives:gen:growfull
-  }{kotlin}
-    fun <T> generateProgramGrowing(
-        terminals: List<Terminal<T>>,
-        functions: List<Fun<T>>,
-        min: Int,
-        max: Int,
-    ) = generateProgram(terminals, functions, min, max) { h, d ->
-        d == h || d >= min 
-            && random.double() < terminals.size / (terminals.size + functions.size)
-    }
+    \begin{code}{Grow and full methods}{
+        label=lst:keen:gp:primitives:gen:growfull
+    }{kotlin}
+        fun <T> generateProgramGrowing(
+            terminals: List<Terminal<T>>,
+            functions: List<Fun<T>>,
+            min: Int,
+            max: Int,
+        ) = generateProgram(terminals, functions, min, max) { h, d ->
+            d == h || d >= min 
+                && random.double() < terminals.size / (terminals.size + functions.size)
+        }
 
-    fun <T> generateProgramFull(
-        terminals: List<Terminal<T>>, functions: List<Fun<T>>, min: Int, max: Int,
-    ) = generateProgram(terminals, functions, min, max) { h, d -> h == d }
+        fun <T> generateProgramFull(
+            terminals: List<Terminal<T>>, functions: List<Fun<T>>, min: Int, max: Int,
+        ) = generateProgram(terminals, functions, min, max) { h, d -> h == d }
+        
+        fun <T> generateProgram(
+            terminals: List<Terminal<T>>,
+            functions: List<Fun<T>>,
+            min: Int,
+            max: Int,
+            condition: (Int, Int) -> Boolean,
+        ) = Tree.generate(
+            nodes = terminals to functions,
+            depths = min to max,
+            condition = condition,
+            leafFactory = ::Program,
+            intermediateFactory = ::Program
+        )
+    \end{code}
+
+    The \texttt{generateProgramGrowing} function creates a program tree using lists of terminal and intermediate nodes, 
+    along with minimum and maximum heights. It uses these criteria to decide how to build the tree:
+
+    \begin{itemize}
+        \item If the current depth is the same as the maximum height, it stops growing the tree.
+        \item If the current depth is at least the minimum height and a random number between 0 and 1 is less than the 
+            ratio of terminal to intermediate nodes, it also stops growing.
+        \item Otherwise, it continues growing the tree.
+    \end{itemize}
+
+    The \texttt{generateProgramFull} function is similar, but it only stops growing the tree when the current depth 
+    reaches the maximum height.
+
+    Koza also suggested that population members could be derived using a \textit{ramped half-and-half} technique. Here, the initial population is 
+    formed utilizing both the \textit{full} and \textit{grow} strategies, with the 
+    method for each individual being selected at random. To implement this, 
+    \textit{Keen} offers the \texttt{generateProgramWith} function, receiving a 
+    list of generation strategies, a compilation of terminals and functions, and a 
+    minimum and maximum height. This function randomly chooses a generation method 
+    to produce the program tree. By defining the function this way, integrating 
+    new generation techniques into the library becomes seamless.
+
+    In this method, the \textit{ramped half-and-half} technique is just a specific use of the 
+    \texttt{generateProgramWith} function. This version limits the list of generation strategies to only the 
+    \textit{full} and \textit{grow} methods.
     
-    fun <T> generateProgram(
-        terminals: List<Terminal<T>>,
-        functions: List<Fun<T>>,
-        min: Int,
-        max: Int,
-        condition: (Int, Int) -> Boolean,
-    ) = Tree.generate(terminals to functions, min, max, condition, ::Program) { f, c ->
-        Program(f, c)
-    }
-  \end{code}
-
-  The \texttt{generateProgramGrowing} function obtains a list of terminal nodes, 
-  a collection of intermediate nodes, a minimum and maximum height, and returns 
-  a program tree. Its condition function is articulated based on the following 
-  criteria:
-
-  \begin{itemize}
-    \item If the present depth mirrors the maximum height, the condition holds 
-      true.
-    \item Should the current depth equal or surpass the minimum height and a 
-      random value between 0 and 1 is less than the proportion between the 
-      quantity of terminal nodes and the number of intermediate nodes, the 
-      condition is validated.
-    \item In all other scenarios, the condition remains unfulfilled.
-  \end{itemize}
-
-  The \texttt{generateProgramFull} function mirrors the aforementioned one, with 
-  the distinction that its condition is only validated when the current depth 
-  matches the maximum height.
-
-  Koza also suggested that population members could be derived using a 
-  \textit{ramped half-and-half} technique. Here, the initial population is 
-  formed utilizing both the \textit{full} and \textit{grow} strategies, with the 
-  method for each individual being selected at random. To implement this, 
-  \textit{Keen} offers the \texttt{generateProgramWith} function, receiving a 
-  list of generation strategies, a compilation of terminals and functions, and a 
-  minimum and maximum height. This function randomly chooses a generation method 
-  to produce the program tree. By defining the function this way, integrating 
-  new generation techniques into the library becomes seamless.
-
-  Crucially, with this approach, the \textit{ramped half-and-half} technique 
-  simply becomes a specialized version of the \\
-  \texttt{generateProgramWith} function, wherein the list of generation 
-  strategies is confined to the \textit{full} and \textit{grow} methodologies.
-  
+    We would like to note that this approach is novel to the \textit{Keen} framework, as other GP libraries usually
+    limits the generation method to a single strategy (usually the grow ramped half-and-half method).

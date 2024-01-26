@@ -4,10 +4,8 @@
 
 \subsection{Variation}
 \label{sec:genetic_algorithms:variation}
-  Variation is the process of creating new individuals from existing ones in 
-  the pursuit of exploring the solution space.
-  This is crucial in a Genetic Algorithm (GA) to avoid premature convergence to 
-  sub-optimal solutions.
+  Variation is the process of creating new individuals from existing ones in the pursuit of exploring the solution 
+  space. This is crucial in a Genetic Algorithm (GA) to avoid premature convergence to sub-optimal solutions.
   In a GA, variation is achieved by applying \emph{variation operators} to the 
   individuals in the population.
   The most common variation operators are \emph{crossover} and \emph{mutation}, 
@@ -19,13 +17,12 @@
     Formally, it is a variadic function represented as 
     
     \[
-      \varphi : \mathbb{P} \times \mathbb{R} \times \cdots \to \mathbb{P};\; 
-      (P, \rho_\varphi, \dots) \mapsto \varphi(P, \rho_\varphi, \dots)
+      \varphi(P: \mathbb{P}, \rho_\varphi: \mathbb{R}, \dots) \to \mathbb{P}
     \]
     
     where:
 
-    \begin{itemize}
+    \begin{itemize} 
       \item \(\mathbb{P}\) is the set of all possible populations,
       \item \(\mathbb{R}\) is the set of real numbers,
       \item \(P\) is the population to be varied,

@@ -1,12 +1,10 @@
 \subsection{Ranker}
 \label{sec:keen:ga:ranker}
 
-  The \emph{ranker} is a component of the \emph{evolution engine} responsible for
-  ranking the population.
-  The main purpose of this component is to compare individuals and determine their
-  relative fitness.
-  The ranker is a crucial component of the evolutionary process, as it is the
-  primary source of information for the selection process.
+  The \emph{ranker} is a novel component of the framework responsible for ranking the population.
+  The main purpose of this component is to compare individuals and determine their relative fitness.
+  The ranker is a crucial component of the evolutionary process, as it is the primary source of information for the 
+  selection process.
 
   The interface for the rankers is illustrated in \vref{lst:keen:ga:ranker}.
 
@@ -17,16 +15,13 @@
     }
   \end{code}
 
-  Here, the \emph{ranker} acts as a function that receives two individuals and
-  returns an integer representing their relative fitness.
+  Here, the \emph{ranker} acts as a function that receives two individuals and returns an integer representing their
+  relative fitness.
   
-  The \emph{ranker} is also responsible for transforming the fitness values of
-  the population in case that it is necessary.
-  For example, the \textit{roulette wheel} selection assigns a higher 
-  probability of being selected to individuals with higher fitness values, this
-  is not suitable for minimization problems, hence the fitness values must be
-  transformed.
+  The \emph{ranker} is also responsible for transforming the fitness values of the population in case that it is
+  necessary. For example, the \textit{roulette wheel} selection assigns a higher probability of being selected to
+  individuals with higher fitness values, this is not suitable for minimization problems, hence the fitness values must
+  be transformed.
 
-  The framework currently provides two rankers: the \textit{Fitness Max Ranker},
-  that ranks individuals in descending order of fitness, and the \textit{Fitness
-  Min Ranker}, that ranks individuals in ascending order of fitness.
+  The framework currently provides two rankers: the \textit{Fitness Max Ranker}, that ranks individuals in descending 
+  order of fitness, and the \textit{Fitness Min Ranker}, that ranks individuals in ascending order of fitness.

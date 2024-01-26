@@ -1,32 +1,16 @@
-\subsubsection{Random Selector}
-\label{sec:keen:operators:selection:random}
-  The class \texttt{RandomSelector} serves as a probability selector, acting 
-  as a selection strategy that assigns equal probabilities to every 
-  individual within a population.
-  
-  \begin{definition}[Random Selector]
+\begin{definition}[Random Selector]
   \label{def:keen:operators:selection:random}
-    The \emph{random selector} is characterized by its uniform approach, where every individual in the population is assigned the same selection probability.
-    Formally, the \texttt{RandomSelector} is articulated as:
+    The \emph{random selector} is characterized by its uniform approach, where every individual in the population is 
+    assigned the same selection probability. Formally, the \texttt{RandomSelector} is articulated as:
     
     \begin{equation}
-      \Sigma_{\mathrm{random}} : 
-        \mathbb{P} \times \mathbb{N} \to \mathbb{P};\; 
-      (P,\, n) \mapsto \Sigma_{\mathrm{random}}(P,\, n)  
+      \Sigma_{\mathrm{random}}(P: \mathbb{P}, n: \mathbb{N}) \to \mathbb{P}
     \end{equation}
     
-    Here, each individual is selected following a uniform probability 
-    distribution:
+    Here, each individual is selected following a uniform probability distribution:
     
     \begin{equation}
       \rho_i = \frac{1}{|P|}
     \end{equation}
   \end{definition}
   
-  The primary aim of this selector is to serve as a reference point when 
-  comparing with other selection strategies.
-  Although this type of selector doesn't prominently appear in the 
-  literature, its simplicity offers a valuable benchmark for assessment.
-  
-  % As an illustrative point, when tested against the WGP, the results were as 
-  % outlined in \vref{tab:keen:operators:selection:random}.

@@ -17,14 +17,27 @@
     consistent total population of \(N\).
   }
 
+  For the remaining of this document, we will use the following notation to represent functions with named parameters:
+
+  \[
+    f(x_1: \tau_1, \dots, x_n: \tau_n) \to \tau_r
+  \]
+  
+  where:
+
+  \begin{itemize}
+    \item \(f\): Function name.
+    \item \(x_i\): Parameter name.
+    \item \(\tau_i\): Parameter type.
+    \item \(\tau_r\): Return type.
+  \end{itemize}
+  
   \begin{definition}[Selection Operator]
   \label{def:selection_operator}
-    A tool for choosing specific members from a population, formally expressed 
-    as:
+    A tool for choosing specific members from a population, formally expressed as:
 
     \[
-      \Sigma :\: \mathbb{P} \times \mathbb{N} \times \cdots \to \mathbb{P};\;
-      (P,\, n,\, \dots) \mapsto \Sigma(P,\, n,\, \dots)
+      \Sigma(P: \mathbb{P},\, n: \mathbb{N},\, \dots) \to \mathbb{P}
     \]
 
     Parameters include:
@@ -34,17 +47,13 @@
       \item \(\mathbb{N}\): Set of natural numbers.
       \item \(P\): A given population.
       \item \(n\): Number of selections from \(P\).
-      \item \(\Sigma(P,\, n)\): Resultant population from the selections.
     \end{itemize}
   \end{definition}
 
-  This selection operator usually integrates randomness, bringing some 
-  unpredictability to the process.
-  As an exemplification, let's consider the \textit{roulette wheel} selection 
-  operator.\footnote{
+  This selection operator usually integrates randomness, bringing some unpredictability to the process.
+  As an exemplification, let's consider the \textit{roulette wheel} selection operator.\footnote{
     Refer to \vref{sec:keen:op:select:roulette} for details.
-  } Here, individuals are assigned selection probabilities according to their 
-  fitness, as expressed by:
+  } Here, individuals are assigned selection probabilities according to their fitness, as expressed by:
 
   \begin{equation}
     \label{eq:selection_probability}

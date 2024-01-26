@@ -1,106 +1,105 @@
 \subsection{Representation and Evaluation}
 \label{sec:bg:ga:repr}
-  A pivotal component of a Genetic Algorithm (GA) is the representation of 
-  individuals, which encodes potential solutions into a form manipulable by the 
-  GA.
-  This representation delineates the algorithm's search space and is a prime 
-  determinant of its performance.
+    A pivotal component of a Genetic Algorithm (GA) is the representation of individuals, which encodes potential 
+    solutions into a form manipulable by the GA. This representation delineates the algorithm's search space and is a 
+    prime determinant of its performance.
 
-  The predominant representation is a matrix of genes\footnote{See 
-  \vref{def:gene}} termed the \emph{genotype}\footnote{
-    See~\autocite{wilhelmstotterJeneticsJavaGenetica}
-  }, wherein each column is denoted as a \emph{chromosome}\footnote{
-    See \vref{def:chromosome}
-  }.
-
-  \begin{definition}[Cardinality of the search space]
-  \label{def:cardinality_of_the_search_space}
-    The \emph{cardinality of the search space} is the number of different 
-    individuals that can be represented by the encoding.
-
-    Formally, given a vector of alphabets \((\mathcal{A}_1,\, \mathcal{A}_2,\, 
-    \dots,\, \mathcal{A}_n)\), and a representation \(\mathbf{G}\) with \(n\) 
-    chromosomes of lengths \((m_1,\, m_2,\, \dots,\, m_n)\) where each 
-    chromosome is encoded using the alphabet \(\mathcal{A}_i\), the cardinality 
-    of the search space \(S\) is defined as:
+    \begin{definition}[Gene]
+    \label{def:gene}
+        Representation of a single component of a candidate solution to a given optimization problem.
     
+        Formally, for a multi-dimensional function \(f\), a gene is an element \(g\) in the domain of \(f\).
+    \end{definition}
+
+    The predominant representation is a matrix of genes termed the \emph{genotype}\footnote{
+        See~\autocite{wilhelmstotterJeneticsJavaGenetica}
+    }, wherein each column is denoted as a \emph{chromosome}\footnote{
+        \emph{Chromosome:} Representation of a single column of genetic information of a candidate solution to a given 
+        optimization problem. Formally, a chromosome is a vector \(\textbf{c} = (g_1, g_2, \dots, g_n)\), where \(g_i\) 
+        is a gene.
+    }.
+
+    \begin{definition}[Cardinality of the search space]
+    \label{def:cardinality_of_the_search_space}
+        The \emph{cardinality of the search space} is the number of different individuals that can be represented by 
+        the encoding.
+
+        Formally, given a vector of alphabets \((\mathcal{A}_1,\, \mathcal{A}_2,\, \dots,\, \mathcal{A}_n)\), and a 
+        representation \(\mathbf{G}\) with \(n\) chromosomes of lengths \((m_1,\, m_2,\, \dots,\, m_n)\) where each 
+        chromosome is encoded using the alphabet \(\mathcal{A}_i\), the cardinality of the search space \(S\) is 
+        defined as:
+        
+        \begin{equation}
+        \label{eq:cardinality_of_the_search_space}
+            |S| = \prod_{i=1}^n |\mathcal{A}_i|^{m_i}
+        \end{equation}
+
+        Note that this definition assumes that the chromosomes are independent, which may not be the same for all 
+        evolutionary algorithms.
+    \end{definition}
+
+    \begin{remark}
+        In the original publication of the GA~\autocite{hollandAdaptationNaturalArtificial1992a}, the genotype was 
+        known as the \emph{environment} (\(E\)) and the search space was defined as a class \(\mathcal{E}\) of all 
+        possible environments.
+    \end{remark}
+
+    To illustrate this concept, consider the following problem: given a binary string of length \(n\), find the string 
+    that has the most ones, this is known as the \emph{One Max problem} 
+    (OMP)~\autocite{andonovUnboundedKnapsackProblem2000}\footnote{
+        Also \emph{Ones Counting} problem~\autocite{wilhelmstotterJeneticsJavaGenetica}, or \emph{Max Ones} problem~\autocite{ECJ}.
+    } (refer to \vref{sota:omp} for a more detailed description of the problem).
+    In this case, we can use a single column matrix \(\mathbf{G}\) to represent the individual, where each gene \(g_i 
+    \in \mathcal{A}\) represents the \(i\)-th bit of the string, where \(\mathcal{A} = \{0, 1\}\) is the alphabet 
+    containing the two possible values of a bit.
+    
+    Then,
+    \[
+        |S_\mathrm{OMP}| = \prod_{i=1}^1 |\mathcal{A}|^n = 2^n
+    \]
+
+    Knowing this, we can conclude that an exhaustive search of the search space would require evaluating \(2^n\) 
+    individuals, and thus the algorithm would have a time complexity of \(\mathcal{O}(2^n)\).
+    
+    This is a very simple example, but we can see how a naive search algorithm would have a very high time complexity.
+    This would be of the utmost importance in a real world problem, where the search space would be much larger.
+
+    With a representation defined, we can now define an evaluation method for the individuals, which is done using a 
+    \emph{fitness function}.
+
+    \begin{definition}[Fitness function]
+    \label{def:fitness_function}
+        A \emph{fitness function} is a function \(\phi: S \rightarrow \mathbb{R}^n\), where \(S\) is the search space 
+        and \(n\) is the number of objectives of the optimization problem, that takes a genotype as input and returns a 
+        vector of real numbers representing how close the individual is to the global optimum of each objective --this 
+        may consist of maximizing or minimizing the objective.
+
+        The fitness function is usually defined by the user of the algorithm, and it is problem dependent.
+    \end{definition}
+
+    \begin{definition}[Batch fitness function]
+    \label{def:batch_fitness_function}
+        A \emph{batch fitness function} \(\Phi: \mathbb{P} \rightarrow \mathbb{R}^{m \times n}\) is a function that 
+        maps a population to a matrix of real numbers, where \(m\) is the number of individuals in the population and 
+        \(n\) is the number of objectives of the optimization problem.
+    \end{definition}
+
+    The one max problem is a maximization problem with a single objective,\footnote{
+        A single objective, or unimodal, problem is a problem with a single objective function. In contrast, a 
+        multi-objective, or multimodal, problem is a problem with multiple objective functions.
+    } so the fitness function would be defined as follows:
+
     \begin{equation}
-      \label{eq:cardinality_of_the_search_space}
-      |S| = \prod_{i=1}^n |\mathcal{A}_i|^{m_i}
+        \label{eq:fitness_function:one_max}
+        \phi_\mathbf{G} = \sum_{i=1}^n g_i
     \end{equation}
 
-    Note that this definition assumes that the chromosomes are independent, 
-    which may not be the same for all evolutionary algorithms.
-  \end{definition}
+    Where \(g_i\) is the \(i\)-th gene of the genotype \(\mathbf{G}\).
 
-  \begin{remark}
-    In the original publication of the GA~\autocite{hollandAdaptationNaturalArtificial1992a},
-    the genotype was known as the \emph{environment} (\(E\)) and the search 
-    space was defined as a class \(\mathcal{E}\) of all possible environments.
-  \end{remark}
-
-  To illustrate this concept, consider the following problem: given a binary 
-  string of length \(n\), find the string that has the most ones, this is known 
-  as the \emph{One Max problem} 
-  (OMP)~\autocite{andonovUnboundedKnapsackProblem2000}\footnote{
-    Also \emph{Ones Counting} problem~\autocite{wilhelmstotterJeneticsJavaGenetica}, or \emph{Max Ones} problem~\autocite{ECJ}.
-  } (refer to \vref{sota:omp} for a more detailed description of the problem).
-  In this case, we can use a single column matrix \(\mathbf{G}\) to represent the individual, 
-  where each gene \(g_i \in \mathcal{A}\) represents the \(i\)-th bit of the string, where 
-  \(\mathcal{A} = \{0, 1\}\) is the alphabet containing the two possible values of a bit.
-  
-  Then,
-  \[
-    |S_\mathrm{OMP}| = \prod_{i=1}^1 |\mathcal{A}|^n = 2^n
-  \]
-
-  Knowing this, we can conclude that an exhaustive search of the search space 
-  would require 
-  evaluating \(2^n\) individuals, and thus the algorithm would have a time complexity of 
-  \(\mathcal{O}(2^n)\).
-  
-  This is a very simple example, but we can see how a naive search algorithm would have a very
-  high time complexity.
-  This would be of the utmost importance in a real world problem, where the search space would be
-  much larger.
-
-  With a representation defined, we can now define an evaluation method for the individuals, which
-  is done using a \emph{fitness function}.
-
-  \begin{definition}[Fitness function]
-  \label{def:fitness_function}
-    A \emph{fitness function} is a function \(\phi: S \rightarrow \mathbb{R}^n\), where \(S\) is the
-    search space and \(n\) is the number of objectives of the optimization problem, that takes a
-    genotype as input and returns a vector of real numbers representing how close the individual 
-    is to the global optimum of each objective.
-
-    The fitness function is usually defined by the user of the algorithm, and it is problem
-    dependent.
-  \end{definition}
-
-  \begin{definition}[Batch fitness function]
-  \label{def:batch_fitness_function}
-    A \emph{batch fitness function} \(\Phi: \mathbb{P} \rightarrow \mathbb{R}^{m \times n}\) is a 
-    function that maps a population to a matrix of real numbers, where \(m\) is the number of
-    individuals in the population and \(n\) is the number of objectives of the optimization
-    problem.
-  \end{definition}
-
-  The one max problem is a maximization problem with a single objective, so the
-  fitness function would be defined as follows:
-
-  \begin{equation}
-    \label{eq:fitness_function:one_max}
-    \phi_\mathbf{G} = \sum_{i=1}^n g_i
-  \end{equation}
-
-  Having laid the groundwork by illustrating the pivotal role of representation 
-  in GAs, we've delineated how the representation forms the backbone of the 
-  algorithm's search space and in turn determines its performance.
-  Key terminologies, including the genotype, chromosomes, cardinality of the 
-  search space, and the crucial role of the fitness function, have been 
-  elucidated with references and examples.
-  With this foundational knowledge, in the forthcoming section, we will delve 
-  deeper into the initialization phase of the algorithm, setting the stage for 
-  how the GA seeds its initial population and embarks on the quest for optimal 
-  solutions.
+    Having laid the groundwork by illustrating the pivotal role of representation in GAs, we've delineated how the 
+    representation forms the backbone of the algorithm's search space and in turn determines its performance. Key 
+    terminologies, including the genotype, chromosomes, cardinality of the search space, and the crucial role of the 
+    fitness function, have been elucidated with references and examples. With this foundational knowledge, in the 
+    forthcoming section, we will delve deeper into the initialization phase of the algorithm, setting the stage for 
+    how the GA seeds its initial population and embarks on the quest for optimal solutions.
+    

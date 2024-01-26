@@ -2,25 +2,13 @@
 % Use of this source code is governed by a BSD-style
 % license that can be found in the LICENSE file.
 
-\subsubsection{Inversion Mutator}
-\label{sec:keen:op:mut:inversion}
-  The class \texttt{InversionMutator} embodies the inversion mutation operator. 
-  This operator, upon activation, selects a subset of genes from a chromosome 
-  and inverts their sequence. Analogous to the \texttt{SwapMutator}, it 
-  primarily targets the gene ordering.
-
   \begin{definition}[Inversion Mutator]
   \label{def:keen:op:mut:inversion}
-    The inversion mutator works by selecting a random subset of genes from a 
-    chromosome and subsequently inverting their sequence. Formally, the 
-    operator can be represented as:
+    The inversion mutator works by selecting a random subset of genes from a chromosome and subsequently inverting 
+    their sequence. Formally, the operator can be represented as:
 
     \begin{equation}
-      M_\mathrm{inv} :\: 
-        \mathbb{P} \times [0,\, 1] \times [0,\, 1] \times [0,\, 1] 
-          \to \mathbb{P};\;
-      (P,\, \mu,\, \rho_\mathbf{c},\, \rho_{ib}) 
-        \mapsto M_\mathrm{inv}(P,\, \mu,\, \rho_\mathbf{c},\, \rho_{ib})
+      M_\mathrm{inv}(P: \mathbb{P},\, \mu: [0,\, 1],\, \rho_\mathbf{c}: [0,\, 1],\, \rho_{ib}: [0,\, 1]) \to \mathbb{P}
     \end{equation}
 
     Where:
@@ -33,55 +21,3 @@
           of the inversion.
     \end{itemize}
   \end{definition}
-
-  The operator's function can be outlined as follows:
-
-  \begin{code}{
-      Pseudo-code depicting the inversion mutation process. For illustrative
-      purposes, we consider the chromosome as mutable, even if it isn't in the
-      \textit{Keen} framework.
-    }{
-      label=code:keen:op:mut:inversion
-    }{kotlin}
-      start = 0
-      end = chromosome.size - 1
-      for (i in chromosome.indices) {
-          if (random.double(0..1) < ~$\rho_{ib}$~) {
-              start = i
-              break
-          }
-      }
-      for (i in chromosome.indices) {
-          if (random.double(0..1) > ~$\rho_{ib}$~) {
-              end = i
-              break
-          }
-      }
-      chromosome.invert(start, end)
-  \end{code}
-
-  Two pivotal steps are present in this operation: 
-  \begin{enumerate*}
-    \item The determination of the starting index, and
-    \item The identification of the ending index.
-  \end{enumerate*}
-
-  The starting index is discerned by sequentially scanning the chromosome and 
-  selecting a gene based on the gene-wise mutation rate. The ending index is 
-  determined in a similar manner, initiating from the previously established 
-  start index. This methodology ensures only one iteration over the chromosome, 
-  optimizing the time complexity of the operation. The inversion is 
-  subsequently applied to the selected gene subset.
-
-  Much like the \texttt{SwapMutator}, the inversion mutator exhibits prominence 
-  in permutation-centric problems, with the TSP being a notable example. Abdoun 
-  et al. provide a comprehensive analysis of the inversion operator's efficacy, 
-  especially in the context of the TSP~\autocite{abdounAnalyzingPerformanceMutation2012}.
-
-  \begin{remark}
-    A vital consideration must be made when interpreting the inversion operator 
-    within the \textit{Keen} framework. Specifically, the gene-wise mutation 
-    rate, \(\rho_{ib}\), signifies the probability of selecting a particular gene 
-    for the starting or ending index. It should not be misconstrued as a metric 
-    indicating the percentage of genes selected for inversion.
-  \end{remark}

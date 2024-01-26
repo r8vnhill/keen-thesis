@@ -1,52 +1,38 @@
-\subsubsection{Roulette Wheel Selector}
-\label{sec:keen:op:select:roulette}
-  The \texttt{RouletteWheelSelector}, commonly known as \enquote{fitness 
-  proportionate selection}, is a widely-used selection method in GAs.
-  It allocates each individual in a population a segment of a roulette wheel, 
-  proportional to its fitness.
-  Thus, individuals with higher fitness have a greater chance of selection.
+\begin{definition}[Roulette Wheel Selector]
+  The \emph{roulette wheel selector} ensures selection chances proportional to an individual's fitness. It's defined 
+  as:
 
-  \begin{definition}[Roulette Wheel Selector]
-    The \emph{roulette wheel selector} ensures selection chances proportional to 
-    an individual's fitness.
-    It's defined as:
+  \begin{equation}
+    \Sigma_\mathrm{roulette}(P: \mathbb{P},\, n: \mathbb{N},\, b: \{0, 1\}) \to \mathbb{P}
+  \end{equation}
 
-    \begin{equation}
-      \Sigma_\mathrm{roulette} :\:
-        \mathbb{P} \times \mathbb{N} \times \{0, 1\};\;
-      (P,\, n,\, b) \mapsto \Sigma_\mathrm{roulette}(P,\, n,\, b)
-    \end{equation}
+  where \(P\) represents the population, \(n\) is the individuals' count to select, and \(b\) is a boolean for 
+  preceding selection with a sort.
 
-    where \(P\) represents the population, \(n\) is the individuals' count to 
-    select, and \(b\) is a boolean for preceding selection with a sort.
+  Let \(\phi_i\) be the fitness of the \(i^{th}\) individual. Suppose we have a function \(t : \mathbb{R}^n \to 
+  \mathbb{R}^n\) that transforms the fitness into a value that assigns greater probabilities to the fittest 
+  individuals according to the ranking strategy.
 
-    Let \(\phi_i\) be the fitness of the \(i^{th}\) individual.
-    Suppose we have a function \(t : \mathbb{R}^n \to \mathbb{R}^n\) that 
-    transforms the fitness into a value that assigns greater probabilities to 
-    the fittest individuals according to the ranking strategy.
+  The \textit{transformed fitness}, meaning the fitness adjusted to the current ranking strategy, is defined as: 
+  \(\Phi' = t(\Phi)\).
+  Consider \(\Phi'_\mathrm{min} = \max\left\{\min(\Phi'_i),\, 0\right\}\) the minimum fitness in the population, and 
+  \(\phi_i' =  \Phi'_i - \max\left\{\min(\Phi'_i),\, 0\right\}\) its \textit{adjusted 
+  fitness}.
+  The selection probability \(p_i\) for the \(i^{th}\) individual is:
 
-    The \textit{transformed fitness}, meaning the fitness adjusted to the
-    current ranking strategy, is defined as: \(\Phi' = t(\Phi)\).
-    Consider \(\Phi'_\mathrm{min} = \min\left\{\Phi_i,\, 0\right\}\) the minimum
-    fitness in the population, and \(\phi_i' =  
-    \Phi'_i - \min\left\{\Phi'_\mathrm{min},\, 0\right\}\) its \textit{adjusted 
-    fitness}.
-    The selection probability \(p_i\) for the \(i^{th}\) individual is:
+  \begin{equation}
+    \rho_i = \frac{\phi_i'}{\sum_{j=1}^{|P|} \phi_j'}
+  \end{equation}
 
-    \begin{equation}
-      \rho_i = \frac{\phi_i'}{\sum_{j=1}^{|P|} \phi_j'}
-    \end{equation}
+  Selection is based on a random number between 0 and 1, selecting \(i\) if the summed probabilities up to \(i\) 
+  surpass this number.
+\end{definition}
 
-    Selection is based on a random number between 0 and 1, selecting \(i\) if 
-    the summed probabilities up to \(i\) surpass this number.
-  \end{definition}
+\begin{remark}
+  The fitness adjustment, \(\phi_i'\), ensures non-negative probabilities. However, it makes the least fit individual 
+  unselectable, with a zero probability.
+\end{remark}
 
-  \begin{remark}
-    The fitness adjustment, \(\phi_i'\), ensures non-negative probabilities. 
-    However, it makes the least fit individual unselectable, with a zero 
-    probability.
-  \end{remark}
-
-  This approach, while ensuring a selection chance for almost every individual, can face challenges. If the fitness 
-  values are too close to each other, the selection probability will be too similar, leading to a lack of diversity in 
-  the selected individuals. This issue is further discussed in \vref{sec:fn_opt:results}.
+This approach, while ensuring a selection chance for almost every individual, can face challenges. If the fitness 
+values are too close to each other, the selection probability will be too similar, leading to a lack of diversity in 
+the selected individuals. This issue is further discussed in \vref{sec:fn_opt:results}.

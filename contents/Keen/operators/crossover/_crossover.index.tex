@@ -1,28 +1,22 @@
 \subsection{Crossover}
 \label{sec:keen:op:cx}
-    Crossover, also termed recombination, serves as an indispensable operator in 
-    a plethora of evolutionary computation algorithms. Its primary function is to 
-    generate novel candidate solutions by amalgamating attributes from multiple 
-    input solutions. This operation, inspired by genetic mechanisms observed in 
-    biological reproduction, is pivotal for striking a balance between 
-    exploration and exploitation within an algorithm's search space. By fostering 
-    a diverse set of solution structures and retaining beneficial traits, 
-    crossover steers the evolutionary process closer to optimal or near-optimal 
-    solutions.
+    Crossover, also termed recombination, serves as an indispensable operator in a plethora of evolutionary computation 
+    algorithms. Its primary function is to generate novel candidate solutions by amalgamating attributes from multiple 
+    input solutions. This operation, inspired by genetic mechanisms observed in biological reproduction, is pivotal for 
+    striking a balance between exploration and exploitation within an algorithm's search space. By fostering a diverse 
+    set of solution structures and retaining beneficial traits, crossover steers the evolutionary process closer to 
+    optimal or near-optimal solutions.
 
-    Within the \textit{Keen} framework, a diverse array of crossover techniques 
-    has been conceptualized and developed, each epitomizing a distinctive 
-    recombination approach. This section endeavors to furnish an exhaustive 
-    overview of these methodologies, elucidating their mechanics, applications, 
-    and subtle intricacies.
+    Within the \textit{Keen} framework, a diverse array of crossover techniques has been conceptualized and developed, 
+    each epitomizing a distinctive recombination approach. This section endeavors to furnish an exhaustive overview of 
+    these methodologies, elucidating their mechanics, applications, and subtle intricacies.
 
     
     \subsubsection{Generalized Crossover Algorithm}
-        A standout feature of \textit{Keen} is its innovative approach to crossover. Diverging from conventional 
+        A novel feature of \textit{Keen} is its innovative approach to crossover. Diverging from conventional 
         frameworks that typically restrict crossover to two-parent models, \textit{Keen} provides users the flexibility 
         to engage multiple parents in the crossover process. This multi-parent crossover approach aligns with 
-        contemporary research findings~\autocite{tsutsuiMultiparentRecombinationSimplex1999,elsayedGANewMultiparent2011,arramNovelMultiparentOrder2019}, 
-        which advocate for the benefits of such strategies.
+        contemporary research findings~\autocite{tsutsuiMultiparentRecombinationSimplex1999,elsayedGANewMultiparent2011,arramNovelMultiparentOrder2019}, which advocate for the benefits of such strategies.
 
         To facilitate this advanced methodology, \textit{Keen} introduces a \textit{generalized crossover} algorithm. 
         This algorithm forms the basis for multi-parent crossover operations, offering a template for users to develop 
@@ -60,12 +54,12 @@
                 exclusive: Boolean,
             ): List<List<T>> {
                 val subsets = []
-                var remainingElements = elements.shuffled
+                val remainingElements = elements.shuffled
                 while (remainingElements is not empty) {
                     val subset = if (exclusive) {
                         remainingElements.take(size)
                     } else {
-                        List(size) {
+                        List(size) { it ->
                             if (it == 0) remainingElements.removeFirst()
                             else remainingElements.random().also { 
                                 element -> remainingElements.remove(element) 
@@ -85,6 +79,7 @@
         remaining pool to avoid repetition. This approach guarantees that every element is included in at least one 
         subset, thereby ensuring comprehensive coverage and variety in the crossover process.
 
+    \subsubsection{Selection Strategies}
     \subimport{./}{Combine.tex}
     \subimport{./}{SinglePoint.tex}
     \subimport{./}{OX.tex}

@@ -4,25 +4,25 @@
     of program trees.
 
     \begin{definition}[Subtree Mutation]
-        The \textit{subtree mutation} operator works by selecting a node from a program tree. It then replaces the 
-        subtree originating from this node with a new subtree. This process keeps the general shape of the program while 
-        introducing fresh genetic elements, which might enhance the program's effectiveness.
-
-        To paint a mathematical portrait of this operation:
-
+        The \textit{subtree mutation} operator functions by picking a node from a program tree and replacing the subtree 
+        from that node with a new one. This method maintains the overall structure of the program but adds new genetic 
+        elements, potentially improving the program's performance.
+    
+        The mathematical representation of this operation is:
+    
         \begin{equation}
-        M_{subtree}: \mathbb{P} \times [0,\, 1] \times [0,\, 1] \times [0,\, 1] \rightarrow \mathbb{P};\;
-        (P,\, \mu_\textbf{i},\, \mu_\textbf{c},\, \mu_\textbf{g}) 
-            \mapsto M_{subtree}(P,\, \mu_\textbf{i},\, \mu_\textbf{c},\, \mu_\textbf{g})
+            M_{subtree}: \mathbb{P} \times [0,\, 1] \times [0,\, 1] \times [0,\, 1] \rightarrow \mathbb{P};\;
+            (P,\, \mu_\textbf{i},\, \mu_\textbf{c},\, \mu_\textbf{g}) 
+                \mapsto M_{subtree}(P,\, \mu_\textbf{i},\, \mu_\textbf{c},\, \mu_\textbf{g})
         \end{equation}
-
-        Breaking down the parameters:
-
+    
+        Explaining the parameters:
+    
         \begin{itemize}
-        \item \(P\): Embodies a population of program trees.
-        \item \(\mu_\textbf{i}\): Denotes the probability of an individual experiencing mutation.
-        \item \(\mu_\textbf{c}\): Signifies the likelihood of a chromosome's selection for mutation.
-        \item \(\mu_\textbf{g}\): Represents the probability of a gene's selection for mutation.
+            \item \(P\): The population of program trees.
+            \item \(\mu_\textbf{i}\): The chance of a tree undergoing mutation.
+            \item \(\mu_\textbf{c}\): The likelihood of choosing a chromosome for mutation.
+            \item \(\mu_\textbf{g}\): The probability of selecting a gene for mutation.
         \end{itemize}
     \end{definition}
 
@@ -40,15 +40,13 @@
     structure of the tree.
 
     \begin{remark}
-        The Subtree Mutation is great at making significant genetic changes. However, it's important to make sure the 
-        new subtrees fit well with the problem you're solving. Without this check, you might end up with trees that 
-        don't make sense or are too complex.
+        The Subtree Mutation operator is effective for introducing substantial genetic alterations. However, it's 
+        crucial to ensure that the newly generated subtrees are relevant and appropriate for the specific problem at 
+        hand. Without careful consideration, there's a risk of creating trees that are either semantically irrelevant or 
+        overly complex.
 
-        \textit{Keen} handles this by using generation methods mentioned in \vref{sec:keen:gp:primitives:gen}.
+        In \textit{Keen}, this concern is addressed by employing specific subtree generation methods, as detailed in \vref{sec:keen:gp:primitives:gen}.
     \end{remark}
-
-    The beauty of the Subtree Mutation method lies in its balance. It keeps what works while trying out new genetic 
-    possibilities.
 
     For a visual representation of the Subtree Mutation process, see \vref{fig:keen:op:mut:subtree}.
 

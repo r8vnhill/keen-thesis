@@ -36,8 +36,10 @@
       "DEAP",
       "Jakt",
       "Jenetics",
+      "Koza",
       "pseudocode",
-      "Pylance"
+      "Pylance",
+      "toolset"
     ],
     "cSpell.language": "en,es-ES"
   }

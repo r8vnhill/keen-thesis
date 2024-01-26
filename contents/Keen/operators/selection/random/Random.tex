@@ -1,39 +1,14 @@
-\subsubsection{Random Selector}
-\label{sec:keen:operators:selection:random}
-  The \texttt{RandomSelector} class acts as a selection strategy, assigning 
-  equal selection probabilities to every individual within a population.
-  Its primary utility is to serve as a baseline for comparison with other 
-  selection methods.
+\begin{definition}[Random Selector]
+  \begin{equation}
+    \Sigma_{\mathrm{random}}(P: \mathbb{P},\, n: \mathbb{N}) \to \mathbb{P}
+  \end{equation}
 
-  \begin{definition}[Random Selector]
-  \label{def:keen:operators:selection:random}
-    The \emph{random selector} operates under a uniform approach, ensuring every 
-    individual in the population receives the same selection probability. 
-    Formally, the \texttt{RandomSelector} is defined as:
+  Each individual is then selected based on a uniform probability distribution:
 
-    \begin{equation}
-      \Sigma_{\mathrm{random}} : 
-        \mathbb{P} \times \mathbb{N} \to \mathbb{P};\; 
-      (P,\, n) \mapsto \Sigma_{\mathrm{random}}(P,\, n)  
-    \end{equation}
+  \begin{equation}
+    \rho_i = \frac{1}{|P|}
+  \end{equation}
+\end{definition}
 
-    Each individual is then selected based on a uniform probability 
-    distribution:
-
-    \begin{equation}
-      \rho_i = \frac{1}{|P|}
-    \end{equation}
-  \end{definition}
-
-  Although the \texttt{RandomSelector} is not frequently mentioned in 
-  literature, its straightforward nature provides a valuable touchstone for 
-  assessment.
-  % For illustrative purposes, its performance against the WGP is detailed in 
-  % \vref{tab:keen:operators:selection:random}.
-
-  % \subimport{./}{tab_keen_operators_selection_random.tex}
-
-  % As anticipated, the random selector's performance is subpar since it does not 
-  % consider the fitness of individuals.
-  % While included in the \textit{Keen} framework for comparative analysis, its 
-  % application in production environments is discouraged.
+Although the \texttt{RandomSelector} is not frequently mentioned in literature, its straightforward nature provides a 
+valuable touchstone for assessment.

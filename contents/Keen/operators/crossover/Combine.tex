@@ -1,48 +1,33 @@
-\subsubsection{Combine Crossover}
-\label{sec:keen:op:cx:combine}
+\begin{definition}[\(n\)-Combine Crossover]
+    The \textit{\(n\)-combine crossover} operator is defined as a function that accepts \(n\) inputs and applies a 
+    designated combiner function to these inputs, yielding a single combined offspring. Formally, the combine 
+    crossover can be expressed as:
 
-    A practical and effective strategy for executing crossover in genetic algorithms is through what we termed as 
-    \textit{combine crossover}. This method involves applying a function that performs element-wise transformations on 
-    parent inputs to produce offspring. In the \textit{Keen} framework, this is encapsulated within the 
-    \texttt{CombineCrossover} class.\footnote{
-        \textit{Jenetics} also provides a similar operator, known as the \textit{Combine Alterer}, however, it is 
-        restricted to two parents. We also deem the name \textit{Combine Crossover} to be more intuitive and 
-        descriptive since it explicitly mentions the crossover aspect of the operator.
-    }
+    \begin{equation}
+        X_{n\text{-comb}}(P: \mathbb{P}_T,\, f: T^n \rightarrow T,\, \rho_i: [0,\, 1],\, \rho_\mathbf{c}: [0,\, 1],\, 
+            \rho_g: [0,\, 1],\, e: \{0,\, 1\})\to \mathbb{P}_T
+    \end{equation}
 
-    \begin{definition}[\(n\)-Combine Crossover]
-        The \textit{\(n\)-combine crossover} operator is defined as a function that accepts \(n\) inputs and applies a 
-        designated combiner function to these inputs, yielding a single combined offspring. Formally, the combine 
-        crossover can be expressed as:
+    where:
 
-        \begin{equation}
-            X_{n\text{-comb}} :\: 
-                \mathbb{P}_T \times (T^n \rightarrow T) \times [0,\, 1] \times [0,\, 1] \times [0,\, 1] 
-                    \times \{0,\, 1\} \rightarrow \mathbb{P}_T;\;
-                (P,\, f,\, \rho_i,\, \rho_\mathbf{c},\, \rho_g,\, e)
-                    \mapsto X_{n\text{-comb}}(P,\, f,\, \rho_i,\, \rho_\mathbf{c},\, \rho_g,\, e)
-        \end{equation}
+    \begin{itemize}
+        \item \(P\) represents the population of individuals of type \(T\).
+        \item \(f\) is the combiner function, taking \(n\) inputs to produce an output.
+        \item \(\rho_i\) is the probability of applying the crossover to an individual in the population.
+        \item \(\rho_\mathbf{c}\) is the probability of the combiner function affecting a chromosome.
+        \item \(\rho_g\) is the gene-level application probability of the function.
+        \item \(e\) is a boolean value that determines whether the same individual can be used more than once as a 
+            parent.
+    \end{itemize}
+\end{definition}
 
-        where:
+\begin{remark}
+    The core principle of the combine crossover lies in the multi-parent crossover concept, wherein the arity of the 
+    combiner function aligns with the number of input parents.
+\end{remark}
 
-        \begin{itemize}
-            \item \(P\) represents the population of individuals of type \(T\).
-            \item \(f\) is the combiner function, taking \(n\) inputs to produce an output.
-            \item \(\rho_i\) is the probability of applying the crossover to an individual in the population.
-            \item \(\rho_\mathbf{c}\) is the probability of the combiner function affecting a chromosome.
-            \item \(\rho_g\) is the gene-level application probability of the function.
-            \item \(e\) is a boolean value that determines whether the same individual can be used more than once as a 
-                parent.
-        \end{itemize}
-    \end{definition}
-
-    \begin{remark}
-        The core principle of the combine crossover lies in the multi-parent crossover concept, wherein the arity of the 
-        combiner function aligns with the number of input parents.
-    \end{remark}
-
-    Notably, the \textit{Combine Crossover} operator in \textit{Keen} is designed as an \textbf{open class}. This design 
-    choice allows for extensive customization, enabling developers to extend and tailor the operator according to 
-    specific needs. An illustrative example is the \texttt{AverageCrossover} operator, which calculates the arithmetic 
-    mean of the parent inputs, demonstrating the versatility and adaptability of the \textit{Combine Crossover} in 
-    various genetic algorithm scenarios.
+Notably, the \textit{Combine Crossover} operator in \textit{Keen} is designed as an \textbf{open class}. This design 
+choice allows for extensive customization, enabling developers to extend and tailor the operator according to 
+specific needs. An illustrative example is the \texttt{AverageCrossover} operator, which calculates the arithmetic 
+mean of the parent inputs, demonstrating the versatility and adaptability of the \textit{Combine Crossover} in 
+various genetic algorithm scenarios.

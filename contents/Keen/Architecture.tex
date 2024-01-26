@@ -21,28 +21,24 @@
   \textit{Kotlinx.html}~\autocite{KotlinxHtml2023}, \textit{Kotlin Telegram Bot}~\autocite{KotlinTelegramBot2023}, and \textit{Kotest}~\autocite{KotestKotesta}. While we promote factory methods as the primary mode of object creation, the design caters to manual object creation, granting users control over the process when needed.
 
 
-  Here's an illustrative DSL example, where we create a \texttt{Genotype} for the \textit{Room Scheduling} problem. Here, each \texttt{Chromosome} represents a meeting, composed of a single integer gene indicating the assigned room. The full code snippet can be found in \vref{lst:app:keen_room_scheduling}.
+  Here's an illustrative DSL example, where we create a \texttt{Genotype} for the \textit{One Max} problem. Here, each \texttt{Chromosome} represents a sequence of bits.
 
   \begin{code}{
       Usage of the \textit{Keen} Domain Specific Configuration Language to create a \texttt{Genotype} for the 
-      \textit{Room Scheduling} problem.
+      \textit{One Max} problem.
   }{label={lst:keen:arch:scheduling}}{kotlin}
-    genotypeOf {                // Create a genotype
-        repeat(meetings.size) { // Create a chromosome for each meeting
-            chromosomeOf {      // Create a chromosome
-                ints {          // Containing an integer gene
-                    size = 1    
-                    ranges += meetings.indices.first..meetings.indices.last
-                }
+    genotypeOf {        // Creates a genotype
+        chromosomeOf {  // Creates a chromosome
+            booleans {  // of booleans
+                size = 20
+                trueRate = 0.15
             }
         }
     }
   \end{code}
 
   The approach we see here closely mirrors the use of configuration files in ECJ. However, as our DSL is defined entirely within \textit{Kotlin}, it offers significant advantages. These include type safety, robust Integrated Development Environment (IDE) support, and the ability to leverage the full capabilities of the language in defining our genotypes.
-
-  In the given example, we employed the standard \texttt{repeat} function from the \textit{Kotlin} library to create a number of chromosomes equal to the number of meetings. It is essential to note that this function is not part of our DSL but a standard feature provided by the language.
-
+  
   Furthermore, we claim that our approach enhances the readability of the code. Compared to using ECJ's configuration files, the DSL presents a more intelligible and cleaner interface.
   By defining the configurations in the same language and even within the same files as the rest of the code, we significantly improve code readability.
   This consolidation offers a more streamlined, unified development environment that facilitates easier understanding and manipulation of the codebase.
