@@ -1,10 +1,26 @@
 \section{Results and Discussion}
 \label{sec:fn_opt:results}
 
-    This section elucidates the optimization outcomes for 20 classical functions, analyzed using three distinct selection 
-    strategies: Random, Tournament, and Roulette. The following tables and figures provide an in-depth view of the time 
-    efficiency and effectiveness of each phase in the evolutionary process, along with the resultant optimization 
-    performance.
+    This section presents optimization results for 20 classical functions using three selection strategies: Random, 
+    Tournament, and Roulette. Detailed tables and figures offer insights into the time efficiency and effectiveness of 
+    each evolutionary phase, along with the final optimization outcomes.
+
+    Analysis reveals the Tournament Selector's superior performance compared to the Random and Roulette Selectors, as 
+    shown in \vref{fig:fn_opt:results:cross_in_tray}. The Random and Roulette selectors produce similar results, 
+    attributed to the Roulette Selector's probabilistic nature, akin to a weighted Random Selector. As evolution 
+    progresses, the differences in fitness weights among individuals decrease, making the Roulette Selector's behavior 
+    more like the Random Selector's.
+    
+    Both Random and Roulette selectors can occasionally find the global optimum but struggle to consistently retain it. 
+    In contrast, the Tournament Selector, thanks to its competitive approach, not only finds but also maintains optimal 
+    solutions effectively. This observation suggests that a target fitness criterion might be more fitting than a 
+    stagnation termination criterion for the Random and Roulette selectors, as they lack the ability to sustain the 
+    optimal solution over time. A target fitness criterion (natively supported by our framework) may be more appropriate
+    for these selectors, as it would allow them to terminate once the optimal solution is found, rather than continuing
+    to run until the maximum generation limit is reached.
+    
+    The analysis utilized the \texttt{EvolutionPlotter} listener for generating these figures, a feature not readily 
+    available in other frameworks, highlighting the unique capabilities of the presented framework.
 
     \begin{figure}[ht!]
         \centering
@@ -27,25 +43,32 @@
         \label{fig:fn_opt:results:cross_in_tray}
     \end{figure}
 
-    The comparative analysis of the selectors, as depicted in \vref{fig:fn_opt:results:cross_in_tray}, highlights the 
-    superior performance of the Tournament Selector over the Random and Roulette Selectors. Notably, the Random and 
-    Roulette selectors exhibit comparable outcomes, which can be attributed to the inherent nature of the Roulette 
-    Selector. This selector functions as a probabilistic version of the Random Selector, where the selection probability 
-    is guided by individual fitness weights. As the evolutionary process progresses, the variance in these weights 
-    diminishes, leading to Roulette Selector's behavior increasingly resembling that of the Random Selector.
+    We now detail the optimization results for each selector across he various functions. To mitigate JVM warmup 
+    effects, each experiment was conducted four times, with the initial run excluded from analysis. The reported 
+    results represent the average of the subsequent three iterations, focusing primarily on the consistency of 
+    execution times, as fitness values heavily depend on the chosen operators. Due to the unique nature of our solution 
+    (as discussed in the previous section), a direct comparison with other frameworks is not feasible.
 
-    It is crucial to observe that while both Random and Roulette selectors occasionally approach or even achieve the
-    global optimum, their inherent randomness impedes consistent maintenance of the optimum solution. Conversely, the 
-    Tournament Selector, with its more deterministic and competitive selection mechanism, not only reaches but also 
-    reliably sustains the optimal solutions once discovered. From this we can conclude that a stagnation termination
-    criterion is not suitable for the Random and Roulette selectors, as they are not able to maintain the optimal 
-    solution for a long enough period of time, instead a target fitness criterion may be more appropriate.
-
-    Now we will present the results of the optimization process of each selector for each function.
-    Each experiment was run 4 times, dropping the first iteration to avoid JVM warmup effects. The results presented are
-    the average of the remaining 3 iterations.
-
-    \newpage
+    Analysis shows minimal variation in selection times across all selectors, indicating consistent performance. The 
+    Random Selector, requiring minimal computational effort, shows the lowest average selection time. The Tournament 
+    and Roulette selectors have similar times, with the Roulette Selector slightly lagging due to the additional 
+    computational work involved in calculating individual fitness weights.
+    
+    Average evolution times are comparably close across selectors, roughly within the \(10^{-1}\) second range. The 
+    Tournament Selector slightly leads in speed, attributed to its efficiency in maintaining optimal solutions without 
+    needing to explore every generation. Conversely, the Roulette Selector is somewhat slower than the Random Selector, 
+    burdened by the extra computational effort for fitness weight calculations.
+    
+    The Tournament Selector stands out by stopping the evolutionary process before reaching the maximum generation 
+    limit, thereby demonstrating its efficiency in sustaining optimal solutions. It consistently achieves the lowest 
+    average error, signifying its effectiveness in identifying optimal solutions. The Roulette and Random selectors 
+    show comparable average errors, with the Roulette Selector marginally better, suggesting more consistent 
+    performance.
+    
+    Exceptions to the Tournament Selector's performance are noted in functions like Rastrigin, Egg Holder, and 
+    Schaffer, where multiple local optima challenge the algorithm's escape capabilities. However, for functions like 
+    Booth with a clearer path to the global optimum, the Tournament Selector shows strong performance.
+    
     \begin{center}
         \subsection{Random Selector}
             \subimport{results/}{Random.tex}
@@ -54,34 +77,6 @@
         \subsection{Roulette Selector}
             \subimport{results/}{Roulette.tex}
     \end{center}
-
-    A primary observation from the analysis is the minimal standard deviation in selection times across all selectors, 
-    suggesting remarkable stability and consistency in the selection phase. Notably, the Random Selector exhibits the 
-    lowest average selection time, attributed to its lack of computational requirements for individual selection. In 
-    contrast, both the Tournament and Roulette selectors show comparable average selection times, with the Roulette 
-    selector marginally slower. This slight increase in time for the Roulette selector stems from its necessity to 
-    calculate fitness weights for each individual - a more computationally demanding task than the Tournament selector's 
-    simple fitness comparison.
-
-    When examining average evolution times, we find that they are relatively similar across all selectors, approximately 
-    in the order of \(10^{-1}\) seconds. The Tournament selector, however, demonstrates a marginal speed advantage. This 
-    efficiency is linked to its ability to avoid iterating through all generations to find an adequate solution, as it 
-    effectively maintains the optimal solution once discovered. The Roulette selector, in comparison, is slightly slower 
-    than the Random selector due to the additional computational load of fitness weight calculations.
-
-    Focusing on the evolution outcomes, a distinct advantage of the Tournament selector emerges. It uniquely halts the 
-    evolutionary process before reaching the maximum generation limit, achieving 50 steady generations earlier. This 
-    efficiency is rooted in its capability to sustain an optimal solution once it is identified, unlike the other 
-    selectors.
-
-    Further analysis reveals that the Tournament selector consistently yields the lowest average error, indicating its 
-    superiority in finding the most optimal solutions. The Roulette and Random selectors exhibit similar average errors, 
-    with the Roulette selector slightly outperforming the Random one. This observation is reinforced by the lower 
-    standard deviation in error for the Roulette selector, implying greater consistency in its results.
-
-    Notable exceptions to the Tournament selector's low error performance are observed with the Rastrigin, Egg Holder, 
-    and Schaffer functions. These functions are characterized by multiple, evenly distributed local optima, posing a 
-    significant challenge for the algorithm to escape once convergence is achieved. Consequently, this leads to the 
-    Tournament selector's inability to locate the global optimum in these cases. In contrast, functions like Booth, with 
-    a single global optimum and a limited set of local optima, present a less complex landscape, enabling easier escape 
-    and convergence to the global optimum.
+    
+    This analysis underscores the Tournament Selector's robustness and the importance of strategic selection criteria 
+    based on an algorithm's ability to sustain optimal solutions.
