@@ -78,6 +78,20 @@
             res = t_leq(5)  # $|\mathbb{T}_{\leq 5}(\mathcal{T},\, \mathcal{F})|$
         \end{code}
 
+        \begin{code}{
+            \enquote{Desugared} version of the code presented in \vref{lst:keen:strait-jakt-syntax}
+        }{label=app:lst:strait-jakt-desugared}{kotlin}
+            constraints(() -> {
+                invoke("The value of x must be greater than or equal to 10", () -> {
+                    must(x, BeAtLeast(10))
+                })
+                invoke("The value of y must not be negative", 
+                    () -> CustomConstraintException("The value of y must not be negative")
+                () -> {
+                    mustNot(y, BeNegative)
+                })
+            })
+        \end{code}
         
         \begin{code}{
             Demonstration of the use of \textit{Strait-Jakt}'s \texttt{constraint} DSL to validate preconditions inside the 

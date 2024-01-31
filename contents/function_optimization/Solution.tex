@@ -15,17 +15,17 @@
         employ the following variation operators:
 
         \begin{itemize}
-        \item Recombination: \textit{average crossover} (see 
-            \vref{sec:keen:op:cx:combine})
-        \item Mutation: \textit{random mutation} (see 
-            \vref{sec:keen:op:mut:simple})
+        \item Recombination: \textit{average crossover} --a specialized form of the \(n\)-combine crossover operators
+            that computes a gene-wise average of \(n\) parents to produce a single offspring. In this case, we don't
+            require more than two parents, due to the representation of the chromosome, but alternative implementations
+            may take advantage of utilizing more than two parents.
+        \item Mutation: \textit{random mutation} --for each gene, a random real number is generated within the valid
+            range for that gene.
         \end{itemize}
 
-        For selection, we compare the performance of \textit{random selector}, 
-        \textit{tournament selector}, and \textit{roulette selector} (see 
-        \vref{sec:keen:operators:selection:random}, 
-        \vref{sec:keen:operators:selection:tournament}, and 
-        \vref{sec:keen:op:select:roulette}).
+        For selection, we compare the performance of \textit{random selector}, \textit{tournament selector}, and 
+        \textit{roulette selector} to showcase both the impact of selection on the optimization process, as the overall
+        performance and consistency of \textit{Keen}'s optimization capabilities.
 
     \subsection{Implementation of the Optimization Process}
         To demonstrate the implementation within the \textit{Keen} framework, we utilize the \textit{Bukin function N.6} 
@@ -133,3 +133,27 @@
         }{label=code:fn_opt:sol:seed}{kotlin}
             Domain.random = Random(420)
         \end{code}
+
+        A key challenge with our problem and solution is that they aren't readily addressed by the frameworks discussed 
+        in this thesis. The issue stems from our need for unique ranges for each gene, a feature not directly available 
+        in these frameworks. While it's possible to adapt other frameworks to meet this requirement, doing so would 
+        demand considerable customization to achieve the desired functionality.
+
+        For example, implementing the solution in \textit{Jenetics} would require the creation of a custom class to
+        simulate the behavior of double-valued genes with different ranges. Additionally, we'd need to define classes 
+        for the various optimization functions, potentially utilizing \textit{functional interfaces}. The core of the 
+        solution involves creating a class that inherits from the \texttt{Problem} interface, necessitating the 
+        definition of \texttt{fitness} and \texttt{codec} methods. The \texttt{fitness} method calculates the fitness 
+        for a genotype, while the \texttt{codec} method generates a \texttt{Codec} using the custom class, facilitating 
+        the creation of \texttt{Genotype} instances. This \texttt{Codec} is essential for configuring the GA 
+        \texttt{Engine} to execute the genetic algorithm.
+
+        For \textit{DEAP}, adapting the solution might be somewhat simpler. A custom crossover function would be needed 
+        for the average crossover, and another for the random mutation, but the existing \textit{gaussian mutation} 
+        operator could be suitable for our problem, perhaps with minor adjustments. This reduces the complexity 
+        compared to \textit{Jenetics}, but still demands a thorough understanding of \textit{DEAP} and some 
+        customization.
+
+        Adapting both examples to the frameworks would necessitate thorough expertise in their use and considerable 
+        effort. Additionally, the available documentation for these frameworks may not be comprehensive enough, 
+        potentially leading to a need for extensive experimentation to achieve the desired implementation.

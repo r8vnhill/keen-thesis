@@ -11,10 +11,10 @@
         material. By decoupling the framework from specific implementations, this pattern provides the flexibility to 
         introduce varied genetic construction techniques seamlessly.
 
-        Consider the \texttt{Chromosome.Factory} interface and the \texttt{Chromosome.AbstractFactory} abstract class that extends it.These 
-        provide a standardized mechanism for generating chromosome objects, ensuring
-        easy adaptability to diverse and complex problem domains such as crash
-        reproduction (refer to \vref{chap:beacon})
+        Consider the \texttt{Chromosome.Factory} interface and the \texttt{Chromosome.AbstractFactory} abstract class
+        that extends it. These provide a standardized mechanism for generating chromosome objects, ensuring
+        easy adaptability to diverse and complex problem domains such as crash reproduction (refer to 
+        \vref{chap:beacon})
 
         For illustration, consider the \texttt{SimpleChromosome}:
 
@@ -60,10 +60,14 @@
         }
         \end{code}
 
+        We would like to mention that this is not a totally novel approach, as it is inspired by the work of 
+        Wilhelmstötter's \textit{Jenetics} \autocite{wilhelmstotterJeneticsJavaGenetica}.
+
     \subsection{Observer Pattern for Evolution Monitoring}
-        A key design pattern employed in \textit{Keen} is the Observer Pattern. This pattern is fundamental for tracking the status of the evolutionary process. Its primary advantage lies in decoupling the core evolutionary engine 
-        from the monitoring components. This separation facilitates the extension and customization of monitoring 
-        functionalities without affecting the underlying evolutionary mechanisms.
+        A key design pattern employed in \textit{Keen} is the Observer Pattern. This pattern is fundamental for 
+        tracking the status of the evolutionary process. Its primary advantage lies in decoupling the core evolutionary 
+        engine from the monitoring components. This separation facilitates the extension and customization of 
+        monitoring functionalities without affecting the underlying evolutionary mechanisms.
 
         As discussed in \vref{sec:keen:ga:engine}, the \texttt{EvolutionListener} interface acts as a cornerstone for 
         this pattern. It offers a standardized approach to observe and respond to the evolutionary process. Developers 
@@ -82,3 +86,32 @@
         can design a custom listener with a hook to receive an alert when the population achieves a predefined fitness 
         level. This ability to modify and extend the notification system underscores the framework's versatility in 
         adapting to varied evolutionary scenarios.
+
+        Another, arguably more complex, usage example could be the implementation of Evolutionary Strategies. 
+        Evolutionary Strategies are similar to Genetic Algorithms, but they use a different approach to the selection
+        process. Without going into the details of the algorithm, the main difference between the two is that in
+        Evolutionary Strategies, the operators used to alter the population --selection, mutation and crossover-- act 
+        differently on the individuals, and the existence of additional parameters that affect the selection process.
+        Notwithstanding these differences, the core of the algorithm is the same, and the implementation of the
+        Evolutionary Strategy is straightforward. The following code snippet shows a possible implementation of a 
+        simplified evolutionary strategy using Keen:
+
+        \begin{code}{
+        Implementation of an Evolutionary Strategy using Keen (assuming the existence of an evolution engine).
+        }{label=lst:keen:es}{kotlin}
+            var state = EvolutionState.empty()
+            do {
+                val initialPopulation = engine.startEvolution(state)
+                val evaluatedPopulation = engine.evaluate(initialPopulation)
+                // We assume this function selects individuals based on the strategy parameters
+                val parents = evStratSelection(evaluatedPopulation)
+                val nextPopulation = engine.alterOffspring(offspring)
+                // We assume this function updates the parameters needed by the evolutionary strategy
+                updateStrategyParameters()
+                state = state.copy(population = nextPopulation)
+            } while (engine.limits.none { it -> it(state) })
+        \end{code}
+
+        Note that most of the code is the same as the one used in the genetic algorithm, the only difference is the
+        selection process and the update of the parameters. This is possible thanks to the modularity of the framework,
+        which allows the developer to reuse the existing functions and classes to create new algorithms.

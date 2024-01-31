@@ -1,20 +1,19 @@
 \section{Problem Description}
 \label{sec:fn_opt:problem}
-    The primary task in this chapter revolves around the optimization of several real functions. These functions, which 
-    can be found in \vref{app:test_functions}, are selected based on their complexity and their widespread use in the 
-    field of optimization. We aim to find the \textbf{global minimum} for each of these functions, a problem known as 
-    global optimization.
+    This chapter focuses on optimizing various real functions, detailed in \vref{app:test_functions}, chosen for their 
+    complexity and prevalence in optimization studies. Our objective is to identify the \textbf{global minimum} for 
+    these functions, addressing what is known as the global optimization challenge.
 
-    In the context of this case study, the search space is defined as the set of all possible solutions to the 
-    optimization problem. Since we are dealing with real-valued functions, the search space will be a subset of the set 
-    of real numbers, \(\mathbb{R}\). The exact subset that forms the search space can vary depending on the function we 
-    are optimizing. For example, the \textit{Cross-in-Tray} function has a search space of \([-10,\,10]^2\), whereas the 
-    \textit{Easom} function has a search space of \([-100,\,100]^2\).
-    
-    Given the nature of our functions and their respective search spaces, it is vital to understand some fundamental 
-    concepts related to sets, cardinalities, and functions. These concepts will not only help us better comprehend the 
-    vastness and complexity of the search space but will also lay the groundwork for the use of \textit{Keen} in this 
-    context.
+    The core problem involves finding a point \(x^* \in \mathbb{R}^n\) for a function \(f : \mathbb{R}^n \to 
+    \mathbb{R}\), where \(f(x^*)\) is the lowest possible value of \(f\). This is termed the \textbf{global minimum} of 
+    \(f\), and the task of locating this minimum is the \textit{function optimization problem}.
+
+    The search space, or the realm of potential solutions, varies by function. For instance, the search space for the 
+    \textit{Cross-in-Tray} function is \([-10,\,10]^2\), while for the \textit{Easom} function, it's \([-100,\,100]^2\).
+
+    Understanding the concepts of sets, cardinalities, and functions is essential due to the diverse nature of our 
+    functions and their search spaces. These foundational concepts aid in grasping the search space's complexity and 
+    are crucial for employing the \textit{Keen} framework in these optimization tasks.
     
     The following definitions, theorems, and corollaries will elucidate the necessary background.
 
@@ -25,8 +24,8 @@
 
     \begin{theorem}[Schröder--Bernstein theorem]
     \label{thm:fn_opt:schroder_bernstein}
-        Given two sets \(A\) and \(B\), if there exist two injective functions \(f : A \to B\) and \(g : B \to A\), then 
-        there exists a bijective function \(h : A \to B\).
+        Given two sets \(A\) and \(B\), if there exist two injective functions \(f : A \to B\) and \(g : B \to A\), 
+        then there exists a bijective function \(h : A \to B\).
     \end{theorem}
 
     \begin{corollary}
@@ -50,31 +49,24 @@
 
     \begin{theorem}
     \label{thm:fn_opt:cardinality}
-        Let $(x,\,y) \in \mathbb{R}^2$ with $x \neq y$.
-        Then, the cardinality of the interval $[x,\,y]$, denoted as $|[x,\,y]|$,
-        is the same as the cardinality of \(\mathbb{R}\).
-        Thus, $|[x,\,y]|$ is uncountable.
+        Let $(x,\,y) \in \mathbb{R}^2$ with $x \neq y$. Then, the cardinality of the interval $[x,\,y]$, denoted as 
+        $|[x,\,y]|$, is the same as the cardinality of \(\mathbb{R}\). Thus, $|[x,\,y]|$ is uncountable.
     \end{theorem}
 
     \begin{proof}
-        Let us define a function \(f: [x,\,y] \rightarrow \mathbb{R}\) defined 
-        as \(f(z) = \tan\left(\frac{\pi(z-x)}{y-x} - \frac{\pi}{2}\right)\) 
-        which maps the interval \([x, y]\) bijectively onto \(\mathbb{R}\).
+        Let us define a function \(f: [x,\,y] \rightarrow \mathbb{R}\) defined as \(f(z) = 
+        \tan\left(\frac{\pi(z-x)}{y-x} - \frac{\pi}{2}\right)\) which maps the interval \([x, y]\) bijectively onto 
+        \(\mathbb{R}\).
         
-        This means that there is an injective function \(f: [x,\,y] \rightarrow
-        \mathbb{R}\) and an injective function \(g: \mathbb{R} \rightarrow
-        [x,\,y]\).
+        This means that there is an injective function \(f: [x,\,y] \rightarrow \mathbb{R}\) and an injective function 
+        \(g: \mathbb{R} \rightarrow [x,\,y]\).
 
-        By the definition of cardinality inequality
-        (\vref{def:fn_opt:cardinality_inequality}), we conclude that
+        By the definition of cardinality inequality (\vref{def:fn_opt:cardinality_inequality}), we conclude that 
         \(|[x,\,y]| \leq |\mathbb{R}|\) and \(|\mathbb{R}| \leq |[x,\,y]|\).
 
-        By \vref{thm:fn_opt:schroder_bernstein}, we conclude that
-        \(|[x,\,y]| = |\mathbb{R}|\).
+        By \vref{thm:fn_opt:schroder_bernstein}, we conclude that \(|[x,\,y]| = |\mathbb{R}|\).
     \end{proof}    
 
-    These results make it clear that, in most cases, the search space for our
-    real function optimization problems will have an uncountable number of
-    potential solutions.
-    This vastness and complexity underline the necessity for robust and
-    efficient optimization methods like those provided by \textit{Keen}.
+    These results make it clear that, in most cases, the search space for our real function optimization problems will 
+    have an uncountable number of potential solutions. This vastness and complexity underline the necessity for robust 
+    and efficient optimization methods like those provided by \textit{Keen}.

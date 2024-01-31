@@ -20,17 +20,6 @@
     \end{itemize}
 \end{definition}
 
-The implementation of the Point Mutation operator in \textit{Keen} follows a four-step process:
-
-\begin{code}{
-    Example of Point Mutation in \textit{Keen}
-}{label=lst:keen:gp:op:mutation:point}{kotlin}
-    val original = random node in program tree
-    val replacements = nodes with same arity as original
-    val replacement = random node in replacements
-    val mutated = program tree with original replaced by replacement
-\end{code}
-
 A key feature of Point Mutation in \textit{Keen} is its ability to maintain the overall structure of program trees 
 while introducing genetic changes.
 
@@ -39,16 +28,3 @@ while introducing genetic changes.
     the structure of the original tree, reducing the chances of runtime errors or unclear meanings that could hinder 
     the evolutionary process.
 \end{remark}
-
-A visual example of how the Point Mutation operator works is shown in \vref{fig:keen:gp:op:mutation:point}.
-
-\begin{figure}[ht!]
-    \centering
-    \includegraphics[width=0.5\textwidth]{img/keen/Point mutation.png}
-    \caption{
-        A graphical elucidation of the Point Mutation operator's effect on a program tree. A random node is selected 
-        and substituted with another of identical arity, resulting in a structurally-consistent variant of the 
-        original tree.
-    }
-    \label{fig:keen:gp:op:mutation:point}
-\end{figure}

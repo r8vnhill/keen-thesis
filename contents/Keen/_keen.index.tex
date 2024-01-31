@@ -30,9 +30,106 @@
         process of constraint validation within evolutionary algorithms. While \textit{StraitJakt} is tailored for 
         integration with the \textit{Keen} framework, its versatile design allows for application in other projects as 
         well. In \textit{Keen}, \textit{StraitJakt} plays a pivotal role in validating the numerous constraints 
-        essential for the proper functioning of the algorithms. 
+        essential for the proper functioning of the algorithms.
 
-        Although this work does not delve into the intricate details of \textit{StraitJakt}, its utility and impact 
-        within the \textit{Keen} framework are notable. For an illustration of the types of validations 
-        \textit{StraitJakt} performs, refer to the example provided in \vref{lst:app:strait-jakt}.
+        \textit{StraitJakt} was initially developed as part of the \textit{Keen} framework, but as its complexity grew,
+        it was separated into its own project to maintain a clear separation of concerns.
+
+        The library works by defining \textit{constraint blocks}, which are collections of validation checks. Each
+        constraint block defines a scope that enables a special syntax for the validation checks within it. The syntax
+        is designed to be as close as possible to the natural language used to describe the constraints. The syntax
+        defined by the constraint blocks can be seen in \vref{lst:keen:strait-jakt-syntax}.
+
+        \begin{code}{Constraint block syntax}{label={lst:keen:strait-jakt-syntax}}{kotlin}
+            constraints {
+                "The value of x must be greater than or equal to 10" {
+                    // By default, the exception type is defined by the constraint
+                    // In this case, BeAtLeast creates an IntConstraintException due to the type of x
+                    x must BeAtLeast(10)
+                }
+                // Optionally, a custom exception constructor can be provided
+                "The value of y must not be negative"(::CustomConstraintException) {
+                    y mustNot BeNegative
+                }
+            }
+        \end{code}
+
+        Here, the \texttt{constraints} block defines a scope for the validation checks. Then, each constraint is defined
+        by a string that describes the constraint and a lambda that contains the validation checks. The validation
+        checks are defined using the \texttt{must} and \texttt{mustNot} keywords, which are followed by the constraint
+        to be checked.
         
+        Constraints are defined by a \texttt{Constraint} object, which is a class that implements the 
+        \texttt{Constraint} interface. The \texttt{Constraint} interface defines two functions: \texttt{validator} and
+        \texttt{generateException}. The \texttt{validator} function is used to check if the constraint is satisfied,
+        and the \texttt{generateException} function is used to generate an exception if the constraint is not
+        satisfied.
+
+        Once defined, the block will be evaluated as follows:
+
+        \begin{enumerate}
+            \item A \texttt{Jakt.Scope} is created to enable the special syntax for the validation checks.
+            \item For each constraint, a \texttt{Jakt.Scope.StringScope} is created to provide access to the
+            \texttt{must} and \texttt{mustNot} keywords.
+            \item If a validation check fails, an exception is generated and stored in the \texttt{Jakt.Scope}.
+            \item Once all the constraints have been evaluated, if:
+                \begin{enumerate}
+                    \item No exceptions were generated, the code continues normally.
+                    \item Exceptions were generated, a \texttt{CompositeException} is thrown containing all the
+                        exceptions generated.
+                \end{enumerate}
+        \end{enumerate}
+
+        \textit{StraitJakt} makes heavy use of operator overloading, extension functions, and trailing lambdas to
+        provide a concise syntax for the validation checks. An implementation that does not use these features would
+        look like the one shown in \vref{app:lst:strait-jakt-desugared}.
+        
+        The main purpose of \textit{StraitJakt} is to provide an expressive way of validating multiple constraints at
+        once, even though in some cases \textit{Keen} uses it to validate a single constraint. This is done to maintain
+        a consistent API for all the constraints, even though some of them only require a single validation check.
+
+        A similar result could be achieved using the \textit{Arrow} library~\autocite{Arrow}, which provides an 
+        \texttt{ensure} function that allows us to validate a single constraint. However, \textit{Arrow} introduces 
+        non-standard\footnote{
+            Non-standard in the context of the \textit{Kotlin} language.
+        } functional programming concepts that may be unfamiliar to some users. Given that \textit{Keen} is focused on
+        Evolutionary Algorithms, we tried to use a more standard approach to avoid introducing unnecessary complexity. 
+        Moreover, we argue that the syntax provided is more expressive than the one provided by \textit{Arrow}\footnote{
+            For the case of validating multiple pre-conditions and post-conditions.
+        } since the
+        scope of each constraint is defined by a string that describes the constraint.
+
+        \begin{code}{
+            Example of the use of \textit{Arrow} to validate multiple constraints, note that the code could be improved
+            to avoid code duplication and reduce verbosity.
+        }{label=lst:app:arrow}{kotlin}
+            fun validateX(): Either<IllegalArgumentException, Unit> = either {
+                ensure(x >= 10) { IllegalArgumentException("The value of x must be greater than or equal to 10") }
+            }
+
+            fun validateY(): Either<CustomConstraintException, Unit> = either {
+                ensure(y >= 0) { CustomConstraintException("The value of y must not be negative") }
+            }
+
+            val exceptions = mutableListOf<Exception>()
+
+            fold(
+                { validateX() },
+                { it: IllegalArgumentException -> exceptions.add(it) },
+                {}
+            )
+            fold(
+                { validateY() },
+                { it: CustomConstraintException -> exceptions.add(it) },
+                {}
+            )
+            if (exceptions.isNotEmpty()) {
+                throw CompositeException(exceptions)
+            }
+        \end{code}
+
+        An example of the use of \textit{StraitJakt} within \textit{Keen} can be seen in \vref{lst:app:strait-jakt}.
+        
+        As a final note, it is important to mention that \textit{StraitJakt} is heavily inspired by \textit{Kotest}'s
+        String Spec DSL and the \texttt{should} and \texttt{shouldNot} keywords~\autocite{KotestKotesta}.
+    
