@@ -80,3 +80,14 @@
     
     This analysis underscores the Tournament Selector's robustness and the importance of strategic selection criteria 
     based on an algorithm's ability to sustain optimal solutions.
+
+    The solution's implementation showcases the ease of adapting to various optimization functions, selection 
+    strategies, mutation and crossover operators, and termination criteria, thanks to the framework's modular 
+    architecture. This flexibility is \vref{code:fn_opt:sol:engine}, where The creation of the engine is abstracted to
+    a single function, allowing for easy reuse across different optimization functions.The framework's comprehensive 
+    set of features eliminates the need for custom operations or structures. Additionally, Kotlin's support for 
+    functions as first-class citizens simplifies defining fitness functions without extra interfaces or classes, a 
+    capability also present in languages like Scala or Python. Another key aspect is the already mentioned capability of
+    the framework to create genes tailored to specific search spaces, enhancing its versatility in addressing diverse
+    optimization tasks. As a final remark, the ability to visualize the fitness evolution of the population is a
+    valuable feature for debugging and analysis, not readily available in other frameworks.

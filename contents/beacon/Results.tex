@@ -3,7 +3,7 @@
     This section presents an evaluation of our crash reproduction approach, focusing on its performance across various 
     genetic operators. We conducted experiments using three mutation operators—inversion, random, and swap—and two 
     crossover operators, namely single-point and uniform. To illustrate the fitness evolution achieved by each 
-    combination of these genetic operators, we refer to Figures \ref{fig:beacon:1} and \ref{fig:beacon:2}. Our 
+    combination of these genetic operators, we refer to \vref{fig:beacon:1} and \vref{fig:beacon:2}. Our 
     analysis covers two test cases: \texttt{TC1} and \texttt{TC2}. The performance results for \texttt{TC1} are detailed 
     in \vref{fig:beacon:1}, while those for \texttt{TC2} are depicted in \vref{fig:beacon:2}. 
     These results provide insights into the efficacy of different genetic 
@@ -113,3 +113,20 @@
 
     Given these insights, we conclude that a statistical analysis of the results is not necessary, as the current 
     findings do not provide a conclusive basis for such an analysis.
+
+    A review of the implementation showcases how the LGP module employs the same evolutionary engine introduced 
+    in the previous chapter, highlighting the framework's adaptability for different computational problems. This 
+    unified approach simplifies the development process, allowing users to focus on problem-specific configurations 
+    without the need to construct a new engine for GP tasks. The framework's design facilitates easy customization of 
+    engine parameters such as genetic operators and fitness functions, ensuring solutions can be finely tuned to meet 
+    particular requirements. Moreover, the inclusion of visual tools aids in the evaluation of genetic operators, 
+    enhancing the analytical process. Moreover, introducing new genetic materials for complex solutions is made 
+    straightforward by implementing the necessary interfaces (\texttt{Chromosome} and \texttt{Gene}), with the engine 
+    handling the rest. This flexibility and user-friendly configuration exemplify the framework's capability to support 
+    efficient development and application of evolutionary algorithms.
+
+    The \textit{Tracer} tool, in particular, offers an extensive suite of functionalities for MCR problems, adaptable 
+    to various optimization strategies and representations. Its flexibility and ease of use render it a valuable 
+    asset for crash reproduction research. It's noteworthy that the implementations for test cases \textbf{TC1} and 
+    \textbf{TC2} remain consistent, differing only in the parameters provided to \textit{Tracer}, further emphasizing 
+    the framework's versatility.

@@ -11,19 +11,26 @@
     the environmental impact of large-scale language models, such as significant water and electricity consumption, 
     cannot be overlooked~\autocite{georgeEnvironmentalImpactAI2023, UWResearcherDiscusses}.
 
-    Parallel to general test case generation, crash reproduction—a niche yet critical area in software engineering—focuses 
-    on generating test cases to replicate specific crashes for debugging purposes. This task involves navigating extensive 
-    search spaces and understanding intricate codebase semantics. Bergel \& Slater's 
-    \textit{Beacon}~\autocite{bergelBeaconAutomatedTest2021}, an automated tool for Python, leverages a genetic 
-    algorithm to create Minimal Crash Reproduction (MCR) test cases. 
+    Parallel to general test case generation, crash reproduction\footnote{
+        The following section provides a formal definition of crash reproduction.
+    }--a niche yet critical area in software engineering—focuses on generating test cases to replicate specific crashes 
+    for debugging purposes. This task involves navigating extensive search spaces and understanding intricate codebase 
+    semantics. Bergel \& Slater's \textit{Beacon}~\autocite{bergelBeaconAutomatedTest2021}, an automated tool for 
+    Python, leverages a genetic algorithm to create Minimal Crash Reproduction (MCR) test cases. 
     Their work demonstrates the efficacy of this approach across various exceptions and program types. However, a 
     detailed performance analysis and comparison with other state-of-the-art tools are absent in their study.
 
-    A promising avenue within this domain is Linear Genetic Programming (LGP), characterized by representing individuals 
-    as linear instruction sequences. The output of the final instruction in this sequence defines the individual's output. 
-    Building upon the concept introduced by Bergel \& Slater, this chapter presents a novel LGP-based approach for 
-    generating MCR test cases in Kotlin. We aim to conduct an exhaustive performance analysis of our methodology. 
-    Due to the nascent stage of Kotlin-specific crash reproduction tools, direct performance comparisons with other 
-    established tools will not be pursued. Instead, our focus will be on assessing our approach's effectiveness in 
-    replicating crashes induced by diverse exceptions in various program types.
+    A promising avenue within this domain is Linear Genetic Programming (LGP), characterized by representing 
+    individuals as linear instruction sequences. The output of the final instruction in this sequence defines the 
+    individual's output. Building upon the concept introduced by Bergel \& Slater, this chapter presents a novel 
+    LGP-based approach for generating MCR test cases in Kotlin. We aim to conduct a performance analysis of our 
+    methodology. Due to the nascent stage of Kotlin-specific crash reproduction tools, direct performance comparisons 
+    with other established tools will not be pursued. Instead, our focus will be on assessing our approach's 
+    effectiveness in replicating crashes induced by diverse exceptions in various program types. An analysis of the
+    implementation details, in particular, the capability of the framework to easily define complex structures to 
+    represent candidate solutions and adaptability to new algorithms,\footnote{
+        \enquote{New} in the sense of algorithms that are not yet implemented in the framework, in this case the LGP
+        algorithm.
+    } will also be conducted. Finally, we will discuss the limitations of our approach and outline potential avenues for
+    future work.
     

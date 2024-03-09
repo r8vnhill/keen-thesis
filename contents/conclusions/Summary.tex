@@ -5,14 +5,21 @@
     each distinct in capabilities and applications. The primary focus of this work is the application of EC in the 
     realms of software engineering and scientific computing.
 
-    A significant contribution of this thesis is the development of a Kotlin-based framework for EC algorithms. The 
-    framework stands out for its modular and scalable architecture, facilitating the incorporation of novel algorithms 
-    and integration with existing ones.
+    A significant contribution of this thesis is the development of a framework for EC algorithms. The framework stands 
+    out for its modular and scalable architecture, facilitating the incorporation of novel algorithms and integration
+    with existing ones.
 
-    An extensive review of existing EC frameworks was undertaken to inform the development of this novel framework. This 
-    review involved a comprehensive analysis of leading frameworks, identifying their key characteristics and 
-    functionalities. These insights were instrumental in shaping the design and development of the Kotlin-based EC 
-    framework.
+    The development of the new EC framework was guided by a detailed review of existing frameworks in the field. This 
+    review analyzed the core features and functionalities of leading EC frameworks, providing valuable insights that 
+    influenced the framework's design. Notable design inspirations include the use of factory patterns from
+    \textit{Jenetics}~\autocite{wilhelmstotterJeneticsJavaGenetica}, the evolution engine concept adapted from 
+    \textit{Jenetics} and Bergel's work~\autocite{bergelAgileArtificialIntelligence2020}, a domain-specific language 
+    (DSL) for algorithm configuration inspired by \textit{ECJ}~\autocite{ECJ}, and the introduction of evolution 
+    listeners to address the absence of such features in current frameworks. The aim was to address the limitations 
+    observed in existing frameworks, particularly their lack of flexibility and adaptability for complex problem 
+    domains, by proposing a more modular and extensible architecture. Key influences on the framework's development 
+    were \textit{Jenetics}, \textit{DEAP}~\autocite{DEAPDocumentationDEAP}, and 
+    \textit{GeneticSharp}~\autocite{giacomelliGeneticSharp2023}, which contributed significantly to its design choices.
 
     The efficacy of the framework is demonstrated through two distinct case studies. The first involves applying a 
     Genetic Algorithm (GA) to solve classic numerical optimization challenges, showcasing the framework's ability to 

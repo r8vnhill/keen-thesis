@@ -10,6 +10,16 @@
     original program's stack trace and that of the generated program. The inherent complexity lies in producing a Kotlin
     program that not only triggers a stack trace akin to the original but does so with the minimal number of code lines.
 
+    Consider the following problem statement:
+
+    \begin{displayquote}
+        Given a Kotlin program \(P\) that throws an exception \(E\) with a stack trace \(S\), find a Kotlin program 
+        \(P'\) that throws \(E\) with a stack trace \(S'\) such that \(S\) and \(S'\) are similar and \(P'\) is 
+        minimized in terms of code length.
+    \end{displayquote}
+
+    We term this problem \textit{Minimal Crash Reproduction} (MCR).
+
     Given the vastness of the search space, encompassing all conceivable Kotlin programs, practical constraints are 
     necessary to render this problem solvable. To this end, we confine our search to Kotlin programs with a maximum 
     length of 10 lines, comprising a predefined set of functions capable of handling up to three arguments.

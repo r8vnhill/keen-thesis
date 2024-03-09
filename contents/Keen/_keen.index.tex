@@ -12,6 +12,34 @@
     % \subimport{./parallelism/}{_parallelism.index.tex}  
     \subimport{./}{Extensibility.tex}
 
+    \section{Documentation}
+        As a, maybe not so interesting, but necessary part of the development process, we have created a comprehensive
+        documentation for the \textit{Keen} framework, in the form of \textit{KDoc} (docstring) comments.\footnote{
+            All existing classes, objects, interfaces and functions have been documented.
+        }
+        This
+        documentation includes both theoretical explanations of the concepts used in the framework and practical
+        examples of how to use the different components of the framework, including examples of how to extend the
+        framework to include new genetic operators, genetic material, and evolutionary algorithms.
+
+    \section{Testing}
+        The \textit{Keen} framework is partially tested\footnote{
+            Around 40\% of the codebase is covered by tests.
+        } using \textit{Kotest}~\autocite{KotestKotesta}, a testing framework for \textit{Kotlin}. The tests where 
+        designed using a variety of property-based testing techniques, such as modeling and invariant testing, which
+        allows us to test the framework using a wide range of inputs, ensuring that the framework works as expected in a
+        wide range of scenarios.
+
+        This design choice was made in part due to the stochastic nature of the evolutionary algorithms, which makes the
+        random generation of inputs a promising approach to test the framework. For example, we can test that the
+        genetic algorithm is able to find a solution for 80\% of the test cases, or that the genetic programming
+        algorithm is able to find a solution that is at most 10\% different from the expected solution, independently of
+        the specific inputs used to test the algorithm.
+
+        We recognize a challenge in testing the framework using property-based testing, particularly in the case of
+        genetic programming, where the inputs are program trees. A more thorough review of property-based testing in
+        programming languages is needed to tackle this challenge.
+
     \section{\textit{StraitJakt}}
         In the field of evolutionary computation, the complexity and non-deterministic nature of these processes 
         underscore the importance of robust data validation, both before and after execution. As frameworks expand in 
@@ -70,7 +98,7 @@
         \begin{enumerate}
             \item A \texttt{Jakt.Scope} is created to enable the special syntax for the validation checks.
             \item For each constraint, a \texttt{Jakt.Scope.StringScope} is created to provide access to the
-            \texttt{must} and \texttt{mustNot} keywords.
+                \texttt{must} and \texttt{mustNot} keywords.
             \item If a validation check fails, an exception is generated and stored in the \texttt{Jakt.Scope}.
             \item Once all the constraints have been evaluated, if:
                 \begin{enumerate}
@@ -96,12 +124,12 @@
         Evolutionary Algorithms, we tried to use a more standard approach to avoid introducing unnecessary complexity. 
         Moreover, we argue that the syntax provided is more expressive than the one provided by \textit{Arrow}\footnote{
             For the case of validating multiple pre-conditions and post-conditions.
-        } since the
-        scope of each constraint is defined by a string that describes the constraint.
+        } since the scope of each constraint is defined by a string that describes the constraint.
 
         \begin{code}{
             Example of the use of \textit{Arrow} to validate multiple constraints, note that the code could be improved
-            to avoid code duplication and reduce verbosity.
+            to avoid code duplication and reduce verbosity to refactor common functionalities when checking constraints
+            across different parts of the code.
         }{label=lst:app:arrow}{kotlin}
             fun validateX(): Either<IllegalArgumentException, Unit> = either {
                 ensure(x >= 10) { IllegalArgumentException("The value of x must be greater than or equal to 10") }

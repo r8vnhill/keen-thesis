@@ -103,10 +103,14 @@
 
         This fitness function implementation works as follows: 
         \begin{itemize}
-            \item It iteratively executes each function in the list (genotype), passing the last 'arity' number of arguments from a dynamically maintained list `variables`. 
+            \item It iteratively executes each function in the list (genotype), passing the last \enquote{arity} number 
+                of arguments from a dynamically maintained list \texttt{variables}. 
             \item If no exception is thrown during execution, the function returns a fitness score of 0.0.
-            \item In case of an exception, the function calculates three components: class equality (\(\delta_C\)), message equality (\(\delta_M\)), and function presence (\(\Delta_F\)), which contribute to the fitness score.
-            \item The final score is computed as \(2 \cdot \delta_C + \delta_M + 2 \cdot \Delta_F\), encapsulating the similarity of the thrown exception and its stack trace to those of the target exception.
+            \item In case of an exception, the function calculates three components: class equality (\(\delta_C\)), 
+                message equality (\(\delta_M\)), and function presence (\(\Delta_F\)), which contribute to the fitness 
+                score.
+            \item The final score is computed as \(2 \cdot \delta_C + \delta_M + 2 \cdot \Delta_F\), encapsulating the 
+                similarity of the thrown exception and its stack trace to those of the target exception.
         \end{itemize}
         
         Additionally, each defined function will return either an integer or \textit{nothing} to avoid type mismatches
@@ -188,9 +192,10 @@
         generating robust and near-optimal solutions.
     
     \subsection{Implementation}
-        The genetic algorithm for crash reproduction is encapsulated in a tool we have developed, named \textit{Tracer}. 
-        This tool leverages the capabilities of the \textit{Keen} framework to efficiently navigate the problem space. 
-        Below is a snippet demonstrating the core implementation of the evolution engine within \textit{Tracer}:
+        The genetic algorithm for crash reproduction is encapsulated in a tool we have developed, named 
+        \textit{Tracer}. This tool leverages the capabilities of the \textit{Keen} framework to efficiently navigate 
+        the problem space. Below is a snippet demonstrating the core implementation of the evolution engine within 
+        \textit{Tracer}:
     
         \begin{code}{%
             Caption: Implementation of the genetic algorithm using the \textit{Keen} framework.
@@ -228,6 +233,64 @@
             \item \textbf{Listeners:} Event listeners are integrated for tracking the algorithm's progress.
         \end{itemize}
     
+        \textit{Tracer} is implemented in a way that allows for easy adaptability to different optimization strategies,
+        since it expects an engine that could be configured with different parameters, genetic operators, or even
+        different algorithms that could be implemented as another type of engine.\footnote{
+            In \textit{Keen} the concept of \textit{evolver} is used to represent an arbitrary evolutionary algorithm 
+            that could be used to solve a problem. The \textit{evolutionEngine} function is a specific type of evolver 
+            that uses a genetic algorithm to solve a problem.
+        } Moreover, the tool could be modified to use another --non-evolutionary-- algorithm, such as a random search
+        algorithm, by replacing the engine with another such algorithm.
+
+        The implementation of the \texttt{run} method demonstrates the aforementioned ease of adaptability, as 
+        implementing an alternative --non-evolutionary-- algorithm would only require replacing the assignment of the
+        \texttt{result} variable with the result of the alternative algorithm. This is shown in the following 
+        pseudo-code:
+
+        \begin{code}{%
+            Implementation of the \texttt{run} method in the \textit{Tracer} tool.
+        }{label=lst:beacon:run}{kotlin}
+            fun run(): MinimalCrashReproduction {
+                val result = engine.evolve() // ^This line could be replaced with the result of another algorithm
+                val program = minimize(result)  // Minimizes the program
+                    .population
+                    .groupBy { individual -> individual.fitness }
+                    .maxBy { group -> group.key }.value
+                    .minBy { genotype -> |genotype.flatten()| }
+                return MinimalCrashReproduction(program)
+            }
+        \end{code}
+
         The complete implementation of the \textit{Tracer} tool, encompassing these elements, can be found in the 
         accompanying code listing referenced at \vref{lst:app:beacon:main}.
     
+        The \textit{Tracer} tool can then be utilized to define \textbf{TC1} and \textbf{TC2} test cases, as
+        demonstrated in the following code snippet:
+
+        \begin{code}{%
+            Implementation of the \textbf{TC1} and \textbf{TC2} test cases using the \textit{Tracer} tool.
+        }{label=lst:beacon:tracer}{kotlin}
+            // TC1
+            val tracer = Tracer.create<IllegalArgumentException>(
+                // Defines the set of functions with 0, 1, and 2 arguments
+                functions0 + functions1 + functions2,
+                targetMessage = "The number is greater than 100",
+                // Defines the genetic operators, for example SwapMutator, SinglePointCrossover, etc.
+                mutator = mutator,
+                crossover = crossover,
+                // Optionally include listeners for monitoring the algorithm
+                // listeners = ...
+            )
+            val result = tracer.run()
+            // Do something with the result
+
+            // TC2
+            val tracer = Tracer.create<IllegalArgumentException>(
+                functions0 + functions1 + functions2,
+                targetFunction = listOf("throwIAE"),
+                mutator = mutator,
+                crossover = crossover
+            )
+            val result = tracer.run()
+            // Do something with the result
+        \end{code}

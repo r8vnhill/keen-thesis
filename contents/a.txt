@@ -1,0 +1,130 @@
+The hypothesis was updated to better reflect the work donde, focusing it on the framework's modularity and extensibility, as well as the novel algorithms and tools presented.
+
+The case studies analysis was modified to consider the complexity of the solution implementation, comparative analysis to other tools is not performed due to the estimated complexity of the implementation because of the use of novel features of the presented framework, comments on potential solutions in other frameworks are included. The original analysis was mostly left unchanged, aside from the addition of the new comments.
+
+Expanded on the implementation and architecture of StraitJakt and Tracer.
+
+Simplified some chapters to avoid extending the thesis unnecessarily with the changes done, removing some redundant
+and non-essential information.
+
+Detailed changes based on the line by line review of the thesis:
+
+p2: “leveraging Kotlin’s unique features” what unique features?
+This was removed as it was not crucial to the work presented and was not expanded upon.
+
+p3: “Kotlin also supports functional programming (FP)…”, rather limited functional programming. For instance, it doesn’t support pattern matching.
+A comment was added to clarify the current lack of support for pattern matching in Kotlin.
+
+p4: The hypothesis is focused on Kotlin. It can be much stronger if it just proposes a framework for EC. The test for a chosen language itself is not a good research question. I suggest to focus the efforts on the “novel genetic algorithms framework” rather than the language chosen for the implementation.
+The hypothesis was rewritten to better reflect the work done. Two new hypotheses were proposed, focusing on the framework's modularity and extensibility, and the novel algorithms and tools presented (generalized crossover, StraitJakt, and evolution listeners).
+
+p11:  what is a “gene”? The thesis should be read linearly, and should not require so many forward references.
+Added a formal definition of a gene.
+
+p12: 
+
+Def 2.2 defines fitness as a function that computes how close the individual is to the objective. So I’m assuming that we want to minimize the distance. But later OMP is presented as a maximization problem. 
+Added clarification on the fitness function being defined for maximization and minimization problems.
+
+Equation 2.2: what is g_i? It is free in that equation.
+Added a definition for g_i.
+
+p14:
+
+I don’t understand the notation used on the second line of Definition 2.4, in particular the right part of the “;”. You should explain how to read that, as this notation is heavily used during the document.
+Modified the notation to be more clear and added a clarification on how to read it.
+
+“… the remaining I1, I3 …” subject to sigma = 1/4, right?
+Added a clarification on the survival rate assumed for the example.
+
+p15: Why is Table 2.6 before Table 2.4?
+Fixed the order of the tables.
+
+p16: Table 2.4. How do you know which offspring to discard?
+Added a clarification on the selection of the offspring to discard on the table description.
+
+p28: up to this page, I still don’t understand the difference between GA and GP. If the fitness function of the GP problem is defined as -fitness, this is still a maximization problem such as One Max.
+Expanded on the similarities and differences between GA and GP. Particularly on the representation and on the complexities introduced by GP.
+
+p29: 
+
+In crossover, please remind the readers what are I1 and I2.
+Added a reminder of the I1 and I2 definitions.
+
+Also 7 is not a node from I1, nor x^2 from I2.
+Fixed the example to use the correct nodes.
+
+Why are you crossing I2 and I4? It should be I1 and I2, right?
+Fixed the example to use the correct individuals.
+
+p33: I’m wondering after how many iterations the GP problem converges to an “good” solution.
+Add mention of the convergence to a good solution in the GP problem using DEAP.
+
+p40: 
+
+most of the framework analysis critique the programming language rather than the capabilities of the framework. 
+The critique was refocused on the capabilities of the framework, rather than the programming language.
+
+What is your understanding of type safety, and why using casts breaks type safety? Those two can be compatible. Do you mean that in Jenetics you can have segmentation faults? Maybe you can narrow the problem to: well typed Jenetics programs can raise errors on runtime.
+Modified the critique to better reflect the intended meaning.
+
+p44: what is the room scheduling problem? Why not start showing the One Max problem?
+Replaced the example with the One Max problem since it is a simpler problem to understand and was already introduced in the previous chapters.
+
+p56: Def 4.2. Phi’_min is the min of the Phi or the min of the Phi’?  Also do you mean max(min(phi_i), 0) instead of min(phi_i, 0)? Phi’_i is t(Phi)? Why is it then ensured that phi’_i is non-negative?
+Corrected the definition of Phi'_min
+
+P59: 
+Listing 4.12 doesn’t use \rho_c to swap the chromosome
+Included the missing \rho_c in the code.
+
+How does “gene in genesToSwap” works in examples that uses AST such as the example of random trees
+Added a comment at the beginning of section 4.4 to clarify that special operators are used for AST, and referenced the section where the AST operators are defined.
+
+p61: Listing 4.15. what is “it”? It’s free.
+`it` is an auto-generated variable in Kotlin, modified the code to use a named variable instead.
+
+p63: 
+what is TSP?
+Added a brief description of the Traveling Salesman Problem.
+
+What is output? It must depend on crossSection, right?
+Added a clarification on the output of the crossover operator.
+
+p65: Gene Transfer: why is 8 not copied?
+Simplified the explanation since it was deemed non-essential, the figure has the correct transfer.
+
+p68: Why do you need the Fun class? Is not properly motivated
+Expanded on the motivation for the Fun class as a complement to terminal nodes. Mentioned its importance on genetic
+operators.
+
+P75: 
+
+I didn’t get what is the concrete novelty explained in subsection 4.6.4 Modularity in Design. It only exemplifies one scenario of usage of the observer pattern.
+Provided an additional example of using the engine to create a custom algorithm, further showcasing the modularity of the framework.
+
+StraitJakt seems a very good contribution, but is not explained. Why is it not part of Keen? How these validation compare with the state of the art?
+Expanded on the explanation of StraitJakt, and added a comparison to another library that could be used for the same purpose.
+
+p77:
+
+What is the optimization problem? We have some theorems as background but still there’s no intuition about what is the problem.
+Added a definition of the optimization problem.
+
+P81-83: A lot of tables with numbers. What can we expect to infer from reading them? Is there any comparison with existing tools? Is there any example that cannot be written in existing frameworks?
+Rearranged this section so that the explanation of the tables comes before the tables themselves so that the reader has a better understanding of what they are looking at. Added an analysis of the implementation (code). Comparisons with other frameworks were not performed due to the estimated complexity of the implementation because of the use of novel features of the presented framework, specifically the ability to easily define chromosomes where each gene is defined by a different domain. Comments on potential solutions in other frameworks are included.
+
+P84: “Overall, these findings contribute significantly to understanding the strengths and limitations of various selection strategies in genetic algorithm optimization” Is this novel? Nobody has compared them before?
+Added a clarification that the findings are not novel, but that they are important to measure the consistency of the framework. Included additional analysis on the solution implementation.
+
+P86: What is crash reproduction?
+Added a definition of the minimal crash reproduction problem.
+
+p90: Once again, Tracer seems to be a good contribution to expressiveness and conciseness of experimentation, but is mentioned superficially. 
+Expanded on the explanation of Tracer.
+
+P91: Fig6.1 (b) has a big cross on the labels. Once again, the results are evaluating the strategies rather than the framework. Are these strategies the novelties of this work?
+Added a clarification that the strategies are not novel, but that they are important to measure the consistency of the framework. Included additional analysis on the solution implementation. Fixed the figure.
+
+P96: “These insights were instrumental in shaping the design and development of the Kotlin-based EC framework. “ What are the insights? What can you say about the most important design decisions regarding Keen?
+Added more details on some design decisions taken during the development of the framework that were influenced by the insights.
