@@ -43,11 +43,10 @@
         \label{fig:fn_opt:results:cross_in_tray}
     \end{figure}
 
-    We now detail the optimization results for each selector across he various functions. To mitigate JVM warmup 
-    effects, each experiment was conducted four times, with the initial run excluded from analysis. The reported 
+    We now detail the optimization results for each selector across he various functions. To mitigate JVM warmup effects, each experiment was conducted four times, with the initial run excluded from analysis. The reported 
     results represent the average of the subsequent three iterations, focusing primarily on the consistency of 
     execution times, as fitness values heavily depend on the chosen operators. Due to the unique nature of our solution 
-    (as discussed in the previous section), a direct comparison with other frameworks is not feasible.
+    (as discussed in the previous section), a direct comparison with other frameworks is not feasible. This results are provided in \vref{app:fn_opt:results}.
 
     Analysis shows minimal variation in selection times across all selectors, indicating consistent performance. The 
     Random Selector, requiring minimal computational effort, shows the lowest average selection time. The Tournament 
@@ -68,18 +67,33 @@
     Exceptions to the Tournament Selector's performance are noted in functions like Rastrigin, Egg Holder, and 
     Schaffer, where multiple local optima challenge the algorithm's escape capabilities. However, for functions like 
     Booth with a clearer path to the global optimum, the Tournament Selector shows strong performance.
-    
-    \begin{center}
-        \subsection{Random Selector}
-            \subimport{results/}{Random.tex}
-        \subsection{Tournament Selector}
-            \subimport{results/}{Tournament.tex}
-        \subsection{Roulette Selector}
-            \subimport{results/}{Roulette.tex}
-    \end{center}
-    
+
     This analysis underscores the Tournament Selector's robustness and the importance of strategic selection criteria 
     based on an algorithm's ability to sustain optimal solutions.
+
+    A key challenge with our problem and solution is that they aren't readily addressed by the frameworks discussed 
+    in this thesis. The issue stems from our need for unique ranges for each gene, a feature not directly available 
+    in these frameworks. While it's possible to adapt other frameworks to meet this requirement, doing so would 
+    demand considerable customization to achieve the desired functionality.
+
+    For example, implementing the solution in \textit{Jenetics} would require the creation of a custom class to
+    simulate the behavior of double-valued genes with different ranges. Additionally, we'd need to define classes 
+    for the various optimization functions, potentially utilizing \textit{functional interfaces}. The core of the 
+    solution involves creating a class that inherits from the \texttt{Problem} interface, necessitating the 
+    definition of \texttt{fitness} and \texttt{codec} methods. The \texttt{fitness} method calculates the fitness 
+    for a genotype, while the \texttt{codec} method generates a \texttt{Codec} using the custom class, facilitating 
+    the creation of \texttt{Genotype} instances. This \texttt{Codec} is essential for configuring the GA 
+    \texttt{Engine} to execute the genetic algorithm.
+
+    For \textit{DEAP}, adapting the solution might be somewhat simpler. A custom crossover function would be needed 
+    for the average crossover, and another for the random mutation, but the existing \textit{gaussian mutation} 
+    operator could be suitable for our problem, perhaps with minor adjustments. This reduces the complexity 
+    compared to \textit{Jenetics}, but still demands a thorough understanding of \textit{DEAP} and some 
+    customization.
+
+    Adapting both examples to the frameworks would necessitate thorough expertise in their use and considerable 
+    effort. Additionally, the available documentation for these frameworks may not be comprehensive enough, 
+    potentially leading to a need for extensive experimentation to achieve the desired implementation.
 
     The solution's implementation showcases the ease of adapting to various optimization functions, selection 
     strategies, mutation and crossover operators, and termination criteria, thanks to the framework's modular 

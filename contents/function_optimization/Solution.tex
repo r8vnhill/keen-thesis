@@ -133,27 +133,3 @@
         }{label=code:fn_opt:sol:seed}{kotlin}
             Domain.random = Random(420)
         \end{code}
-
-        A key challenge with our problem and solution is that they aren't readily addressed by the frameworks discussed 
-        in this thesis. The issue stems from our need for unique ranges for each gene, a feature not directly available 
-        in these frameworks. While it's possible to adapt other frameworks to meet this requirement, doing so would 
-        demand considerable customization to achieve the desired functionality.
-
-        For example, implementing the solution in \textit{Jenetics} would require the creation of a custom class to
-        simulate the behavior of double-valued genes with different ranges. Additionally, we'd need to define classes 
-        for the various optimization functions, potentially utilizing \textit{functional interfaces}. The core of the 
-        solution involves creating a class that inherits from the \texttt{Problem} interface, necessitating the 
-        definition of \texttt{fitness} and \texttt{codec} methods. The \texttt{fitness} method calculates the fitness 
-        for a genotype, while the \texttt{codec} method generates a \texttt{Codec} using the custom class, facilitating 
-        the creation of \texttt{Genotype} instances. This \texttt{Codec} is essential for configuring the GA 
-        \texttt{Engine} to execute the genetic algorithm.
-
-        For \textit{DEAP}, adapting the solution might be somewhat simpler. A custom crossover function would be needed 
-        for the average crossover, and another for the random mutation, but the existing \textit{gaussian mutation} 
-        operator could be suitable for our problem, perhaps with minor adjustments. This reduces the complexity 
-        compared to \textit{Jenetics}, but still demands a thorough understanding of \textit{DEAP} and some 
-        customization.
-
-        Adapting both examples to the frameworks would necessitate thorough expertise in their use and considerable 
-        effort. Additionally, the available documentation for these frameworks may not be comprehensive enough, 
-        potentially leading to a need for extensive experimentation to achieve the desired implementation.
